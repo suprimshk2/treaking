@@ -27,7 +27,7 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       staleTime: 0,
       // staleTime: 60 * 1000, // 60 secs
-      useErrorBoundary: true,
+      throwOnError: true,
       // Will retry failed requests x times before displaying an error
       retry: (failureCount, error) => {
         const errResponse = error as IComposeError;

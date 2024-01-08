@@ -79,7 +79,7 @@ export function ActivateAccount() {
         )}
         <ActivateAccountForm
           onSubmitHandler={onSubmit}
-          isLoading={activateAccountMutation.isLoading}
+          isLoading={activateAccountMutation.isPaused}
           email={decodedData?.data?.email}
         />
       </Box>

@@ -8,6 +8,7 @@ import { IError, IListResponse } from 'shared/interfaces/http';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 
 import { formatSortParam } from 'shared/utils/misc';
+
 import * as userAPI from '../api';
 import {
   IAddUserSchema,
@@ -26,49 +27,47 @@ export const useAddUserMutation = () => {
   const { sortBy, sortOrder } = useBoundStore.getState().userSort;
   const { totalUsers, setTotalUsers } = useBoundStore.getState();
 
-  return useMutation(
-    ({ data }: { data: IAddUserSchema }) => userAPI.addUser(data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message || 'User added successfully', {
-          variant: 'success',
-        });
+  return useMutation({
+    mutationFn: ({ data }: { data: IAddUserSchema }) => userAPI.addUser(data),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'User added successfully', {
+        variant: 'success',
+      });
 
-        // const queryKey = infiniteUserKeys.list({
-        //   ...filters,
-        //   ...formatSortParam({
-        //     sortBy,
-        //     sortOrder,
-        //   }),
-        // });
-        // const queryData: InfiniteData<IListResponse<IUser>> | undefined =
-        //   queryClient.getQueryData(queryKey);
+      const queryKey = infiniteUserKeys.list({
+        ...filters,
+        ...formatSortParam({
+          sortBy,
+          sortOrder,
+        }),
+      });
+      const queryData: InfiniteData<IListResponse<IUser>> | undefined =
+        queryClient.getQueryData(queryKey);
 
-        // if (!queryData) {
-        //   return;
-        // }
-        // queryData.pages[0].rows.unshift(res.data);
-        // const newPagesArray = [...queryData.pages];
+      if (!queryData) {
+        return;
+      }
+      queryData.pages[0].rows.unshift(res.data);
+      const newPagesArray = [...queryData.pages];
 
-        // // add the newly created user to the list
-        // // const newPagesArray = [
-        // //   [res.data, ...queryData.pages[0].rows],
-        // //   ...queryData.pages.slice(1),
-        // // ];
+      // // add the newly created user to the list
+      // // const newPagesArray = [
+      // //   [res.data, ...queryData.pages[0].rows],
+      // //   ...queryData.pages.slice(1),
+      // // ];
 
-        // queryClient.setQueryData<InfiniteData<IListResponse<IUser>>>(
-        //   queryKey,
-        //   (data) => ({
-        //     pages: newPagesArray,
-        //     pageParams: data?.pageParams || [],
-        //   })
-        // );
+      queryClient.setQueryData<InfiniteData<IListResponse<IUser>>>(
+        queryKey,
+        (data) => ({
+          pages: newPagesArray,
+          pageParams: data?.pageParams || [],
+        })
+      );
 
-        // Update the total users in the store
-        // setTotalUsers(totalUsers + 1);
-      },
-    }
-  );
+      // Update the total users in the store
+      setTotalUsers(totalUsers + 1);
+    },
+  });
 };
 
 export const useEditUserMutation = () => {
@@ -77,61 +76,59 @@ export const useEditUserMutation = () => {
   const { sortBy, sortOrder } = useBoundStore.getState().userSort;
   const filters = useBoundStore.getState().userTableFilters;
 
-  return useMutation(
-    ({ id, data }: { id: string; data: IEditUserSchema }) =>
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: IEditUserSchema }) =>
       userAPI.editUser(id, data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message || 'User edited successfully', {
-          variant: 'success',
-        });
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'User edited successfully', {
+        variant: 'success',
+      });
 
-        const queryKey = infiniteUserKeys.list({
-          ...filters,
-          ...formatSortParam({
-            sortBy,
-            sortOrder,
-          }),
-        });
+      const queryKey = infiniteUserKeys.list({
+        ...filters,
+        ...formatSortParam({
+          sortBy,
+          sortOrder,
+        }),
+      });
 
-        const queryData: InfiniteData<IListResponse<IUser>> | undefined =
-          queryClient.getQueryData(queryKey);
+      const queryData: InfiniteData<IListResponse<IUser>> | undefined =
+        queryClient.getQueryData(queryKey);
 
-        if (!queryData) {
-          return;
-        }
-        console.log({ queryData });
-        // Update the user in the list with updated data
+      if (!queryData) {
+        return;
+      }
+      console.log({ queryData });
+      // Update the user in the list with updated data
 
-        queryData.pages.find((page) => {
-          const exist = page.rows.findIndex(
-            (item: IUser) => item._id === res.data._id
-          );
-          if (exist >= 0) {
-            // eslint-disable-next-line no-param-reassign
-            page.rows[exist] = res.data;
-            return exist;
-          }
-          return false;
-          // return {
-          //   ...page,
-          //   rows: page.rows.map((item: IUser) => {
-          //     if (item._id !== res.data._id) return item;
-          //     return res.data;
-          //   }),
-          // };
-        });
-
-        queryClient.setQueryData<InfiniteData<IListResponse<IUser>>>(
-          queryKey,
-          (data) => ({
-            pages: queryData.pages,
-            pageParams: data?.pageParams || [],
-          })
+      queryData.pages.find((page) => {
+        const exist = page.rows.findIndex(
+          (item: IUser) => item._id === res.data._id
         );
-      },
-    }
-  );
+        if (exist >= 0) {
+          // eslint-disable-next-line no-param-reassign
+          page.rows[exist] = res.data;
+          return exist;
+        }
+        return false;
+        // return {
+        //   ...page,
+        //   rows: page.rows.map((item: IUser) => {
+        //     if (item._id !== res.data._id) return item;
+        //     return res.data;
+        //   }),
+        // };
+      });
+
+      queryClient.setQueryData<InfiniteData<IListResponse<IUser>>>(
+        queryKey,
+        (data) => ({
+          pages: queryData.pages,
+          pageParams: data?.pageParams || [],
+        })
+      );
+    },
+  });
 };
 
 export const useDeleteUserMutation = () => {
@@ -141,7 +138,8 @@ export const useDeleteUserMutation = () => {
   const filters = useBoundStore.getState().userTableFilters;
   // const { totalUsers, setTotalUsers } = useBoundStore.getState();
 
-  return useMutation(({ id }: { id: string }) => userAPI.deleteUser(id), {
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) => userAPI.deleteUser(id),
     onSuccess: (res) => {
       enqueueSnackbar(res.message || 'User deleted successfully', {
         variant: 'success',
@@ -193,30 +191,27 @@ export const useDeleteUserMutation = () => {
 export const useUserPasswordChangeMutation = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  return useMutation(
-    ({ data }: { data: IUserPasswordChangeSchema }) =>
+  return useMutation({
+    mutationFn: ({ data }: { data: IUserPasswordChangeSchema }) =>
       userAPI.changePassword(data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message, {
-          variant: 'success',
-        });
-      },
-    }
-  );
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message, {
+        variant: 'success',
+      });
+    },
+  });
 };
 
 export const useSendInviteMutation = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  return useMutation(
-    ({ data }: { data: ISendInviteSchema }) => userAPI.sendInvite(data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message, {
-          variant: 'success',
-        });
-      },
-    }
-  );
+  return useMutation({
+    mutationFn: ({ data }: { data: ISendInviteSchema }) =>
+      userAPI.sendInvite(data),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message, {
+        variant: 'success',
+      });
+    },
+  });
 };

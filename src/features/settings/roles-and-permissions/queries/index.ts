@@ -17,13 +17,11 @@ export const useRolesQuery = (
   filters: IRoleTableFilter,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteRoleKeys.autocomplete(filters),
-    () => roleAPI.getRoles(filters),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteRoleKeys.autocomplete(filters),
+    queryFn: () => roleAPI.getRoles(filters),
+    enabled,
+  });
 
   return {
     ...queryInfo,
@@ -35,13 +33,11 @@ export const useRoleQuery = (
   filters: IRoleTableFilter,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteRoleKeys.list(filters),
-    () => roleAPI.getInfiniteRoles(filters),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteRoleKeys.list(filters),
+    queryFn: () => roleAPI.getInfiniteRoles(filters),
+    enabled,
+  });
 
   return {
     ...queryInfo,
@@ -52,47 +48,44 @@ export const useRoleQuery = (
 export const useInfiniteRolesQuery = (filters: IRoleTableFilter) => {
   const { totalRoles } = useBoundStore.getState();
 
-  return useInfiniteQuery(
-    infiniteRoleKeys.list(filters),
-    ({ pageParam = 1 }) =>
+  return useInfiniteQuery({
+    queryKey: infiniteRoleKeys.list(filters),
+    queryFn: ({ pageParam = 1 }) =>
       roleAPI.getInfiniteRoles({ ...filters, page: pageParam }),
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        const nextPage =
-          lastPage.metaInfo.currentPage === lastPage.metaInfo.totalPage
-            ? undefined
-            : lastPage.metaInfo.currentPage + 1;
-        // setUserTableFilters({ page: nextPage || 1 });
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage =
+        lastPage.metaInfo.currentPage === lastPage.metaInfo.totalPage
+          ? undefined
+          : lastPage.metaInfo.currentPage + 1;
+      // setUserTableFilters({ page: nextPage || 1 });
 
-        // Commenting as this may be needed in the future
-        // const nextPage =
-        //   lastPage.length === filters.limit && allPages.length < totalPages
-        //     ? allPages.length * filters.limit
-        //     : undefined;
+      // Commenting as this may be needed in the future
+      // const nextPage =
+      //   lastPage.length === filters.limit && allPages.length < totalPages
+      //     ? allPages.length * filters.limit
+      //     : undefined;
 
-        return nextPage;
-      },
-      // CacheTime set to zero because of a bug encountered.
-      // Bug: The `hasNextPage` parameter returned from `useInfiniteQuery` is not updated unlike `data` when taken from cache.
-      // Suppose, the original data returned -> pages: [[], [], []], hasNextPage: true
-      // and then, you search 'sth' -> pages: [[]], hasNextPage: false
-      // and when you clear the search field, the data is taken from cache but `hasNextPage` stays the same -> pages: [[], [], []], hasNextPage: false
-      cacheTime: 0,
-    }
-  );
+      return nextPage;
+    },
+    // CacheTime set to zero because of a bug encountered.
+    // Bug: The `hasNextPage` parameter returned from `useInfiniteQuery` is not updated unlike `data` when taken from cache.
+    // Suppose, the original data returned -> pages: [[], [], []], hasNextPage: true
+    // and then, you search 'sth' -> pages: [[]], hasNextPage: false
+    // and when you clear the search field, the data is taken from cache but `hasNextPage` stays the same -> pages: [[], [], []], hasNextPage: false
+    gcTime: 0,
+  });
 };
 
 export const useRoleDetailQuery = (
   id: string,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteRoleKeys.detail(id),
-    () => roleAPI.getRoleById(id),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteRoleKeys.detail(id),
+    queryFn: () => roleAPI.getRoleById(id),
+    enabled,
+  });
 
   return {
     ...queryInfo,
@@ -104,13 +97,11 @@ export const useUserRoleDetailQuery = (
   userId: string,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteRoleKeys.detail(userId),
-    () => roleAPI.getUserRoleByUserId(userId),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteRoleKeys.detail(userId),
+    queryFn: () => roleAPI.getUserRoleByUserId(userId),
+    enabled,
+  });
 
   return {
     ...queryInfo,
@@ -122,13 +113,11 @@ export const useAssociatedPermissionsDetailQuery = (
   id: string,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteRoleKeys.detail(id),
-    () => roleAPI.getAssociatedPermissions(id),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteRoleKeys.detail(id),
+    queryFn: () => roleAPI.getAssociatedPermissions(id),
+    enabled,
+  });
 
   return {
     ...queryInfo,
@@ -140,13 +129,11 @@ export const usePermissionsQuery = (
   filters: any,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteRoleKeys.autocomplete(filters),
-    () => roleAPI.getAllPermissions(filters),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteRoleKeys.autocomplete(filters),
+    queryFn: () => roleAPI.getAllPermissions(filters),
+    enabled,
+  });
 
   return {
     ...queryInfo,

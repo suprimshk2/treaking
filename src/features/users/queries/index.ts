@@ -17,13 +17,11 @@ export const useUserQuery = (
   filters: IUserTableFilter,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteUserKeys.autocomplete(filters),
-    () => userAPI.getUsers(filters),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteUserKeys.autocomplete(filters),
+    queryFn: () => userAPI.getUsers(filters),
+    enabled,
+  });
 
   return {
     ...queryInfo,
@@ -36,48 +34,46 @@ export const useInfiniteUsersQuery = (filters: IUserTableFilter) => {
   // const { totalUsers } = useBoundStore.getState();
   // const totalPages = Math.ceil(totalUsers / filters.limit);
 
-  return useInfiniteQuery(
-    infiniteUserKeys.list(filters),
-    ({ pageParam = 1 }) =>
+  return useInfiniteQuery({
+    queryKey: infiniteUserKeys.list(filters),
+    initialPageParam: 1,
+    queryFn: ({ pageParam = 1 }) =>
       userAPI.getInfiniteUsers({ ...filters, page: pageParam }),
-    {
-      getNextPageParam: (lastPage, allPages) => {
-        if (lastPage?.total === 0) return undefined;
-        const nextPage =
-          lastPage?.metaInfo?.currentPage === lastPage?.metaInfo?.totalPage
-            ? undefined
-            : lastPage.metaInfo.currentPage + 1;
-        // setUserTableFilters({ page: nextPage || 1 });
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage?.total === 0) return undefined;
+      const nextPage =
+        lastPage?.metaInfo?.currentPage === lastPage?.metaInfo?.totalPage
+          ? undefined
+          : lastPage.metaInfo.currentPage + 1;
+      // setUserTableFilters({ page: nextPage || 1 });
 
-        // Commenting as this may be needed in the future
-        // const nextPage =
-        //   lastPage.length === filters.limit && allPages.length < totalPages
-        //     ? allPages.length * filters.limit
-        //     : undefined;
+      // Commenting as this may be needed in the future
+      // const nextPage =
+      //   lastPage.length === filters.limit && allPages.length < totalPages
+      //     ? allPages.length * filters.limit
+      //     : undefined;
 
-        return nextPage;
-      },
-      // CacheTime set to zero because of a bug encountered.
-      // Bug: The `hasNextPage` parameter returned from `useInfiniteQuery` is not updated unlike `data` when taken from cache.
-      // Suppose, the original data returned -> pages: [[], [], []], hasNextPage: true
-      // and then, you search 'sth' -> pages: [[]], hasNextPage: false
-      // and when you clear the search field, the data is taken from cache but `hasNextPage` stays the same -> pages: [[], [], []], hasNextPage: false
-      cacheTime: 0,
-    }
-  );
+      return nextPage;
+    },
+    // CacheTime set to zero because of a bug encountered.
+    // Bug: The `hasNextPage` parameter returned from `useInfiniteQuery` is not updated unlike `data` when taken from cache.
+    // Suppose, the original data returned -> pages: [[], [], []], hasNextPage: true
+    // and then, you search 'sth' -> pages: [[]], hasNextPage: false
+    // and when you clear the search field, the data is taken from cache but `hasNextPage` stays the same -> pages: [[], [], []], hasNextPage: false
+    // cacheTime: 0,
+    gcTime: 0,
+  });
 };
 
 export const useUserDetailQuery = (
   id: string,
   { enabled }: { enabled: boolean }
 ) => {
-  const queryInfo = useQuery(
-    infiniteUserKeys.detail(id),
-    () => userAPI.getUserById(id),
-    {
-      enabled,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: infiniteUserKeys.detail(id),
+    queryFn: () => userAPI.getUserById(id),
+    enabled,
+  });
 
   return {
     ...queryInfo,

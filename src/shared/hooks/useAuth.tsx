@@ -1,5 +1,5 @@
 import { IAuth } from 'features/auth/interfaces';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { useEffect } from 'react';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 

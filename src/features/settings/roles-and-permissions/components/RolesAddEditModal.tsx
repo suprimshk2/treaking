@@ -132,7 +132,7 @@ export function RolesAddEditModal({ editRoleId, onClose }: IProps) {
               primaryButtonText={TEXT.footerActionButtonText}
               primaryButtonType="submit"
               secondaryButtonText="Cancel"
-              isSubmitting={mutation.isLoading}
+              isSubmitting={mutation.isPending}
               onSecondaryButtonClick={onCloseModal}
             />
           </form>

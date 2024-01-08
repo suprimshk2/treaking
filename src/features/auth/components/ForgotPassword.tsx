@@ -61,7 +61,7 @@ export function ForgotPassword() {
               </Typography>
               <ForgotPasswordForm
                 onBackClick={onBackClick}
-                isLoading={sendPasswordResetLinkMutation.isLoading}
+                isLoading={sendPasswordResetLinkMutation.isPending}
               />
             </Box>
           )}

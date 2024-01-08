@@ -131,7 +131,7 @@ export function OTPVerification({
               fields={OTP_CODE_LENGTH}
               isValid={isValid && !otpError?.message}
               onChange={onInputChange}
-              disabled={verifyMFACodeMutation.isLoading || otpExpired}
+              disabled={verifyMFACodeMutation.isPending || otpExpired}
             />
           </Box>
 
@@ -178,10 +178,10 @@ export function OTPVerification({
               size={ButtonSize.MEDIUM}
               fullWidth
               buttonType={ButtonType.LOADING}
-              loading={resendMFACodeMutation.isLoading}
+              loading={resendMFACodeMutation.isPending}
               onClick={() => onResendOTPClick()}
             >
-              {resendMFACodeMutation.isLoading ? 'Resending...' : 'Resend Code'}
+              {resendMFACodeMutation.isPending ? 'Resending...' : 'Resend Code'}
             </Button>
           ) : (
             <Button
@@ -190,8 +190,8 @@ export function OTPVerification({
               fullWidth
               onClick={() => onNextClick(inputRef.current)}
               buttonType={ButtonType.LOADING}
-              loading={verifyMFACodeMutation.isLoading}
-              disabled={resendMFACodeMutation.isLoading}
+              loading={verifyMFACodeMutation.isPending}
+              disabled={resendMFACodeMutation.isPending}
             >
               Continue
             </Button>
@@ -203,7 +203,7 @@ export function OTPVerification({
             fullWidth
             prefix={<BsChevronLeft />}
             disabled={
-              verifyMFACodeMutation.isLoading || resendMFACodeMutation.isLoading
+              verifyMFACodeMutation.isPending || resendMFACodeMutation.isPending
             }
             onClick={onBackClick}
           >
@@ -228,10 +228,10 @@ export function OTPVerification({
               variant="bodyTextLarge"
               ml={2}
               display="inline"
-              disabled={resendMFACodeMutation.isLoading}
+              disabled={resendMFACodeMutation.isPending}
               onClick={() => onResendOTPClick()}
             >
-              {resendMFACodeMutation.isLoading ? 'Sending...' : 'Resend Code'}
+              {resendMFACodeMutation.isPending ? 'Sending...' : 'Resend Code'}
             </Link>
           </Typography>
         )}

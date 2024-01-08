@@ -14,8 +14,6 @@ const { HEADER_HEIGHT } = layoutConstants;
 const NO_PADDING_ROUTES: string[] = [
   uiRoute.profile.profile,
   uiRoute.profile.profileSecurity,
-  uiRoute.claims,
-  uiRoute.claimDetails,
   uiRoute.dashboard,
 ];
 

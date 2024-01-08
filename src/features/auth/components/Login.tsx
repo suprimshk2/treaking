@@ -97,7 +97,7 @@ export function Login({ loginData, setLoginData }: ILoginProps) {
           initialValues={loginData}
           onSubmitHandler={onSubmit}
           isLoading={
-            loginMutation.isLoading ||
+            loginMutation.isPending ||
             authorizationQuery?.isInitialLoading ||
             gettingAllRoles?.isInitialLoading
           }

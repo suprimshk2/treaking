@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify';
-import { IAddress, ILookup } from 'shared/interfaces/misc';
+import { IAddress } from 'shared/interfaces/misc';
 import { omit, pickBy, size, truncate } from './lodash';
 
 /**
@@ -302,13 +302,4 @@ export const toTitleCase = (str: string) => {
   return str.replace(/\w\S*/g, (txt) => {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
-};
-
-export const getLookupValueFromCode = (
-  lookup: ILookup[] | undefined,
-  code: string
-) => {
-  if (!code || !lookup?.length) return '';
-  const exists = lookup.find((val) => code === val.code);
-  return exists ? exists.name : '';
 };

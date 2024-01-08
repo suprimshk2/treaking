@@ -105,7 +105,7 @@ export default function ManageRolesAndPermissionLists() {
           size={ButtonSize.MEDIUM}
           variant={ButtonVariant.CONTAINED}
           onClick={handleActionClick}
-          loading={assignMutation.isLoading}
+          loading={assignMutation.isPending}
         >
           Save
         </LoadingButton>

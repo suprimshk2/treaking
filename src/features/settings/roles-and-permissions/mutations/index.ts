@@ -19,40 +19,38 @@ export const useAddRoleMutation = () => {
 
   const { totalRoles, setTotalRoles } = useBoundStore.getState();
 
-  return useMutation(
-    ({ data }: { data: IAddRoleSchema }) => roleAPI.addRole(data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message || 'Role added successfully', {
-          variant: 'success',
-        });
+  return useMutation({
+    mutationFn: ({ data }: { data: IAddRoleSchema }) => roleAPI.addRole(data),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Role added successfully', {
+        variant: 'success',
+      });
 
-        const queryKey = infiniteRoleKeys.list({
-          ...filters,
-        });
+      const queryKey = infiniteRoleKeys.list({
+        ...filters,
+      });
 
-        const queryData: InfiniteData<IListResponse<IRole>> | undefined =
-          queryClient.getQueryData(queryKey);
+      const queryData: InfiniteData<IListResponse<IRole>> | undefined =
+        queryClient.getQueryData(queryKey);
 
-        if (!queryData) {
-          return;
-        }
+      if (!queryData) {
+        return;
+      }
 
-        queryData.pages[0].rows.unshift(res.data);
+      queryData.pages[0].rows.unshift(res.data);
 
-        queryClient.setQueryData<InfiniteData<IListResponse<IRole>>>(
-          queryKey,
-          (data) => ({
-            pages: queryData.pages,
-            pageParams: data?.pageParams || [],
-          })
-        );
+      queryClient.setQueryData<InfiniteData<IListResponse<IRole>>>(
+        queryKey,
+        (data) => ({
+          pages: queryData.pages,
+          pageParams: data?.pageParams || [],
+        })
+      );
 
-        // Update the total users in the store
-        setTotalRoles(totalRoles + 1);
-      },
-    }
-  );
+      // Update the total users in the store
+      setTotalRoles(totalRoles + 1);
+    },
+  });
 };
 
 export const useEditRoleMutation = () => {
@@ -60,49 +58,47 @@ export const useEditRoleMutation = () => {
   const queryClient = useQueryClient();
   const filters = useBoundStore.getState().roleTableFilters;
 
-  return useMutation(
-    ({ id, data }: { id: string; data: IEditRoleSchema }) =>
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: IEditRoleSchema }) =>
       roleAPI.editRole(id, data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message || 'Role edited successfully', {
-          variant: 'success',
-        });
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Role edited successfully', {
+        variant: 'success',
+      });
 
-        const queryKey = infiniteRoleKeys.list({
-          ...filters,
-        });
+      const queryKey = infiniteRoleKeys.list({
+        ...filters,
+      });
 
-        const queryData: InfiniteData<IListResponse<IRole>> | undefined =
-          queryClient.getQueryData(queryKey);
+      const queryData: InfiniteData<IListResponse<IRole>> | undefined =
+        queryClient.getQueryData(queryKey);
 
-        if (!queryData) {
-          return;
-        }
+      if (!queryData) {
+        return;
+      }
 
-        queryData.pages.find((page) => {
-          const exist = page.rows.findIndex(
-            (item: IRole) => item._id === res.data._id
-          );
-
-          if (exist >= 0) {
-            // eslint-disable-next-line no-param-reassign
-            page.rows[exist] = res.data;
-            return exist;
-          }
-          return false;
-        });
-
-        queryClient.setQueryData<InfiniteData<IListResponse<IRole>>>(
-          queryKey,
-          (data) => ({
-            pages: queryData.pages,
-            pageParams: data?.pageParams || [],
-          })
+      queryData.pages.find((page) => {
+        const exist = page.rows.findIndex(
+          (item: IRole) => item._id === res.data._id
         );
-      },
-    }
-  );
+
+        if (exist >= 0) {
+          // eslint-disable-next-line no-param-reassign
+          page.rows[exist] = res.data;
+          return exist;
+        }
+        return false;
+      });
+
+      queryClient.setQueryData<InfiniteData<IListResponse<IRole>>>(
+        queryKey,
+        (data) => ({
+          pages: queryData.pages,
+          pageParams: data?.pageParams || [],
+        })
+      );
+    },
+  });
 };
 
 export const useDeleteRoleMutation = () => {
@@ -110,7 +106,9 @@ export const useDeleteRoleMutation = () => {
   const queryClient = useQueryClient();
   const filters = useBoundStore.getState().roleTableFilters;
 
-  return useMutation(({ id }: { id: string }) => roleAPI.deleteRole(id), {
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) => roleAPI.deleteRole(id),
+
     onSuccess: (res) => {
       enqueueSnackbar(res.message || 'Role deleted successfully', {
         variant: 'success',
@@ -140,31 +138,27 @@ export const useDeleteRoleMutation = () => {
 export const useAssignPermissionsToRoleMutation = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  return useMutation(
-    ({ id, data }: { id: string; data: any }) =>
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: any }) =>
       roleAPI.assignPermissionsToRoles(id, data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message || 'Permissions Assigned Successfully', {
-          variant: 'success',
-        });
-      },
-    }
-  );
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Permissions Assigned Successfully', {
+        variant: 'success',
+      });
+    },
+  });
 };
 
 export const useAssignPermissionsToUserRoleMutation = () => {
   const { enqueueSnackbar } = useSnackbar();
 
-  return useMutation(
-    ({ id, data }: { id: string; data: any }) =>
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: any }) =>
       roleAPI.assignPermissionsToUserRoles(id, data),
-    {
-      onSuccess: (res) => {
-        enqueueSnackbar(res.message || 'Permissions Assigned Successfully', {
-          variant: 'success',
-        });
-      },
-    }
-  );
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Permissions Assigned Successfully', {
+        variant: 'success',
+      });
+    },
+  });
 };

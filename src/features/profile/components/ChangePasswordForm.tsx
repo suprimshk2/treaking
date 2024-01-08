@@ -65,7 +65,7 @@ export function ChangePasswordForm() {
       <FormProvider {...methods}>
         <Box component="form" onSubmit={handleSubmit(onSubmit)}>
           <ChangePasswordFields
-            isLoading={changeUserPasswordMutation.isLoading}
+            isLoading={changeUserPasswordMutation.isPending}
           />
         </Box>
       </FormProvider>

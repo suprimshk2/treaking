@@ -72,7 +72,7 @@ function ForgotPassword() {
     <AuthLayout title="Set Password">
       <SetPasswordForm
         onSubmitHandler={onSubmitHandler}
-        isLoading={setNewPasswordMutation.isLoading}
+        isLoading={setNewPasswordMutation.isPending}
       />
     </AuthLayout>
   );

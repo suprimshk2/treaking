@@ -85,7 +85,7 @@ function UserProfileForm() {
     );
   };
 
-  return userDetailQuery?.isLoading ? (
+  return userDetailQuery?.isPending ? (
     <LoadingIndicator />
   ) : (
     <Box>
@@ -103,7 +103,7 @@ function UserProfileForm() {
               buttonType={ButtonType.LOADING}
               size={ButtonSize.MEDIUM}
               type="submit"
-              loading={updateUserMutation.isLoading}
+              loading={updateUserMutation.isPending}
             >
               Update Profile
             </Button>

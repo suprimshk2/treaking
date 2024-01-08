@@ -18,14 +18,12 @@ export const useAuthorizationQuery = (
   { enabled }: { enabled: boolean },
   filters?: any
 ) => {
-  const queryInfo = useQuery(
-    authorizationKeys.autocomplete(filters),
-    () => authAPI.authorizationPermissions(),
-    {
-      enabled,
-      select: sortPermissionByOrder,
-    }
-  );
+  const queryInfo = useQuery({
+    queryKey: authorizationKeys.autocomplete(filters),
+    queryFn: () => authAPI.authorizationPermissions(),
+    enabled,
+    select: sortPermissionByOrder,
+  });
   const setAuthModules = useBoundStore.getState().setAuthModule;
   setAuthModules(queryInfo.data?.data || []);
   return {
