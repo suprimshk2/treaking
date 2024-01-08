@@ -1,0 +1,28 @@
+version: 0.2
+env:
+  parameter-store:
+    SECRET_TOKEN: "ssh-key"       
+phases:
+  install:
+    commands:
+      - ls -la
+      - pwd
+  pre_build:
+    commands:
+      - echo $SECRET_TOKEN > dev.txt
+      - base64 -d dev.txt >> dev.pem
+      - chmod 400 dev.pem
+      - ls -la
+      - docker login -u subratphuyal -p dckr_pat_vqUbE--4h8zn9vxVNUQcssbkHpI
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 633791638152.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - docker build -t therapy-ui-dev .
+      - docker tag therapy-ui-dev:latest 633791638152.dkr.ecr.us-east-1.amazonaws.com/therapy-ui-dev:latest
+  post_build:
+    commands:
+      - docker push 633791638152.dkr.ecr.us-east-1.amazonaws.com/therapy-ui-dev:latest
+      - ssh -T -o StrictHostKeyChecking=no -i dev.pem ubuntu@34.195.196.176 <<'ENDSSH'
+        bash ui.sh
+artifacts:
+  files: '**/*'

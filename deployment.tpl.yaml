@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: gold-ns
+  name: deployment-react-ui-${BITBUCKET_BRANCH}
+spec:
+  selector:
+    matchLabels:
+      name: demo-gold-app-${BITBUCKET_BRANCH}
+      app.kubernetes.io/name: react-ui-gold-pod-${BITBUCKET_BRANCH}
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        name: demo-gold-app-${BITBUCKET_BRANCH}
+        app.kubernetes.io/name: react-ui-gold-pod-${BITBUCKET_BRANCH}
+    spec:
+      containers:
+      - image: 387753515253.dkr.ecr.us-east-1.amazonaws.com/portal-ui-react:${BITBUCKET_BUILD_NUMBER}
+        imagePullPolicy: Always
+        name: api-gateway-pod--${BITBUCKET_BRANCH}
+        ports:
+        - containerPort: 80
+          protocol: TCP
+
+        #resource request and limits
+        resources:
+          limits:
+            cpu: 500m
+            memory: 500Mi
+          requests:
+            cpu: 50m
+            memory: 50Mi
+
+
+
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+
+
+        # Graceful termination
+      terminationGracePeriodSeconds: 30
+
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deployment-react-ui-${BITBUCKET_BRANCH}-service
+spec:
+  selector:
+    name: demo-gold-app-${BITBUCKET_BRANCH}
+    app.kubernetes.io/name: react-ui-gold-pod-${BITBUCKET_BRANCH}
+  ports:
+  - port: 80
+    targetPort: 80
+
+
+

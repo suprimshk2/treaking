@@ -1,0 +1,234 @@
+/******************************************************************************************/
+/*                                                                                        */
+/*------------------------------ DEPRECIATED ---------------------------------------------*/
+/*                                                                                        */
+/******************************************************************************************/
+
+// This file has been depreciated. The theme variables are now taken from .ts file for better type safety.
+// However, this file is kept as a reference. Storing theme variables in scss variables is more portable.
+
+//----------------------------------Palette----------------------------------------------
+//---------------------------------------------------------------------------------------
+
+// Common
+$black: #000000;
+$white: #ffffff;
+
+// Primary
+$primaryLighter: #fff2e5;
+$primaryLight: #e7bb90;
+$primaryMain: #bf8b59;
+$primaryDark: #9e6734;
+$primaryDarker: #735435;
+
+// Secondary
+$secondaryLighter: #fff2e5;
+$secondaryLight: #90a5e8;
+$secondaryMain: #68749b;
+$secondaryDark: #464e69;
+$secondaryDarker: #353b4f;
+
+// Shade
+$shadeLighter: #f8f9fa;
+$shadeLight: #b3b3b3;
+$shadeMain: #848484;
+$shadeDark: #525252;
+$shadeDarker: #2d2d2d;
+
+// Success
+$successLighter: #e3fff5;
+$successLight: #18a879;
+$successMain: #009262;
+$successDark: #007750;
+$successDarker: #005b3d;
+
+// Warning
+$warningLighter: #fff7e5;
+$warningLight: #ffcf66;
+$warningMain: #f6bd41;
+$warningDark: #e6a313;
+$warningDarker: #af7b08;
+
+// Error
+$errorLighter: #ffe7e5;
+$errorLight: #d2443d;
+$errorMain: #b3251e;
+$errorDark: #920e07;
+$errorDarker: #680500;
+
+// Info
+$infoLighter: #e5f5ff;
+$infoLight: #317aa5;
+$infoMain: #116a9f;
+$infoDark: #07527e;
+$infoDarker: #044063;
+
+//----------------------------------Spacing----------------------------------------------
+//---------------------------------------------------------------------------------------
+
+// Scaling Factor
+$scalingFactor: 4;
+
+//----------------------------------Typography----------------------------------------------
+//---------------------------------------------------------------------------------------
+
+// Font Family
+$fontHeading: 'Varela Round';
+$fontBody: 'Varela Round';
+
+// Font Weight
+$fontWeightRegular: 400;
+$fontWeightMedium: 500;
+
+// Font Size
+$baseFontSize: 16;
+
+$heroTitleFontSize: 72;
+$heroTitleLineHeight: 80;
+
+$h1FontSize: 40;
+$h1LineHeight: 48;
+
+$h2FontSize: 36;
+$h2LineHeight: 44;
+
+$h3FontSize: 32;
+$h3LineHeight: 40;
+
+$h4FontSize: 28;
+$h4LineHeight: 36;
+
+$h5FontSize: 24;
+$h5LineHeight: 32;
+
+$h6FontSize: 20;
+$h6LineHeight: 28;
+
+$bodyTextFontSize: 16;
+$bodyTextLineHeight: 24;
+
+$bodyTextMediumFontSize: 14;
+$bodyTextMediumLineHeight: 20;
+
+$bodyTextSmallFontSize: 12;
+$bodyTextSmallLineHeight: 16;
+
+//----------------------------------Shadows----------------------------------------------
+//---------------------------------------------------------------------------------------
+$dropShadow1: 0px 0px 4px 2px rgba(0, 0, 0, 0.1);
+$dropShadow2: 0px 4px 16px 4px rgba(0, 0, 0, 0.06);
+$innerShadow: inset 0px 3px 4px rgba(0, 0, 0, 0.25);
+
+// ------------------------------ EXPORTS --------------------------------------------------------
+// -----------------------------------------------------------------------------------------------
+
+:export {
+  // --------------------------------------------Palette------------------------------------------
+
+  // common
+  black: $black;
+  white: $white;
+
+  // primary
+  primaryLighter: $primaryLighter;
+  primaryLight: $primaryLight;
+  primaryMain: $primaryMain;
+  primaryDark: $primaryDark;
+  primaryDarker: $primaryDarker;
+
+  // secondary
+  secondaryLighter: $secondaryLighter;
+  secondaryLight: $secondaryLight;
+  secondaryMain: $secondaryMain;
+  secondaryDark: $secondaryDark;
+  secondaryDarker: $secondaryDarker;
+
+  // shade
+  shadeLighter: $shadeLighter;
+  shadeLight: $shadeLight;
+  shadeMain: $shadeMain;
+  shadeDark: $shadeDark;
+  shadeDarker: $shadeDarker;
+
+  // success
+  successLighter: $successLighter;
+  successLight: $successLight;
+  successMain: $successMain;
+  successDark: $successDark;
+  successDarker: $successDarker;
+
+  // warning
+  warningLighter: $warningLighter;
+  warningLight: $warningLight;
+  warningMain: $warningMain;
+  warningDark: $warningDark;
+  warningDarker: $warningDarker;
+
+  // error
+  errorLighter: $errorLighter;
+  errorLight: $errorLight;
+  errorMain: $errorMain;
+  errorDark: $errorDark;
+  errorDarker: $errorDarker;
+
+  // info
+  infoLighter: $infoLighter;
+  infoLight: $infoLight;
+  infoMain: $infoMain;
+  infoDark: $infoDark;
+  infoDarker: $infoDarker;
+
+  // --------------------------------------------Palette------------------------------------------
+
+  // Scaling Factor
+  scalingFactor: $scalingFactor;
+
+  // --------------------------------------------Typography------------------------------------------
+
+  // Font Family
+  fontHeading: $fontHeading;
+  fontBody: $fontBody;
+
+  // Font Weight
+  fontWeightRegular: $fontWeightRegular;
+  fontWeightMedium: $fontWeightMedium;
+
+  // Font Size
+  baseFontSize: $baseFontSize;
+
+  heroTitleFontSize: $heroTitleFontSize;
+  heroTitleLineHeight: $heroTitleLineHeight;
+
+  h1FontSize: $h1FontSize;
+  h1LineHeight: $h1LineHeight;
+
+  h2FontSize: $h2FontSize;
+  h2LineHeight: $h2LineHeight;
+
+  h3FontSize: $h3FontSize;
+  h3LineHeight: $h3LineHeight;
+
+  h4FontSize: $h4FontSize;
+  h4LineHeight: $h4LineHeight;
+
+  h5FontSize: $h5FontSize;
+  h5LineHeight: $h5LineHeight;
+
+  h6FontSize: $h6FontSize;
+  h6LineHeight: $h6LineHeight;
+
+  bodyTextFontSize: $bodyTextFontSize;
+  bodyTextLineHeight: $bodyTextLineHeight;
+
+  bodyTextMediumFontSize: $bodyTextMediumFontSize;
+  bodyTextMediumLineHeight: $bodyTextMediumLineHeight;
+
+  bodyTextSmallFontSize: $bodyTextSmallFontSize;
+  bodyTextSmallLineHeight: $bodyTextSmallLineHeight;
+
+  // --------------------------------------------Shadows------------------------------------------
+
+  dropShadow1: $dropShadow1;
+  dropShadow2: $dropShadow2;
+  innerShadow: $innerShadow;
+}
