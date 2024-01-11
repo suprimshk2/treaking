@@ -63,7 +63,7 @@ function DashboardHeader() {
             </IconButton>
 
             <Typography variant="h6">
-              {checkHeader(location.pathname).title}
+              {checkHeader(location.pathname)?.title}
               {/* {(location.pathname === uiRoute.profile.profile ||
                 location.pathname === uiRoute.profile.profileSecurity) &&
                 'Profile'} */}

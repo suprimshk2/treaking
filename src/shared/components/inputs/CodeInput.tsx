@@ -54,7 +54,7 @@ export function CodeInput({
 
   return (
     <OtpInput
-      // onPaste={handlePaste}
+      onPaste={handlePaste}
       containerStyle="react-otp-input"
       value={value}
       onChange={(v) => {

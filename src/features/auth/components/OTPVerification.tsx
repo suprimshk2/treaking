@@ -125,15 +125,13 @@ export function OTPVerification({
           fontWeight="fontWeightRegular"
         />
 
-        <Stack spacing={4} mt={8}>
-          <Box mx="auto">
-            <CodeInput
-              fields={OTP_CODE_LENGTH}
-              isValid={isValid && !otpError?.message}
-              onChange={onInputChange}
-              disabled={verifyMFACodeMutation.isPending || otpExpired}
-            />
-          </Box>
+        <Stack spacing={4} mt={8} alignItems="center">
+          <CodeInput
+            fields={OTP_CODE_LENGTH}
+            isValid={isValid && !otpError?.message}
+            onChange={onInputChange}
+            disabled={verifyMFACodeMutation.isPending || otpExpired}
+          />
 
           {otpError?.message && (
             <Typography

@@ -499,6 +499,6 @@ export const checkHeader = (pathname: string) => {
       return HEADER_TITLE[TITLE_TYPE.USER_MANAGEMENT];
 
     default:
-      return HEADER_TITLE[TITLE_TYPE.DASHBOARD];
+      return HEADER_TITLE[TITLE_TYPE.EMPTY];
   }
 };
