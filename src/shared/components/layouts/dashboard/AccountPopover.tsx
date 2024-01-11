@@ -58,17 +58,17 @@ export function AccountPopover({
         }}
       >
         <Stack alignItems="flex-start">
-          <Typography
+          {/* <Typography
             variant="bodyTextLarge"
             textAlign="left"
             whiteSpace="nowrap"
             overflow="hidden"
             textOverflow="ellipsis"
             width="100%"
-            color="common.white"
+            color="common.black"
           >
             {username || ''}
-          </Typography>
+          </Typography> */}
           {!!role?.name && (
             <Chip
               label={role.name}

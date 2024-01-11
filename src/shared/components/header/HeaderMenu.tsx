@@ -40,20 +40,19 @@ function HeaderMenu({ menu }: IProps) {
 
   const wrapperStyles = {
     textDecoration: 'none',
-    color: isActive ? theme.palette.primary.main : theme.palette.common.white,
+    color: isActive ? theme.palette.common.white : theme.palette.common.black,
     display: 'flex',
-    backgroundColor: isActive ? theme.palette.primary.lighter : 'transparent',
+    backgroundColor: isActive ? theme.palette.secondary.main : 'transparent',
     [theme.breakpoints.up('sm')]: {
-      padding: `${theme.spacing(2)} ${theme.spacing(4)}`,
+      padding: `${theme.spacing(3)} ${theme.spacing(6)}`,
     },
     [theme.breakpoints.down('sm')]: {
       padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
     },
-
     borderRadius: 1,
     '&:hover': {
-      backgroundColor: theme.palette.primary.lighter,
-      color: theme.palette.text.secondary,
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.common.white,
     },
   };
 

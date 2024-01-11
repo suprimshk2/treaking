@@ -7,9 +7,11 @@ import uiRoute from 'shared/constants/uiRoute';
 import { useMemo } from 'react';
 import { Role } from 'shared/enums';
 import { useGetRole } from 'shared/utils/store';
-import Header from './Header';
+import useIsSidebarOpenForLargerScreen from 'shared/hooks/useIsSidebarOpenForLargerScreen';
+import Sidebar from './Sidebar';
+import DashboardHeader from './DashboardHeader';
 
-const { HEADER_HEIGHT } = layoutConstants;
+const { HEADER_HEIGHT, SIDEBAR_WIDTH_EXPANDED } = layoutConstants;
 
 const NO_PADDING_ROUTES: string[] = [
   uiRoute.profile.profile,
@@ -23,13 +25,14 @@ const ONLY_PADDING_Y_ROUTES: string[] = [];
 
 function DashboardLayout() {
   const location = useLocation();
+
   const theme = useTheme();
   const role = useGetRole();
-  // const isSidebarOpenForLargerScreen = useIsSidebarOpenForLargerScreen();
+  const isSidebarOpenForLargerScreen = useIsSidebarOpenForLargerScreen();
 
   const contentWrapperStyles = {
     paddingTop: HEADER_HEIGHT,
-    // paddingLeft: isSidebarOpenForLargerScreen ? SIDEBAR_WIDTH_EXPANDED : 0,
+    paddingLeft: isSidebarOpenForLargerScreen ? SIDEBAR_WIDTH_EXPANDED : 0,
   };
 
   const layoutPadding = useMemo(() => {
@@ -49,8 +52,8 @@ function DashboardLayout() {
 
   return (
     <Box>
-      <Header />
-      {/* <Sidebar /> */}
+      <DashboardHeader />
+      <Sidebar />
       <Box sx={contentWrapperStyles}>
         <Box sx={{ padding: layoutPadding }}>
           <Outlet />

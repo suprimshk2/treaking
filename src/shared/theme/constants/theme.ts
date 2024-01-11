@@ -6,14 +6,14 @@ export const PALETTE = {
   // Primary
   primaryLighter: '#ECF4F3',
   primaryLight: '#8abfb5',
-  primaryMain: '#3C9584',
+  primaryMain: '#FBCF30',
   primaryDark: '#2A685C',
   primaryDarker: '#183C35',
 
   // Secondary
   secondaryLighter: '#f0f9f1',
   secondaryLight: '#A6D9A9',
-  secondaryMain: '#6bc070',
+  secondaryMain: '#71A92C',
   secondaryDark: '#4b864e',
   secondaryDarker: '#2b4d2d',
 

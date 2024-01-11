@@ -10,6 +10,7 @@ import {
   IPermission,
   IResource,
 } from 'features/settings/roles-and-permissions/interfaces';
+import { HEADER_TITLE, TITLE_TYPE } from 'shared/constants/dashboardTitle';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 
 interface IPermissionChangeHandler {
@@ -489,4 +490,15 @@ export const checkAuthForPermissions = (
     );
 
   return !!checkAuthPermission;
+};
+export const checkHeader = (pathname: string) => {
+  switch (pathname) {
+    case TITLE_TYPE.ROLES_PERMISSION:
+      return HEADER_TITLE[TITLE_TYPE.ROLES_PERMISSION];
+    case TITLE_TYPE.USER_MANAGEMENT:
+      return HEADER_TITLE[TITLE_TYPE.USER_MANAGEMENT];
+
+    default:
+      return HEADER_TITLE[TITLE_TYPE.DASHBOARD];
+  }
 };

@@ -81,7 +81,7 @@ export function Login({ loginData, setLoginData }: ILoginProps) {
   };
 
   return !accessToken ? (
-    <AuthLayout title="Login">
+    <AuthLayout title="Member Login">
       <Box mt={8}>
         {loginError && (
           <Box mb={8}>

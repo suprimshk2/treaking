@@ -13,7 +13,7 @@ function Dashboard() {
       alignItems="center"
       justifyContent="center"
     >
-      <Typography variant="bodyTextLargeMd">Dashboard</Typography>
+      <Typography variant="bodyTextLargeMd">TEST</Typography>
     </Box>
   );
 }

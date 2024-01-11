@@ -11,6 +11,7 @@ import ActivateAccount from 'features/auth/pages/ActivateAccount';
 import { useCheckRoutePermission } from 'shared/hooks/permission';
 
 import { useBoundStore } from 'shared/stores/useBoundStore';
+import UserManagementRoute from 'shared/components/sidebar/SideMenu';
 
 // Lazy load route level components (for bundle splitting)
 // Maintain alphabetical order
@@ -137,7 +138,11 @@ function Router() {
         {/* <Route element={<RequireAuth />}> */}
         <Route element={<RoutesAuth />}>
           <Route element={<DashboardLayout />}>
-            <Route element={<Dashboard />} path={uiRoute.dashboard} />
+            {/* <Route
+              element={<RolesAndPermissionsList />}
+              path={uiRoute.dashboard}
+            /> */}
+            <Route element={<UserList />} path={uiRoute.dashboard} />
             <Route element={<SideMenuLayout />}>
               <Route
                 element={<UserList />}

@@ -9,11 +9,17 @@ interface IProps {
 function CopyrightFooter({ containerSx }: IProps) {
   return (
     <Stack sx={containerSx} spacing={1}>
-      <Typography variant="bodyTextLarge" textAlign="center">
-        <Link to={uiRoute.index}>Terms & Conditions</Link>&nbsp;|&nbsp;
+      <Typography
+        variant="bodyTextLarge"
+        textAlign="center"
+        color="white"
+        sx={{ color: 'white' }}
+      >
+        <Link to={uiRoute.index}>Terms & Conditions</Link>
+        &nbsp;|&nbsp;
         <Link to={uiRoute.index}>Privacy Policy</Link>
       </Typography>
-      <Typography variant="bodyTextLarge" textAlign="center" color="gray.dark">
+      <Typography variant="bodyTextLarge" textAlign="center" color="white">
         © {new Date().getFullYear()} Copyright Holista Therapy. Powered by
         Novelty Technology.
       </Typography>

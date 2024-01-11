@@ -9,7 +9,12 @@ interface IProps {
 
 function Link({ children, to }: IProps) {
   return (
-    <MuiLink component={RouterLink} to={to} variant="body1">
+    <MuiLink
+      component={RouterLink}
+      to={to}
+      variant="body1"
+      color="common.white"
+    >
       {children}
     </MuiLink>
   );

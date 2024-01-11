@@ -12,7 +12,7 @@ function HeaderMenuList() {
   const authModules = useBoundStore.use.authModule();
 
   return (
-    <Stack direction="row" spacing={1}>
+    <Stack spacing={1}>
       {authModules?.modules
         ?.filter(
           (item: any) =>

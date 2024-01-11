@@ -77,7 +77,9 @@ function LoginForm({ onSubmitHandler, isLoading, initialValues }: IProps) {
         >
           <FormCheckbox label="Remember me" name="keepLoggedIn" sizeSmall />
           <Link to={uiRoute.auth.forgotPassword}>
-            <Typography variant="bodyTextMedium">Forgot Password?</Typography>
+            <Typography variant="bodyTextMedium" color="secondary.main">
+              Forgot Password?
+            </Typography>
           </Link>
         </Stack>
         <Box paddingTop={8}>
@@ -88,8 +90,9 @@ function LoginForm({ onSubmitHandler, isLoading, initialValues }: IProps) {
             loading={isLoading}
             variant={ButtonVariant.CONTAINED}
             fullWidth
+            sx={{ color: 'primary.main' }}
           >
-            Login
+            <Typography color="common.black">Login</Typography>
           </Button>
         </Box>
       </form>
