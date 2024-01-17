@@ -18,6 +18,7 @@ const uiRoute = {
   home: '/home',
   users: '/users',
   dashboard: '/dashboard',
+  addQuiz: '/add',
   profile: {
     profile: '/profile',
     profileSecurity: '/profile/security',
