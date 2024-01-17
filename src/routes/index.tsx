@@ -7,11 +7,10 @@ import PersistLogin from 'shared/components/PersistLogin';
 import RequireAuth from 'shared/components/RequireAuth';
 import uiRoute from 'shared/constants/uiRoute';
 import ActivateAccount from 'features/auth/pages/ActivateAccount';
-
 import { useCheckRoutePermission } from 'shared/hooks/permission';
-
 import { useBoundStore } from 'shared/stores/useBoundStore';
-import UserManagementRoute from 'shared/components/sidebar/SideMenu';
+import { QuizList } from 'features/quiz/pages/Quiz';
+import { QuizAddEditModal } from 'features/quiz/components/QuizAddEditModal';
 
 // Lazy load route level components (for bundle splitting)
 // Maintain alphabetical order
@@ -19,6 +18,9 @@ import UserManagementRoute from 'shared/components/sidebar/SideMenu';
 const Dashboard = lazyImportWithRetry(
   () => import('../features/dashboard/pages/Dashboard')
 );
+// const QuizList = lazyImportWithRetry(
+//   () => import('../features/quiz/pages/Quiz')
+// );
 
 const ForgotPassword = lazyImportWithRetry(
   () => import('../features/auth/pages/ForgotPassword')
@@ -134,14 +136,16 @@ function Router() {
       {/* Protected Routes with Persisted Login */}
       <Route element={<PersistLogin />} path={uiRoute.index}>
         <Route element={<Login />} path={uiRoute.auth.login} />
-
         {/* <Route element={<RequireAuth />}> */}
         <Route element={<RoutesAuth />}>
           <Route element={<DashboardLayout />}>
-            {/* <Route
+            {/* <Route element={<QuizList />} path={uiRoute.dashboard} /> */}
+            <Route element={<QuizAddEditModal />} path={uiRoute.dashboard} />
+
+            <Route
               element={<RolesAndPermissionsList />}
               path={uiRoute.dashboard}
-            /> */}
+            />
             <Route element={<UserList />} path={uiRoute.dashboard} />
             <Route element={<SideMenuLayout />}>
               <Route

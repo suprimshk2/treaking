@@ -497,6 +497,8 @@ export const checkHeader = (pathname: string) => {
       return HEADER_TITLE[TITLE_TYPE.ROLES_PERMISSION];
     case TITLE_TYPE.USER_MANAGEMENT:
       return HEADER_TITLE[TITLE_TYPE.USER_MANAGEMENT];
+    case TITLE_TYPE.DASHBOARD:
+      return HEADER_TITLE[TITLE_TYPE.DASHBOARD];
 
     default:
       return HEADER_TITLE[TITLE_TYPE.EMPTY];

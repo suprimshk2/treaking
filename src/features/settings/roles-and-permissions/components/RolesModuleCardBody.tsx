@@ -13,7 +13,7 @@ import {
 import { useState } from 'react';
 import { BsChevronDown, BsChevronUp } from 'react-icons/bs';
 import { config } from 'shared/constants/config';
-import { checkIfAdminRelated } from 'shared/utils/common';
+
 import PermissionCardBody from './PermissionsCardBody';
 import { IPermission, IResource } from '../interfaces';
 

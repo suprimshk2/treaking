@@ -1,4 +1,4 @@
-import { Controller, useFormContext } from 'react-hook-form';
+import { Controller, FieldError, useFormContext } from 'react-hook-form';
 
 import Input from 'shared/theme/components/Input';
 
@@ -12,7 +12,9 @@ interface IProps {
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   fullWidth?: boolean;
+  multiline?: boolean;
   type?: 'text' | 'password' | 'number' | 'email';
+  fieldError?: FieldError;
 }
 
 function FormInput({
@@ -26,6 +28,8 @@ function FormInput({
   suffix,
   fullWidth,
   type,
+  multiline = false,
+  fieldError,
 }: IProps) {
   const {
     control,
@@ -42,13 +46,16 @@ function FormInput({
           label={label}
           placeholder={placeholder}
           disabled={disabled}
-          color={errors[name] ? 'error' : undefined}
-          hint={(errors[name]?.message as string) ?? ''}
+          color={fieldError || errors[name] ? 'error' : undefined}
+          hint={
+            (fieldError?.message || (errors[name]?.message as string)) ?? ''
+          }
           prefix={prefix}
           suffix={suffix}
           type={type}
           fullWidth={fullWidth}
           autoFocus={autoFocus}
+          multiline={multiline}
         />
       )}
     />
@@ -64,6 +71,8 @@ FormInput.defaultProps = {
   suffix: undefined,
   fullWidth: true,
   type: 'text',
+  multiline: false,
+  fieldError: undefined,
 };
 
 export default FormInput;

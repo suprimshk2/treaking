@@ -1,12 +1,9 @@
 import { VALIDATION_MESSAGE } from 'shared/constants/message';
 import {
   booleanSchema,
-  dobSchema,
   emailSchema,
   nullableStringSchema,
-  optionalStringSchema,
   passwordSchema,
-  phoneSchema,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
