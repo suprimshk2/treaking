@@ -15,7 +15,7 @@ import { QuizMultiple } from './QuizMultiple';
 //   isEditMode?: boolean;
 // }
 
-export function QuizAdd({ control }: any) {
+export function QuizAddFields({ control }: any) {
   const theme = useTheme();
   const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
@@ -154,6 +154,6 @@ export function QuizAdd({ control }: any) {
   );
 }
 
-QuizAdd.defaultProps = {
+QuizAddFields.defaultProps = {
   isEditMode: false,
 };

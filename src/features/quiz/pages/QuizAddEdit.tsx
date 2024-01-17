@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, useTheme } from '@mui/material';
 import { AddQuizFormSchemaType, addQuizFormSchema } from '../schemas';
 import { useAddQuizMutation, useQuizDetailQuery } from '../mutations';
-import { QuizAdd } from './QuizAddFields';
+import { QuizAddFields } from '../components/QuizAddFields';
 
 const defaultValues: any = {
   titleOne: '',
@@ -38,7 +38,7 @@ const defaultValues: any = {
 //   );
 // };
 
-export function QuizAddEditModal() {
+export function QuizAddEdit() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -114,7 +114,7 @@ export function QuizAddEditModal() {
           flexDirection="column"
           justifyContent="center"
         >
-          <QuizAdd control={control} />
+          <QuizAddFields control={control} />
           {/* <Box
             maxWidth={518}
             display="flex"

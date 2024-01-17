@@ -9,8 +9,7 @@ import uiRoute from 'shared/constants/uiRoute';
 import ActivateAccount from 'features/auth/pages/ActivateAccount';
 import { useCheckRoutePermission } from 'shared/hooks/permission';
 import { useBoundStore } from 'shared/stores/useBoundStore';
-import { QuizList } from 'features/quiz/pages/Quiz';
-import { QuizAddEditModal } from 'features/quiz/components/QuizAddEditModal';
+import { QuizAddEdit } from 'features/quiz/pages/QuizAddEdit';
 
 // Lazy load route level components (for bundle splitting)
 // Maintain alphabetical order
@@ -140,7 +139,7 @@ function Router() {
         <Route element={<RoutesAuth />}>
           <Route element={<DashboardLayout />}>
             {/* <Route element={<QuizList />} path={uiRoute.dashboard} /> */}
-            <Route element={<QuizAddEditModal />} path={uiRoute.dashboard} />
+            <Route element={<QuizAddEdit />} path={uiRoute.dashboard} />
 
             <Route
               element={<RolesAndPermissionsList />}
