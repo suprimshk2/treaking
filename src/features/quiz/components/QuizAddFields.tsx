@@ -3,10 +3,13 @@ import { TimeField } from '@mui/x-date-pickers';
 import { useFieldArray } from 'react-hook-form';
 import FormInput from 'shared/components/form/FormInput';
 import { FormMaskedDateInput } from 'shared/components/form/FormMaskedDateInput';
-import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
 import { SETTINGS_BAR_PROPERTY } from 'shared/constants/settings';
 import { IoIosAddCircleOutline } from 'react-icons/io';
+import FileDropzone from 'shared/components/file-upload/FileUpload';
+import { useState } from 'react';
+import { config } from 'shared/constants/config';
 import { QuizMultiple } from './QuizMultiple';
+import { IFileSchema } from '../interfaces';
 
 // import { FormMaskedDateInput } from 'shared/components/form/FormMaskedDateInput';
 // import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
@@ -17,12 +20,13 @@ import { QuizMultiple } from './QuizMultiple';
 
 export function QuizAddFields({ control }: any) {
   const theme = useTheme();
+  const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
+
   const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
     width: '100%',
     backgroundColor: theme.palette.gray.lighter,
     p: 4,
-    // boxShadow: theme.customShadows.dropShadow2,
     borderRadius: 1,
     height: '100%',
   };
@@ -31,9 +35,17 @@ export function QuizAddFields({ control }: any) {
     control,
     name: 'quizzes',
   });
-  // useEffect(() => {
-  //   if (fields.length === 0) append([{ question: 'value' }]);
-  // }, [append, fields.length]);
+
+  const onFileChange = (files: IFileSchema[]) => {
+    if (files[0]?.error) {
+      return;
+    }
+    const data = files.map((e: IFileSchema) => {
+      const { error, ...rest } = e;
+      return rest;
+    });
+    setSelectedFiles(data);
+  };
   return (
     <Box
       width="100%"
@@ -54,6 +66,12 @@ export function QuizAddFields({ control }: any) {
           }}
         >
           <Box>
+            <Box paddingY={theme.spacing(3)}>
+              <FileDropzone
+                maxSize={config.MAX_FILE_SIZE}
+                onChange={onFileChange}
+              />
+            </Box>
             <Grid container spacing={4} mb={2}>
               <Grid item xs={4}>
                 <FormInput name="titleOne" id="titleOne" label="Title One *" />
@@ -94,7 +112,7 @@ export function QuizAddFields({ control }: any) {
               <FormInput name="campaign" id="campaign" label="Campaign *" />
             </Grid>
             <Grid item xs={6} mb={2}>
-              <FormMaskedPhoneInput
+              <FormInput
                 name="prize"
                 id="prize"
                 label="Winning Prize Description "

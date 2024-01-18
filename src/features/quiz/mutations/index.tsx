@@ -6,15 +6,18 @@ import { IListResponse } from 'shared/interfaces/http';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import { infiniteQuizKeys } from '../queries';
 import * as quizAPI from '../api';
-import { IAddQuizSchema } from '../interfaces';
+import { IAddQuizSchema, IFormattedQuizFormSchema } from '../interfaces';
 
 export const useAddQuizMutation = () => {
   const filters = useBoundStore.getState().quizTableFilters;
   const { sortBy, sortOrder } = useBoundStore.getState().quizSort;
 
   return useMutation({
-    mutationFn: ({ data }: { data: IAddQuizSchema }) => quizAPI.addQuiz(data),
+    mutationFn: ({ data }: { data: IFormattedQuizFormSchema }) =>
+      quizAPI.addQuiz(data),
     onSuccess: (res) => {
+      console.log(res, 'logg ress');
+
       enqueueSnackbar(res.message || 'Quiz added successfully', {
         variant: 'success',
       });

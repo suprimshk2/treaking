@@ -48,23 +48,28 @@ export function QuizMultiple({
       }}
     >
       <Grid container spacing={4} mb={2}>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <FormMaskedDateInput
             name="startDate"
             id="startDate"
             label="Start Date "
           />
         </Grid>
-        <Grid item xs={4} mb={2}>
-          <TimeField name="startTime" id="startTime" label="Start Time" />
+        <Grid item xs={6} mb={2}>
+          <TimeField
+            name="startTime"
+            id="startTime"
+            label="Start Time"
+            fullWidth
+          />
         </Grid>
       </Grid>
       <Grid container spacing={4} mb={2}>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <FormMaskedDateInput name="endDate" id="endDate" label="End Date " />
         </Grid>
-        <Grid item xs={4} mb={2}>
-          <TimeField name="endTime" id="endTime" label="End Time" />
+        <Grid item xs={6} mb={2}>
+          <TimeField name="endTime" id="endTime" label="End Time" fullWidth />
         </Grid>
       </Grid>
       <Grid item xs={6} mb={2}>

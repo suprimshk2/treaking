@@ -1,11 +1,9 @@
-import { IAddQuizSchema } from '../interfaces';
+import { IFormattedQuizFormSchema } from '../interfaces';
 import { AddQuizFormSchemaType } from '../schemas';
 
-export const formatUserEditPayload = (
-  data: AddQuizFormSchemaType
-): IAddQuizSchema => {
+export const formatUserEditPayload = (data: any): IFormattedQuizFormSchema => {
   return {
-    title: 'Makaii Monday',
+    title: data.title,
     endDate: '2024-01-15T18:14:00.000',
     imageUrl: '',
     type: 'QUIZ',
@@ -47,6 +45,6 @@ export const formatUserEditPayload = (
 };
 export const formatQuizAddPayload = (
   data: AddQuizFormSchemaType
-): IAddQuizSchema => {
+): IFormattedQuizFormSchema => {
   return formatUserEditPayload(data);
 };
