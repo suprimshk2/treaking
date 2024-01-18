@@ -1,11 +1,11 @@
-import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Box, useTheme } from '@mui/material';
-import { AddQuizFormSchemaType, addQuizFormSchema } from '../schemas';
+import { Box, Button, useTheme } from '@mui/material';
+import { AddQuizFormSchemaType } from '../schemas';
 import { useAddQuizMutation, useQuizDetailQuery } from '../mutations';
 import { QuizAddFields } from '../components/QuizAddFields';
+import { formatQuizAddPayload } from '../utils';
 
 const defaultValues: any = {
   titleOne: '',
@@ -47,7 +47,7 @@ export function QuizAddEdit() {
 
   const addQuizMutation = useAddQuizMutation();
   const methods = useForm<AddQuizFormSchemaType>({
-    resolver: zodResolver(addQuizFormSchema),
+    // resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
   const {
@@ -56,8 +56,8 @@ export function QuizAddEdit() {
     control,
     formState: { errors },
   } = methods;
+  console.log({ errors });
 
-  const theme = useTheme();
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,
   });
@@ -80,8 +80,11 @@ export function QuizAddEdit() {
   }, [quizDetailQuery?.data, reset]);
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
+    const payload = formatQuizAddPayload(data);
+    console.log(payload, 'main');
+
     addQuizMutation.mutate(
-      { data },
+      { data: payload },
       {
         onSuccess: () => {
           navigate(-1);
@@ -94,16 +97,17 @@ export function QuizAddEdit() {
   const onSubmit = (data: AddQuizFormSchemaType) => {
     console.log('data-----', data);
 
-    // if (isEditMode) {
-    //   // handleUserEdit(data);
-    // } else {
-    //   handleQuizAdd(data);
-    // }
+    if (isEditMode) {
+      // handleUserEdit(data);
+    } else {
+      console.log('add');
+
+      handleQuizAdd(data);
+    }
   };
   const childrenContainerStyle = {
     width: '100%',
-
-    backgroundColor: theme.palette.error.lighter,
+    // backgroundColor: theme.palette.error.lighter,
   };
   return (
     <FormProvider {...methods}>
@@ -115,9 +119,10 @@ export function QuizAddEdit() {
           justifyContent="center"
         >
           <QuizAddFields control={control} />
-          {/* <Box
+          <Box
             maxWidth={518}
             display="flex"
+            mx="auto"
             flexDirection="row"
             justifyContent="space-between"
             alignContent="center"
@@ -126,8 +131,8 @@ export function QuizAddEdit() {
             <Button type="submit" variant="outlined">
               Cancel
             </Button>
-            <Button type="submit">Submit</Button>
-          </Box> */}
+            <Button type="submit">Save</Button>
+          </Box>
         </Box>
       </form>
     </FormProvider>

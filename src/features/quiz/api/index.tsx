@@ -1,11 +1,11 @@
 import { IResponse } from 'shared/interfaces/http';
 import { baseRequest } from 'shared/utils/axios';
 
-import { IAddQuizSchema } from '../interfaces';
+import { IAddQuizSchema, IFormattedQuizFormSchema } from '../interfaces';
 import apiRoute from '../constant/apiRoute';
 
 export const addQuiz = async (
-  data: IAddQuizSchema
+  data: IFormattedQuizFormSchema
 ): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
     method: 'POST',
