@@ -9,18 +9,26 @@ import { IRoleSlice } from 'features/settings/roles-and-permissions/interfaces';
 
 import { createQuizSlice } from 'features/quiz/store';
 import { IQuizSlice } from 'features/quiz/interfaces';
+import { createVendorSlice } from 'features/vendor/store';
+import { IVendorSlice } from 'features/vendor/interfaces';
 import { createAuthSlice } from './auth';
 import { createLayoutSlice } from './layout';
 import createSelectors from './selectors';
 
 const useBoundStoreBase = create<
-  IAuthSlice & ILayoutSlice & IUserSlice & IRoleSlice & IQuizSlice
+  IAuthSlice &
+    ILayoutSlice &
+    IUserSlice &
+    IVendorSlice &
+    IRoleSlice &
+    IQuizSlice
 >()(
   devtools((...a) => ({
     ...createAuthSlice(...a),
     ...createLayoutSlice(...a),
     ...createUserSlice(...a),
     ...createQuizSlice(...a),
+    ...createVendorSlice(...a),
     ...createRoleSlice(...a),
   }))
 );

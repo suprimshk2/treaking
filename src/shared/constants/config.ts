@@ -22,6 +22,11 @@ export const config = {
     page: 1,
   },
 
+  TABLE_SORT_DEFAULT_VALUES: {
+    sortBy: null,
+    sortOrder: null,
+  },
+
   PAGE_LIMIT_OPTIONS: [
     { id: 1, text: 'Show 5', value: 5 },
     { id: 2, text: 'Show 10', value: 10 },
