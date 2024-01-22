@@ -34,14 +34,14 @@ export function Login({ loginData, setLoginData }: ILoginProps) {
     enabled: !!accessToken,
   });
 
-  useEffect(() => {
-    if (authorizationQuery?.data?.data && accessToken) {
-      const routeToNavigate = getFirstRouteFromPermission(
-        authorizationQuery.data.data?.modules
-      );
-      navigate(routeToNavigate || uiRoute.profile.profile);
-    }
-  }, [authorizationQuery?.data?.data, accessToken, navigate]);
+  // useEffect(() => {
+  //   if (authorizationQuery?.data?.data && accessToken) {
+  //     const routeToNavigate = getFirstRouteFromPermission(
+  //       authorizationQuery.data.data?.modules
+  //     );
+  //     navigate(routeToNavigate || uiRoute.profile.profile);
+  //   }
+  // }, [authorizationQuery?.data?.data, accessToken, navigate]);
 
   // Store
   const onSubmit = (data: LoginFormSchemaType) => {
