@@ -140,7 +140,7 @@ function Router() {
         {/* <Route element={<RequireAuth />}> */}
         <Route element={<RoutesAuth />}>
           <Route element={<DashboardLayout />}>
-            {/* <Route element={<VendorList />} path={uiRoute.dashboard} /> */}
+            <Route element={<VendorList />} path={uiRoute.products} />
             {/* <Route element={<QuizAddEdit />} path={uiRoute.dashboard} /> */}
             <Route element={<VendorAddEdit />} path={uiRoute.dashboard} />
 

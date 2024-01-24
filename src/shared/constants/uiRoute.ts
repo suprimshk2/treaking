@@ -23,6 +23,7 @@ const uiRoute = {
     profile: '/profile',
     profileSecurity: '/profile/security',
   },
+  products: '/products',
 };
 
 export default uiRoute;
