@@ -65,6 +65,8 @@ export interface Discount {
 }
 
 export interface IProductSlice {
+  vendorTableFilters: any;
+  vendorSort: any;
   productSort: IProductSort;
   productTableFilters: IProductTableFilter;
   // totalProduct: number;
