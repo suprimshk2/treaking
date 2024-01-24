@@ -7,11 +7,6 @@ import {
   ButtonVariant,
 } from 'shared/theme/components/Button';
 import { BsPlusLg } from 'react-icons/bs';
-import { useBoundStore } from 'shared/stores/useBoundStore';
-import { checkAuthForPermissions } from 'shared/utils/common';
-import { ModuleCodes, ResourceCode } from 'shared/enums';
-import { RolesMangementPermissions } from 'features/settings/roles-and-permissions/enums';
-import { useInfiniteRolesQuery } from 'features/settings/roles-and-permissions/queries';
 
 interface IProps {
   onAddClick: VoidFunction;
@@ -25,11 +20,6 @@ export function VendorTableBanner({ onAddClick }: IProps) {
   //   RolesMangementPermissions.CREATE,
   //   ResourceCode.ROLES_PERMISSION_MANAGEMENT
   // );
-
-  const totalRoles = useBoundStore.use.totalRoles();
-  const rolesTableFilter = useBoundStore.use.roleTableFilters();
-
-  const { isFetching } = useInfiniteRolesQuery(rolesTableFilter);
 
   return (
     <Stack spacing={4} mb={4} alignItems="flex-end">

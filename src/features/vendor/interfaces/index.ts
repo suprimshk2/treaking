@@ -51,5 +51,6 @@ export interface IVendorSlice {
   changeVendorSortByAndOrder: (newOrder: Partial<IVendorSort>) => void;
   setVendorTableFilters: (newFilters: Partial<IVendorTableFilter>) => void;
   resetVendorTable: VoidFunction;
+  resetVendorTableFilters: VoidFunction;
   // setTotalQuiz: (total: number) => void;
 }

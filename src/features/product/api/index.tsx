@@ -2,8 +2,11 @@ import { IResponse } from 'shared/interfaces/http';
 import { baseRequest } from 'shared/utils/axios';
 
 import apiRoute from '../constant/apiRoute';
+import { IFormattedProductFormSchema } from '../interfaces';
 
-export const addVendor = async (data: any): Promise<IResponse<any>> => {
+export const addProduct = async (
+  data: IFormattedProductFormSchema
+): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
     method: 'POST',
     url: apiRoute.add,
@@ -16,7 +19,7 @@ export const addVendor = async (data: any): Promise<IResponse<any>> => {
 
   return response?.data;
 };
-export const editVendor = async (
+export const editProduct = async (
   id: string,
   data: any
 ): Promise<IResponse<any>> => {
@@ -32,23 +35,10 @@ export const editVendor = async (
 
   return response?.data;
 };
-export const getVendorById = async (id: string): Promise<IResponse<any>> => {
+export const getProductById = async (id: string): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
     method: 'GET',
     url: apiRoute.getOne.replace(':id', id),
-  });
-
-  if (error) {
-    return Promise.reject(error);
-  }
-
-  return response?.data;
-};
-
-export const getVendor = async (): Promise<IResponse<any>> => {
-  const { response, error } = await baseRequest({
-    method: 'GET',
-    url: apiRoute.getAll,
   });
 
   if (error) {
