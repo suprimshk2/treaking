@@ -13,11 +13,6 @@ export function ProductList() {
   const [productId, setProductId] = useState('');
   const { onOpen, isOpen, onClose } = useDisclosure();
 
-  // const onEditClick = (id: string) => {
-  //   onOpen();
-  //   setRoleId(id);
-  // };
-
   const onCloseClick = () => {
     setProductId('');
     onClose();

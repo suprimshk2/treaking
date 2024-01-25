@@ -23,6 +23,10 @@ export const requiredStringSchema = z
   .trim()
   .min(1, { message: REQUIRED_FIELD });
 
+export const requiredNumberSchema = z
+  .number()
+  .min(1, { message: REQUIRED_FIELD });
+
 export const optionalStringSchema = z.string().trim().optional();
 export const nullableStringSchema = z.string().trim().optional().nullable();
 
@@ -66,3 +70,36 @@ export const arrayOfStringSchema = z
   .nullable();
 
 export const booleanSchema = z.boolean().nullable().optional();
+
+const discountSchema = z
+  .array(z.object({ type: z.string(), value: z.number() }))
+  .optional();
+
+export const priceSchema = z.array(
+  z.object({
+    value: z.number(),
+    discount: discountSchema,
+    effStartDate: z.string(),
+    effEndDate: z.string(),
+  })
+);
+
+export const vendorSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+
+export const pointSchema = z.array(
+  z.object({
+    value: z.number(),
+    effStartDate: z.string(),
+    effEndDate: z.string(),
+  })
+);
+
+export const imageSchema = z.array(
+  z.object({
+    order: z.number(),
+    value: z.number(),
+  })
+);

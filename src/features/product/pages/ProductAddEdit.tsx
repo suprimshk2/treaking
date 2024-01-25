@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Box, useTheme } from '@mui/material';
 import {
   Button,
@@ -13,6 +13,8 @@ import { useAddProductMutation, useProductDetailQuery } from '../mutations';
 import { ProductAddEditFields } from '../components/ProductAddEditFields';
 import { formaProductAddPayload } from '../utils';
 import { IFileSchema } from '../interfaces';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { addProductFormSchema } from '../schemas';
 
 const defaultValues: any = {
   logoUrl: '',
@@ -29,50 +31,31 @@ const defaultValues: any = {
   address: '',
 };
 interface IProps {
-  editProductId: string; // id of user which is to be edited
+  editProductId: string;
   onClose: VoidFunction;
 }
-// const handleUserEdit = (data: AddProductFormSchemaType) => {
-//   const payload = {};
-
-//   editUserMutation.mutate(
-//     { id: editUserId, data: payload },
-//     {
-//       onSuccess: () => {
-//         onCloseModal();
-//       },
-//     }
-//   );
-// };
 
 export function ProductAddEdit({ editProductId, onClose }: IProps) {
   const theme = useTheme();
 
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
-
-  // console.log(editProductId);
-
-  const addProductMutation = useAddProductMutation();
+  const isEditMode = !!editProductId;
   const methods = useForm({
-    // resolver: zodResolver(addProductFormSchema),
+    resolver: zodResolver(addProductFormSchema),
     defaultValues,
   });
-  const {
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = methods;
-  console.log({ errors });
+  const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
+
+  const addProductMutation = useAddProductMutation();
+
+  const { handleSubmit, reset, formState } = methods;
 
   const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
     enabled: !!editProductId,
   });
-  // Prepopulate the form in case of edit
+
   useEffect(() => {
     if (productDetailQuery?.data) {
-      // const { demographic } = ProductDetailQuery.data;
       reset({
         logoUrl: '',
         businessName: '',
@@ -92,8 +75,6 @@ export function ProductAddEdit({ editProductId, onClose }: IProps) {
 
   const handleProductAdd = (data) => {
     const payload = formaProductAddPayload(data);
-    console.log(payload, 'main');
-    console.log(data, 'daaaa');
 
     addProductMutation.mutate(
       { data: payload },
@@ -104,13 +85,13 @@ export function ProductAddEdit({ editProductId, onClose }: IProps) {
       }
     );
   };
-  const isEditMode = !!editProductId;
+
   const onCloseModal = () => {
     reset(defaultValues);
     onClose();
   };
+
   const onSubmit = (data) => {
-    console.log('data-----', data);
     const payload = { ...data, logoUrl: selectedFiles[0]?.base64 ?? '' };
     if (isEditMode) {
       // handleUserEdit(data);
