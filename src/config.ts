@@ -23,8 +23,8 @@ const mode: IMode = {
     socketBaseURL: 'https://dev.api.therapy.noveltytechnology.com',
   },
   DEV: {
-    // baseURL: 'https://dev.api.meromakaii.com',
-    baseURL: 'https://dev.api.therapy.noveltytechnology.com/api',
+    baseURL: 'https://dev.api.meromakaii.com/api',
+    // baseURL: 'https://dev.api.therapy.noveltytechnology.com/api',
     appBaseURL: 'https://dev.therapy.noveltytechnology.com',
     socketBaseURL: 'https://dev.api.therapy.noveltytechnology.com',
   },

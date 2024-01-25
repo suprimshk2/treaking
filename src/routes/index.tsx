@@ -46,6 +46,12 @@ const NoMatch = lazyImportWithRetry(
 const NoPermission = lazyImportWithRetry(
   () => import('../shared/components/display/NoPermission')
 );
+const OfferAddEdit = lazyImportWithRetry(
+  () => import('../features/offers/pages/OfferAddEdit')
+);
+const OfferList = lazyImportWithRetry(
+  () => import('../features/offers/pages/OfferList')
+);
 const SetPassword = lazyImportWithRetry(
   () => import('../features/auth/pages/SetPassword')
 );
@@ -140,6 +146,10 @@ function Router() {
         {/* <Route element={<RequireAuth />}> */}
         <Route element={<RoutesAuth />}>
           <Route element={<DashboardLayout />}>
+            <Route element={<OfferList />} path={uiRoute.offers.index} />
+            <Route element={<OfferAddEdit />} path={uiRoute.offers.offerForm} />
+            {/* <Route element={<QuizList />} path={uiRoute.dashboard} /> */}
+            <Route element={<QuizAddEdit />} path={uiRoute.dashboard} />
             {/* <Route element={<VendorList />} path={uiRoute.dashboard} /> */}
             {/* <Route element={<QuizAddEdit />} path={uiRoute.dashboard} /> */}
             <Route element={<VendorAddEdit />} path={uiRoute.dashboard} />

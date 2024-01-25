@@ -1,3 +1,4 @@
+import { InputBaseComponentProps } from '@mui/material';
 import { Controller, FieldError, useFormContext } from 'react-hook-form';
 
 import Input from 'shared/theme/components/Input';
@@ -15,6 +16,7 @@ interface IProps {
   multiline?: boolean;
   type?: 'text' | 'password' | 'number' | 'email';
   fieldError?: FieldError;
+  inputProps?: InputBaseComponentProps;
 }
 
 function FormInput({
@@ -30,6 +32,7 @@ function FormInput({
   type,
   multiline = false,
   fieldError,
+  inputProps,
 }: IProps) {
   const {
     control,
@@ -45,6 +48,7 @@ function FormInput({
           id={id}
           label={label}
           placeholder={placeholder}
+          inputProps={inputProps}
           disabled={disabled}
           color={fieldError || errors[name] ? 'error' : undefined}
           hint={
@@ -73,6 +77,8 @@ FormInput.defaultProps = {
   type: 'text',
   multiline: false,
   fieldError: undefined,
+
+  inputProps: undefined,
 };
 
 export default FormInput;

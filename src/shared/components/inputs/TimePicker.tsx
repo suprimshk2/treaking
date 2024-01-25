@@ -1,32 +1,32 @@
 import React from 'react';
 import {
-  DateValidationError,
-  DatePicker as MuiDatePicker,
+  TimeValidationError,
+  TimePicker as MuiTimePicker,
   PickerChangeHandlerContext,
 } from '@mui/x-date-pickers';
 
-export interface IDatePickerProps {
+export interface ITimePickerProps {
   label?: string;
   disablePast?: boolean;
   disabled?: boolean;
   onChange?:
     | ((
-        value: Date | null,
-        context: PickerChangeHandlerContext<DateValidationError>
+        value: any,
+        context: PickerChangeHandlerContext<TimeValidationError>
       ) => void)
     | undefined;
-  value?: Date | undefined;
-  maxDate?: Date;
-  minDate?: Date;
+  value?: string | undefined;
+  maxTime?: string;
+  minTime?: string;
 }
 
-const DatePicker = React.forwardRef((props: IDatePickerProps, ref) => {
-  const { disablePast, disabled, label, onChange, value, maxDate, minDate } =
+const TimePicker = React.forwardRef((props: ITimePickerProps, ref) => {
+  const { disablePast, disabled, label, onChange, value, maxTime, minTime } =
     props;
 
   // const onChange = (
   //   date: unknown,
-  //   context: PickerChangeHandlerContext<DateValidationError>
+  //   context: PickerChangeHandlerContext<TimeValidationError>
   // ) => {
   //   if (context?.validationError) return;
   //   if (handleChange) {
@@ -35,9 +35,9 @@ const DatePicker = React.forwardRef((props: IDatePickerProps, ref) => {
   // };
 
   return (
-    <MuiDatePicker
-      maxDate={maxDate}
-      minDate={minDate}
+    <MuiTimePicker
+      maxTime={maxTime}
+      minTime={minTime}
       disabled={disabled}
       onChange={onChange}
       disablePast={disablePast}
@@ -50,8 +50,6 @@ const DatePicker = React.forwardRef((props: IDatePickerProps, ref) => {
           InputProps: {
             disableUnderline: true,
           },
-          // error: !!errorText,
-          // helperText: errorText,
         },
       }}
       sx={{
@@ -59,21 +57,26 @@ const DatePicker = React.forwardRef((props: IDatePickerProps, ref) => {
           marginTop: label ? '24px' : 'inherit',
         },
       }}
-      value={value ? new Date(value) : null}
+      // viewRenderers={{
+      //   hours: renderTimeViewClock,
+      //   minutes: renderTimeViewClock,
+      //   seconds: renderTimeViewClock,
+      // }}
+      value={value || null}
     />
   );
 });
 
-DatePicker.displayName = 'DatePicker';
+TimePicker.displayName = 'TimePicker';
 
-DatePicker.defaultProps = {
+TimePicker.defaultProps = {
   disabled: false,
   disablePast: false,
   label: undefined,
   onChange: undefined,
-  maxDate: undefined,
-  minDate: undefined,
+  maxTime: undefined,
+  minTime: undefined,
   value: undefined,
 };
 
-export default DatePicker;
+export default TimePicker;

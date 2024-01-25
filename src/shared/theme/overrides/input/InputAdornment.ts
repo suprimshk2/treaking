@@ -9,7 +9,7 @@ const InputAdornment = (theme: Theme) => ({
       },
       positionEnd: {
         marginLeft: 0,
-        marginRight: 8,
+        marginRight: 14,
 
         svg: {
           width: 16,

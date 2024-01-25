@@ -9,6 +9,8 @@ import { IRoleSlice } from 'features/settings/roles-and-permissions/interfaces';
 
 import { createQuizSlice } from 'features/quiz/store';
 import { IQuizSlice } from 'features/quiz/interfaces';
+import { IOfferSlice } from 'features/offers/interfaces';
+import { createOfferSlice } from 'features/offers/stores';
 import { createVendorSlice } from 'features/vendor/store';
 import { IVendorSlice } from 'features/vendor/interfaces';
 import { createAuthSlice } from './auth';
@@ -21,10 +23,12 @@ const useBoundStoreBase = create<
     IUserSlice &
     IVendorSlice &
     IRoleSlice &
-    IQuizSlice
+    IQuizSlice &
+    IOfferSlice
 >()(
   devtools((...a) => ({
     ...createAuthSlice(...a),
+    ...createOfferSlice(...a),
     ...createLayoutSlice(...a),
     ...createUserSlice(...a),
     ...createQuizSlice(...a),
