@@ -92,7 +92,7 @@ export const useEditOfferMutation = () => {
 
       queryData.pages.find((page) => {
         const exist = page.rows.findIndex(
-          (item: IOffer) => item._id === res.data._id
+          (item: IOffer) => item.offerId === res.data.offerId
         );
         if (exist >= 0) {
           // eslint-disable-next-line no-param-reassign
