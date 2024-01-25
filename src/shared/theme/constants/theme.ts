@@ -5,16 +5,16 @@ export const PALETTE = {
 
   // Primary
   primaryLighter: '#ECF4F3',
-  primaryLight: '#8abfb5',
+  primaryLight: '#FFF3C7',
   primaryMain: '#FBCF30',
-  primaryDark: '#2A685C',
+  primaryDark: '#F5B800',
   primaryDarker: '#183C35',
 
   // Secondary
-  secondaryLighter: '#f0f9f1',
-  secondaryLight: '#A6D9A9',
+  secondaryLighter: '#F1F6EA',
+  secondaryLight: '#E2F5CB',
   secondaryMain: '#71A92C',
-  secondaryDark: '#4b864e',
+  secondaryDark: '#2D6B00',
   secondaryDarker: '#2b4d2d',
 
   // Shade

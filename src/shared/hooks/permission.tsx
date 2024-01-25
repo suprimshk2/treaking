@@ -14,6 +14,8 @@ const WHITE_LIST_ROUTES = [
   uiRoute.auth.forgotPassword,
   uiRoute.auth.logout,
   uiRoute.auth.resetPassword,
+  uiRoute.offers.index,
+  uiRoute.offers.offerForm,
 ];
 
 export function useCheckRoutePermission() {

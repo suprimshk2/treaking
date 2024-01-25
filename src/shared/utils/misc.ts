@@ -303,3 +303,15 @@ export const toTitleCase = (str: string) => {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 };
+
+export const formatPhone = (unformattedPhone: string) => {
+  let phone = unformattedPhone;
+  if (phone) {
+    const x = phone.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    if (!x) return '-';
+    // eslint-disable-next-line prefer-template
+    phone = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    return phone;
+  }
+  return 'N/A';
+};

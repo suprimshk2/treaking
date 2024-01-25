@@ -38,7 +38,7 @@ const Table = (theme: Theme): Components<Theme> => ({
         color: theme.palette.gray.darker,
         '&.filled': {
           '& .MuiTableCell-head': {
-            backgroundColor: theme.palette.primary.lighter,
+            backgroundColor: theme.palette.secondary.lighter,
             color: theme.palette.text.primary,
             borderBottom: 'none',
           },

@@ -15,6 +15,10 @@ const uiRoute = {
         '/settings/roles-permission-management/manage-roles-and-permissions',
     },
   },
+  offers: {
+    index: '/offers',
+    offerForm: '/offers-form',
+  },
   home: '/home',
   users: '/users',
   dashboard: '/dashboard',
