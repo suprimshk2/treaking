@@ -7,4 +7,5 @@ export const PRODUCT_COLUMNS: readonly ITableColumn[] = [
   { id: 'price', label: 'Price' },
   { id: 'status', label: 'Status' },
   { id: 'createdby', label: 'Created by' },
+  { id: 'menu', label: '' },
 ];

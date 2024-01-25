@@ -11,7 +11,7 @@ import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
 import { useProductsQuery } from '../queries';
 import ProductTableRow from './ProductTableRow';
 import { IAdaptedProductTableRow } from '../interfaces';
-import { PRODUCT_COLUMNS } from '../constant/ProductableHeader';
+import { PRODUCT_COLUMNS } from '../constant/ProducTableHeader';
 
 function ProductTable() {
   const { data, isLoading, isSuccess } = useProductsQuery(

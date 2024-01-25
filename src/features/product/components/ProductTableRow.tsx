@@ -1,4 +1,8 @@
-import { Chip, TableCell, TableRow, Typography, useTheme } from '@mui/material';
+import { Chip, TableCell, TableRow, useTheme } from '@mui/material';
+
+import EllipseMenu from 'shared/components/menu/EllipseMenu';
+import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
+import { FaPenAlt, FaTrashAlt } from 'react-icons/fa';
 import { IAdaptedProductTableRow } from '../interfaces';
 
 function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
@@ -21,6 +25,12 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
         />
       </TableCell>
       <TableCell>{item.createdBy}</TableCell>
+      <TableCell>
+        <EllipseMenu>
+          <EllipseMenuItem text="Edit" icon={FaPenAlt} />
+          <EllipseMenuItem text="Delete" icon={FaTrashAlt} />
+        </EllipseMenu>
+      </TableCell>
     </TableRow>
   );
 }
