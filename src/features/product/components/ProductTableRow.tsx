@@ -1,4 +1,4 @@
-import { TableCell, TableRow, Typography, useTheme } from '@mui/material';
+import { Chip, TableCell, TableRow, Typography, useTheme } from '@mui/material';
 import { IAdaptedProductTableRow } from '../interfaces';
 
 function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
@@ -10,20 +10,15 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
       <TableCell>{item.point}</TableCell>
       <TableCell>{item.price}</TableCell>
       <TableCell>
-        <Typography
-          bgcolor={
-            item.isInStock
+        <Chip
+          label={item.status}
+          sx={{
+            color: theme.palette.common.white,
+            bgcolor: item.isInStock
               ? theme.palette.success.main
-              : theme.palette.error.main
-          }
-          textAlign="center"
-          color={theme.palette.common.white}
-          fontWeight="medium"
-          borderRadius={4}
-          p={1}
-        >
-          {item.status}
-        </Typography>
+              : theme.palette.error.main,
+          }}
+        />
       </TableCell>
       <TableCell>{item.createdBy}</TableCell>
     </TableRow>
