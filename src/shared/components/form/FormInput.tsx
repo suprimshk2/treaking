@@ -13,6 +13,7 @@ interface IProps {
   suffix?: React.ReactNode;
   fullWidth?: boolean;
   multiline?: boolean;
+  rows?: number;
   type?: 'text' | 'password' | 'number' | 'email';
   fieldError?: FieldError;
 }
@@ -29,6 +30,7 @@ function FormInput({
   fullWidth,
   type,
   multiline = false,
+  rows = 0,
   fieldError,
 }: IProps) {
   const {
@@ -56,6 +58,7 @@ function FormInput({
           fullWidth={fullWidth}
           autoFocus={autoFocus}
           multiline={multiline}
+          rows={rows}
         />
       )}
     />
@@ -73,6 +76,7 @@ FormInput.defaultProps = {
   type: 'text',
   multiline: false,
   fieldError: undefined,
+  rows: 1,
 };
 
 export default FormInput;

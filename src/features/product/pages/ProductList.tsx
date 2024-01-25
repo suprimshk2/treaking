@@ -3,10 +3,9 @@ import { Box, useTheme } from '@mui/material';
 import { useState } from 'react';
 
 import useDisclosure from 'shared/hooks/useDisclosure';
-// import { RolesAddEditModal } from 'features/settings/roles-and-permissions/components/RolesAddEditModal';
 import ProductTable from '../components/ProductTable';
 import { ProductTableBanner } from '../components/ProductTableBanner';
-import { ProductAddEdit } from './ProductAddEdit';
+import { ProductAddEditModal } from './ProductAddEditModal';
 
 export function ProductList() {
   const theme = useTheme();
@@ -24,7 +23,10 @@ export function ProductList() {
         <ProductTableBanner onAddClick={() => onOpen()} />
         <ProductTable />
         {isOpen && (
-          <ProductAddEdit editProductId={productId} onClose={onCloseClick} />
+          <ProductAddEditModal
+            editProductId={productId}
+            onClose={onCloseClick}
+          />
         )}
       </Box>
     </Box>

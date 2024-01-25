@@ -14,6 +14,7 @@ export function FormVendorSelect({
 }: Omit<ISelectProps, 'children'>) {
   const {
     control,
+    watch,
     setValue,
     formState: { errors },
   } = useFormContext();
@@ -21,6 +22,8 @@ export function FormVendorSelect({
   const { data } = useRolesQuery(filters, {
     enabled: true,
   });
+
+  const vendorId = watch('vendor')?.id || '';
 
   const handleClear = () => {
     setValue(name, '');
@@ -34,14 +37,19 @@ export function FormVendorSelect({
         <Select
           {...field}
           {...others}
+          value={vendorId}
           placeholder={placeholder || 'Select Vendor'}
           color={errors[name] ? 'error' : undefined}
           hint={(errors[name]?.message as string) ?? ''}
           clearable={clearable}
           handleClear={handleClear}
+          onChange={(item) => {
+            const vendor = data?.find((el) => el._id === item.target.value);
+            setValue('vendor', { name: vendor?.name, id: vendor?._id });
+          }}
         >
           {data?.map?.((vendor) => (
-            <MenuItem value={vendor.code} key={vendor.name}>
+            <MenuItem value={vendor._id} key={vendor._id}>
               {vendor.name}
             </MenuItem>
           ))}

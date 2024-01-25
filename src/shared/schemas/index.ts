@@ -97,9 +97,15 @@ export const pointSchema = z.array(
   })
 );
 
-export const imageSchema = z.array(
-  z.object({
-    order: z.number(),
-    value: z.number(),
-  })
-);
+export const imageSchema = z
+  .array(
+    z.object({
+      base64: z.string(),
+      contentType: z.string(),
+      createdBy: z.string(),
+      id: z.string(),
+      name: z.string(),
+      size: z.number(),
+    })
+  )
+  .nonempty();

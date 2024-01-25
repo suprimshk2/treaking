@@ -5,22 +5,33 @@ import { toBase64 } from 'shared/utils/file';
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
 import { IFileSchema } from 'features/quiz/interfaces';
+import { useFormContext } from 'react-hook-form';
 import DropZoneFileList from './Dropdownlist';
 
+export interface IFileDrop {
+  path: string;
+}
+
 function FileDropzone({
+  name = 'images',
   isFileSizeExceeds,
   onChange,
   maxSize,
-  isPublic = false,
 }: {
+  name?: string;
   isFileSizeExceeds?: boolean;
   onChange: (e: IFileSchema[]) => void;
   maxSize?: number;
-  isPublic?: boolean;
 }) {
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const hasError = errors[name];
+
   const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
   const theme = useTheme();
   const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
+
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: async (f: any) => {
       const newFiles: IFileSchema[] = [];
@@ -73,7 +84,10 @@ function FileDropzone({
 
   return (
     <Box>
-      <Box {...getRootProps({ className: 'fileDrop' })}>
+      <Box
+        {...getRootProps({ className: 'fileDrop' })}
+        color={hasError && theme.palette.error.main}
+      >
         <input {...getInputProps()} />
 
         <Stack
@@ -133,6 +147,6 @@ function FileDropzone({
 FileDropzone.defaultProps = {
   isFileSizeExceeds: false,
   maxSize: undefined,
-  isPublic: false,
+  name: 'images',
 };
 export default FileDropzone;

@@ -8,13 +8,13 @@ export interface IProductTableRow {
   tags: string[];
   vendor: Vendor;
   quantityInStock: number;
-  images: Image[];
-  category: Category;
+  images: IImage[];
+  category: ICategory;
   updated: Ated;
   created: Ated;
   productId: string;
-  price: Point;
-  point: Point;
+  price: IPrice;
+  point: IPoint;
 }
 
 export interface IAdaptedProductTableRow {
@@ -26,6 +26,45 @@ export interface IAdaptedProductTableRow {
   createdBy: string;
   isInStock: boolean;
   quantityInStock: number;
+}
+
+export interface IProductSchema {
+  title: string;
+  description: string;
+  vendor: IVendor;
+  images: IImage[];
+  point: string;
+  price: string;
+  tags: any;
+  quantityInStock: string;
+  costPrice: string;
+  retailPrice: string;
+}
+
+export interface IAdaptedproductSchema {
+  title: string;
+  description: string;
+  vendor: IVendor;
+  images: IImage[];
+  point: IPoint[];
+  price: IPrice[];
+  tags: any;
+  quantityInStock: number;
+  costPrice: number;
+  retailPrice: number;
+}
+
+export interface IPrice {
+  value: number;
+  originalValue?: number;
+  discount?: IDiscount;
+  effStartDate?: string;
+  effEndDate?: string;
+}
+
+export interface IVendor {
+  id?: string;
+  name?: string;
 }
 
 export interface Ated {
@@ -43,7 +82,7 @@ export interface Vendor {
   contacts: string[];
   email: string;
   phone: string;
-  accountOwner: Category;
+  accountOwner: ICategory;
   socialMedias: string[];
   enrolledDate: Date;
   updated: Ated;
@@ -71,46 +110,32 @@ export interface IFileSchema {
   file_url?: string;
   isPublic?: boolean;
 }
-export interface IFormattedProductFormSchema {
-  title: string;
-  description: string;
-  tags: any[];
-  vendor: Category;
-  point: Point[];
-  price: Point[];
-  quantityInStock: number;
-  images: Image[];
-  category: Category;
-  updated: CreatedAt;
-  created: Ated;
-  productId: string;
-}
 
-export interface Category {
+export interface ICategory {
   id: string;
   name: string;
 }
 
-export interface CreatedAt {
+export interface ICreatedAt {
   date: string;
   name: string;
   id: string;
 }
 
-export interface Image {
+export interface IImage {
   url: string;
   order: number;
 }
 
-export interface Point {
+export interface IPoint {
   value: number;
-  effEndDate: string;
-  effStartDate: string;
-  discount?: Discount;
+  effEndDate?: string;
+  effStartDate?: string;
+  discount?: IDiscount;
   originalValue?: number;
 }
 
-export interface Discount {
+export interface IDiscount {
   value: number;
   type: string;
 }

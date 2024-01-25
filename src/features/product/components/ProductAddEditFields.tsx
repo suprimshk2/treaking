@@ -1,20 +1,16 @@
 import { Box, Grid, Stack, useTheme } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
-import { SETTINGS_BAR_PROPERTY } from 'shared/constants/settings';
 
 import FileDropzone from 'shared/components/file-upload/FileUpload';
 import { config } from 'shared/constants/config';
+import { useFormContext } from 'react-hook-form';
 import { IFileSchema } from '../interfaces';
 import { FormVendorSelect } from './VendorSelect';
 
-export function ProductAddEditFields({
-  setSelectedFiles,
-}: {
-  setSelectedFiles: any;
-}) {
+export function ProductAddEditFields() {
   const theme = useTheme();
+  const { setValue } = useFormContext();
 
-  const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
     width: '100%',
     backgroundColor: theme.palette.gray.lighter,
@@ -27,20 +23,16 @@ export function ProductAddEditFields({
     if (files[0]?.error) {
       return;
     }
-    const data = files.map((e: IFileSchema) => {
+    const images = files.map((e: IFileSchema) => {
       const { error, ...rest } = e;
       return rest;
     });
-    setSelectedFiles(data);
+
+    setValue('images', images);
   };
+
   return (
-    <Box
-      width="100%"
-      height="100%"
-      // sx={{
-      //   backgroundColor: 'red',
-      // }}
-    >
+    <Box width="100%" height="100%">
       <Box sx={childrenContainerStyle}>
         <Stack
           p={4}
@@ -64,32 +56,48 @@ export function ProductAddEditFields({
             <Grid item spacing={4} mb={theme.spacing(3)}>
               <FormInput name="title" id="title" label="Product Title" />
             </Grid>
-
             <Grid item spacing={4} mb={theme.spacing(3)}>
               <FormInput
                 name="description"
                 id="description"
                 label="Product Description"
                 multiline
+                rows={3}
               />
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
-                <FormInput name="quality" id="quality" label="Quality" />
+                <FormInput
+                  name="quantityInStock"
+                  id="quantity"
+                  label="Quantity"
+                  type="number"
+                />
               </Grid>
               <Grid item xs={6}>
-                <FormInput name="point" id="point" label="Product Points" />
+                <FormInput
+                  name="point"
+                  id="point"
+                  label="Product Points"
+                  type="number"
+                />
               </Grid>
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
-                <FormInput name="price" id="price" label="Selling Price" />
+                <FormInput
+                  name="price"
+                  id="price"
+                  label="Selling Price"
+                  type="number"
+                />
               </Grid>
               <Grid item xs={6}>
                 <FormInput
                   name="discountPrice"
                   id="discountPrice"
                   label="Discounted Price"
+                  type="number"
                 />
               </Grid>
             </Grid>
@@ -99,13 +107,13 @@ export function ProductAddEditFields({
                   name="retailPrice"
                   id="retailPrice"
                   label="Retail Price"
+                  type="number"
                 />
               </Grid>
               <Grid item xs={6}>
                 <FormInput name="costPrice" id="costPrice" label="Cost Price" />
               </Grid>
             </Grid>
-
             <Box paddingY={theme.spacing(3)}>
               <FileDropzone
                 maxSize={config.MAX_FILE_SIZE}

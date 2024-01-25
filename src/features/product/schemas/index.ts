@@ -1,9 +1,6 @@
 import {
   imageSchema,
   optionalStringSchema,
-  pointSchema,
-  priceSchema,
-  requiredNumberSchema,
   requiredStringSchema,
   vendorSchema,
 } from 'shared/schemas';
@@ -17,11 +14,11 @@ export const addProductFormSchema = z.object({
   title: requiredStringSchema,
   description: requiredStringSchema,
   images: imageSchema,
-  point: pointSchema,
-  price: priceSchema,
-  quantityInStock: requiredNumberSchema,
-  costPrice: requiredNumberSchema,
-  retailPrice: requiredNumberSchema,
+  point: requiredStringSchema,
+  price: requiredStringSchema,
+  quantityInStock: requiredStringSchema,
+  costPrice: requiredStringSchema,
+  retailPrice: requiredStringSchema,
   vendor: vendorSchema,
 });
 

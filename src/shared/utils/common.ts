@@ -533,3 +533,10 @@ export const formatCurrency = (
 
   return '-';
 };
+
+export const convertStringToNumber = (value: string | number): number => {
+  if (typeof value === 'string') {
+    return +value;
+  }
+  return 0;
+};
