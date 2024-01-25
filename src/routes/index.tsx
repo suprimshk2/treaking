@@ -10,6 +10,7 @@ import ActivateAccount from 'features/auth/pages/ActivateAccount';
 import { useCheckRoutePermission } from 'shared/hooks/permission';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import { ProductList } from 'features/product/pages/ProductList';
+import { QuizAddEdit } from 'features/quiz/pages/QuizAddEdit';
 
 // Lazy load route level components (for bundle splitting)
 // Maintain alphabetical order

@@ -45,7 +45,7 @@ export interface IAdaptedproductSchema {
   title: string;
   description: string;
   vendor: IVendor;
-  images: IImage[];
+  images: IFileSchema[];
   point: IPoint[];
   price: IPrice[];
   tags: any;

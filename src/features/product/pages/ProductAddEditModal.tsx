@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import {
   Button,
@@ -40,7 +39,6 @@ interface IProps {
 export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   const theme = useTheme();
 
-  const navigate = useNavigate();
   const isEditMode = !!editProductId;
   const methods = useForm({
     resolver: zodResolver(addProductFormSchema),

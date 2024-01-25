@@ -75,11 +75,9 @@ export const deleteVendor = async (
   return response?.data;
 };
 
-export const uploadImage = async (data: IImage[]) => {
+export const uploadImage = async (data: IFileSchema[]) => {
   try {
     const imagePromise = data.map((item: IFileSchema) => {
-      console.log('item', item);
-
       const bodyFormData = new FormData();
       bodyFormData.append('file', item);
 
