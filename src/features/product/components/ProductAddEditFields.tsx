@@ -1,15 +1,10 @@
 import { Box, Grid, Stack, useTheme } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
 
-import FileDropzone from 'shared/components/file-upload/FileUpload';
-import { config } from 'shared/constants/config';
-import { useFormContext } from 'react-hook-form';
-import { IFileSchema } from '../interfaces';
 import { FormVendorSelect } from './VendorSelect';
 
 export function ProductAddEditFields() {
   const theme = useTheme();
-  const { setValue } = useFormContext();
 
   const childrenContainerStyle = {
     width: '100%',
@@ -19,25 +14,12 @@ export function ProductAddEditFields() {
     height: '100%',
   };
 
-  const onFileChange = (files: IFileSchema[]) => {
-    if (files[0]?.error) {
-      return;
-    }
-    const images = files.map((e: IFileSchema) => {
-      const { error, ...rest } = e;
-      return rest;
-    });
-
-    setValue('images', images);
-  };
-
   return (
     <Box width="100%" height="100%">
       <Box sx={childrenContainerStyle}>
         <Stack
           p={4}
           spacing={4}
-          maxWidth={518}
           mx="auto"
           sx={{
             borderRadius: 2,
@@ -114,12 +96,6 @@ export function ProductAddEditFields() {
                 <FormInput name="costPrice" id="costPrice" label="Cost Price" />
               </Grid>
             </Grid>
-            <Box paddingY={theme.spacing(3)}>
-              <FileDropzone
-                maxSize={config.MAX_FILE_SIZE}
-                onChange={onFileChange}
-              />
-            </Box>
           </Box>
         </Stack>
       </Box>

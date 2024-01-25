@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Box, useTheme } from '@mui/material';
+import { Box, Stack, Typography, useTheme } from '@mui/material';
 import {
   Button,
   ButtonSize,
@@ -10,11 +10,14 @@ import {
 import { DialogSize } from 'shared/theme/components/dialog/Dialog';
 import { Dialog } from 'shared/theme/components/dialog';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { config } from 'shared/constants/config';
+import FileDropzone from 'shared/components/file-upload/FileUpload';
 import { useAddProductMutation, useProductDetailQuery } from '../mutations';
 import { ProductAddEditFields } from '../components/ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
-import { IProductSchema } from '../interfaces';
+import { IFileSchema, IProductSchema } from '../interfaces';
 import { addProductFormSchema } from '../schemas';
+import { uploadImageToCloud } from '../queries';
 
 const defaultValues: IProductSchema = {
   title: '',
@@ -46,7 +49,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
 
   const addProductMutation = useAddProductMutation();
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue } = methods;
 
   const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
     enabled: !!editProductId,
@@ -58,19 +61,30 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
     }
   }, [productDetailQuery?.data, reset]);
 
+  const onFileChange = (files: IFileSchema[]) => {
+    if (files[0]?.error) {
+      return;
+    }
+    const images = files.map((e: IFileSchema) => {
+      const { error, ...rest } = e;
+      return rest;
+    });
+
+    setValue('images', images);
+  };
+
   const handleProductAdd = (data: IProductSchema) => {
     const payload = formatProductAddPayload(data);
-    console.log('pp -> 🔥', payload);
-
-    return;
-    addProductMutation.mutate(
-      { data: payload },
-      {
-        onSuccess: () => {
-          navigate(-1);
-        },
-      }
-    );
+    uploadImageToCloud(payload.images).then(() => {
+      // addProductMutation.mutate(
+      //   { data: payload },
+      //   {
+      //     onSuccess: () => {
+      //       navigate(-1);
+      //     },
+      //   }
+      // );
+    });
   };
 
   const onCloseModal = () => {
@@ -105,7 +119,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
       title={TEXT.title}
       handleClose={onCloseModal}
       open
-      size={DialogSize.MEDIUM}
+      size={DialogSize.LARGE}
     >
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -119,27 +133,40 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
               paddingBottom: theme.spacing(10),
             }}
           >
-            <ProductAddEditFields />
-            <Box
-              maxWidth={518}
-              display="flex"
-              mx="auto"
-              flexDirection="row"
-              justifyContent="space-between"
-              alignContent="center"
-              sx={childrenContainerStyle}
-            >
-              <Button
-                type="submit"
-                size={ButtonSize.MEDIUM}
-                variant={ButtonVariant.OUTLINED}
-              >
-                Cancel
-              </Button>
-              <Button type="submit" size={ButtonSize.MEDIUM}>
-                Save
-              </Button>
-            </Box>
+            <Stack direction="row">
+              <Stack>
+                <ProductAddEditFields />
+                <Box
+                  maxWidth={518}
+                  display="flex"
+                  mx="auto"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  alignContent="center"
+                  sx={childrenContainerStyle}
+                >
+                  <Button
+                    type="submit"
+                    size={ButtonSize.MEDIUM}
+                    variant={ButtonVariant.OUTLINED}
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit" size={ButtonSize.MEDIUM}>
+                    Save
+                  </Button>
+                </Box>
+              </Stack>
+              <Box paddingY={theme.spacing(3)}>
+                <Typography mb={3} variant="h5">
+                  Product Image
+                </Typography>
+                <FileDropzone
+                  maxSize={config.MAX_FILE_SIZE}
+                  onChange={onFileChange}
+                />
+              </Box>
+            </Stack>
           </Box>
         </form>
       </FormProvider>

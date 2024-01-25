@@ -32,7 +32,7 @@ export interface IProductSchema {
   title: string;
   description: string;
   vendor: IVendor;
-  images: IImage[];
+  images: IFileSchema[];
   point: string;
   price: string;
   tags: any;

@@ -35,6 +35,7 @@ interface IBaseRequest {
   data?: unknown;
   params?: unknown;
   callback?(): void;
+  headers?: any;
 }
 
 const handleError = (error: AxiosError): IComposeError => {
@@ -108,6 +109,7 @@ export class CustomAxios {
     data,
     params,
     callback,
+    headers,
   }: IBaseRequest) => {
     const requestConfig = {
       method,
@@ -115,6 +117,7 @@ export class CustomAxios {
       data,
       params,
       signal: this.controller?.signal,
+      headers: headers ?? defaultConfig.headers,
     };
     try {
       const response = await this.axiosInstance(requestConfig);

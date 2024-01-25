@@ -2,7 +2,7 @@ import { IResponse } from 'shared/interfaces/http';
 import { baseRequest } from 'shared/utils/axios';
 
 import apiRoute from '../constant/apiRoute';
-import { IFormattedProductFormSchema } from '../interfaces';
+import { IFileSchema, IImage } from '../interfaces';
 
 export const getProducts = async (data: any) => {
   const { response, error } = await baseRequest({
@@ -18,9 +18,7 @@ export const getProducts = async (data: any) => {
   return response?.data;
 };
 
-export const addProduct = async (
-  data: IFormattedProductFormSchema
-): Promise<IResponse<any>> => {
+export const addProduct = async (data: any): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
     method: 'POST',
     url: apiRoute.add,
@@ -75,4 +73,30 @@ export const deleteVendor = async (
   }
 
   return response?.data;
+};
+
+export const uploadImage = async (data: IImage[]) => {
+  try {
+    const imagePromise = data.map((item: IFileSchema) => {
+      console.log('item', item);
+
+      const bodyFormData = new FormData();
+      bodyFormData.append('file', item);
+
+      return baseRequest({
+        method: 'POST',
+        url: apiRoute.image.create,
+        data: {
+          file: bodyFormData,
+          category: 'USER_AVATAR',
+          identifier: '1c3296af-bc1d-4298-8546-3b82bb887cef',
+        },
+      });
+    });
+
+    const response = await Promise.all(imagePromise);
+    console.log('response', response);
+  } catch (error) {
+    console.error('Error:', error);
+  }
 };

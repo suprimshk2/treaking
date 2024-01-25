@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { IUserTableFilter } from 'features/users/interfaces';
-import { IProductTableFilter } from '../interfaces';
+import { IImage, IProductTableFilter } from '../interfaces';
 import * as productAPI from '../api';
 import { adaptProductList } from '../utils';
 
@@ -31,4 +31,12 @@ export const useProductsQuery = (
     ...queryInfo,
     data: queryInfo.data?.data,
   };
+};
+
+export const uploadImageToCloud = async (data: IImage[]) => {
+  try {
+    await productAPI.uploadImage(data);
+  } catch (error) {
+    console.log('err -> 🔥🐸', error);
+  }
 };

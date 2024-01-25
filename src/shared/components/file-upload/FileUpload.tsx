@@ -33,7 +33,7 @@ function FileDropzone({
   const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
 
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: async (f: any) => {
+    onDrop: async (f) => {
       const newFiles: IFileSchema[] = [];
       for (let index = 0; index < f.length; index += 1) {
         let error = false;
@@ -103,6 +103,7 @@ function FileDropzone({
           justifyContent="center"
           flexDirection="row"
           mb="10"
+          px={5}
           sx={{ borderStyle: 'dashed' }}
         >
           <BsUpload size={theme.spacing(5)} />
