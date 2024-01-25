@@ -4,6 +4,20 @@ import { baseRequest } from 'shared/utils/axios';
 import apiRoute from '../constant/apiRoute';
 import { IFormattedProductFormSchema } from '../interfaces';
 
+export const getProducts = async (data: any) => {
+  const { response, error } = await baseRequest({
+    method: 'GET',
+    url: apiRoute.getAll,
+    data,
+  });
+
+  if (error) {
+    return Promise.reject(error);
+  }
+
+  return response?.data;
+};
+
 export const addProduct = async (
   data: IFormattedProductFormSchema
 ): Promise<IResponse<any>> => {

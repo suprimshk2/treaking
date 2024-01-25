@@ -2,7 +2,7 @@ const apiRoute = {
   add: '/vendor',
   delete: '/vendor/:id',
   edit: '/vendor/:id',
-  getAll: '/vendor',
+  getAll: '/main/products',
   getOne: '/vendor/:id',
   getAutoCompleteVendor: '/vendor/active',
 };

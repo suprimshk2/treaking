@@ -1,8 +1,35 @@
-import { IFormattedProductFormSchema } from '../interfaces';
+import { IListResponse, IResponse } from 'shared/interfaces/http';
+import { formatCurrency } from 'shared/utils/common';
+import {
+  IAdaptedProductTableRow,
+  IFormattedProductFormSchema,
+  IProductTableRow,
+} from '../interfaces';
+
+export const adaptProductList = (
+  res: IResponse<IListResponse<IProductTableRow>>
+): IResponse<IListResponse<IAdaptedProductTableRow>> => {
+  return {
+    ...res,
+    data: {
+      ...res.data,
+      rows: res.data.rows.map((item: IProductTableRow) => {
+        return {
+          id: item._id,
+          name: item.title,
+          point: item.point.originalValue?.toLocaleString() || 'N/A',
+          price: formatCurrency(item.price.originalValue ?? 0) || 'N/A',
+          status: item.quantityInStock === 0 ? 'Out of stock' : 'Available',
+          createdBy: item.created.name,
+          isInStock: item.quantityInStock > 0,
+          quantityInStock: item.quantityInStock,
+        };
+      }),
+    },
+  };
+};
 
 const formatProductAddPayload = (data: any): IFormattedProductFormSchema => {
-  console.log('nonformat data==>', data);
-
   return {
     title: data.title,
     description: data.description,
@@ -53,6 +80,7 @@ const formatProductAddPayload = (data: any): IFormattedProductFormSchema => {
     productId: '05aa12b5-61ab-4179-b3c1-8791b3482ae5',
   };
 };
+
 export const formaProductAddPayload = (data): IFormattedProductFormSchema => {
   return formatProductAddPayload(data);
 };

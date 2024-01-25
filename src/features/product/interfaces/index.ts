@@ -1,6 +1,56 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
 import { ProductSortBy } from '../enums';
 
+export interface IProductTableRow {
+  _id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  vendor: Vendor;
+  quantityInStock: number;
+  images: Image[];
+  category: Category;
+  updated: Ated;
+  created: Ated;
+  productId: string;
+  price: Point;
+  point: Point;
+}
+
+export interface IAdaptedProductTableRow {
+  id: string;
+  name: string;
+  point: string;
+  price: string;
+  status: string;
+  createdBy: string;
+  isInStock: boolean;
+  quantityInStock: number;
+}
+
+export interface Ated {
+  date: Date;
+  name: string;
+  id: string;
+}
+
+export interface Vendor {
+  _id: string;
+  address: string;
+  website: string;
+  logoUrl: string;
+  businessName: string;
+  contacts: string[];
+  email: string;
+  phone: string;
+  accountOwner: Category;
+  socialMedias: string[];
+  enrolledDate: Date;
+  updated: Ated;
+  created: Ated;
+  vendorId: string;
+}
+
 export interface IProductTableFilter extends IFilter {
   titleOne?: string;
   titleTwo?: string;
@@ -57,6 +107,7 @@ export interface Point {
   effEndDate: string;
   effStartDate: string;
   discount?: Discount;
+  originalValue?: number;
 }
 
 export interface Discount {

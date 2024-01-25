@@ -18,8 +18,6 @@ export const useAddProductMutation = () => {
     mutationFn: ({ data }: { data: IFormattedProductFormSchema }) =>
       productAPI.addProduct(data),
     onSuccess: (res) => {
-      console.log(res, 'logg ress');
-
       enqueueSnackbar(res.message || 'Product added successfully', {
         variant: 'success',
       });
@@ -74,6 +72,7 @@ export const useProductDetailQuery = (
     data: queryInfo.data?.data,
   };
 };
+
 export const useVendorsQuery = (filters: IRoleTableFilter) => {
   const queryInfo = useQuery({
     queryKey: infiniteProductKeys.autocomplete(filters),
