@@ -34,8 +34,9 @@ export function QuizTableBanner({ onAddClick }: IProps) {
   return (
     <Stack spacing={4} mb={4} alignItems="flex-end">
       <CenterRowSpaceBetween>
-        {isRolesCreateEnabled && (
-          //   <Stack direction="row" spacing={4}>
+        {/* {isRolesCreateEnabled && ( */}
+
+        <Stack direction="row" spacing={4}>
           <Button
             size={ButtonSize.MEDIUM}
             variant={ButtonVariant.CONTAINED}
@@ -45,8 +46,8 @@ export function QuizTableBanner({ onAddClick }: IProps) {
           >
             Add
           </Button>
-          //   </Stack>
-        )}
+        </Stack>
+        {/* )} */}
       </CenterRowSpaceBetween>
     </Stack>
   );

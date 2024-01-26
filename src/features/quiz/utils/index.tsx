@@ -1,5 +1,10 @@
-import { IFormattedQuizFormSchema } from '../interfaces';
+import { isEmpty, pickBy } from 'shared/utils/lodash';
+import { mapKeys } from 'shared/utils/misc';
+import { IFormattedQuizFormSchema, IQuizTableFilter } from '../interfaces';
 import { AddQuizFormSchemaType } from '../schemas';
+import { quizConfig } from '../constant/config';
+
+const { QUIZ_TABLE_FILTER_MAP } = quizConfig;
 
 export const formatUserEditPayload = (data: any): IFormattedQuizFormSchema => {
   return {
@@ -47,4 +52,13 @@ export const formatQuizAddPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {
   return formatUserEditPayload(data);
+};
+export const formatQuizFilterParams = (filters: IQuizTableFilter) => {
+  const params = pickBy(filters, (value: string | number) => value !== '');
+  if (isEmpty(params)) {
+    return params;
+  }
+
+  // Type assertion needed to escape type for empty object (i.e. {})
+  return mapKeys(params as Record<string, unknown>, QUIZ_TABLE_FILTER_MAP);
 };

@@ -1,10 +1,10 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
+import { CreatedAt } from 'features/product/interfaces';
 import { VendorSortBy } from '../enums';
 
 export interface IVendorTableFilter extends IFilter {
-  titleOne?: string;
-  titleTwo?: string;
-  body?: string;
+  businessName?: string;
+  email?: string;
 }
 export interface IVendorSort {
   sortBy: VendorSortBy | null;
@@ -24,9 +24,9 @@ export interface IFileSchema {
 export interface IFormattedVendorFormSchema {
   logoUrl: string;
   businessName: string;
-  contacts: any[];
+  contacts: Contact[];
   website: string;
-  phone: string;
+  phone: string[];
   email: string;
   accountOwner: AccountOwner;
   address: string;
@@ -38,10 +38,32 @@ export interface AccountOwner {
   id: string;
   name: string;
 }
+export interface Contact {
+  fullName: string;
+  email: string;
+  phone: string;
+}
 
 export interface SocialMedia {
   url: string;
   provider: string;
+}
+export interface IVendor {
+  _id: string;
+  address: string;
+  website: string;
+  logoUrl: string;
+  description: string;
+  businessName: string;
+  contacts: Contact[];
+  email: string;
+  phone: string;
+  accountOwner: AccountOwner;
+  socialMedias: SocialMedia[];
+  enrolledDate: Date;
+  updated: CreatedAt;
+  created: CreatedAt;
+  vendorId: string;
 }
 
 export interface IVendorSlice {
@@ -50,6 +72,7 @@ export interface IVendorSlice {
   // totalVendor: number;
   changeVendorSortByAndOrder: (newOrder: Partial<IVendorSort>) => void;
   setVendorTableFilters: (newFilters: Partial<IVendorTableFilter>) => void;
+
   resetVendorTable: VoidFunction;
   // setTotalQuiz: (total: number) => void;
 }

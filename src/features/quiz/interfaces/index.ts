@@ -67,3 +67,46 @@ export interface IQuizSlice {
   resetQuizTableFilters: VoidFunction;
   // setTotalQuiz: (total: number) => void;
 }
+export interface IQuiz {
+  _id: string;
+  title: string;
+  endDate: Date;
+  imageUrl: string;
+  type: string;
+  startDate: Date;
+  prize: Prize;
+  description: string;
+  status: string;
+  winnerAnnouncementDate: Date;
+  gameId: string;
+  options: Option[];
+  correctOptionId: string;
+  content: Content;
+  winner: Winner;
+  totalResponseCount: number;
+}
+
+export interface Content {
+  subTitle: string;
+  title: string;
+  description: string;
+  upcomingTitle: string;
+}
+
+export interface Option {
+  name: string;
+  order: number;
+  id: string;
+}
+
+export interface Prize {
+  title: string;
+  description: string;
+}
+
+export interface Winner {
+  email: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+}

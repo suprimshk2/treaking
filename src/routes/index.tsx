@@ -12,6 +12,9 @@ import { useBoundStore } from 'shared/stores/useBoundStore';
 import { QuizAddEdit } from 'features/quiz/pages/QuizAddEdit';
 import { VendorList } from 'features/vendor/pages/VendorList';
 import { VendorAddEdit } from 'features/vendor/pages/VendorAddEdit';
+import { ProductAddEdit } from 'features/product/pages/ProductAddEdit';
+import { ProductList } from 'features/product/pages/ProductList';
+import { QuizList } from 'features/quiz/pages/Quiz';
 
 // Lazy load route level components (for bundle splitting)
 // Maintain alphabetical order
@@ -146,50 +149,43 @@ function Router() {
         {/* <Route element={<RequireAuth />}> */}
         <Route element={<RoutesAuth />}>
           <Route element={<DashboardLayout />}>
-            <Route element={<OfferList />} path={uiRoute.offers.index} />
-            <Route element={<OfferAddEdit />} path={uiRoute.offers.offerForm} />
-            {/* <Route element={<QuizList />} path={uiRoute.dashboard} /> */}
-            <Route element={<QuizAddEdit />} path={uiRoute.dashboard} />
+            <Route element={<VendorList />} path={uiRoute.vendor} />
+            <Route element={<QuizList />} path={uiRoute.quiz} />
+            <Route element={<QuizAddEdit />} path={uiRoute.addQuiz} />
+            <Route element={<ProductList />} path={uiRoute.dashboard} />
             {/* <Route element={<VendorList />} path={uiRoute.dashboard} /> */}
             {/* <Route element={<QuizAddEdit />} path={uiRoute.dashboard} /> */}
-            <Route element={<VendorAddEdit />} path={uiRoute.dashboard} />
 
             <Route
               element={<RolesAndPermissionsList />}
               path={uiRoute.dashboard}
             />
             <Route element={<UserList />} path={uiRoute.dashboard} />
-            <Route element={<SideMenuLayout />}>
-              <Route
-                element={<UserList />}
-                path={uiRoute.settings.userManagement}
-              />
-              <Route
-                element={<RolesAndPermissionsList />}
-                path={uiRoute.settings.rolePermissionManagement.index}
-              />
-              <Route
-                element={<ManageRolesAndPermissionLists />}
-                path={
-                  uiRoute.settings.rolePermissionManagement
-                    .manageRolesAndPermissions
-                }
-              />
-            </Route>
+            {/* <Route element={<SideMenuLayout />}> */}
+            <Route element={<UserList />} path={uiRoute.userManagement} />
+            <Route
+              element={<RolesAndPermissionsList />}
+              path={uiRoute.rolePermissionManagement.index}
+            />
+            <Route
+              element={<ManageRolesAndPermissionLists />}
+              path={uiRoute.rolePermissionManagement.manageRolesAndPermissions}
+            />
+          </Route>
 
-            <Route element={<UserProfile />}>
-              <Route
-                element={<ChangePasswordForm />}
-                path={uiRoute.profile.profileSecurity}
-              />
-              <Route
-                element={<UserProfileForm />}
-                path={uiRoute.profile.profile}
-              />
-            </Route>
+          <Route element={<UserProfile />}>
+            <Route
+              element={<ChangePasswordForm />}
+              path={uiRoute.profile.profileSecurity}
+            />
+            <Route
+              element={<UserProfileForm />}
+              path={uiRoute.profile.profile}
+            />
           </Route>
         </Route>
       </Route>
+      {/* </Route> */}
       {/* </Route> */}
       {/* Protected Routes */}
       <Route element={<RequireAuth />}>

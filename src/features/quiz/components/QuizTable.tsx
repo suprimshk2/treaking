@@ -7,15 +7,20 @@ import {
   TableRow,
 } from '@mui/material';
 import React from 'react';
-import { TableLoader } from 'shared/components/display/TableLoader';
 import { TableEmptyResult } from 'shared/components/display/TableEmptyResult';
 import { useBoundStore } from 'shared/stores/useBoundStore';
-import { useInfiniteRolesQuery } from 'features/settings/roles-and-permissions/queries';
-import { QUIZ_COLUMNS } from '../constant/QuizTableHeader';
 
-function QuizTable() {
-  const filters = useBoundStore.use.roleTableFilters();
-  const totalRoles = useBoundStore.use.totalRoles();
+import { TableLoader } from 'shared/components/display/TableLoader';
+import { QUIZ_COLUMNS } from '../constant/QuizTableHeader';
+import { useInfiniteQuizQuery } from '../queries';
+import { MemoizedQuizTableRow } from './MemorizedQuizTableRow';
+
+interface IProps {
+  onEditClick: (id: string) => void;
+}
+function QuizTable({ onEditClick }: IProps) {
+  const filters = useBoundStore.use.quizTableFilters();
+  // const totalRoles = useBoundStore.use.t();
   const {
     data,
     isSuccess,
@@ -23,8 +28,22 @@ function QuizTable() {
     fetchNextPage,
     isFetchingNextPage,
     isInitialLoading,
-  } = useInfiniteRolesQuery(filters);
-  const isEmptyResult = isSuccess && totalRoles === 0;
+  } = useInfiniteQuizQuery(filters);
+
+  const isEmptyResult = isSuccess && data?.pages?.[0]?.count === 0;
+  const renderedTableRows =
+    isSuccess &&
+    data.pages.map((group, i) => (
+      <React.Fragment key={i}>
+        {group.rows.map((quiz) => (
+          <MemoizedQuizTableRow
+            key={quiz._id}
+            data={quiz}
+            onEditClick={onEditClick}
+          />
+        ))}
+      </React.Fragment>
+    ));
 
   return (
     <TableContainer>
@@ -44,7 +63,7 @@ function QuizTable() {
         </TableHead>
         <TableBody>
           {isInitialLoading && <TableLoader cols={QUIZ_COLUMNS.length} />}
-          {/* {renderedTableRows} */}
+          {renderedTableRows}
           {isEmptyResult && <TableEmptyResult cols={QUIZ_COLUMNS.length} />}
         </TableBody>
       </Table>

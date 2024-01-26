@@ -13,6 +13,7 @@ export const createVendorSlice: StateCreator<IVendorSlice> = (set) => ({
     set((state) => ({
       vendorSort: { ...state.vendorSort, ...newOrder },
     })),
+
   resetVendorTable: () =>
     set(() => ({
       vendorTableFilters: { ...vendorConfig.VENDOR_TABLE_DEFAULT_FILTER },

@@ -1,9 +1,9 @@
 const apiRoute = {
-  add: '/quiz',
+  add: '/main/quiz',
   delete: '/quiz/:id',
   edit: '/quiz/:id',
-  getAll: '/quiz',
-  getOne: '/quiz/:id',
+  getAll: '/main/games',
+  getOne: '/games/:id',
   getAutoCompleteQuiz: '/quiz/active',
 };
 

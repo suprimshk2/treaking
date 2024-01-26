@@ -1,8 +1,8 @@
 import uiRoute from './uiRoute';
 
 export const TITLE_TYPE = {
-  ROLES_PERMISSION: uiRoute.settings.rolePermissionManagement.index,
-  USER_MANAGEMENT: uiRoute.settings.userManagement,
+  ROLES_PERMISSION: uiRoute.rolePermissionManagement.index,
+  USER_MANAGEMENT: uiRoute.userManagement,
   DASHBOARD: uiRoute.dashboard,
   EMPTY: '',
 };

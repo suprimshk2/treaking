@@ -10,12 +10,17 @@ import React from 'react';
 import { TableLoader } from 'shared/components/display/TableLoader';
 import { TableEmptyResult } from 'shared/components/display/TableEmptyResult';
 import { useBoundStore } from 'shared/stores/useBoundStore';
-import { useInfiniteRolesQuery } from 'features/settings/roles-and-permissions/queries';
 import { VENDOR_COLUMNS } from '../constant/VendorTableHeader';
+import { MemoizedVendorTableRow } from './MemorizedVendorTableRow';
+import { useInfiniteVendorQuery } from '../queries';
 
-function VendorTable() {
-  const filters = useBoundStore.use.roleTableFilters();
-  const totalRoles = useBoundStore.use.totalRoles();
+interface IProps {
+  onEditClick: (id: string) => void;
+}
+function VendorTable({ onEditClick }: IProps) {
+  const filters = useBoundStore.use.vendorTableFilters();
+
+  // const totalRoles = useBoundStore.use.totalRoles();
   const {
     data,
     isSuccess,
@@ -23,9 +28,21 @@ function VendorTable() {
     fetchNextPage,
     isFetchingNextPage,
     isInitialLoading,
-  } = useInfiniteRolesQuery(filters);
-  const isEmptyResult = isSuccess && totalRoles === 0;
-
+  } = useInfiniteVendorQuery(filters);
+  const isEmptyResult = isSuccess && data.pages?.[0].data?.[0] === 0;
+  const renderedTableRows =
+    isSuccess &&
+    data.pages.map((group, i) => (
+      <React.Fragment key={i}>
+        {group?.rows.map((vendor) => (
+          <MemoizedVendorTableRow
+            key={vendor._id}
+            data={vendor}
+            onEditClick={onEditClick}
+          />
+        ))}
+      </React.Fragment>
+    ));
   return (
     <TableContainer>
       <Table size="small" className="with-border">
@@ -44,7 +61,7 @@ function VendorTable() {
         </TableHead>
         <TableBody>
           {isInitialLoading && <TableLoader cols={VENDOR_COLUMNS.length} />}
-          {/* {renderedTableRows} */}
+          {renderedTableRows}
           {isEmptyResult && <TableEmptyResult cols={VENDOR_COLUMNS.length} />}
         </TableBody>
       </Table>

@@ -13,6 +13,8 @@ import { IOfferSlice } from 'features/offers/interfaces';
 import { createOfferSlice } from 'features/offers/stores';
 import { createVendorSlice } from 'features/vendor/store';
 import { IVendorSlice } from 'features/vendor/interfaces';
+import { createProductSlice } from 'features/product/store';
+import { IProductSlice } from 'features/product/interfaces';
 import { createAuthSlice } from './auth';
 import { createLayoutSlice } from './layout';
 import createSelectors from './selectors';
@@ -22,6 +24,7 @@ const useBoundStoreBase = create<
     ILayoutSlice &
     IUserSlice &
     IVendorSlice &
+    IProductSlice &
     IRoleSlice &
     IQuizSlice &
     IOfferSlice
@@ -33,6 +36,7 @@ const useBoundStoreBase = create<
     ...createUserSlice(...a),
     ...createQuizSlice(...a),
     ...createVendorSlice(...a),
+    ...createProductSlice(...a),
     ...createRoleSlice(...a),
   }))
 );

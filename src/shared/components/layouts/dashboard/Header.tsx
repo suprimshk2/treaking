@@ -80,8 +80,8 @@ function Header() {
             <HeaderMenuList />
           </Box>
 
-          <Stack direction="row" spacing={4} alignItems="center">
-            <SettingsMenu />
+          {/* <Stack direction="row" spacing={4} alignItems="center">
+            {/* <SettingsMenu /> */}
             <AccountPopover
               avatarStyle={avatarStyles}
               username={`${authData?.firstName || ''} ${
@@ -89,7 +89,7 @@ function Header() {
               }`}
               className={isMobileView ? 'size-small' : 'size-medium'}
             />
-          </Stack>
+          </Stack> */}
         </Box>
       </Toolbar>
     </Box>
