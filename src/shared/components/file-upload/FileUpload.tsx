@@ -5,9 +5,7 @@ import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
 import { IFileSchema } from 'features/quiz/interfaces';
 import { useFormContext } from 'react-hook-form';
-import { Buffer } from 'buffer';
 import DropZoneFileList from './Dropdownlist';
-import * as chardet from 'chardet';
 
 export interface IFileDrop {
   path: string;
@@ -33,25 +31,6 @@ function FileDropzone({
   const theme = useTheme();
   const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
 
-  const detectEncoding = (buffer: Buffer): string => {
-    const result = chardet.detect(buffer);
-    return result && result.encoding ? result.encoding : 'utf-8';
-  };
-
-  const readFileAsBuffer = (file: File): Promise<ArrayBuffer> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const buffer = reader.result as ArrayBuffer;
-        resolve(buffer);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsArrayBuffer(file);
-    });
-  };
-
   const { getRootProps, getInputProps } = useDropzone({
     onDrop: async (droppedFiles: File[]) => {
       const newFiles: IFileSchema[] = [];
@@ -69,11 +48,12 @@ function FileDropzone({
     },
   });
 
-  const handleFileDelete = (id: string) => {
+  const handleFileDelete = () => {
     const files = selectedFiles;
     setSelectedFiles(files);
     onChange(files);
   };
+
   const handleFileEdit = (file: IFileSchema) => {
     const files = selectedFiles.map((e: IFileSchema) => {
       if (e.id === file.id) return file;

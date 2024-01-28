@@ -48,7 +48,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   const addProductMutation = useAddProductMutation();
   const uploadImageMutation = useUploadImageMutation();
 
-  const { handleSubmit, reset } = methods;
+  const { handleSubmit, reset, setValue, getValues } = methods;
 
   const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
     enabled: !!editProductId,
@@ -68,7 +68,13 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
     const file: IFileSchema = files[0];
 
     uploadImageMutation.mutate(file, {
-      onSuccess() {},
+      onSuccess(data) {
+        const images = getValues('images');
+        setValue('images', [
+          ...images,
+          { url: data?.data?.url ?? '', order: 0 },
+        ]);
+      },
       onError() {},
     });
   };
@@ -77,7 +83,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
     const payload = formatProductAddPayload(data);
 
     addProductMutation.mutate(
-      { data: { ...payload, images: [{ order: 0, url: '' }] } },
+      { data: payload },
       {
         onSuccess: () => {
           onClose();
@@ -136,13 +142,13 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
               <Stack>
                 <ProductAddEditFields />
                 <Box
-                  maxWidth={518}
                   display="flex"
                   mx="auto"
                   flexDirection="row"
                   justifyContent="space-between"
                   alignContent="center"
                   sx={childrenContainerStyle}
+                  px={10}
                 >
                   <Button
                     type="submit"

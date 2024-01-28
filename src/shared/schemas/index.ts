@@ -3,7 +3,6 @@ import { VALIDATION_MESSAGE } from 'shared/constants/message';
 import { regex } from 'shared/constants/regex';
 import { validateDob } from 'shared/utils/date';
 
-
 const {
   INVALID_DOB,
   INVALID_EMAIL,
@@ -98,4 +97,6 @@ export const pointSchema = z.array(
   })
 );
 
-export const imageSchema = z.array(z.any()).nonempty();
+export const imageSchema = z
+  .array(z.object({ url: z.string(), order: z.number() }))
+  .nonempty();
