@@ -15,7 +15,7 @@ import { PRODUCT_COLUMNS } from '../constant/ProducTableHeader';
 
 function ProductTable() {
   const { data, isLoading, isSuccess } = useProductsQuery(
-    { limit: 10 },
+    { limit: 100 },
     { enabled: true }
   );
 

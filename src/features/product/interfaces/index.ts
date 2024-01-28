@@ -8,7 +8,7 @@ export interface IProductTableRow {
   tags: string[];
   vendor: Vendor;
   quantityInStock: number;
-  images: IImage[];
+  images: IFileSchema[];
   category: ICategory;
   updated: Ated;
   created: Ated;
@@ -45,7 +45,7 @@ export interface IAdaptedproductSchema {
   title: string;
   description: string;
   vendor: IVendor;
-  images: IFileSchema[];
+  images?: IFileSchema[];
   point: IPoint[];
   price: IPrice[];
   tags: any;
@@ -100,15 +100,17 @@ export interface IProductSort {
   sortOrder: SortOrderType | null;
 }
 export interface IFileSchema {
-  id: string;
-  name: string;
-  contentType: string;
-  createdBy: string;
-  base64: any;
-  size: number;
+  id?: string;
+  name?: string;
+  contentType?: string;
+  createdBy?: string;
+  base64?: any;
+  size?: number;
   error?: boolean;
   file_url?: string;
   isPublic?: boolean;
+  url?: string;
+  order?: number;
 }
 
 export interface ICategory {
@@ -120,11 +122,6 @@ export interface ICreatedAt {
   date: string;
   name: string;
   id: string;
-}
-
-export interface IImage {
-  url: string;
-  order: number;
 }
 
 export interface IPoint {

@@ -52,5 +52,6 @@ export const formatProductAddPayload = (
     quantityInStock: convertStringToNumber(data?.quantityInStock || ''),
     costPrice: convertStringToNumber(data?.costPrice || ''),
     retailPrice: convertStringToNumber(data?.retailPrice || ''),
+    vendor: { id: '16db6ea2-a84e-4f75-ba8a-13e42b594a1f', name: 'Makaii' },
   };
 };

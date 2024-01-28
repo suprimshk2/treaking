@@ -11,12 +11,12 @@ import { Dialog } from 'shared/theme/components/dialog';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { config } from 'shared/constants/config';
 import FileDropzone from 'shared/components/file-upload/FileUpload';
+import { useUploadImageMutation } from 'shared/mutation';
 import { useAddProductMutation, useProductDetailQuery } from '../mutations';
 import { ProductAddEditFields } from '../components/ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
 import { IFileSchema, IProductSchema } from '../interfaces';
 import { addProductFormSchema } from '../schemas';
-import { uploadImageToCloud } from '../queries';
 
 const defaultValues: IProductSchema = {
   title: '',
@@ -46,8 +46,9 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   });
 
   const addProductMutation = useAddProductMutation();
+  const uploadImageMutation = useUploadImageMutation();
 
-  const { handleSubmit, reset, setValue } = methods;
+  const { handleSubmit, reset } = methods;
 
   const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
     enabled: !!editProductId,
@@ -63,26 +64,26 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
     if (files[0]?.error) {
       return;
     }
-    const images = files.map((e: IFileSchema) => {
-      const { error, ...rest } = e;
-      return rest;
-    });
 
-    setValue('images', images);
+    const file: IFileSchema = files[0];
+
+    uploadImageMutation.mutate(file, {
+      onSuccess() {},
+      onError() {},
+    });
   };
 
   const handleProductAdd = (data: IProductSchema) => {
     const payload = formatProductAddPayload(data);
-    uploadImageToCloud(payload.images).then(() => {
-      // addProductMutation.mutate(
-      //   { data: payload },
-      //   {
-      //     onSuccess: () => {
-      //       navigate(-1);
-      //     },
-      //   }
-      // );
-    });
+
+    addProductMutation.mutate(
+      { data: { ...payload, images: [{ order: 0, url: '' }] } },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const onCloseModal = () => {
@@ -91,7 +92,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   };
 
   const onSubmit = (data: IProductSchema) => {
-    const payload = { ...data };
+    const payload = { ...data, tags: [] };
     if (isEditMode) {
       // handleUserEdit(data);
     } else {

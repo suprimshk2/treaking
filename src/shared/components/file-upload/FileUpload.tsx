@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { toBase64 } from 'shared/utils/file';
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
 import { IFileSchema } from 'features/quiz/interfaces';
 import { useFormContext } from 'react-hook-form';
+import { Buffer } from 'buffer';
 import DropZoneFileList from './Dropdownlist';
+import * as chardet from 'chardet';
 
 export interface IFileDrop {
   path: string;
@@ -32,35 +33,44 @@ function FileDropzone({
   const theme = useTheme();
   const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
 
+  const detectEncoding = (buffer: Buffer): string => {
+    const result = chardet.detect(buffer);
+    return result && result.encoding ? result.encoding : 'utf-8';
+  };
+
+  const readFileAsBuffer = (file: File): Promise<ArrayBuffer> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const buffer = reader.result as ArrayBuffer;
+        resolve(buffer);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsArrayBuffer(file);
+    });
+  };
+
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: async (f) => {
+    onDrop: async (droppedFiles: File[]) => {
       const newFiles: IFileSchema[] = [];
-      for (let index = 0; index < f.length; index += 1) {
+
+      for (const file of droppedFiles) {
         let error = false;
-        if (maxSize && f[index].size > maxSize) {
+        if (maxSize && file.size > maxSize) {
           error = true;
         }
-        const uploadFile = {
-          id: '!2',
-          name: f[index].name,
-          contentType: f[index].type,
-          createdBy: '',
-          // eslint-disable-next-line no-await-in-loop
-          base64: await toBase64(f[index]),
-          size: f[index].size,
-          error,
-        };
-        newFiles.push(uploadFile);
+        newFiles.push(droppedFiles[0]);
       }
 
       setSelectedFiles((prev) => [...prev, ...newFiles]);
-      // Since the state doesn't change in this section i.e [...prev, ...newFiles]
       onChange([...selectedFiles, ...newFiles]);
     },
   });
 
   const handleFileDelete = (id: string) => {
-    const files = selectedFiles.filter((e: IFileSchema) => e.id !== id);
+    const files = selectedFiles;
     setSelectedFiles(files);
     onChange(files);
   };
