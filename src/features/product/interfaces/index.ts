@@ -117,7 +117,7 @@ export interface IFileSchema {
 export interface ICloudFile {
   file: IFileSchema;
   category: string;
-  identifier: string;
+  identifier?: string;
 }
 
 export interface ICategory {
