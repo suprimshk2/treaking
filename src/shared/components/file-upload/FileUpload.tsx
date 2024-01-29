@@ -31,6 +31,7 @@ const FileDropzone = forwardRef(
     ref
   ) => {
     const {
+      clearErrors,
       formState: { errors },
     } = useFormContext();
     const hasError = errors[name];
@@ -42,8 +43,8 @@ const FileDropzone = forwardRef(
 
     const { getRootProps, getInputProps } = useDropzone({
       onDrop: async (droppedFiles: File[]) => {
+        clearErrors('images');
         const newFiles: IFilePayload[] = [];
-
         droppedFiles.forEach((file) => {
           if (maxSize && file.size > maxSize) {
             return;

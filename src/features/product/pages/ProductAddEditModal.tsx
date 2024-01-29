@@ -4,6 +4,7 @@ import { Box, Stack, Typography, useTheme } from '@mui/material';
 import {
   Button,
   ButtonSize,
+  ButtonType,
   ButtonVariant,
 } from 'shared/theme/components/Button';
 import { DialogSize } from 'shared/theme/components/dialog/Dialog';
@@ -65,7 +66,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   }, [productDetailQuery?.data, reset]);
 
   const onFileChange = (files: IFilePayload[]) => {
-    files.forEach(async (item) => {
+    files.forEach(async (item, index) => {
       const payload: ICloudFile = {
         file: item.file,
         category: CloudFileCategory.PRODUCT_IMAGE,
@@ -76,7 +77,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
         const images = getValues('images');
         setValue('images', [
           ...images,
-          { url: data?.data?.url ?? '', order: 0 },
+          { url: data?.data?.url ?? '', order: index },
         ]);
 
         ref.current?.setFileState(item.fileId, false, true);
@@ -164,7 +165,12 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" size={ButtonSize.MEDIUM}>
+                  <Button
+                    type="submit"
+                    buttonType={ButtonType.LOADING}
+                    size={ButtonSize.MEDIUM}
+                    loading={addProductMutation.isPending}
+                  >
                     Save
                   </Button>
                 </Box>

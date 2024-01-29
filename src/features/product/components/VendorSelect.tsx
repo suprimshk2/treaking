@@ -16,6 +16,7 @@ export function FormVendorSelect({
     control,
     watch,
     setValue,
+    clearErrors,
     formState: { errors },
   } = useFormContext();
   const filters = useBoundStore.use.roleTableFilters();
@@ -46,6 +47,7 @@ export function FormVendorSelect({
           onChange={(item) => {
             const vendor = data?.find((el) => el._id === item.target.value);
             setValue('vendor', { name: vendor?.name, id: vendor?._id });
+            clearErrors('vendor');
           }}
         >
           {data?.map?.((vendor) => (
