@@ -14,6 +14,7 @@ const defaultConfig = {
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    // Origin: '',
   },
   baseURL: config.baseURL,
   withCredentials: true,

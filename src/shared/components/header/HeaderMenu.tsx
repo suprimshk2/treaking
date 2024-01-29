@@ -65,7 +65,7 @@ function HeaderMenu({ menu }: IProps) {
       sx={wrapperStyles}
       title={menu.name}
     >
-      <Box
+      {/* <Box
         sx={{
           fontSize: theme.typography.bodyTextMedium.fontSize,
           [theme.breakpoints.up('sm')]: {
@@ -76,9 +76,9 @@ function HeaderMenu({ menu }: IProps) {
           height: theme.spacing(5),
         }}
       >
-        {/* <Icon size={20} /> */}
+        <Icon size={20} />
         <IconComponent size={20} />
-      </Box>
+      </Box> */}
       <Typography
         variant="bodyTextMedium"
         sx={{

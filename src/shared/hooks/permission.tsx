@@ -8,12 +8,14 @@ import { getRoutesFromPermissionResource } from 'shared/utils/permission';
 const WHITE_LIST_ROUTES = [
   uiRoute.profile.profile,
   uiRoute.profile.profileSecurity,
-  uiRoute.settings.rolePermissionManagement.manageRolesAndPermissions,
+  uiRoute.rolePermissionManagement.manageRolesAndPermissions,
   uiRoute.auth.login,
   uiRoute.auth.activateAccount,
   uiRoute.auth.forgotPassword,
   uiRoute.auth.logout,
   uiRoute.auth.resetPassword,
+  uiRoute.addQuiz,
+  uiRoute.vendors.add,
   uiRoute.offers.index,
   uiRoute.offers.offerForm,
 ];

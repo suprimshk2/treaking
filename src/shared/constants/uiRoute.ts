@@ -7,13 +7,13 @@ const uiRoute = {
     forgotPassword: '/forgot-password',
     resetPassword: '/reset-password',
   },
-  settings: {
-    userManagement: '/settings/user-management',
-    rolePermissionManagement: {
-      index: '/settings/roles-permission-management',
-      manageRolesAndPermissions:
-        '/settings/roles-permission-management/manage-roles-and-permissions',
-    },
+  // settings: {
+  userManagement: '/user-management',
+  rolePermissionManagement: {
+    index: '/roles-permission-management',
+    manageRolesAndPermissions:
+      '/roles-permission-management/manage-roles-and-permissions',
+    // },
   },
   offers: {
     index: '/offers',
@@ -28,6 +28,11 @@ const uiRoute = {
     profileSecurity: '/profile/security',
   },
   products: '/products',
+  quiz: '/quiz',
+  vendor: '/vendors',
+
+  // quiz: { list: '/quiz', add: '/create' },
+  vendors: { add: '/create' },
 };
 
 export default uiRoute;

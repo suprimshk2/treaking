@@ -35,7 +35,6 @@ export const useAddProductMutation = () => {
       if (!queryData) {
         return;
       }
-
       queryData.pages[0].rows.unshift(res.data);
       const newPagesArray = [...queryData.pages];
 
@@ -73,7 +72,6 @@ export const useProductDetailQuery = (
     data: queryInfo.data?.data,
   };
 };
-
 export const useVendorsQuery = (filters: IRoleTableFilter) => {
   const queryInfo = useQuery({
     queryKey: infiniteProductKeys.autocomplete(filters),

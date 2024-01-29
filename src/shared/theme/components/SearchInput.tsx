@@ -47,6 +47,7 @@ export function SearchInput({
       placeholder={placeholder}
       prefix={<BsSearch />}
       onChange={(event) => onChange(event.target.value)}
+      autoComplete="off"
     />
   );
 }

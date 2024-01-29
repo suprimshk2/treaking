@@ -16,7 +16,6 @@ export function ProductList() {
     setProductId('');
     onClose();
   };
-
   return (
     <Box pb={2}>
       <Box sx={{ paddingX: theme.spacing(4) }}>

@@ -3,8 +3,8 @@ import Logo from 'shared/components/display/Logo';
 import layoutConstants from 'shared/constants/layout';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import LogoImg from 'shared/assets/png/LogoSecondary.png';
-import SidebarMenuList from './SideBarMenuList';
 import HeaderMenuList from 'shared/components/header/HeaderMenuList';
+import SidebarMenuList from './SideBarMenuList';
 
 const { SIDEBAR_WIDTH_EXPANDED, SIDEBAR_LOGO_HEIGHT } = layoutConstants;
 

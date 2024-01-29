@@ -62,7 +62,7 @@ export function VendorAddEditFields({
               <FormInput
                 name="businessName"
                 id="businessName"
-                label="Full Name"
+                label="Business Name"
               />
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
@@ -81,14 +81,7 @@ export function VendorAddEditFields({
                 />
               </Grid>
             </Grid>
-            <Grid item spacing={4} mb={theme.spacing(3)}>
-              <FormInput
-                name="description"
-                id="description"
-                label="Description"
-                multiline
-              />
-            </Grid>
+
             <Grid item spacing={4} mb={theme.spacing(3)}>
               <FormInput name="email" id="email" label="Email" />
             </Grid>
@@ -121,9 +114,9 @@ export function VendorAddEditFields({
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
               <FormInput
-                name="vendorDescription"
-                id="vendorDescription"
-                label="Vendor Description"
+                name="description"
+                id="description"
+                label="Description"
                 multiline
               />
             </Grid>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { AddQuizFormSchemaType } from '../schemas';
 import { useAddQuizMutation, useQuizDetailQuery } from '../mutations';
 import { QuizAddFields } from '../components/QuizAddFields';
@@ -43,7 +43,7 @@ export function QuizAddEdit() {
   const navigate = useNavigate();
 
   const editQuizId = searchParams.get('id');
-  // console.log(editQuizId);
+  console.log(editQuizId);
 
   const addQuizMutation = useAddQuizMutation();
   const methods = useForm<AddQuizFormSchemaType>({

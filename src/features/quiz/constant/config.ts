@@ -12,4 +12,10 @@ export const quizConfig = {
     ...config.TABLE_DEFAULT_FILTER,
     ...USER_ADVANCED_FILTER_DEFAULT_VALUES,
   },
+  QUIZ_TABLE_FILTER_MAP: {
+    firstName: 'firstName',
+    lastName: 'lastName',
+    email: 'email',
+    phone: 'phone',
+  },
 };

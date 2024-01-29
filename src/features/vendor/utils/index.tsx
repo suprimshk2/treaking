@@ -1,16 +1,28 @@
-import { IFormattedVendorFormSchema } from '../interfaces';
+import { isEmpty, pickBy } from 'shared/utils/lodash';
+import { mapKeys } from 'shared/utils/misc';
+import { IFormattedVendorFormSchema, IVendorTableFilter } from '../interfaces';
+import { vendorConfig } from '../constant/config';
 
+const { VENDOR_TABLE_FILTER_MAP } = vendorConfig;
 const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
-  console.log('nonformat data==>', data);
-
   return {
-    logoUrl: 'string',
-    businessName: data.name,
-    contacts: [],
-    website: 'string',
-    phone: 'string',
+    logoUrl: data.logoUrl,
+    businessName: data.businessName,
+    contacts: [
+      {
+        firstName: data.fullName,
+        lastName: data.fullName,
+        email: data.vendorEmail,
+        phone: data.phone,
+      },
+    ],
+    website: '',
+    phone: [data.contactsOne, data.contactsTwo],
     email: data.email,
-    accountOwner: { id: '', name: data.accountOwner },
+    accountOwner: {
+      name: data.accountOwner,
+      id: '',
+    },
     address: data.address,
     socialMedias: [
       {
@@ -29,4 +41,13 @@ const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
 };
 export const formatVendorAddPayload = (data): IFormattedVendorFormSchema => {
   return formatVendorAddEditPayload(data);
+};
+export const formatVendorFilterParams = (filters: IVendorTableFilter) => {
+  const params = pickBy(filters, (value: string | number) => value !== '');
+  if (isEmpty(params)) {
+    return params;
+  }
+
+  // Type assertion needed to escape type for empty object (i.e. {})
+  return mapKeys(params as Record<string, unknown>, VENDOR_TABLE_FILTER_MAP);
 };

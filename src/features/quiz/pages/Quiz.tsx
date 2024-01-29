@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 
 import { useState } from 'react';
 
@@ -14,10 +14,12 @@ export function QuizList() {
   const navigate = useNavigate();
   const [roleId, setRoleId] = useState('');
   const { onOpen, isOpen } = useDisclosure();
-  // const onEditClick = (id: string) => {
-  //   onOpen();
-  //   setRoleId(id);
-  // };
+  const onEditClick = (id: string) => {
+    navigate(`${uiRoute.addQuiz}?type="update-quiz"&id=${id}`, {
+      state: { id },
+    });
+    setRoleId(id);
+  };
   return (
     <Box pb={2}>
       <Box sx={{ paddingX: theme.spacing(4) }}>
@@ -26,7 +28,7 @@ export function QuizList() {
             navigate(uiRoute.addQuiz);
           }}
         />
-        <QuizTable />
+        <QuizTable onEditClick={onEditClick} />
         {/* {isOpen && <RolesAddEditModal editRoleId={roleId} onClose={() => {}} />} */}
       </Box>
     </Box>

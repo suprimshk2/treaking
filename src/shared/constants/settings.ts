@@ -10,11 +10,11 @@ export const SETTINGS_BAR_PROPERTY = {
 export const settingsRoutes = [
   {
     name: 'User Management',
-    route: uiRoute.settings.userManagement,
+    route: uiRoute.userManagement,
   },
 
   {
     name: 'Roles & Permission',
-    route: uiRoute.settings.rolePermissionManagement.index,
+    route: uiRoute.rolePermissionManagement.index,
   },
 ];
