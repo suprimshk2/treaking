@@ -15,15 +15,17 @@ import { useState } from 'react';
 import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
 import { IAdaptedProductTableRow } from '../interfaces';
 import { useDeleteProductMutation } from '../mutations';
+import { ProductAddEditModal } from '../pages/ProductAddEditModal';
 
 function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
-  const [deleteItem, setDeleteItem] = useState<string | null>(null);
   const theme = useTheme();
   const deleteMutation = useDeleteProductMutation();
+  const [deleteItem, setDeleteItem] = useState<string | null>(null);
+  const [productId, setProductId] = useState<string | null>(null);
 
-  const onClickDelete = (productId: string) => {
-    setDeleteItem(productId);
-    deleteMutation.mutate(productId, {
+  const onClickDelete = (id: string) => {
+    setDeleteItem(id);
+    deleteMutation.mutate(id, {
       onSuccess() {
         setDeleteItem(null);
       },
@@ -31,60 +33,76 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
   };
 
   return (
-    <TableRow>
-      <TableCell>
-        <Stack direction="row" alignItems="center" gap={3}>
-          <Box
-            borderRadius={2}
-            component="img"
-            sx={{
-              height: '40px',
-              width: '40px',
-            }}
-            alt="product image"
-            src={item.image_url}
-          />
-          {item.name}
-        </Stack>
-      </TableCell>
-      <TableCell>{item.quantityInStock}</TableCell>
-      <TableCell>{item.point}</TableCell>
-      <TableCell>{item.price}</TableCell>
-      <TableCell>
-        <Chip
-          label={item.status}
-          sx={{
-            color: theme.palette.common.white,
-            bgcolor: item.isInStock
-              ? theme.palette.success.main
-              : theme.palette.error.main,
+    <>
+      {productId && (
+        <ProductAddEditModal
+          editProductId={productId}
+          onClose={() => {
+            setProductId(null);
           }}
         />
-      </TableCell>
-      <TableCell>
-        <Typography>{item.createdBy}</Typography>
-        <Typography>{item.createdAt}</Typography>
-      </TableCell>
-      <TableCell>
-        <EllipseMenu>
-          <EllipseMenuItem text="Edit" icon={FaPenAlt} />
-          {deleteItem === item.productId ? (
-            <LoadingIndicator
-              containerHeight="15px"
-              size="20px"
-              align="flex-start"
-              ml={3}
+      )}
+      <TableRow>
+        <TableCell>
+          <Stack direction="row" alignItems="center" gap={3}>
+            <Box
+              borderRadius={2}
+              component="img"
+              sx={{
+                height: '40px',
+                width: '40px',
+              }}
+              alt="product image"
+              src={item.image_url}
             />
-          ) : (
+            {item.name}
+          </Stack>
+        </TableCell>
+        <TableCell>{item.quantityInStock}</TableCell>
+        <TableCell>{item.point}</TableCell>
+        <TableCell>{item.price}</TableCell>
+        <TableCell>
+          <Chip
+            label={item.status}
+            sx={{
+              color: theme.palette.common.white,
+              bgcolor: item.isInStock
+                ? theme.palette.success.main
+                : theme.palette.error.main,
+            }}
+          />
+        </TableCell>
+        <TableCell>
+          <Typography>{item.createdBy}</Typography>
+          <Typography>{item.createdAt}</Typography>
+        </TableCell>
+        <TableCell>
+          <EllipseMenu>
             <EllipseMenuItem
-              text="Delete"
-              icon={FaTrashAlt}
-              onClick={() => onClickDelete(item.productId)}
+              text="Edit"
+              icon={FaPenAlt}
+              onClick={() => {
+                setProductId(item.productId);
+              }}
             />
-          )}
-        </EllipseMenu>
-      </TableCell>
-    </TableRow>
+            {deleteItem === item.productId ? (
+              <LoadingIndicator
+                containerHeight="15px"
+                size="20px"
+                align="flex-start"
+                ml={3}
+              />
+            ) : (
+              <EllipseMenuItem
+                text="Delete"
+                icon={FaTrashAlt}
+                onClick={() => onClickDelete(item.productId)}
+              />
+            )}
+          </EllipseMenu>
+        </TableCell>
+      </TableRow>
+    </>
   );
 }
 
