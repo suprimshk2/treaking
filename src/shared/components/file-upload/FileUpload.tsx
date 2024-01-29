@@ -61,17 +61,16 @@ const FileDropzone = forwardRef(
       },
     });
 
-    const handleFileDelete = () => {
-      const files = selectedFiles;
+    const handleFileDelete = (id: string) => {
+      const files = selectedFiles.filter((item) => item.fileId !== id);
       setSelectedFiles(files);
-      onChange(files);
     };
 
     const files = selectedFiles.map((file: IFilePayload) => (
       <DropZoneFileList
         isSuccess={file.isSuccess}
         isLoading={file.isLoading}
-        file={file.file}
+        file={file}
         handleFileDelete={handleFileDelete}
         key={file.fileId}
       />
