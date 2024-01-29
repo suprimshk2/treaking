@@ -1,23 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import {
   Button,
   ButtonSize,
+  ButtonType,
   ButtonVariant,
 } from 'shared/theme/components/Button';
 import { DialogSize } from 'shared/theme/components/dialog/Dialog';
 import { Dialog } from 'shared/theme/components/dialog';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { config } from 'shared/constants/config';
-import FileDropzone from 'shared/components/file-upload/FileUpload';
+import FileDropzone, {
+  IFileRef,
+} from 'shared/components/file-upload/FileUpload';
 import { useUploadImageMutation } from 'shared/mutation';
 import { CloudFileCategory } from 'shared/enums';
-import { useBoundStore } from 'shared/stores/useBoundStore';
 import { useAddProductMutation, useProductDetailQuery } from '../mutations';
 import { ProductAddEditFields } from '../components/ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
-import { IFileSchema, IProductSchema } from '../interfaces';
+import { ICloudFile, IFilePayload, IProductSchema } from '../interfaces';
 import { addProductFormSchema } from '../schemas';
 
 const defaultValues: IProductSchema = {
@@ -39,9 +41,8 @@ interface IProps {
 }
 
 export function ProductAddEditModal({ editProductId, onClose }: IProps) {
+  const ref = useRef<IFileRef>(null);
   const theme = useTheme();
-  const authData = useBoundStore.use.authData();
-  const userId = authData?.userId ?? '';
 
   const isEditMode = !!editProductId;
   const methods = useForm({
@@ -64,27 +65,25 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
     }
   }, [productDetailQuery?.data, reset]);
 
-  const onFileChange = (files: IFileSchema[]) => {
-    if (files[0]?.error) {
-      return;
-    }
+  const onFileChange = (files: IFilePayload[]) => {
+    files.forEach(async (item, index) => {
+      const payload: ICloudFile = {
+        file: item.file,
+        category: CloudFileCategory.PRODUCT_IMAGE,
+      };
 
-    const file: IFileSchema = files[0];
-    const payload = {
-      file,
-      identifier: userId,
-      category: CloudFileCategory.PRODUCT_IMAGE,
-    };
-
-    uploadImageMutation.mutate(payload, {
-      onSuccess(data) {
+      try {
+        const data = await uploadImageMutation.mutateAsync(payload);
         const images = getValues('images');
         setValue('images', [
           ...images,
-          { url: data?.data?.url ?? '', order: 0 },
+          { url: data?.data?.url ?? '', order: index },
         ]);
-      },
-      onError() {},
+
+        ref.current?.setFileState(item.fileId, false, true);
+      } catch (error) {
+        ref.current?.setFileState(item.fileId, false, false);
+      }
     });
   };
 
@@ -166,7 +165,12 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" size={ButtonSize.MEDIUM}>
+                  <Button
+                    type="submit"
+                    buttonType={ButtonType.LOADING}
+                    size={ButtonSize.MEDIUM}
+                    loading={addProductMutation.isPending}
+                  >
                     Save
                   </Button>
                 </Box>
@@ -178,6 +182,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
                 <FileDropzone
                   maxSize={config.MAX_FILE_SIZE}
                   onChange={onFileChange}
+                  ref={ref}
                 />
               </Box>
             </Stack>

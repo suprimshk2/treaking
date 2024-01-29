@@ -6,7 +6,6 @@ export const uploadImage = async (data: ICloudFile) => {
   const bodyFormData = new FormData();
   bodyFormData.append('file', data.file);
   bodyFormData.append('category', data.category);
-  bodyFormData.append('identifier', data.identifier);
 
   const { response, error } = await baseRequest({
     method: 'POST',

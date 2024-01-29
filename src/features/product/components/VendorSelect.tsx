@@ -1,10 +1,8 @@
 import { MenuItem } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-
 import Select, { ISelectProps } from 'shared/theme/components/Select';
-
-import { useRolesQuery } from 'features/settings/roles-and-permissions/queries';
 import { useBoundStore } from 'shared/stores/useBoundStore';
+import { useVendorQuery } from 'features/vendor/queries';
 
 export function FormVendorSelect({
   name,
@@ -16,12 +14,13 @@ export function FormVendorSelect({
     control,
     watch,
     setValue,
+    clearErrors,
     formState: { errors },
   } = useFormContext();
+
   const filters = useBoundStore.use.roleTableFilters();
-  const { data } = useRolesQuery(filters, {
-    enabled: true,
-  });
+  const { data } = useVendorQuery(filters);
+  const vendorList = data?.data?.rows ?? [];
 
   const vendorId = watch('vendor')?.id || '';
 
@@ -44,13 +43,20 @@ export function FormVendorSelect({
           clearable={clearable}
           handleClear={handleClear}
           onChange={(item) => {
-            const vendor = data?.find((el) => el._id === item.target.value);
-            setValue('vendor', { name: vendor?.name, id: vendor?._id });
+            const vendor = vendorList?.find(
+              (el) => el.vendorId === item.target.value
+            );
+
+            setValue('vendor', {
+              name: vendor?.businessName,
+              id: vendor?.vendorId,
+            });
+            clearErrors('vendor');
           }}
         >
-          {data?.map?.((vendor) => (
-            <MenuItem value={vendor._id} key={vendor._id}>
-              {vendor.name}
+          {vendorList?.map?.((vendor) => (
+            <MenuItem value={vendor.vendorId} key={vendor._id}>
+              {vendor.businessName}
             </MenuItem>
           ))}
         </Select>
