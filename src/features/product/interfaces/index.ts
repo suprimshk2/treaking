@@ -26,6 +26,7 @@ export interface IAdaptedProductTableRow {
   createdBy: string;
   isInStock: boolean;
   quantityInStock: number;
+  createdAt: string;
 }
 
 export interface IProductSchema {
@@ -68,7 +69,7 @@ export interface IVendor {
 }
 
 export interface Ated {
-  date: Date;
+  date: string;
   name: string;
   id: string;
 }

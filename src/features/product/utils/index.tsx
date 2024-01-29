@@ -1,5 +1,6 @@
 import { IListResponse, IResponse } from 'shared/interfaces/http';
 import { convertStringToNumber, formatCurrency } from 'shared/utils/common';
+import { formatDateToView } from 'shared/utils/date';
 import {
   IAdaptedProductTableRow,
   IAdaptedproductSchema,
@@ -22,6 +23,7 @@ export const adaptProductList = (
           price: formatCurrency(item.price?.originalValue ?? 0) || 'N/A',
           status: item.quantityInStock === 0 ? 'Out of stock' : 'Available',
           createdBy: item.created.name,
+          createdAt: formatDateToView(item.created.date),
           isInStock: item.quantityInStock > 0,
           quantityInStock: item.quantityInStock,
         };
