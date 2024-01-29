@@ -113,6 +113,12 @@ export interface IFileSchema {
   order?: number;
 }
 
+export interface ICloudFile {
+  file: IFileSchema;
+  category: string;
+  identifier: string;
+}
+
 export interface ICategory {
   id: string;
   name: string;

@@ -12,6 +12,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { config } from 'shared/constants/config';
 import FileDropzone from 'shared/components/file-upload/FileUpload';
 import { useUploadImageMutation } from 'shared/mutation';
+import { CloudFileCategory } from 'shared/enums';
+import { useBoundStore } from 'shared/stores/useBoundStore';
 import { useAddProductMutation, useProductDetailQuery } from '../mutations';
 import { ProductAddEditFields } from '../components/ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
@@ -38,6 +40,8 @@ interface IProps {
 
 export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   const theme = useTheme();
+  const authData = useBoundStore.use.authData();
+  const userId = authData?.userId ?? '';
 
   const isEditMode = !!editProductId;
   const methods = useForm({
@@ -66,8 +70,13 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
     }
 
     const file: IFileSchema = files[0];
+    const payload = {
+      file,
+      identifier: userId,
+      category: CloudFileCategory.PRODUCT_IMAGE,
+    };
 
-    uploadImageMutation.mutate(file, {
+    uploadImageMutation.mutate(payload, {
       onSuccess(data) {
         const images = getValues('images');
         setValue('images', [
