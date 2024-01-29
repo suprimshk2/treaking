@@ -56,7 +56,6 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
 
   const { handleSubmit, reset, setValue, getValues } = methods;
 
-
   const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
     enabled: !!editProductId,
   });
