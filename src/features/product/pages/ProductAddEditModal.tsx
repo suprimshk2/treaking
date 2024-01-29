@@ -56,15 +56,18 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
 
   const { handleSubmit, reset, setValue, getValues } = methods;
 
+
   const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
     enabled: !!editProductId,
   });
 
   useEffect(() => {
-    if (productDetailQuery?.data) {
+    if (editProductId && productDetailQuery?.data) {
+      const { data } = productDetailQuery;
+
       reset({});
     }
-  }, [productDetailQuery?.data, reset]);
+  }, [editProductId, productDetailQuery, productDetailQuery?.data, reset]);
 
   const onFileChange = (files: IFilePayload[]) => {
     files.forEach(async (item, index) => {
