@@ -171,6 +171,8 @@ function Router() {
               element={<ManageRolesAndPermissionLists />}
               path={uiRoute.rolePermissionManagement.manageRolesAndPermissions}
             />
+            <Route element={<OfferList />} path={uiRoute.offers.index} />
+            <Route element={<OfferAddEdit />} path={uiRoute.offers.offerForm} />
           </Route>
 
           <Route element={<UserProfile />}>

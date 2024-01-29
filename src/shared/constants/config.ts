@@ -55,6 +55,7 @@ export const config = {
     dateInputFormat: 'MMddyyyy',
     dateSaveFormat: 'yyyy-MM-dd',
     ISO: 'ISO',
+    timeFormat: 'HH:mm:ss',
   },
 
   NO_RETRY_API_ROUTES: [

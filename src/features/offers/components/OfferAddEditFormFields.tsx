@@ -118,7 +118,7 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
           <FormDatePicker name="startDate" label="Start Date" />
         </Grid>
         <Grid item xs={6}>
-          <FormTimePicker name="startTime" label="Start Time" />
+          <FormTimePicker name="startDate" label="Start Time" />
         </Grid>
       </Grid>
       <Grid container spacing={4} mb={4}>
@@ -126,7 +126,7 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
           <FormDatePicker name="endDate" label="End Date" />
         </Grid>
         <Grid item xs={6}>
-          <FormTimePicker name="endTime" label="End Time" />
+          <FormTimePicker name="endDate" label="End Time" />
         </Grid>
       </Grid>
       <Grid container spacing={4} mb={4}>

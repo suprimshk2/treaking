@@ -4,7 +4,7 @@ import Alert from 'shared/theme/components/Alert';
 import { IError } from 'shared/interfaces/http';
 import { useEffect } from 'react';
 
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
 import {
   Button,
@@ -12,34 +12,41 @@ import {
   ButtonType,
   ButtonVariant,
 } from 'shared/theme/components/Button';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { offerAddEditFormSchema, OfferAddEditFormSchemaType } from '../schemas';
 import { OfferAddEditFormFields } from './OfferAddEditFormFields';
 import { useAddOfferMutation, useEditOfferMutation } from '../mutations';
 import { useOfferDetailQuery } from '../queries';
 import MobileContentView from './mobile-content-view';
 import { offerTemplates } from './offer-templates/OfferFormAdTemplates';
+import { IOfferForm } from '../interfaces';
+import { OfferBodyType } from '../enums';
+import { getSelectedOfferTemplateFromCode } from '../utils';
 
-const defaultValues: any = {
+const defaultValues: IOfferForm = {
   template: offerTemplates[0],
+  accountManager: '',
   vendor: '',
   title: '',
   body: '0',
-  bodyType: 'RS',
+  bodyType: OfferBodyType.RUPEES,
   shortDescription: '',
-  startDate: '',
-  endDate: '',
-  startTime: '',
-  endTime: '',
+  description: '',
+  startDate: new Date(),
+  endDate: new Date(),
+  // startTime: new Date(),
+  // endTime: new Date(),
 };
 
 export function OfferAddEditForm() {
   const methods = useForm<OfferAddEditFormSchemaType>({
-    // resolver: zodResolver(offerAddEditFormSchema),
+    resolver: zodResolver(offerAddEditFormSchema),
     defaultValues,
   });
   const { handleSubmit, reset } = methods;
   const [search] = useSearchParams();
-  const editOfferId = search.get('offerId') ?? '';
+  const navigate = useNavigate();
+  const editOfferId = search.get('id') ?? '';
   const isEditMode = !!editOfferId;
 
   const offerDetailQuery = useOfferDetailQuery(editOfferId, {
@@ -48,27 +55,43 @@ export function OfferAddEditForm() {
 
   // Prepopulate the form in case of edit
   useEffect(() => {
-    // if (offerDetailQuery?.data) {
-    //   const { demographic } = offerDetailQuery.data;
-    //   reset({
-    //     firstName: demographic.firstName || '',
-    //     middleName: demographic.middleName || '',
-    //     lastName: demographic.lastName || '',
-    //     email: demographic.email || '',
-    //     gender: demographic.gender || null,
-    //     dob: unformatDate(demographic.dob),
-    //     phone: unformatPhone(demographic.phone),
-    //     role: offerDetailQuery?.data?.association?.roles?.[0] || '',
-    //   });
-    // }
+    if (offerDetailQuery?.data) {
+      const {
+        vendor,
+        template,
+        title,
+        endDate,
+        startDate,
+        subTitle,
+        shortDescription,
+        description,
+        imageUrl,
+      } = offerDetailQuery.data;
+      const selectedTemplate =
+        getSelectedOfferTemplateFromCode(template.background.type) ||
+        offerTemplates[0];
+
+      reset({
+        ...defaultValues,
+        template: selectedTemplate,
+        title,
+        shortDescription,
+        description,
+        vendor: vendor.name,
+        startDate: new Date(startDate) || '',
+        endDate: new Date(endDate) || '',
+        // startTime: new Date(startDate),
+        // endTime: new Date(endDate),
+        body: subTitle,
+      });
+    }
   }, [offerDetailQuery?.data, reset]);
 
   const addOfferMutation = useAddOfferMutation();
   const editOfferMutation = useEditOfferMutation();
 
-  const onCloseModal = () => {
-    reset(defaultValues);
-    // onClose();
+  const onClose = () => {
+    navigate(-1);
   };
 
   const handleOfferAdd = (data: OfferAddEditFormSchemaType) => {
@@ -121,7 +144,7 @@ export function OfferAddEditForm() {
     <Stack gap={4} pb={3}>
       <Typography variant="bodyTextLarge">Offer Details</Typography>
       {offerDetailQuery.isLoading ? (
-        <LoadingIndicator containerHeight="100%" />
+        <LoadingIndicator containerHeight="30vh" />
       ) : (
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -135,18 +158,29 @@ export function OfferAddEditForm() {
                   />
                 </Box>
               )}
-              <Grid container rowSpacing={4}>
-                <Grid item xs={6}>
-                  <Box component={Paper} p={4}>
+              <Grid container rowSpacing={4} columnSpacing={8}>
+                <Grid item xs={7}>
+                  <Box
+                    component={Paper}
+                    p={4}
+                    // sx={{
+                    //   height: 'calc(100vh - 188px)',
+                    //   overflow: 'auto',
+                    // }}
+                  >
                     <OfferAddEditFormFields isEditMode={isEditMode} />
                   </Box>
                 </Grid>
                 <Grid
                   display="flex"
                   item
-                  xs={6}
+                  xs={5}
                   alignItems="center"
                   justifyContent="center"
+                  // sx={{
+                  //   height: 'calc(100vh - 188px)',
+                  //   overflow: 'auto',
+                  // }}
                 >
                   {/* <Box
                     sx={{
@@ -158,13 +192,13 @@ export function OfferAddEditForm() {
                   <MobileContentView />
                   {/* </Box> */}
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={7}>
                   <Stack direction="row" justifyContent="space-between">
                     <Button
                       size={ButtonSize.MEDIUM}
                       variant={ButtonVariant.OUTLINED}
                       type="button"
-                      // onClick={onSecondaryButtonClick}
+                      onClick={onClose}
                       // disabled={isSubmitting}
                     >
                       Cancel

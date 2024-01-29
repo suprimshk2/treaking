@@ -66,3 +66,6 @@ export const arrayOfStringSchema = z
   .nullable();
 
 export const booleanSchema = z.boolean().nullable().optional();
+
+export const optionalDateSchema = z.coerce.date().optional();
+export const requiredDateSchema = z.coerce.date();
