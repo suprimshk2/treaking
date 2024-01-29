@@ -34,3 +34,34 @@ export const useAddProductMutation = () => {
     },
   });
 };
+
+export const useDeleteProductMutation = () => {
+  const queryClient = useQueryClient();
+
+  const filters = useBoundStore.getState().productTableFilters;
+
+  return useMutation({
+    mutationFn: (productId: string) => productAPI.deleteProduct(productId),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Product added successfully', {
+        variant: 'success',
+      });
+
+      queryClient.setQueryData(
+        infiniteProductKeys.list(filters),
+        (old: any) => {
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              count: old.data.count + 1,
+              rows: old.data.rows.filter(
+                (item) => item.productId !== res.data?.productId
+              ),
+            },
+          };
+        }
+      );
+    },
+  });
+};

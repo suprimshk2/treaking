@@ -11,10 +11,25 @@ import {
 import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { FaPenAlt, FaTrashAlt } from 'react-icons/fa';
+import { useState } from 'react';
+import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
 import { IAdaptedProductTableRow } from '../interfaces';
+import { useDeleteProductMutation } from '../mutations';
 
 function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
+  const [deleteItem, setDeleteItem] = useState<string | null>(null);
   const theme = useTheme();
+  const deleteMutation = useDeleteProductMutation();
+
+  const onClickDelete = (productId: string) => {
+    setDeleteItem(productId);
+    deleteMutation.mutate(productId, {
+      onSuccess() {
+        setDeleteItem(null);
+      },
+    });
+  };
+
   return (
     <TableRow>
       <TableCell>
@@ -53,7 +68,20 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
       <TableCell>
         <EllipseMenu>
           <EllipseMenuItem text="Edit" icon={FaPenAlt} />
-          <EllipseMenuItem text="Delete" icon={FaTrashAlt} />
+          {deleteItem === item.productId ? (
+            <LoadingIndicator
+              containerHeight="15px"
+              size="20px"
+              align="flex-start"
+              ml={3}
+            />
+          ) : (
+            <EllipseMenuItem
+              text="Delete"
+              icon={FaTrashAlt}
+              onClick={() => onClickDelete(item.productId)}
+            />
+          )}
         </EllipseMenu>
       </TableCell>
     </TableRow>

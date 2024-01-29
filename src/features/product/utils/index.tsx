@@ -27,6 +27,7 @@ export const adaptProductList = (
           isInStock: item.quantityInStock > 0,
           quantityInStock: item.quantityInStock,
           image_url: item.images?.[0].url ?? '',
+          productId: item.productId,
         };
       }),
     },

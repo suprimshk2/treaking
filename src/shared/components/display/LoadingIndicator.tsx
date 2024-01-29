@@ -4,9 +4,17 @@ interface IProps {
   containerHeight?: string;
   size?: string;
   label?: string | JSX.Element;
+  align?: string;
+  ml?: number;
 }
 
-export function LoadingIndicator({ containerHeight, size, label }: IProps) {
+export function LoadingIndicator({
+  containerHeight,
+  size,
+  label,
+  align = 'center',
+  ml = 0,
+}: IProps) {
   return (
     <Box
       sx={{
@@ -15,7 +23,8 @@ export function LoadingIndicator({ containerHeight, size, label }: IProps) {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: align,
+        ml,
       }}
     >
       <CircularProgress size={size} />
@@ -32,4 +41,6 @@ LoadingIndicator.defaultProps = {
   containerHeight: '20rem',
   size: '2rem',
   label: '',
+  align: 'center',
+  ml: 0,
 };

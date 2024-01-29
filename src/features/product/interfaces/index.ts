@@ -28,6 +28,7 @@ export interface IAdaptedProductTableRow {
   quantityInStock: number;
   createdAt: string;
   image_url: string;
+  productId: string;
 }
 
 export interface IProductSchema {

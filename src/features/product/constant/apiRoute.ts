@@ -1,6 +1,6 @@
 const apiRoute = {
   add: '/main/products',
-  delete: '/vendor/:id',
+  delete: '/main/products/:id?paramType=productId',
   edit: '/vendor/:id',
   getAll: '/main/products',
   getOne: '/vendor/:id',
