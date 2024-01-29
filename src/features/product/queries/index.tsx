@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import { IUserTableFilter } from 'features/users/interfaces';
 import { IProductTableFilter } from '../interfaces';
 import * as productAPI from '../api';
 import { adaptProductList } from '../utils';
@@ -17,7 +16,7 @@ export const infiniteProductKeys = {
 };
 
 export const useProductsQuery = (
-  filters: IUserTableFilter,
+  filters: IProductTableFilter,
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
@@ -25,6 +24,22 @@ export const useProductsQuery = (
     queryFn: () => productAPI.getProducts(filters),
     enabled,
     select: adaptProductList,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo.data?.data,
+  };
+};
+
+export const useProductDetailQuery = (
+  id: string,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteProductKeys.detail(id),
+    queryFn: () => productAPI.getProductById(id),
+    enabled,
   });
 
   return {

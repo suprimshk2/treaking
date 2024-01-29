@@ -16,11 +16,12 @@ import FileDropzone, {
 } from 'shared/components/file-upload/FileUpload';
 import { useUploadImageMutation } from 'shared/mutation';
 import { CloudFileCategory } from 'shared/enums';
-import { useAddProductMutation, useProductDetailQuery } from '../mutations';
+import { useAddProductMutation } from '../mutations';
 import { ProductAddEditFields } from '../components/ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
 import { ICloudFile, IFilePayload, IProductSchema } from '../interfaces';
 import { addProductFormSchema } from '../schemas';
+import { useProductDetailQuery } from '../queries';
 
 const defaultValues: IProductSchema = {
   title: '',
