@@ -114,8 +114,15 @@ export interface IFileSchema {
   order?: number;
 }
 
-export interface ICloudFile {
+export interface IFilePayload {
   file: IFileSchema;
+  fileId: string;
+  isLoading?: boolean;
+  isSuccess?: boolean;
+}
+
+export interface ICloudFile {
+  file: IFileSchema[] | IFileSchema;
   category: string;
   identifier?: string;
 }

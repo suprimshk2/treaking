@@ -1,14 +1,18 @@
 /* eslint-disable react/display-name */
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import { useState, forwardRef, useImperativeHandle, useId } from 'react';
 import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
-import { IFileSchema } from 'features/quiz/interfaces';
 import { useFormContext } from 'react-hook-form';
+import { IFilePayload } from 'features/product/interfaces';
 import DropZoneFileList from './Dropdownlist';
 
 export interface IFileDrop {
   path: string;
+}
+
+export interface IFileRef {
+  setFileState: (id: string, isLoading: boolean, success: boolean) => void;
 }
 
 const FileDropzone = forwardRef(
@@ -21,7 +25,7 @@ const FileDropzone = forwardRef(
     }: {
       name?: string;
       isFileSizeExceeds?: boolean;
-      onChange: (e: IFileSchema[]) => void;
+      onChange: (e: IFilePayload[]) => void;
       maxSize?: number;
     },
     ref
@@ -30,25 +34,30 @@ const FileDropzone = forwardRef(
       formState: { errors },
     } = useFormContext();
     const hasError = errors[name];
+    const fileId = useId();
 
-    const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
+    const [selectedFiles, setSelectedFiles] = useState<IFilePayload[]>([]);
     const theme = useTheme();
     const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
 
     const { getRootProps, getInputProps } = useDropzone({
       onDrop: async (droppedFiles: File[]) => {
-        const newFiles: IFileSchema[] = [];
+        const newFiles: IFilePayload[] = [];
 
-        for (const file of droppedFiles) {
-          let error = false;
+        droppedFiles.forEach((file) => {
           if (maxSize && file.size > maxSize) {
-            error = true;
+            return;
           }
-          newFiles.push(droppedFiles[0]);
-        }
+
+          newFiles.push({
+            file,
+            fileId: `${fileId}-${newFiles.length}`,
+            isLoading: true,
+          });
+        });
 
         setSelectedFiles((prev) => [...prev, ...newFiles]);
-        onChange([...selectedFiles, ...newFiles]);
+        onChange(newFiles);
       },
     });
 
@@ -58,22 +67,24 @@ const FileDropzone = forwardRef(
       onChange(files);
     };
 
-    const files = selectedFiles.map((file: IFileSchema) => (
+    const files = selectedFiles.map((file: IFilePayload) => (
       <DropZoneFileList
+        isSuccess={file.isSuccess}
         isLoading={file.isLoading}
-        file={file}
+        file={file.file}
         handleFileDelete={handleFileDelete}
-        key={file.id}
+        key={file.fileId}
       />
     ));
 
     useImperativeHandle(ref, () => ({
-      setFileState: (id: string, isLoading: boolean) => {
+      setFileState: (id: string, isLoading: boolean, isSuccess: boolean) => {
         const file = selectedFiles.map((item) => {
-          if (item.id === id) {
+          if (item.fileId === id) {
             return {
               ...item,
               isLoading,
+              isSuccess,
             };
           }
           return item;
