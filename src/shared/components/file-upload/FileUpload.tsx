@@ -1,58 +1,59 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { useState } from 'react';
 import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { toBase64 } from 'shared/utils/file';
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
 import { IFileSchema } from 'features/quiz/interfaces';
+import { useFormContext } from 'react-hook-form';
 import DropZoneFileList from './Dropdownlist';
 
+export interface IFileDrop {
+  path: string;
+}
+
 function FileDropzone({
+  name = 'images',
   isFileSizeExceeds,
   onChange,
   maxSize,
-  isPublic = false,
 }: {
+  name?: string;
   isFileSizeExceeds?: boolean;
   onChange: (e: IFileSchema[]) => void;
   maxSize?: number;
-  isPublic?: boolean;
 }) {
+  const {
+    formState: { errors },
+  } = useFormContext();
+  const hasError = errors[name];
+
   const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
   const theme = useTheme();
   const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
+
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: async (f: any) => {
+    onDrop: async (droppedFiles: File[]) => {
       const newFiles: IFileSchema[] = [];
-      for (let index = 0; index < f.length; index += 1) {
+
+      for (const file of droppedFiles) {
         let error = false;
-        if (maxSize && f[index].size > maxSize) {
+        if (maxSize && file.size > maxSize) {
           error = true;
         }
-        const uploadFile = {
-          id: '!2',
-          name: f[index].name,
-          contentType: f[index].type,
-          createdBy: '',
-          // eslint-disable-next-line no-await-in-loop
-          base64: await toBase64(f[index]),
-          size: f[index].size,
-          error,
-        };
-        newFiles.push(uploadFile);
+        newFiles.push(droppedFiles[0]);
       }
 
       setSelectedFiles((prev) => [...prev, ...newFiles]);
-      // Since the state doesn't change in this section i.e [...prev, ...newFiles]
       onChange([...selectedFiles, ...newFiles]);
     },
   });
 
-  const handleFileDelete = (id: string) => {
-    const files = selectedFiles.filter((e: IFileSchema) => e.id !== id);
+  const handleFileDelete = () => {
+    const files = selectedFiles;
     setSelectedFiles(files);
     onChange(files);
   };
+
   const handleFileEdit = (file: IFileSchema) => {
     const files = selectedFiles.map((e: IFileSchema) => {
       if (e.id === file.id) return file;
@@ -73,7 +74,10 @@ function FileDropzone({
 
   return (
     <Box>
-      <Box {...getRootProps({ className: 'fileDrop' })}>
+      <Box
+        {...getRootProps({ className: 'fileDrop' })}
+        color={hasError && theme.palette.error.main}
+      >
         <input {...getInputProps()} />
 
         <Stack
@@ -89,6 +93,7 @@ function FileDropzone({
           justifyContent="center"
           flexDirection="row"
           mb="10"
+          px={5}
           sx={{ borderStyle: 'dashed' }}
         >
           <BsUpload size={theme.spacing(5)} />
@@ -133,6 +138,6 @@ function FileDropzone({
 FileDropzone.defaultProps = {
   isFileSizeExceeds: false,
   maxSize: undefined,
-  isPublic: false,
+  name: 'images',
 };
 export default FileDropzone;

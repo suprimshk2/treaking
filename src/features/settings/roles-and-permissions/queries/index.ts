@@ -13,6 +13,7 @@ export const infiniteRoleKeys = {
   autocomplete: (filters: IRoleTableFilter) =>
     [...infiniteRoleKeys.lists(), 'autocomplete', { filters }] as const,
 };
+
 export const useRolesQuery = (
   filters: IRoleTableFilter,
   { enabled }: { enabled: boolean }
