@@ -26,6 +26,7 @@ export const adaptProductList = (
           createdAt: formatDateToView(item.created.date),
           isInStock: item.quantityInStock > 0,
           quantityInStock: item.quantityInStock,
+          image_url: item.images?.[0].url ?? '',
         };
       }),
     },

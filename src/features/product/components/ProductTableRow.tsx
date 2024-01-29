@@ -1,4 +1,12 @@
-import { Chip, TableCell, TableRow, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Chip,
+  Stack,
+  TableCell,
+  TableRow,
+  Typography,
+  useTheme,
+} from '@mui/material';
 
 import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
@@ -9,7 +17,21 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
   const theme = useTheme();
   return (
     <TableRow>
-      <TableCell>{item.name}</TableCell>
+      <TableCell>
+        <Stack direction="row" alignItems="center" gap={3}>
+          <Box
+            borderRadius={2}
+            component="img"
+            sx={{
+              height: '40px',
+              width: '40px',
+            }}
+            alt="product image"
+            src={item.image_url}
+          />
+          {item.name}
+        </Stack>
+      </TableCell>
       <TableCell>{item.quantityInStock}</TableCell>
       <TableCell>{item.point}</TableCell>
       <TableCell>{item.price}</TableCell>

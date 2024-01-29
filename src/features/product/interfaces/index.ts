@@ -27,6 +27,7 @@ export interface IAdaptedProductTableRow {
   isInStock: boolean;
   quantityInStock: number;
   createdAt: string;
+  image_url: string;
 }
 
 export interface IProductSchema {
