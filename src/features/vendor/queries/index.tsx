@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { IVendorTableFilter } from '../interfaces';
 import * as vendorApi from '../api';
 
@@ -13,6 +13,14 @@ export const infiniteVendorKeys = {
   autocomplete: (filters: IVendorTableFilter) =>
     [...infiniteVendorKeys.lists(), 'autocomplete', { filters }] as const,
 };
+
+export const vendorKeys = {
+  all: ['vendor'] as const,
+  lists: () => [...vendorKeys.all, 'list'] as const,
+  list: (filters: IVendorTableFilter) =>
+    [...vendorKeys.lists(), { filters }] as const,
+};
+
 export const useInfiniteVendorQuery = (filters: IVendorTableFilter) => {
   // const { totalUsers } = useBoundStore.getState();
   // const totalPages = Math.ceil(totalUsers / filters.limit);
@@ -45,5 +53,12 @@ export const useInfiniteVendorQuery = (filters: IVendorTableFilter) => {
     // and when you clear the search field, the data is taken from cache but `hasNextPage` stays the same -> pages: [[], [], []], hasNextPage: false
     // cacheTime: 0,
     gcTime: 0,
+  });
+};
+
+export const useVendorQuery = (filters: IVendorTableFilter) => {
+  return useQuery({
+    queryKey: vendorKeys.list(filters),
+    queryFn: () => vendorApi.getVendor(),
   });
 };
