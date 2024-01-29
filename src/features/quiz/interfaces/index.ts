@@ -31,6 +31,7 @@ export interface IFileSchema {
   error?: boolean;
   file_url?: string;
   isPublic?: boolean;
+  isLoading?: boolean;
 }
 export interface IFormattedQuizFormSchema {
   title: string;

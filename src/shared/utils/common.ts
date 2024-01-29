@@ -505,3 +505,39 @@ export const checkHeader = (pathname: string) => {
       return HEADER_TITLE[TITLE_TYPE.EMPTY];
   }
 };
+
+export const formatCurrency = (
+  value: string | number,
+  elseNull = true,
+  min = 2,
+  max = 2
+): string | null => {
+  if (!value) return 'N/A';
+
+  if (typeof value === 'string' && Number.isNaN(Number(value))) {
+    return '-';
+  }
+
+  if (value || value === 0) {
+    return new Intl.NumberFormat('ne-Np', {
+      style: 'currency',
+      currency: 'NPR',
+      currencyDisplay: 'code',
+      minimumFractionDigits: min,
+      maximumFractionDigits: max,
+    }).format(value as number);
+  }
+
+  if (!elseNull) {
+    return formatCurrency(0);
+  }
+
+  return '-';
+};
+
+export const convertStringToNumber = (value: string | number): number => {
+  if (typeof value === 'string') {
+    return +value;
+  }
+  return 0;
+};

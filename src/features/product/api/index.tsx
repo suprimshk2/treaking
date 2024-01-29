@@ -2,11 +2,22 @@ import { IResponse } from 'shared/interfaces/http';
 import { baseRequest } from 'shared/utils/axios';
 
 import apiRoute from '../constant/apiRoute';
-import { IFormattedProductFormSchema } from '../interfaces';
 
-export const addProduct = async (
-  data: IFormattedProductFormSchema
-): Promise<IResponse<any>> => {
+export const getProducts = async (data: any) => {
+  const { response, error } = await baseRequest({
+    method: 'GET',
+    url: apiRoute.getAll,
+    params: data,
+  });
+
+  if (error) {
+    return Promise.reject(error);
+  }
+
+  return response?.data;
+};
+
+export const addProduct = async (data: any): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
     method: 'POST',
     url: apiRoute.add,

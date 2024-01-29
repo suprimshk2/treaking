@@ -9,11 +9,9 @@ import uiRoute from 'shared/constants/uiRoute';
 import ActivateAccount from 'features/auth/pages/ActivateAccount';
 import { useCheckRoutePermission } from 'shared/hooks/permission';
 import { useBoundStore } from 'shared/stores/useBoundStore';
+import { ProductList } from 'features/product/pages/ProductList';
 import { QuizAddEdit } from 'features/quiz/pages/QuizAddEdit';
 import { VendorList } from 'features/vendor/pages/VendorList';
-import { VendorAddEdit } from 'features/vendor/pages/VendorAddEdit';
-import { ProductAddEdit } from 'features/product/pages/ProductAddEdit';
-import { ProductList } from 'features/product/pages/ProductList';
 import { QuizList } from 'features/quiz/pages/Quiz';
 
 // Lazy load route level components (for bundle splitting)
@@ -155,6 +153,7 @@ function Router() {
             <Route element={<ProductList />} path={uiRoute.dashboard} />
             {/* <Route element={<VendorList />} path={uiRoute.dashboard} /> */}
             {/* <Route element={<QuizAddEdit />} path={uiRoute.dashboard} /> */}
+            <Route element={<ProductList />} path={uiRoute.products} />
 
             <Route
               element={<RolesAndPermissionsList />}

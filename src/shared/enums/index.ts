@@ -34,6 +34,7 @@ export enum ResourceCode {
   USER_MANAGEMENT = 'USER-MANAGEMENT',
   QUEUE_MANAGEMENT = 'QUEUE-MANAGEMENT',
   ROLES_PERMISSION_MANAGEMENT = 'ROLES-PERMISSION-MANAGEMENT',
+  PRODUCT_MANAGEMENT = 'PRODUCT-MANAGEMENT',
 }
 
 export enum DashboardViewCodes {
@@ -57,4 +58,12 @@ export enum Interval {
   CUSTOM_DATE = 'Custom',
   CURRENT_PERIOD = 'Current Period',
   LAST_PERIOD = 'Last Period',
+}
+
+export enum CloudFileCategory {
+  VENDORS_LOGO = 'VENDORS_LOGO',
+  QUIZ_PRIZE = 'QUIZ_PRIZE',
+  QUIZ_LOGO = 'QUIZ_LOGO',
+  USER_AVATAR = 'USER_AVATAR',
+  PRODUCT_IMAGE = 'PRODUCT_IMAGE',
 }
