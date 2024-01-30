@@ -4,7 +4,8 @@ import {
   IUpdated,
   SortOrderType,
 } from 'shared/interfaces/misc';
-import { OfferSortBy } from '../enums';
+import { OfferBodyType, OfferSortBy, OfferTemplateCode } from '../enums';
+import { IOfferTemplate } from '../components/offer-templates/OfferFormAdTemplates';
 
 export interface IVendor {
   _id: string;
@@ -22,6 +23,7 @@ export interface IVendor {
   updated: IUpdated;
   created: ICreated;
   vendorId: string;
+  name: string;
 }
 
 export interface IAccountOwner {
@@ -44,7 +46,7 @@ export interface ILayout {
 }
 
 export interface IBackground {
-  type: string;
+  type: OfferTemplateCode;
   imageUrl: string;
   colorCode: string;
 }
@@ -98,6 +100,20 @@ export interface IOfferSlice {
   resetOfferTableFilters: VoidFunction;
   resetAllOfferTableFilters: VoidFunction;
   setTotalOffers: (total: number) => void;
+}
+
+export interface IOfferForm {
+  template: IOfferTemplate;
+  vendor: string;
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  shortDescription: string;
+  description: string;
+  body: string;
+  bodyType: OfferBodyType;
+
+  accountManager: string;
 }
 
 export interface IEditOfferSchema {}

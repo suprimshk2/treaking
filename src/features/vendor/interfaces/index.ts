@@ -74,5 +74,6 @@ export interface IVendorSlice {
   setVendorTableFilters: (newFilters: Partial<IVendorTableFilter>) => void;
 
   resetVendorTable: VoidFunction;
+  resetVendorTableFilters: VoidFunction;
   // setTotalQuiz: (total: number) => void;
 }

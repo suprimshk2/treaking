@@ -8,18 +8,16 @@ import { IRoleTableFilter } from 'features/settings/roles-and-permissions/interf
 import { infiniteProductKeys } from '../queries';
 import * as productAPI from '../api';
 import * as vendorAPI from '../../vendor/api';
-import { IFormattedProductFormSchema } from '../interfaces';
+import { IAdaptedproductSchema } from '../interfaces';
 
 export const useAddProductMutation = () => {
   const filters = useBoundStore.getState().productTableFilters;
   const { sortBy, sortOrder } = useBoundStore.getState().productSort;
 
   return useMutation({
-    mutationFn: ({ data }: { data: IFormattedProductFormSchema }) =>
+    mutationFn: ({ data }: { data: IAdaptedproductSchema }) =>
       productAPI.addProduct(data),
     onSuccess: (res) => {
-      console.log(res, 'logg ress');
-
       enqueueSnackbar(res.message || 'Product added successfully', {
         variant: 'success',
       });

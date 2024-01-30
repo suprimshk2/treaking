@@ -5,6 +5,7 @@ import {
   differenceInYears,
   formatDistance,
   parseISO,
+  getTime,
 } from 'date-fns';
 import { config } from 'shared/constants/config';
 import { Interval } from 'shared/enums';
@@ -220,3 +221,5 @@ export const getDateRange = (
     endDate,
   };
 };
+
+export const getTimeStringFromDate = (date: Date) => getTime(date);

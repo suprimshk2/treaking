@@ -1,6 +1,96 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
 import { ProductSortBy } from '../enums';
 
+export interface IProductTableRow {
+  _id: string;
+  title: string;
+  description: string;
+  tags: string[];
+  vendor: Vendor;
+  quantityInStock: number;
+  images: IFileSchema[];
+  category: ICategory;
+  updated: Ated;
+  created: Ated;
+  productId: string;
+  price: IPrice;
+  point: IPoint;
+}
+
+export interface IAdaptedProductTableRow {
+  id: string;
+  name: string;
+  point: string;
+  price: string;
+  status: string;
+  createdBy: string;
+  isInStock: boolean;
+  quantityInStock: number;
+  createdAt: string;
+}
+
+export interface IProductSchema {
+  title: string;
+  description: string;
+  vendor: IVendor;
+  images: IFileSchema[];
+  point: string;
+  price: string;
+  tags: any;
+  quantityInStock: string;
+  costPrice: string;
+  retailPrice: string;
+}
+
+export interface IAdaptedproductSchema {
+  title: string;
+  description: string;
+  vendor: IVendor;
+  images?: IFileSchema[];
+  point: IPoint[];
+  price: IPrice[];
+  tags: any;
+  quantityInStock: number;
+  costPrice: number;
+  retailPrice: number;
+}
+
+export interface IPrice {
+  value: number;
+  originalValue?: number;
+  discount?: IDiscount;
+  effStartDate?: string;
+  effEndDate?: string;
+}
+
+export interface IVendor {
+  id?: string;
+  name?: string;
+}
+
+export interface Ated {
+  date: string;
+  name: string;
+  id: string;
+}
+
+export interface Vendor {
+  _id: string;
+  address: string;
+  website: string;
+  logoUrl: string;
+  businessName: string;
+  contacts: string[];
+  email: string;
+  phone: string;
+  accountOwner: ICategory;
+  socialMedias: string[];
+  enrolledDate: Date;
+  updated: Ated;
+  created: Ated;
+  vendorId: string;
+}
+
 export interface IProductTableFilter extends IFilter {
   titleOne?: string;
   titleTwo?: string;
@@ -11,106 +101,59 @@ export interface IProductSort {
   sortOrder: SortOrderType | null;
 }
 export interface IFileSchema {
-  id: string;
-  name: string;
-  contentType: string;
-  createdBy: string;
-  base64: any;
-  size: number;
+  id?: string;
+  name?: string;
+  contentType?: string;
+  createdBy?: string;
+  base64?: any;
+  size?: number;
   error?: boolean;
   file_url?: string;
   isPublic?: boolean;
-}
-export interface IFormattedProductFormSchema {
-  title: string;
-  description: string;
-  tags: any[];
-  vendor: Category;
-  point: Point[];
-  price: Point[];
-  quantityInStock: number;
-  images: Image[];
-  category: Category;
-  updated: CreatedAt;
-  created: CreatedAt;
-  productId: string;
+  url?: string;
+  order?: number;
 }
 
-export interface Category {
+export interface IFilePayload {
+  file: IFileSchema;
+  fileId: string;
+  isLoading?: boolean;
+  isSuccess?: boolean;
+}
+
+export interface ICloudFile {
+  file: IFileSchema[] | IFileSchema;
+  category: string;
+  identifier?: string;
+}
+
+export interface ICategory {
   id: string;
   name: string;
 }
 
-export interface CreatedAt {
+export interface ICreatedAt {
   date: string;
   name: string;
   id: string;
 }
-export interface IProductResponse {
-  data: IProductData;
-  message: string;
-  success: boolean;
-}
 
-export interface IProductData {
-  rows: IProduct[];
-  count: number;
-}
-
-export interface IProduct {
-  _id: string;
-  title: string;
-  description: string;
-  tags: any[];
-  vendor: Vendor;
-  quantityInStock: number;
-  images: Image[];
-  category: Category;
-  updated: CreatedAt;
-  created: CreatedAt;
-  productId: string;
-  price: PointResponse;
-  point: PointResponse;
-}
-export interface PointResponse {
-  originalValue?: number;
-  discountedValue?: number;
-}
-
-export interface Vendor {
-  _id: string;
-  address: string;
-  website: string;
-  logoUrl: string;
-  businessName: string;
-  contacts: any[];
-  email: string;
-  phone: string;
-  accountOwner: Category;
-  socialMedias: any[];
-  enrolledDate: Date;
-  updated: CreatedAt;
-  created: CreatedAt;
-  vendorId: string;
-}
-export interface Image {
-  url: string;
-  order: number;
-}
-
-export interface Point {
+export interface IPoint {
   value: number;
-  effEndDate: string;
-  effStartDate: string;
-  discount?: Discount;
+  effEndDate?: string;
+  effStartDate?: string;
+  discount?: IDiscount;
+  originalValue?: number;
 }
 
-export interface Discount {
+export interface IDiscount {
   value: number;
   type: string;
 }
 
 export interface IProductSlice {
+  vendorTableFilters: any;
+  vendorSort: any;
   productSort: IProductSort;
   productTableFilters: IProductTableFilter;
   // totalProduct: number;

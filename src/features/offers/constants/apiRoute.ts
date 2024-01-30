@@ -1,9 +1,9 @@
 const apiRoute = {
-  add: '/offers',
-  delete: '/offers/:id',
-  edit: '/offers/:id',
+  add: '/main/offers',
+  delete: '/main/offers/:id',
+  edit: '/main/offers/:id',
   getAll: '/main/offers',
-  getOne: '/offers/:id',
+  getOne: '/main/offers/:id',
 };
 
 export default apiRoute;

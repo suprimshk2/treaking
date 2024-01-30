@@ -17,14 +17,14 @@ export interface IAddress {
 }
 
 export interface ICreated {
-  at: string;
-  by: string;
+  date: string;
+  name: string;
   id: string;
 }
 
 export interface IUpdated {
-  at: string;
-  by: string;
+  date: string;
+  name: string;
 }
 
 export interface ITableColumn {

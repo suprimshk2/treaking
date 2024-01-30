@@ -6,9 +6,7 @@ import apiRoute from '../constant/apiRoute';
 import { IFormattedVendorFormSchema, IVendorTableFilter } from '../interfaces';
 import { formatVendorFilterParams } from '../utils';
 
-export const addVendor = async (
-  data: IFormattedVendorFormSchema
-): Promise<IResponse<any>> => {
+export const addVendor = async (data: any): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
     method: 'POST',
     url: apiRoute.add,

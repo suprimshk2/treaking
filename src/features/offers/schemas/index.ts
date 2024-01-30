@@ -1,24 +1,27 @@
 import { z } from 'zod';
 import {
-  // dobSchema,
-  emailSchema,
-  emailSchemaOptional,
-  nullableStringSchema,
   optionalStringSchema,
-  // phoneSchema,
-  phoneSchemaOptional,
+  requiredDateSchema,
   requiredStringSchema,
 } from 'shared/schemas';
 
 export const offerAddEditFormSchema = z.object({
-  firstName: requiredStringSchema,
-  middleName: nullableStringSchema,
-  lastName: requiredStringSchema,
-  email: emailSchema,
-  gender: nullableStringSchema,
-  dob: nullableStringSchema,
-  phone: nullableStringSchema,
-  role: nullableStringSchema,
+  template: z.object({
+    id: requiredStringSchema,
+    img: requiredStringSchema,
+    code: requiredStringSchema,
+    label: requiredStringSchema,
+  }),
+  vendor: requiredStringSchema,
+  title: requiredStringSchema,
+  shortDescription: requiredStringSchema,
+  description: requiredStringSchema,
+  startDate: requiredDateSchema,
+  endDate: requiredDateSchema,
+  body: optionalStringSchema,
+  bodyType: requiredStringSchema,
+  // startTime: requiredDateSchema,
+  // endTime: requiredDateSchema,
 });
 // TODO: Gonna be used in the future removed required validations for gender,dob and phone
 // export const offerEditFormSchema = z.object({
@@ -32,17 +35,4 @@ export const offerAddEditFormSchema = z.object({
 //   role: requiredStringSchema,
 // });
 
-export type OfferAddEditFormSchemaType = z.infer<
-  typeof offerAddEditFormSchema
-> & { enableMFA?: boolean };
-
-export const offerAdvancedFilterFormSchema = z.object({
-  firstName: optionalStringSchema,
-  lastName: optionalStringSchema,
-  email: emailSchemaOptional,
-  phone: phoneSchemaOptional,
-});
-
-export type OfferAdvancedFilterFormSchemaType = z.infer<
-  typeof offerAdvancedFilterFormSchema
->;
+export type OfferAddEditFormSchemaType = z.infer<typeof offerAddEditFormSchema>;

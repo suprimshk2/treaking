@@ -27,6 +27,7 @@ const uiRoute = {
     profile: '/profile',
     profileSecurity: '/profile/security',
   },
+  products: '/products',
   quiz: '/quiz',
   vendor: '/vendors',
 

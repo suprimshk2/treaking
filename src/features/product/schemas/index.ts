@@ -1,7 +1,8 @@
 import {
-  dobSchema,
+  imageSchema,
   optionalStringSchema,
   requiredStringSchema,
+  vendorSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
 
@@ -10,17 +11,15 @@ const productSchema = z.object({
 });
 
 export const addProductFormSchema = z.object({
-  titleOne: requiredStringSchema,
-  titleTwo: requiredStringSchema,
-  body: requiredStringSchema,
-  winnerDate: dobSchema,
-  startDate: dobSchema,
-  endDate: dobSchema,
-  campaign: requiredStringSchema,
-  prize: requiredStringSchema,
-  terms: requiredStringSchema,
-
-  // quizzes: z.array(quizSchema),
+  title: requiredStringSchema,
+  description: requiredStringSchema,
+  images: imageSchema,
+  point: requiredStringSchema,
+  price: requiredStringSchema,
+  quantityInStock: requiredStringSchema,
+  costPrice: requiredStringSchema,
+  retailPrice: requiredStringSchema,
+  vendor: vendorSchema,
 });
 
 export type AddProductFormSchemaType = z.infer<typeof addProductFormSchema>;

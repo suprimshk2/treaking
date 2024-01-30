@@ -8,7 +8,7 @@ import template4 from 'shared/assets/png/offer-template4.png';
 import template5 from 'shared/assets/png/offer-template5.png';
 import { templateStyles } from 'features/offers/constants/template';
 import { OfferBodyType, OfferTemplateCode } from 'features/offers/enums';
-import { ITemplate } from '../offer-templates/OfferFormAdTemplates';
+import { IOfferTemplate } from '../offer-templates/OfferFormAdTemplates';
 
 const templateImage = {
   '1': template1,
@@ -21,7 +21,7 @@ const templateImage = {
 function MobileContentView() {
   const theme = useTheme();
   const { watch } = useFormContext();
-  const selectedTemplate: ITemplate = watch('template');
+  const selectedTemplate: IOfferTemplate = watch('template');
   const title = watch('title');
   const body = watch('body');
   const bodyType = watch('bodyType');
@@ -42,7 +42,7 @@ function MobileContentView() {
         <Box
           sx={{
             px: 6,
-            wordBreak: 'break-all',
+            wordBreak: 'auto-phrase',
             height: '100%',
             width: '100%',
             borderRadius: '31px',

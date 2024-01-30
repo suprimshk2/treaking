@@ -1,8 +1,9 @@
 import { StateCreator } from 'zustand';
-import { IVendorSlice, IVendorTableFilter } from '../interfaces';
+import { IProductSlice } from 'features/product/interfaces';
+import { IVendorTableFilter } from '../interfaces';
 import { vendorConfig } from '../constant/config';
 
-export const createVendorSlice: StateCreator<IVendorSlice> = (set) => ({
+export const createVendorSlice: StateCreator<IProductSlice> = (set) => ({
   vendorTableFilters: vendorConfig.VENDOR_TABLE_DEFAULT_FILTER,
   setVendorTableFilters: (newFilters: Partial<IVendorTableFilter>) =>
     set((state) => ({
