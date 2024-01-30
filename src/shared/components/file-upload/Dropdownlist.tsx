@@ -1,14 +1,23 @@
-import { Box, IconButton, Tooltip, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  ImageListItem,
+  Skeleton,
+  Tooltip,
+  useTheme,
+} from '@mui/material';
 import { BsCheckCircle, BsTrash, BsXCircle } from 'react-icons/bs';
 import { IFilePayload } from 'features/product/interfaces';
 import { LoadingIndicator } from '../display/LoadingIndicator';
 
 function DropZoneFileList({
+  url,
   isSuccess = false,
   isLoading = true,
   file,
   handleFileDelete,
 }: {
+  url?: string;
   isSuccess?: boolean;
   isLoading?: boolean;
   file: IFilePayload;
@@ -23,14 +32,24 @@ function DropZoneFileList({
       justifyContent="space-between"
       key={file.fileId}
       marginBottom={1}
+      height={50}
+      alignItems="center"
+      bgcolor={theme.palette.common.white}
+      py={8}
     >
-      <Box
-        sx={{
-          textAlign: 'left',
-        }}
-        width="95%"
-      >
-        <Typography>{file.file.name}</Typography>
+      <Box width="95%" px={1}>
+        {isLoading ? (
+          <Skeleton variant="rounded" width={50} height={50} />
+        ) : (
+          <img
+            srcSet={`${url}?w=50&fit=crop&auto=format&dpr=2 2x`}
+            src={`${url}`}
+            alt={file.file.name}
+            loading="lazy"
+            width={50}
+            height={50}
+          />
+        )}
       </Box>
       <Box width="12%">
         {isLoading ? (
@@ -61,6 +80,7 @@ function DropZoneFileList({
 DropZoneFileList.defaultProps = {
   isSuccess: false,
   isLoading: false,
+  url: '',
 };
 
 export default DropZoneFileList;

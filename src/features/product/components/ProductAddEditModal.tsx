@@ -70,9 +70,9 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
           { url: data?.data?.url ?? '', order: index },
         ]);
 
-        ref.current?.setFileState(item.fileId, false, true);
+        ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
       } catch (error) {
-        ref.current?.setFileState(item.fileId, false, false);
+        ref.current?.setFileState(item.fileId, '', false, false);
       }
     });
   };

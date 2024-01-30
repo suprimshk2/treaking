@@ -1,6 +1,13 @@
 /* eslint-disable react/display-name */
 import { useState, forwardRef, useImperativeHandle, useId } from 'react';
-import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  ImageList,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
 import { useFormContext } from 'react-hook-form';
@@ -12,7 +19,12 @@ export interface IFileDrop {
 }
 
 export interface IFileRef {
-  setFileState: (id: string, isLoading: boolean, success: boolean) => void;
+  setFileState: (
+    id: string,
+    url: string,
+    isLoading: boolean,
+    success: boolean
+  ) => void;
 }
 
 const FileDropzone = forwardRef(
@@ -71,6 +83,7 @@ const FileDropzone = forwardRef(
       <DropZoneFileList
         isSuccess={file.isSuccess}
         isLoading={file.isLoading}
+        url={file.url}
         file={file}
         handleFileDelete={handleFileDelete}
         key={file.fileId}
@@ -78,13 +91,19 @@ const FileDropzone = forwardRef(
     ));
 
     useImperativeHandle(ref, () => ({
-      setFileState: (id: string, isLoading: boolean, isSuccess: boolean) => {
+      setFileState: (
+        id: string,
+        url: string,
+        isLoading: boolean,
+        isSuccess: boolean
+      ) => {
         const file = selectedFiles.map((item) => {
           if (item.fileId === id) {
             return {
               ...item,
               isLoading,
               isSuccess,
+              url,
             };
           }
           return item;

@@ -123,6 +123,7 @@ export interface IFilePayload {
   fileId: string;
   isLoading?: boolean;
   isSuccess?: boolean;
+  url?: string;
 }
 
 export interface ICloudFile {
