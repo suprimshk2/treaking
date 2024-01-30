@@ -107,6 +107,7 @@ export const formatDateToView = (
  * @ouput '01011995'
  *
  */
+
 export const unformatDate = (date: string, dateFormat = DATE_FORMAT.ISO) => {
   if (!date) return '';
 
@@ -127,6 +128,27 @@ export const unformatDate = (date: string, dateFormat = DATE_FORMAT.ISO) => {
   return formatedDate.replaceAll('/', '');
 };
 
+export const combineFormatDate = (date: Date, time: Date) => {
+  const initialDate = date;
+  const Time = time;
+
+  // Extract date components from initialDate
+  const year = initialDate.getFullYear();
+  const month = initialDate.getMonth();
+  const day = initialDate.getDate();
+
+  // Extract time components from Time
+  const hours = Time.getHours();
+  const minutes = Time.getMinutes();
+  const seconds = Time.getSeconds();
+
+  // Create a new Date object with combined date and time
+  const combinedDateTime = new Date(year, month, day, hours, minutes, seconds);
+  console.log({ combinedDateTime });
+
+  const formattedDate = unformatDate(combinedDateTime.toString());
+  return formattedDate;
+};
 export const getDateDuration = (start: string, end?: string) => {
   const startTime = new Date(start);
   const endTime = end ? new Date(end) : new Date();

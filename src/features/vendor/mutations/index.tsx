@@ -136,11 +136,7 @@ export const useVendorDetailQuery = (
 };
 
 export const useDeleteVendorMutation = () => {
-  const { enqueueSnackbar } = useSnackbar();
-  const queryClient = useQueryClient();
-
   const filters = useBoundStore.getState().vendorTableFilters;
-  // const { totalUsers, setTotalUsers } = useBoundStore.getState();
 
   return useMutation({
     mutationFn: ({ id }: { id: string }) => vendorAPI.deleteVendor(id),

@@ -1,34 +1,42 @@
-import { Box, Button, Grid, useTheme } from '@mui/material';
-import { TimeField } from '@mui/x-date-pickers';
-import React, { useState } from 'react';
+import { Box, Grid, useTheme } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { FieldError, useFormContext } from 'react-hook-form';
 import FormInput from 'shared/components/form/FormInput';
-import { FormMaskedDateInput } from 'shared/components/form/FormMaskedDateInput';
-
+import { FormTimePicker } from 'shared/components/form/FormTimePicker';
+import { FormDatePicker } from 'shared/components/form/FormDatePicker';
+import {
+  Button,
+  ButtonSize,
+  ButtonVariant,
+} from 'shared/theme/components/Button';
 import { AddQuizFormSchemaType } from '../schemas';
 import QuizOptions from './QuizOptions';
+import { Option } from '../interfaces';
 
 export function QuizMultiple({
   fieldArrayIndex,
   fieldArrayName,
   onDelete,
+  isEditMode,
+  optionsData,
 }: {
   fieldArrayIndex: number;
   fieldArrayName: string;
   onDelete: () => void;
+  isEditMode: boolean;
+  optionsData: Option[];
 }) {
   const theme = useTheme();
-
+  const [options, setOptions] = useState(['']);
+  useEffect(() => {
+    if (isEditMode) {
+      // `${fieldArrayName}.${fieldArrayIndex}.question`.
+      optionsData?.map((item: Option) => setOptions([item?.name]));
+    }
+  }, [isEditMode, optionsData]);
   const {
     formState: { errors },
   } = useFormContext<AddQuizFormSchemaType>();
-  const [options, setOptions] = useState(['']);
-
-  const handleOptionChange = (value, index) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
-  };
 
   const handleAddOption = () => {
     setOptions([...options, '']);
@@ -49,45 +57,33 @@ export function QuizMultiple({
     >
       <Grid container spacing={4} mb={2}>
         <Grid item xs={6}>
-          <FormMaskedDateInput
-            name="startDate"
-            id="startDate"
-            label="Start Date "
+          <FormDatePicker
+            minDate={new Date()}
+            name={`${fieldArrayName}.${fieldArrayIndex}.startDate`}
+            label="Start Date"
           />
         </Grid>
         <Grid item xs={6} mb={2}>
-          <TimeField
-            name="startTime"
-            id="startTime"
+          <FormTimePicker
+            name={`${fieldArrayName}.${fieldArrayIndex}.startTime`}
             label="Start Time"
-            fullWidth
           />
         </Grid>
       </Grid>
       <Grid container spacing={4} mb={2}>
         <Grid item xs={6}>
-          <FormMaskedDateInput name="endDate" id="endDate" label="End Date " />
+          <FormDatePicker
+            minDate={new Date()}
+            name={`${fieldArrayName}.${fieldArrayIndex}.endDate`}
+            label="End Date"
+          />
         </Grid>
         <Grid item xs={6} mb={2}>
-          <TimeField name="endTime" id="endTime" label="End Time" fullWidth />
-        </Grid>
-      </Grid>
-      <Grid item xs={6} mb={2}>
-        <div>
-          <QuizOptions
-            options={options}
-            handleOptionChange={handleOptionChange}
+          <FormTimePicker
+            name={`${fieldArrayName}.${fieldArrayIndex}.endTime`}
+            label="End Time"
           />
-          <Button onClick={handleAddOption}>Add Option</Button>
-        </div>
-        {/* <FormInput
-          name={`${fieldArrayName}.${fieldArrayIndex}.question` as const}
-          fieldError={
-            errors?.quizzes?.[fieldArrayIndex]?.question as FieldError
-          }
-          id="question"
-          label="Question *"
-        /> */}
+        </Grid>
       </Grid>
       <Grid item xs={6} mb={2}>
         <FormInput
@@ -99,6 +95,34 @@ export function QuizMultiple({
           label="Question *"
         />
       </Grid>
+      <Grid item xs={6} mb={2}>
+        <div>
+          <QuizOptions
+            fieldArrayIndex={fieldArrayIndex}
+            fieldArrayName={fieldArrayName}
+            options={options}
+          />
+          <Button
+            size={ButtonSize.SMALL}
+            onClick={handleAddOption}
+            fullWidth
+            variant={ButtonVariant.OUTLINED}
+            sx={{
+              marginTop: 2,
+              backgroundColor: theme.palette.gray.lighter,
+              borderColor: theme.palette.gray.light,
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              color: theme.palette.gray.dark,
+              height: 40,
+              borderRadius: 1,
+            }}
+          >
+            Add Option
+          </Button>
+        </div>
+      </Grid>
+
       <Box
         display="flex"
         flexDirection="row"
@@ -108,7 +132,16 @@ export function QuizMultiple({
           right: 0,
         }}
       >
-        <Button onClick={onDelete}>Delete</Button>
+        {fieldArrayIndex === 0 ? null : (
+          <Button
+            size={ButtonSize.SMALL}
+            onClick={onDelete}
+            variant={ButtonVariant.TEXT}
+            sx={{ color: theme.palette.error.main }}
+          >
+            Delete
+          </Button>
+        )}
       </Box>
     </Box>
   );

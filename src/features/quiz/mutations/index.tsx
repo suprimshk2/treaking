@@ -11,7 +11,7 @@ import { IError, IListResponse } from 'shared/interfaces/http';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import { infiniteQuizKeys } from '../queries';
 import * as quizAPI from '../api';
-import { IAddQuizSchema, IFormattedQuizFormSchema } from '../interfaces';
+import { IAddQuizSchema, IFormattedQuizFormSchema, IQuiz } from '../interfaces';
 
 export const useAddQuizMutation = () => {
   const filters = useBoundStore.getState().quizTableFilters;
@@ -62,27 +62,86 @@ export const useAddQuizMutation = () => {
     },
   });
 };
-
-export const useDeleteQuizMutation = () => {
-  const { enqueueSnackbar } = useSnackbar();
-  const queryClient = useQueryClient();
-
-  const filters = useBoundStore.getState().userTableFilters;
-  // const { totalUsers, setTotalUsers } = useBoundStore.getState();
+export const useEditQuizMutation = () => {
+  const { sortBy, sortOrder } = useBoundStore.getState().quizSort;
+  const filters = useBoundStore.getState().offerTableFilters;
 
   return useMutation({
-    mutationFn: ({ id }: { id: string }) => quizAPI.deleteQuiz(id),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: IFormattedQuizFormSchema;
+    }) => quizAPI.editQuiz(id, data),
     onSuccess: (res) => {
-      enqueueSnackbar(res.message || 'User deleted successfully', {
+      enqueueSnackbar(res.message || 'Quiz edited successfully', {
         variant: 'success',
       });
-      const { sortBy, sortOrder } = useBoundStore.getState().userSort;
+
       const queryKey = infiniteQuizKeys.list({
         ...filters,
         ...formatSortParam({
           sortBy,
           sortOrder,
         }),
+      });
+
+      const queryData: InfiniteData<IListResponse<IQuiz>> | undefined =
+        queryClient.getQueryData(queryKey);
+
+      if (!queryData) {
+        return;
+      }
+
+      // Update the offer in the list with updated data
+
+      queryData.pages.find((page) => {
+        const exist = page.rows.findIndex(
+          (item: IQuiz) => item.gameId === res.data.gameId
+        );
+        if (exist >= 0) {
+          // eslint-disable-next-line no-param-reassign
+          page.rows[exist] = res.data;
+          return exist;
+        }
+        return false;
+        // return {
+        //   ...page,
+        //   rows: page.rows.map((item: IQuiz) => {
+        //     if (item._id !== res.data._id) return item;
+        //     return res.data;
+        //   }),
+        // };
+      });
+
+      queryClient.setQueryData<InfiniteData<IListResponse<IQuiz>>>(
+        queryKey,
+        (data) => ({
+          pages: queryData.pages,
+          pageParams: data?.pageParams || [],
+        })
+      );
+    },
+  });
+};
+
+export const useDeleteQuizMutation = () => {
+  const filters = useBoundStore.getState().quizTableFilters;
+
+  return useMutation({
+    mutationFn: ({ id }: { id: string }) => quizAPI.deleteQuiz(id),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Game deleted successfully', {
+        variant: 'success',
+      });
+      const { sortBy, sortOrder } = useBoundStore.getState().userSort;
+      const queryKey = infiniteQuizKeys.list({
+        ...filters,
+        // ...formatSortParam({
+        //   sortBy,
+        //   sortOrder,
+        // }),
       });
 
       const queryData: InfiniteData<any[]> | undefined =

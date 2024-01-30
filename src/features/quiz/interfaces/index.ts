@@ -1,16 +1,26 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
 import { QuizSortBy } from '../enums';
+import { CreatedAt } from 'features/product/interfaces';
 
 export interface IAddQuizSchema {
+  imageUrl: string;
   titleOne: string;
   titleTwo: string;
-  body: string;
+  subTitle: string;
+  description: string;
+  termsAndConditions: string;
   winnerDate: string;
-  startDate: string;
-  endDate: string;
+  winnerStartTime: string;
+  winnerEndTime: string;
+  prizeDescription: '';
   campaign: string;
-  prize: any;
-  terms: string;
+
+  quizzes: {
+    question: string;
+    startDate: string;
+    endDate: string;
+    options: Option[];
+  }[];
 }
 export interface IQuizTableFilter extends IFilter {
   titleOne?: string;
@@ -43,6 +53,7 @@ export interface IFormattedQuizFormSchema {
     description: string;
   };
   description: string;
+  termsAndConditions: string;
   status: string;
   winnerAnnouncementDate: string;
   options: {
@@ -51,6 +62,7 @@ export interface IFormattedQuizFormSchema {
   }[];
 
   content: {
+    logoUrl: string;
     title: string;
     subTitle: string;
     description: string;
@@ -84,9 +96,12 @@ export interface IQuiz {
   content: Content;
   winner: Winner;
   totalResponseCount: number;
+  created: CreatedAt;
+  updated: CreatedAt;
 }
 
 export interface Content {
+  logoUrl: string;
   subTitle: string;
   title: string;
   description: string;
@@ -100,8 +115,8 @@ export interface Option {
 }
 
 export interface Prize {
-  title: string;
-  description: string;
+  title?: string | undefined;
+  description?: string;
 }
 
 export interface Winner {

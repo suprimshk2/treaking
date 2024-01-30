@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Box, TableCell, TableRow, Typography } from '@mui/material';
-import { BsClock, BsPencilSquare, BsTrashFill } from 'react-icons/bs';
+import { BsClock, BsPencilSquare, BsTrashFill, BsCopy } from 'react-icons/bs';
 import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { useConfirmationModal } from 'shared/stores/ConfirmationModal';
@@ -17,16 +17,17 @@ import { IQuiz } from '../interfaces';
 interface IProps {
   data: IQuiz;
   onEditClick: (id: string) => void;
+  onDuplicate: (id: string) => void;
 }
 
-function QuizTableRow({ data, onEditClick }: IProps) {
+function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
   const userConfirmationModal = useConfirmationModal();
   const deleteUserMutation = useDeleteQuizMutation();
 
   const status = data?.status;
   const onDeleteClick = async () => {
     const result = await userConfirmationModal?.openConfirmationModal({
-      title: 'Delete User',
+      title: 'Delete Quiz',
       content: (
         <>
           Are you sure you want to delete &quot;
@@ -110,7 +111,7 @@ function QuizTableRow({ data, onEditClick }: IProps) {
               {
                 id: 1,
                 icon: BsClock,
-                text: formatDateToView(data?.startDate?.toString()),
+                text: formatDateToView(data?.endDate?.toString()),
                 tooltip: true,
                 truncateLength: 50,
               },
@@ -125,7 +126,8 @@ function QuizTableRow({ data, onEditClick }: IProps) {
       <TableCell>
         <Box display="flex" flexDirection="row">
           <Typography>
-            {formatFullName(data?.winner?.firstName, data.winner?.lastName)}
+            {formatFullName(data?.winner?.firstName, data?.winner?.lastName) ||
+              'N/A'}
           </Typography>
         </Box>
       </TableCell>
@@ -138,12 +140,22 @@ function QuizTableRow({ data, onEditClick }: IProps) {
           />
         )}
       </TableCell>
+      <TableCell>
+        <Box display="flex" flexDirection="row">
+          <Typography>{data?.created.name}</Typography>
+        </Box>
+      </TableCell>
       <TableCell align="right">
         <EllipseMenu>
           <EllipseMenuItem
             text="Edit"
             icon={BsPencilSquare}
             onClick={() => onEditClick(data?._id)}
+          />
+          <EllipseMenuItem
+            text="Duplicate"
+            icon={BsCopy}
+            onClick={() => onDuplicate(data?._id)}
           />
 
           <EllipseMenuItem

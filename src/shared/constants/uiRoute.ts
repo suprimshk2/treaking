@@ -22,7 +22,7 @@ const uiRoute = {
   home: '/home',
   users: '/users',
   dashboard: '/dashboard',
-  addQuiz: '/add',
+  addQuiz: '/quiz-form',
   profile: {
     profile: '/profile',
     profileSecurity: '/profile/security',

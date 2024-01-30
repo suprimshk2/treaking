@@ -1,24 +1,38 @@
 import {
   dobSchema,
+  nullableStringSchema,
   optionalStringSchema,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
 
+const optionSchema = z.object({
+  options: requiredStringSchema,
+});
 const quizSchema = z.object({
   question: requiredStringSchema,
+  startDate: optionalStringSchema,
+  endDate: optionalStringSchema,
+  logoUrl: optionalStringSchema,
+  options: z.array(z.string()).nonempty('At least one option is required'),
+});
+const prizeSchema = z.object({
+  title: nullableStringSchema,
+  description: optionalStringSchema,
 });
 
 export const addQuizFormSchema = z.object({
+  logoUrl: optionalStringSchema,
   titleOne: requiredStringSchema,
   titleTwo: requiredStringSchema,
-  body: requiredStringSchema,
+  subTitle: optionalStringSchema,
+  description: requiredStringSchema,
+  termsAndConditions: optionalStringSchema,
   winnerDate: dobSchema,
-  startDate: dobSchema,
-  endDate: dobSchema,
+  // startDate: dobSchema,
+  // endDate: dobSchema,
   campaign: requiredStringSchema,
-  prize: requiredStringSchema,
-  terms: requiredStringSchema,
+  prize: z.array(prizeSchema),
 
   quizzes: z.array(quizSchema),
 });

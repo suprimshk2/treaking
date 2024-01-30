@@ -60,7 +60,6 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
     reset,
     formState: { errors },
   } = methods;
-  console.log({ errors });
 
   const vendorDetailQuery = useVendorDetailQuery(editVendorId ?? '', {
     enabled: !!editVendorId,

@@ -6,52 +6,80 @@ import { quizConfig } from '../constant/config';
 
 const { QUIZ_TABLE_FILTER_MAP } = quizConfig;
 
-export const formatUserEditPayload = (data: any): IFormattedQuizFormSchema => {
-  return {
-    title: data.title,
+export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
+  return data?.quizzes?.map((item) => ({
+    title: data.subTitle,
     endDate: '2024-01-15T18:14:00.000',
+
+    // endDate: unformatDate(item.endDate.toString()),
     imageUrl: '',
     type: 'QUIZ',
     startDate: '2024-01-14T18:15:00.000',
+    // startDate: unformatDate(item.startDate.toString()),
     prize: {
-      title: 'Get a chance to win 3 Chaichai Confectionery Chocolates',
-      description: '',
+      title: '',
+      description: data?.prizeDescription,
     },
-    description: 'What is the meaning of Chai Chai of Chaichai Confectionery?',
+    description: item.question,
+    termsAndConditions: '',
     status: 'ACTIVE',
     winnerAnnouncementDate: '2024-01-21T06:15:00.000',
-    options: [
-      {
-        name: 'Chocolate',
-        order: 1,
-      },
-      {
-        name: 'Candy',
-        order: 2,
-      },
-      {
-        name: 'Jelly',
-        order: 3,
-      },
-      {
-        name: 'Gummy',
-        order: 4,
-      },
-    ],
+    options: item?.options.map((option, index) => ({
+      name: option,
+      order: index + 1,
+    })),
     content: {
-      title: 'MAKAII',
-      subTitle: 'MONDAY',
-      description:
-        'Monday isn’t your favorite day. Join "Makaii Monday" and see the magic!',
-      upcomingTitle: 'Next quiz will be available in',
+      title: data?.titleOne,
+      subTitle: data?.titleTwo,
+      description: data?.description,
+      upcomingTitle: '',
+    },
+    correctOptionNumber: 1,
+  }));
+};
+
+export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
+  return {
+    title: data.subTitle,
+    endDate: '2024-01-15T18:14:00.000',
+
+    // endDate: unformatDate(item.endDate.toString()),
+    imageUrl: '',
+    type: 'QUIZ',
+    startDate: '2024-01-14T18:15:00.000',
+    // startDate: unformatDate(item.startDate.toString()),
+    prize: {
+      title: '',
+      description: data?.prizeDescription,
+    },
+    description: data?.quizzes?.[0]?.question,
+    termsAndConditions: '',
+    status: 'ACTIVE',
+    winnerAnnouncementDate: '2024-01-21T06:15:00.000',
+    options: data?.quizzes?.[0]?.options?.map((option, index) => ({
+      name: option,
+      order: index + 1,
+    })),
+    content: {
+      logoUrl: data?.logoUrl,
+      title: data?.titleOne,
+      subTitle: data?.titleTwo,
+      description: data?.description,
+      upcomingTitle: '',
     },
     correctOptionNumber: 1,
   };
 };
+
 export const formatQuizAddPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {
-  return formatUserEditPayload(data);
+  return formatQuizAddPayloadData(data);
+};
+export const formatQuizEditPayload = (
+  data: AddQuizFormSchemaType
+): IFormattedQuizFormSchema => {
+  return formatQuizEditPayloadData(data);
 };
 export const formatQuizFilterParams = (filters: IQuizTableFilter) => {
   const params = pickBy(filters, (value: string | number) => value !== '');

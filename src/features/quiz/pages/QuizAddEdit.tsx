@@ -1,51 +1,53 @@
 import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { Box, Button, useTheme } from '@mui/material';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { AddQuizFormSchemaType } from '../schemas';
-import { useAddQuizMutation, useQuizDetailQuery } from '../mutations';
+import {
+  useAddQuizMutation,
+  useEditQuizMutation,
+  useQuizDetailQuery,
+} from '../mutations';
 import { QuizAddFields } from '../components/QuizAddFields';
-import { formatQuizAddPayload } from '../utils';
+import { formatQuizAddPayload, formatQuizEditPayload } from '../utils';
+import { IAddQuizSchema } from '../interfaces';
+import { FORMTYPE } from '../enums';
 
-const defaultValues: any = {
+const defaultValues: IAddQuizSchema = {
+  imageUrl: '',
   titleOne: '',
   titleTwo: '',
-  terms: '',
-  body: '',
-  endDate: '',
+  subTitle: '',
+  description: '',
+  termsAndConditions: '',
   campaign: '',
-  prize: '',
-  startDate: '',
+  prizeDescription: '',
   winnerDate: '',
-
+  winnerStartTime: '',
+  winnerEndTime: '',
   quizzes: [
     {
       question: '',
+      startDate: '',
+      endDate: '',
+      options: [],
     },
   ],
 };
 
-// const handleUserEdit = (data: AddQuizFormSchemaType) => {
-//   const payload = {};
-
-//   editUserMutation.mutate(
-//     { id: editUserId, data: payload },
-//     {
-//       onSuccess: () => {
-//         onCloseModal();
-//       },
-//     }
-//   );
-// };
-
 export function QuizAddEdit() {
+  const theme = useTheme();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const editQuizId = searchParams.get('id');
-  console.log(editQuizId);
+  const type = searchParams.get('type');
+  const isDuplicate = type === FORMTYPE.DUPLICATE;
+  const isEditMode = !!editQuizId && type === FORMTYPE.EDIT;
 
   const addQuizMutation = useAddQuizMutation();
+  const editQuizMutation = useEditQuizMutation();
   const methods = useForm<AddQuizFormSchemaType>({
     // resolver: zodResolver(addQuizFormSchema),
     defaultValues,
@@ -56,7 +58,6 @@ export function QuizAddEdit() {
     control,
     formState: { errors },
   } = methods;
-  console.log({ errors });
 
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,
@@ -64,24 +65,33 @@ export function QuizAddEdit() {
   // Prepopulate the form in case of edit
   useEffect(() => {
     if (quizDetailQuery?.data) {
-      // const { demographic } = quizDetailQuery.data;
+      const quizData = quizDetailQuery?.data;
       reset({
-        titleOne: '',
-        titleTwo: '',
-        body: '',
-        winnerDate: '',
-        startDate: '',
-        endDate: '',
-        campaign: '',
-        prize: '',
-        terms: '',
+        logoUrl: quizData.content.logoUrl || '',
+        subTitle: quizData.title || '',
+        termsAndConditions: quizData?.termsAndConditions || '',
+        // imageUrl: quizData.imageUrl || '',
+        titleOne: quizData.content.title || '',
+        titleTwo: quizData.content.subTitle || '',
+        description: quizData.content.description || '',
+        winnerDate: quizData.winnerAnnouncementDate || '',
+        campaign: quizData.status || '',
+        prizeDescription: quizData.prize.description || '',
+        terms: quizData.termsAndConditions || '',
+        quizzes: [
+          {
+            question: quizData.description || '',
+            startDate: quizData.startDate || '',
+            endDate: quizData.endDate || '',
+            options: quizData.options.map((option) => option.name) || [],
+          },
+        ],
       });
     }
   }, [quizDetailQuery?.data, reset]);
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
-    console.log(payload, 'main');
 
     addQuizMutation.mutate(
       { data: payload },
@@ -92,22 +102,28 @@ export function QuizAddEdit() {
       }
     );
   };
-  const isEditMode = !!editQuizId;
+  const handleQuizEdit = (data: AddQuizFormSchemaType) => {
+    const payload = formatQuizEditPayload(data);
 
+    editQuizMutation.mutate(
+      { id: editQuizId ?? '', data: payload },
+      {
+        onSuccess: () => {
+          navigate(-1);
+        },
+      }
+    );
+  };
   const onSubmit = (data: AddQuizFormSchemaType) => {
-    console.log('data-----', data);
-
     if (isEditMode) {
-      // handleUserEdit(data);
+      handleQuizEdit(data);
     } else {
-      console.log('add');
-
       handleQuizAdd(data);
     }
   };
   const childrenContainerStyle = {
     width: '100%',
-    // backgroundColor: theme.palette.error.lighter,
+    backgroundColor: theme.palette.gray.lighter,
   };
   return (
     <FormProvider {...methods}>
@@ -117,8 +133,16 @@ export function QuizAddEdit() {
           alignContent="center"
           flexDirection="column"
           justifyContent="center"
+          sx={{
+            backgroundColor: theme.palette.gray.lighter,
+            paddingBottom: theme.spacing(10),
+          }}
         >
-          <QuizAddFields control={control} />
+          <QuizAddFields
+            control={control}
+            isEditMode={isEditMode}
+            optionsData={quizDetailQuery?.data?.options}
+          />
           <Box
             maxWidth={518}
             display="flex"

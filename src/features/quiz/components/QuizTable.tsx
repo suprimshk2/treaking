@@ -17,18 +17,11 @@ import { MemoizedQuizTableRow } from './MemorizedQuizTableRow';
 
 interface IProps {
   onEditClick: (id: string) => void;
+  onDuplicate: (id: string) => void;
 }
-function QuizTable({ onEditClick }: IProps) {
+function QuizTable({ onEditClick, onDuplicate }: IProps) {
   const filters = useBoundStore.use.quizTableFilters();
-  // const totalRoles = useBoundStore.use.t();
-  const {
-    data,
-    isSuccess,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-    isInitialLoading,
-  } = useInfiniteQuizQuery(filters);
+  const { data, isSuccess, isInitialLoading } = useInfiniteQuizQuery(filters);
 
   const isEmptyResult = isSuccess && data?.pages?.[0]?.count === 0;
   const renderedTableRows =
@@ -40,6 +33,7 @@ function QuizTable({ onEditClick }: IProps) {
             key={quiz._id}
             data={quiz}
             onEditClick={onEditClick}
+            onDuplicate={onDuplicate}
           />
         ))}
       </React.Fragment>
