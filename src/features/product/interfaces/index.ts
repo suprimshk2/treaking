@@ -44,6 +44,7 @@ export interface IProductSchema {
   quantityInStock: string;
   costPrice: string;
   retailPrice: string;
+  discount: string;
 }
 
 export interface IAdaptedproductSchema {
@@ -65,6 +66,7 @@ export interface IPrice {
   discount?: IDiscount;
   effStartDate?: string;
   effEndDate?: string;
+  discountedValue?: number;
 }
 
 export interface IVendor {

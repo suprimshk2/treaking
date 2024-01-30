@@ -33,6 +33,7 @@ const defaultValues: IProductSchema = {
   quantityInStock: '',
   costPrice: '',
   retailPrice: '',
+  discount: '',
 };
 
 interface IProps {
@@ -77,7 +78,6 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
 
   const handleProductAdd = (data: IProductSchema) => {
     const payload = formatProductAddPayload(data);
-
     addProductMutation.mutate(
       { data: payload },
       {
@@ -158,9 +158,10 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
                   px={10}
                 >
                   <Button
-                    type="submit"
+                    type="button"
                     size={ButtonSize.MEDIUM}
                     variant={ButtonVariant.OUTLINED}
+                    onClick={onClose}
                   >
                     Cancel
                   </Button>

@@ -20,6 +20,7 @@ export const addProductFormSchema = z.object({
   costPrice: requiredStringSchema,
   retailPrice: requiredStringSchema,
   vendor: vendorSchema,
+  discount: z.string().optional(),
 });
 
 export type AddProductFormSchemaType = z.infer<typeof addProductFormSchema>;

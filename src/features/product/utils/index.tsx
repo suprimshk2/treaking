@@ -7,6 +7,7 @@ import {
   IProductSchema,
   IProductTableRow,
 } from '../interfaces';
+import { ProductDiscountType } from '../enums';
 
 export const adaptProduct = (
   item: IProductTableRow
@@ -21,7 +22,7 @@ export const adaptProduct = (
     createdAt: formatDateToView(item.created.date),
     isInStock: item.quantityInStock > 0,
     quantityInStock: item.quantityInStock,
-    image_url: item.images?.[0].url ?? '',
+    image_url: item.images?.[0]?.url ?? '',
     productId: item.productId,
   };
 };
@@ -38,10 +39,15 @@ export const adaptProductList = (
   };
 };
 
+const calculatePercentageDifference = (sPrice: number, dPrice: number) => {
+  const price = dPrice / sPrice;
+  return price * 100;
+};
+
 export const formatProductAddPayload = (
   data: IProductSchema
 ): IAdaptedproductSchema => {
-  return {
+  const payload = {
     ...data,
     point: [
       {
@@ -60,4 +66,23 @@ export const formatProductAddPayload = (
       return { ...item, order: index };
     }),
   };
+
+  const discountPrice = convertStringToNumber(data.discount) * 100;
+  const sellingPrice = payload.price[0].value;
+  if (discountPrice > 0 && discountPrice < sellingPrice) {
+    const percentage = calculatePercentageDifference(
+      sellingPrice,
+      discountPrice
+    );
+
+    console.log('price', sellingPrice, discountPrice);
+    console.log(' percentage', percentage);
+
+    payload.price[0].discount = {
+      type: ProductDiscountType.PERCENTAGE,
+      value: percentage,
+    };
+  }
+
+  return payload;
 };
