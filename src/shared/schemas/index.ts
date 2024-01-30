@@ -99,6 +99,4 @@ export const pointSchema = z.array(
   })
 );
 
-export const imageSchema = z
-  .array(z.object({ url: z.string(), order: z.number() }))
-  .nonempty();
+export const imageSchema = z.array(z.object({ url: z.string() })).nonempty();

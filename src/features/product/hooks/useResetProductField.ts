@@ -14,6 +14,7 @@ const useResetProductField = (data: IProductTableRow) => {
         price: convertNumberToString(data.price.originalValue),
         quantityInStock: convertNumberToString(data.quantityInStock),
         retailPrice: convertNumberToString(data.retailPrice),
+        costPrice: convertNumberToString(data.costPrice),
         vendor: { name: data.vendor.businessName, id: data.vendor.vendorId },
       });
     }

@@ -52,5 +52,8 @@ export const formatProductAddPayload = (
     quantityInStock: convertStringToNumber(data?.quantityInStock || ''),
     costPrice: convertStringToNumber(data?.costPrice || ''),
     retailPrice: convertStringToNumber(data?.retailPrice || ''),
+    images: data.images.map((item, index) => {
+      return { ...item, order: index };
+    }),
   };
 };

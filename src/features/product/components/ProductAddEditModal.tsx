@@ -16,7 +16,7 @@ import FileDropzone, {
 } from 'shared/components/file-upload/FileUpload';
 import { useUploadImageMutation } from 'shared/mutation';
 import { CloudFileCategory } from 'shared/enums';
-import { useAddProductMutation } from '../mutations';
+import { useAddProductMutation, useEditProductMutation } from '../mutations';
 import { ProductAddEditFields } from './ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
 import { ICloudFile, IFilePayload, IProductSchema } from '../interfaces';
@@ -52,11 +52,12 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
 
   const addProductMutation = useAddProductMutation();
   const uploadImageMutation = useUploadImageMutation();
+  const editProductMutation = useEditProductMutation();
 
   const { handleSubmit, reset, setValue, getValues } = methods;
 
   const onFileChange = (files: IFilePayload[]) => {
-    files.forEach(async (item, index) => {
+    files.forEach(async (item) => {
       const payload: ICloudFile = {
         file: item.file,
         category: CloudFileCategory.PRODUCT_IMAGE,
@@ -65,10 +66,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
       try {
         const data = await uploadImageMutation.mutateAsync(payload);
         const images = getValues('images');
-        setValue('images', [
-          ...images,
-          { url: data?.data?.url ?? '', order: index },
-        ]);
+        setValue('images', [...images, { url: data?.data?.url ?? '' }]);
 
         ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
       } catch (error) {
@@ -90,6 +88,18 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
     );
   };
 
+  const handleProductEdit = (data: IProductSchema) => {
+    const payload = formatProductAddPayload(data);
+    editProductMutation.mutate(
+      { productId: editProductId, data: payload },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
+  };
+
   const onCloseModal = () => {
     reset(defaultValues);
     onClose();
@@ -98,7 +108,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   const onSubmit = (data: IProductSchema) => {
     const payload = { ...data, tags: [] };
     if (isEditMode) {
-      // handleUserEdit(data);
+      handleProductEdit(payload);
     } else {
       handleProductAdd(payload);
     }
@@ -158,7 +168,10 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
                     type="submit"
                     buttonType={ButtonType.LOADING}
                     size={ButtonSize.MEDIUM}
-                    loading={addProductMutation.isPending}
+                    loading={
+                      addProductMutation.isPending ||
+                      editProductMutation.isPending
+                    }
                   >
                     Save
                   </Button>

@@ -35,6 +35,41 @@ export const useAddProductMutation = () => {
   });
 };
 
+export const useEditProductMutation = () => {
+  const queryClient = useQueryClient();
+
+  const filters = useBoundStore.getState().productTableFilters;
+
+  return useMutation({
+    mutationFn: ({
+      productId,
+      data,
+    }: {
+      productId: string;
+      data: IAdaptedproductSchema;
+    }) => productAPI.editProduct(productId, data),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Product added successfully', {
+        variant: 'success',
+      });
+
+      queryClient.setQueryData(
+        infiniteProductKeys.list(filters),
+        (old: any) => {
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              count: old.data.count + 1,
+              rows: [res.data, ...old.data.rows],
+            },
+          };
+        }
+      );
+    },
+  });
+};
+
 export const useDeleteProductMutation = () => {
   const queryClient = useQueryClient();
 
@@ -65,3 +100,4 @@ export const useDeleteProductMutation = () => {
     },
   });
 };
+

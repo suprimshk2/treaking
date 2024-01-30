@@ -47,7 +47,7 @@ const FileDropzone = forwardRef(
       setValue,
       formState: { errors },
     } = useFormContext();
-    const images = getValues('images');
+    const images = getValues(name);
 
     const hasError = errors[name];
     const fileId = useId();
@@ -67,7 +67,7 @@ const FileDropzone = forwardRef(
 
     const { getRootProps, getInputProps } = useDropzone({
       onDrop: async (droppedFiles: File[]) => {
-        clearErrors('images');
+        clearErrors(name);
         const newFiles: IFilePayload[] = [];
         droppedFiles.forEach((file) => {
           if (maxSize && file.size > maxSize) {
@@ -89,6 +89,7 @@ const FileDropzone = forwardRef(
     const handleFileDelete = (id: string) => {
       const files = selectedFiles.filter((item) => item.fileId !== id);
       setSelectedFiles(files);
+      setValue('images', files);
     };
 
     const files = selectedFiles.map((file: IFilePayload) => (

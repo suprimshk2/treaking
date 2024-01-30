@@ -35,7 +35,7 @@ export const editProduct = async (
   data: any
 ): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
-    method: 'PUT',
+    method: 'PATCH',
     url: apiRoute.edit.replace(':id', id),
     data,
   });
