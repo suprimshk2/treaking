@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { convertNumberToString } from 'shared/utils/common';
 import { IProductTableRow } from '../interfaces';
 
 const useResetProductField = (data: IProductTableRow) => {
@@ -9,8 +10,10 @@ const useResetProductField = (data: IProductTableRow) => {
     if (data) {
       reset({
         ...data,
-        point: data.point.originalValue,
-        price: data.price.originalValue,
+        point: convertNumberToString(data.point.originalValue),
+        price: convertNumberToString(data.price.originalValue),
+        quantityInStock: convertNumberToString(data.quantityInStock),
+        retailPrice: convertNumberToString(data.retailPrice),
         vendor: { name: data.vendor.businessName, id: data.vendor.vendorId },
       });
     }

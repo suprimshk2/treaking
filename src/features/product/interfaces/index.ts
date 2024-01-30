@@ -15,6 +15,8 @@ export interface IProductTableRow {
   productId: string;
   price: IPrice;
   point: IPoint;
+  retailPrice: number;
+  costPrice: number;
 }
 
 export interface IAdaptedProductTableRow {

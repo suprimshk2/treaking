@@ -541,3 +541,10 @@ export const convertStringToNumber = (value: string | number): number => {
   }
   return 0;
 };
+
+export const convertNumberToString = (value?: number): string => {
+  if (Number.isInteger(value)) {
+    return String(value);
+  }
+  return '';
+};
