@@ -525,7 +525,7 @@ export const formatCurrency = (
       currencyDisplay: 'code',
       minimumFractionDigits: min,
       maximumFractionDigits: max,
-    }).format(value as number);
+    }).format((+value / 100) as number);
   }
 
   if (!elseNull) {
@@ -540,4 +540,11 @@ export const convertStringToNumber = (value: string | number): number => {
     return +value;
   }
   return 0;
+};
+
+export const convertNumberToString = (value?: number): string => {
+  if (Number.isInteger(value)) {
+    return String(value);
+  }
+  return '';
 };

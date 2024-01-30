@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import {
@@ -16,8 +16,8 @@ import FileDropzone, {
 } from 'shared/components/file-upload/FileUpload';
 import { useUploadImageMutation } from 'shared/mutation';
 import { CloudFileCategory } from 'shared/enums';
-import { useAddProductMutation, useProductDetailQuery } from '../mutations';
-import { ProductAddEditFields } from '../components/ProductAddEditFields';
+import { useAddProductMutation } from '../mutations';
+import { ProductAddEditFields } from './ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
 import { ICloudFile, IFilePayload, IProductSchema } from '../interfaces';
 import { addProductFormSchema } from '../schemas';
@@ -55,16 +55,6 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
 
   const { handleSubmit, reset, setValue, getValues } = methods;
 
-  const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
-    enabled: !!editProductId,
-  });
-
-  useEffect(() => {
-    if (productDetailQuery?.data) {
-      reset({});
-    }
-  }, [productDetailQuery?.data, reset]);
-
   const onFileChange = (files: IFilePayload[]) => {
     files.forEach(async (item, index) => {
       const payload: ICloudFile = {
@@ -80,9 +70,9 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
           { url: data?.data?.url ?? '', order: index },
         ]);
 
-        ref.current?.setFileState(item.fileId, false, true);
+        ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
       } catch (error) {
-        ref.current?.setFileState(item.fileId, false, false);
+        ref.current?.setFileState(item.fileId, '', false, false);
       }
     });
   };
@@ -120,9 +110,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   };
 
   const TEXT = {
-    title: isEditMode
-      ? `Edit User: ${productDetailQuery?.data?.demographic?.fullName || ''}`
-      : 'Add Product',
+    title: isEditMode ? `Edit Product` : 'Add Product',
     footerActionButtonText: isEditMode ? 'Update' : 'Save',
     errorTitle: isEditMode ? 'Error updating user' : 'Error adding user',
   };
@@ -132,7 +120,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
       title={TEXT.title}
       handleClose={onCloseModal}
       open
-      size={DialogSize.LARGE}
+      size={DialogSize.XL}
     >
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -144,11 +132,12 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
             sx={{
               backgroundColor: theme.palette.gray.lighter,
               paddingBottom: theme.spacing(10),
+              px: 10,
             }}
           >
             <Stack direction="row">
-              <Stack>
-                <ProductAddEditFields />
+              <Stack flex={1}>
+                <ProductAddEditFields editProductId={editProductId} />
                 <Box
                   display="flex"
                   mx="auto"
@@ -175,7 +164,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
                   </Button>
                 </Box>
               </Stack>
-              <Box paddingY={theme.spacing(3)}>
+              <Box paddingY={theme.spacing(3)} flex={1}>
                 <Typography mb={3} variant="h5">
                   Product Image
                 </Typography>

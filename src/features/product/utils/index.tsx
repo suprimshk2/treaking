@@ -26,6 +26,8 @@ export const adaptProductList = (
           createdAt: formatDateToView(item.created.date),
           isInStock: item.quantityInStock > 0,
           quantityInStock: item.quantityInStock,
+          image_url: item.images?.[0].url ?? '',
+          productId: item.productId,
         };
       }),
     },
@@ -40,15 +42,11 @@ export const formatProductAddPayload = (
     point: [
       {
         value: convertStringToNumber(data.point),
-        effStartDate: '2025-01-01',
-        effEndDate: '2025-12-12',
       },
     ],
     price: [
       {
-        value: convertStringToNumber(data.price),
-        effStartDate: '2025-01-01',
-        effEndDate: '2025-12-12',
+        value: convertStringToNumber(data.price) * 100,
       },
     ],
     quantityInStock: convertStringToNumber(data?.quantityInStock || ''),

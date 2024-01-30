@@ -15,6 +15,8 @@ export interface IProductTableRow {
   productId: string;
   price: IPrice;
   point: IPoint;
+  retailPrice: number;
+  costPrice: number;
 }
 
 export interface IAdaptedProductTableRow {
@@ -27,6 +29,8 @@ export interface IAdaptedProductTableRow {
   isInStock: boolean;
   quantityInStock: number;
   createdAt: string;
+  image_url: string;
+  productId: string;
 }
 
 export interface IProductSchema {
@@ -119,6 +123,7 @@ export interface IFilePayload {
   fileId: string;
   isLoading?: boolean;
   isSuccess?: boolean;
+  url?: string;
 }
 
 export interface ICloudFile {

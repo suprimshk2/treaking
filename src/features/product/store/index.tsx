@@ -3,7 +3,9 @@ import { IProductSlice, IProductTableFilter } from '../interfaces';
 import { productConfig } from '../constant/config';
 
 export const createProductSlice: StateCreator<IProductSlice> = (set) => ({
-  productTableFilters: productConfig.PRODUCT_TABLE_DEFAULT_FILTER,
+  productTableFilters: {
+    limit: 100,
+  },
   setProductTableFilters: (newFilters: Partial<IProductTableFilter>) =>
     set((state) => ({
       productTableFilters: { ...state.productTableFilters, ...newFilters },

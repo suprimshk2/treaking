@@ -59,12 +59,12 @@ export const getProductById = async (id: string): Promise<IResponse<any>> => {
   return response?.data;
 };
 
-export const deleteVendor = async (
-  id: string
-): Promise<IResponse<{ isDeleted: boolean }>> => {
+export const deleteProduct = async (
+  productId: string
+): Promise<IResponse<{ isDeleted: boolean; productId: string }>> => {
   const { response, error } = await baseRequest({
     method: 'DELETE',
-    url: apiRoute.delete.replace(':id', id),
+    url: apiRoute.delete.replace(':id', productId),
   });
 
   if (error) {
