@@ -525,7 +525,7 @@ export const formatCurrency = (
       currencyDisplay: 'code',
       minimumFractionDigits: min,
       maximumFractionDigits: max,
-    }).format(value as number);
+    }).format((+value / 100) as number);
   }
 
   if (!elseNull) {

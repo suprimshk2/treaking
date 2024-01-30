@@ -1,10 +1,10 @@
 import { Box, Grid, Stack, useTheme } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
 
+import TextEditor from 'shared/components/text-editor';
 import { FormVendorSelect } from './VendorSelect';
 import useResetProductField from '../hooks/useResetProductField';
 import { useProductDetailQuery } from '../queries';
-import TextEditor from 'shared/components/text-editor';
 
 export function ProductAddEditFields({
   editProductId,
@@ -53,13 +53,6 @@ export function ProductAddEditFields({
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
               <TextEditor />
-              {/* <FormInput
-                name="description"
-                id="description"
-                label="Product Description"
-                multiline
-                rows={3}
-              /> */}
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>

@@ -42,15 +42,11 @@ export const formatProductAddPayload = (
     point: [
       {
         value: convertStringToNumber(data.point),
-        effStartDate: '2025-01-01',
-        effEndDate: '2025-12-12',
       },
     ],
     price: [
       {
-        value: convertStringToNumber(data.price),
-        effStartDate: '2025-01-01',
-        effEndDate: '2025-12-12',
+        value: convertStringToNumber(data.price) * 100,
       },
     ],
     quantityInStock: convertStringToNumber(data?.quantityInStock || ''),
