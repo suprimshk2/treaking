@@ -52,7 +52,7 @@ export function ProductAddEditFields({
               <FormInput name="title" id="title" label="Product Title" />
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
-              <TextEditor />
+              <TextEditor name="description" />
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>

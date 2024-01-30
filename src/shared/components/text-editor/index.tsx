@@ -5,11 +5,11 @@ import ReactDOMServer from 'react-dom/server';
 import { compiler } from 'markdown-to-jsx';
 import TurndownService from 'turndown';
 
-function TextEditor() {
+function TextEditor({ name }: { name: string }) {
   const turndownService = new TurndownService();
   const [text, setText] = useState('');
   const { setValue, getValues, watch } = useFormContext();
-  const description = getValues('description');
+  const description = getValues(name);
 
   useEffect(() => {
     if (description && !text) {
@@ -22,7 +22,7 @@ function TextEditor() {
     setText(data);
     const compilerData = compiler(data);
     const htmlString = ReactDOMServer.renderToStaticMarkup(compilerData);
-    setValue('description', htmlString || '');
+    setValue(name, htmlString || '');
   };
 
   return (
