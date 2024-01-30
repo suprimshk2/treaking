@@ -65,7 +65,7 @@ export function QuizMultiple({
         </Grid>
         <Grid item xs={6} mb={2}>
           <FormTimePicker
-            name={`${fieldArrayName}.${fieldArrayIndex}.startTime`}
+            name={`${fieldArrayName}.${fieldArrayIndex}.startDate`}
             label="Start Time"
           />
         </Grid>
@@ -80,7 +80,7 @@ export function QuizMultiple({
         </Grid>
         <Grid item xs={6} mb={2}>
           <FormTimePicker
-            name={`${fieldArrayName}.${fieldArrayIndex}.endTime`}
+            name={`${fieldArrayName}.${fieldArrayIndex}.endDate`}
             label="End Time"
           />
         </Grid>

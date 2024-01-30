@@ -3,18 +3,19 @@ import { mapKeys } from 'shared/utils/misc';
 import { IFormattedQuizFormSchema, IQuizTableFilter } from '../interfaces';
 import { AddQuizFormSchemaType } from '../schemas';
 import { quizConfig } from '../constant/config';
+import { QuizStatus } from '../enums';
 
 const { QUIZ_TABLE_FILTER_MAP } = quizConfig;
 
 export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
   return data?.quizzes?.map((item) => ({
     title: data.subTitle,
-    endDate: '2024-01-15T18:14:00.000',
+    endDate: new Date(item.startDate),
 
     // endDate: unformatDate(item.endDate.toString()),
     imageUrl: '',
     type: 'QUIZ',
-    startDate: '2024-01-14T18:15:00.000',
+    startDate: new Date(item.startDate),
     // startDate: unformatDate(item.startDate.toString()),
     prize: {
       title: '',
@@ -23,7 +24,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     description: item.question,
     termsAndConditions: '',
     status: 'ACTIVE',
-    winnerAnnouncementDate: '2024-01-21T06:15:00.000',
+    winnerAnnouncementDate: new Date(data.winnerDate),
     options: item?.options.map((option, index) => ({
       name: option,
       order: index + 1,
@@ -41,13 +42,11 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
 export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
   return {
     title: data.subTitle,
-    endDate: '2024-01-15T18:14:00.000',
-
-    // endDate: unformatDate(item.endDate.toString()),
+    endDate: new Date(data?.quizzes?.[0]?.endDate),
     imageUrl: '',
     type: 'QUIZ',
-    startDate: '2024-01-14T18:15:00.000',
-    // startDate: unformatDate(item.startDate.toString()),
+    startDate: new Date(data?.quizzes?.[0]?.startDate),
+
     prize: {
       title: '',
       description: data?.prizeDescription,
@@ -55,7 +54,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     description: data?.quizzes?.[0]?.question,
     termsAndConditions: '',
     status: 'ACTIVE',
-    winnerAnnouncementDate: '2024-01-21T06:15:00.000',
+    winnerAnnouncementDate: new Date(data?.winnerDate),
     options: data?.quizzes?.[0]?.options?.map((option, index) => ({
       name: option,
       order: index + 1,
@@ -89,4 +88,15 @@ export const formatQuizFilterParams = (filters: IQuizTableFilter) => {
 
   // Type assertion needed to escape type for empty object (i.e. {})
   return mapKeys(params as Record<string, unknown>, QUIZ_TABLE_FILTER_MAP);
+};
+export const formatQuizStatus = (startDate: Date, endDate: Date) => {
+  const todayDate = new Date();
+
+  if (todayDate >= new Date(startDate) && todayDate <= new Date(endDate)) {
+    return QuizStatus.RUNNING;
+  }
+  if (new Date(startDate) < todayDate) {
+    return QuizStatus.COMPLETED;
+  }
+  return QuizStatus.UPCOMING;
 };

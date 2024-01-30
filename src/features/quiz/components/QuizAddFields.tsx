@@ -137,7 +137,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
                 />
               </Grid>
               <Grid item xs={3.5} mb={2}>
-                <FormTimePicker name="winnerStartTime" label="Start Time" />
+                <FormTimePicker name="winnerDate" label="Start Time" />
               </Grid>
               <Grid item xs={3.5} mb={2}>
                 <FormTimePicker name="winnerEndTime" label="End Time" />

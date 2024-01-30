@@ -9,6 +9,7 @@ import {
 } from 'shared/theme/components/Button';
 import { Dialog, DialogSize } from 'shared/theme/components/dialog/Dialog';
 import { DialogLoader } from 'shared/components/display/DialogLoader';
+import uiRoute from 'shared/constants/uiRoute';
 import {
   useAddVendorMutation,
   useEditVendorMutation,
@@ -111,7 +112,7 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
       { data: payload },
       {
         onSuccess: () => {
-          navigate(-1);
+          onCloseModal();
         },
       }
     );

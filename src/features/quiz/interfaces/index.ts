@@ -45,10 +45,10 @@ export interface IFileSchema {
 }
 export interface IFormattedQuizFormSchema {
   title: string;
-  endDate: string;
+  endDate: Date;
   imageUrl: string;
   type: string;
-  startDate: string;
+  startDate: Date;
   prize: {
     title: string;
     description: string;
@@ -56,7 +56,7 @@ export interface IFormattedQuizFormSchema {
   description: string;
   termsAndConditions: string;
   status: string;
-  winnerAnnouncementDate: string;
+  winnerAnnouncementDate: Date;
   options: {
     name: string;
     order: number;

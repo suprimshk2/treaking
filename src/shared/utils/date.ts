@@ -96,6 +96,18 @@ export const formatDateToView = (
 ) => {
   return formatDate(date, dateFormat);
 };
+export const formatDateTimeToView = (
+  date: string,
+  dateFormat: {
+    inputDateFormat: string;
+    outputDateFormat: string;
+  } = {
+    inputDateFormat: DATE_FORMAT.ISO,
+    outputDateFormat: DATE_FORMAT.dateTimeViewFormat,
+  }
+) => {
+  return formatDate(date, dateFormat);
+};
 
 /**
  * Unformat date
@@ -145,7 +157,6 @@ export const combineFormatDate = (date: Date, time: Date) => {
 
   // Create a new Date object with combined date and time
   const combinedDateTime = new Date(year, month, day, hours, minutes, seconds);
-  console.log({ combinedDateTime });
 
   const formattedDate = unformatDate(combinedDateTime.toString());
   return formattedDate;

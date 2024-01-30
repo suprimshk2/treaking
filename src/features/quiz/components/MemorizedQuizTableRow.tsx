@@ -1,18 +1,33 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
-import { Box, TableCell, TableRow, Typography } from '@mui/material';
-import { BsClock, BsPencilSquare, BsTrashFill, BsCopy } from 'react-icons/bs';
+import React, { useState } from 'react';
+import {
+  Box,
+  TableCell,
+  TableRow,
+  Typography,
+  IconButton,
+} from '@mui/material';
+import {
+  BsClock,
+  BsPencilSquare,
+  BsTrashFill,
+  BsCopy,
+  BsChevronDown,
+  BsChevronUp,
+} from 'react-icons/bs';
 import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { useConfirmationModal } from 'shared/stores/ConfirmationModal';
 import { ListWithIcon } from 'shared/components/display/list-with-icon/ListWithIcon';
-import { formatDateToView } from 'shared/utils/date';
-import { UserStatus } from 'shared/enums';
+import { formatDateTimeToView } from 'shared/utils/date';
 import { ColorType } from 'shared/interfaces/misc';
 import { formatFullName } from 'shared/utils/common';
 import Chip from 'shared/theme/components/Chip';
 import { useDeleteQuizMutation } from '../mutations';
 import { IQuiz } from '../interfaces';
+import { QuizTableRowCollapsible } from './QuizTableRowCollapsible';
+import { QuizStatus } from '../enums';
+import { formatQuizStatus } from '../utils';
 
 interface IProps {
   data: IQuiz;
@@ -23,8 +38,9 @@ interface IProps {
 function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
   const userConfirmationModal = useConfirmationModal();
   const deleteUserMutation = useDeleteQuizMutation();
+  const [open, setOpen] = useState(false);
 
-  const status = data?.status;
+  const status = formatQuizStatus(data?.startDate, data?.endDate);
   const onDeleteClick = async () => {
     const result = await userConfirmationModal?.openConfirmationModal({
       title: 'Delete Quiz',
@@ -56,116 +72,136 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
     }
   };
 
-  const userStatusStyles = {
-    [UserStatus.ACTIVE]: {
+  const quizStatusStyles = {
+    [QuizStatus.COMPLETED]: {
       color: 'success',
-      label: UserStatus.ACTIVE,
+      label: QuizStatus.COMPLETED,
     },
-    [UserStatus.INACTIVE]: {
-      color: 'error',
-      label: UserStatus.INACTIVE,
+    [QuizStatus.UPCOMING]: {
+      color: 'info',
+      label: QuizStatus.UPCOMING,
+    },
+    [QuizStatus.RUNNING]: {
+      color: 'warning',
+      label: QuizStatus.RUNNING,
     },
   };
-  //   const currentRole = roleStyles[role as keyof typeof roleStyles];
+
   const currentStatus =
-    userStatusStyles[status as keyof typeof userStatusStyles];
+    quizStatusStyles[status as keyof typeof quizStatusStyles];
 
   return (
-    <TableRow key={data._id}>
-      <TableCell
-        component="th"
-        scope="data"
-        sx={{
-          maxWidth: 150,
-          whiteSpace: 'break-spaces',
-        }}
-      >
-        <Typography variant="bodyTextMedium">{data?.title}</Typography>
-      </TableCell>
-      <TableCell
-        sx={{
-          maxWidth: 200,
-        }}
-      >
-        <Typography variant="bodyTextMedium">{data?.description}</Typography>
-      </TableCell>
-      <TableCell
-        sx={{
-          maxWidth: 200,
-        }}
-      >
-        <Box display="flex" flexDirection="column">
-          <ListWithIcon
-            list={[
-              {
-                id: 1,
-                icon: BsClock,
-                text: formatDateToView(data?.startDate?.toString()),
-                tooltip: true,
-                truncateLength: 50,
-              },
-            ]}
-          />
-          <ListWithIcon
-            list={[
-              {
-                id: 1,
-                icon: BsClock,
-                text: formatDateToView(data?.endDate?.toString()),
-                tooltip: true,
-                truncateLength: 50,
-              },
-            ]}
-          />
-        </Box>
-      </TableCell>
-      <TableCell>
-        <Typography>test</Typography>
-      </TableCell>
+    <>
+      <TableRow key={data._id}>
+        <TableCell className="expand-collapse-column">
+          <Box>
+            <IconButton
+              aria-label="expand row"
+              onClick={() => setOpen((prevState) => !prevState)}
+              size="small"
+            >
+              {open ? <BsChevronUp /> : <BsChevronDown />}
+            </IconButton>
+          </Box>
+        </TableCell>
+        <TableCell
+          component="th"
+          scope="data"
+          sx={{
+            maxWidth: 150,
+            whiteSpace: 'break-spaces',
+          }}
+        >
+          <Typography variant="bodyTextMedium">{data?.title}</Typography>
+        </TableCell>
+        <TableCell
+          sx={{
+            maxWidth: 200,
+          }}
+        >
+          <Typography variant="bodyTextMedium">{data?.description}</Typography>
+        </TableCell>
+        <TableCell
+          sx={{
+            maxWidth: 200,
+          }}
+        >
+          <Box display="flex" flexDirection="column">
+            <ListWithIcon
+              list={[
+                {
+                  id: 1,
+                  icon: BsClock,
+                  text: formatDateTimeToView(data?.startDate?.toString()),
+                  tooltip: true,
+                  truncateLength: 50,
+                },
+              ]}
+            />
+            <ListWithIcon
+              list={[
+                {
+                  id: 1,
+                  icon: BsClock,
+                  text: formatDateTimeToView(data?.endDate?.toString()),
+                  tooltip: true,
+                  truncateLength: 50,
+                },
+              ]}
+            />
+          </Box>
+        </TableCell>
+        <TableCell>
+          <Typography>test</Typography>
+        </TableCell>
 
-      <TableCell>
-        <Box display="flex" flexDirection="row">
-          <Typography>
-            {formatFullName(data?.winner?.firstName, data?.winner?.lastName) ||
-              'N/A'}
-          </Typography>
-        </Box>
-      </TableCell>
-      <TableCell>
-        {!!currentStatus && (
-          <Chip
-            label={currentStatus.label}
-            color={currentStatus.color as ColorType}
-            size="small"
-          />
-        )}
-      </TableCell>
-      <TableCell>
-        <Box display="flex" flexDirection="row">
-          <Typography>{data?.created.name}</Typography>
-        </Box>
-      </TableCell>
-      <TableCell align="right">
-        <EllipseMenu>
-          <EllipseMenuItem
-            text="Edit"
-            icon={BsPencilSquare}
-            onClick={() => onEditClick(data?._id)}
-          />
-          <EllipseMenuItem
-            text="Duplicate"
-            icon={BsCopy}
-            onClick={() => onDuplicate(data?._id)}
-          />
+        <TableCell>
+          <Box display="flex" flexDirection="row">
+            <Typography>
+              {formatFullName(
+                data?.winner?.firstName,
+                data?.winner?.lastName
+              ) || 'N/A'}
+            </Typography>
+          </Box>
+        </TableCell>
+        <TableCell>
+          {!!currentStatus && (
+            <Chip
+              label={currentStatus.label}
+              color={currentStatus.color as ColorType}
+              size="small"
+            />
+          )}
+        </TableCell>
+        <TableCell>
+          <Box display="flex" flexDirection="row">
+            <Typography>{data?.created.name}</Typography>
+          </Box>
+        </TableCell>
+        <TableCell align="right">
+          <EllipseMenu>
+            <EllipseMenuItem
+              text="Edit"
+              icon={BsPencilSquare}
+              onClick={() => onEditClick(data?._id)}
+            />
+            <EllipseMenuItem
+              text="Duplicate"
+              icon={BsCopy}
+              onClick={() => onDuplicate(data?._id)}
+            />
 
-          <EllipseMenuItem
-            text="Delete"
-            icon={BsTrashFill}
-            onClick={onDeleteClick}
-          />
-        </EllipseMenu>
-      </TableCell>
-    </TableRow>
+            <EllipseMenuItem
+              text="Delete"
+              icon={BsTrashFill}
+              onClick={onDeleteClick}
+            />
+          </EllipseMenu>
+        </TableCell>
+      </TableRow>
+      {open && <QuizTableRowCollapsible open={open} data={data} />}
+    </>
   );
 }
 

@@ -74,15 +74,15 @@ export function QuizAddEdit() {
         titleOne: quizData.content.title || '',
         titleTwo: quizData.content.subTitle || '',
         description: quizData.content.description || '',
-        winnerDate: quizData.winnerAnnouncementDate || '',
+        winnerDate: new Date(quizData.winnerAnnouncementDate) || '',
         campaign: quizData.status || '',
         prizeDescription: quizData.prize.description || '',
         terms: quizData.termsAndConditions || '',
         quizzes: [
           {
             question: quizData.description || '',
-            startDate: quizData.startDate || '',
-            endDate: quizData.endDate || '',
+            startDate: new Date(quizData.startDate) || '',
+            endDate: new Date(quizData.endDate) || '',
             options: quizData.options.map((option) => option.name) || [],
           },
         ],
