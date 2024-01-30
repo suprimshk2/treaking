@@ -11,10 +11,10 @@ const useResetProductField = (data: IProductTableRow) => {
       reset({
         ...data,
         point: convertNumberToString(data.point.originalValue),
-        price: convertNumberToString(data.price.originalValue),
+        price: convertNumberToString(data.price.originalValue, true),
         quantityInStock: convertNumberToString(data.quantityInStock),
-        retailPrice: convertNumberToString(data.retailPrice),
-        costPrice: convertNumberToString(data.costPrice),
+        retailPrice: convertNumberToString(data.retailPrice, true),
+        costPrice: convertNumberToString(data.costPrice, true),
         vendor: { name: data.vendor.businessName, id: data.vendor.vendorId },
       });
     }
