@@ -1,5 +1,11 @@
 /* eslint-disable react/display-name */
-import { useState, forwardRef, useImperativeHandle, useId } from 'react';
+import {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useId,
+  useEffect,
+} from 'react';
 import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
@@ -32,14 +38,20 @@ const FileDropzone = forwardRef(
   ) => {
     const {
       clearErrors,
+      getValues,
       formState: { errors },
     } = useFormContext();
+    const images = getValues('images');
     const hasError = errors[name];
     const fileId = useId();
 
     const [selectedFiles, setSelectedFiles] = useState<IFilePayload[]>([]);
     const theme = useTheme();
     const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
+
+    useEffect(() => {
+      console.log('imgs => 🐸', images);
+    }, [images]);
 
     const { getRootProps, getInputProps } = useDropzone({
       onDrop: async (droppedFiles: File[]) => {

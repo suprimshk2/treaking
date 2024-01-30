@@ -14,6 +14,7 @@ export enum DialogSize {
   SMALL = 'small',
   MEDIUM = 'medium',
   LARGE = 'large',
+  XL = 'xl',
 }
 
 interface IProps {
@@ -37,6 +38,10 @@ const sizeConfig = {
   [DialogSize.LARGE]: {
     maxWidth: 'lg' as Breakpoint,
     titleClassName: 'title-lg',
+  },
+  [DialogSize.XL]: {
+    maxWidth: 'xl' as Breakpoint,
+    titleClassName: 'title-xl',
   },
 };
 

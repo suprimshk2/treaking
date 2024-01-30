@@ -2,9 +2,22 @@ import { Box, Grid, Stack, useTheme } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
 
 import { FormVendorSelect } from './VendorSelect';
+import useResetProductField from '../hooks/useResetProductField';
+import { useProductDetailQuery } from '../queries';
+import TextEditor from 'shared/components/text-editor';
 
-export function ProductAddEditFields() {
+export function ProductAddEditFields({
+  editProductId,
+}: {
+  editProductId: string;
+}) {
   const theme = useTheme();
+
+  const productDetailQuery = useProductDetailQuery(editProductId ?? '', {
+    enabled: !!editProductId,
+  });
+
+  useResetProductField(productDetailQuery?.data);
 
   const childrenContainerStyle = {
     width: '100%',
@@ -39,13 +52,14 @@ export function ProductAddEditFields() {
               <FormInput name="title" id="title" label="Product Title" />
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
-              <FormInput
+              <TextEditor />
+              {/* <FormInput
                 name="description"
                 id="description"
                 label="Product Description"
                 multiline
                 rows={3}
-              />
+              /> */}
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>

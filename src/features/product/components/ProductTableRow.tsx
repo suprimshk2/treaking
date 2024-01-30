@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
 import { IAdaptedProductTableRow } from '../interfaces';
 import { useDeleteProductMutation } from '../mutations';
-import { ProductAddEditModal } from '../pages/ProductAddEditModal';
+import { ProductAddEditModal } from './ProductAddEditModal';
 
 function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
   const theme = useTheme();
