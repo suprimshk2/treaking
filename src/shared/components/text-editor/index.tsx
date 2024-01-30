@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -6,9 +7,10 @@ import { compiler } from 'markdown-to-jsx';
 import TurndownService from 'turndown';
 
 function TextEditor({ name }: { name: string }) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const turndownService = new TurndownService();
   const [text, setText] = useState('');
-  const { setValue, getValues, watch } = useFormContext();
+  const { setValue, getValues } = useFormContext();
   const description = getValues(name);
 
   useEffect(() => {
