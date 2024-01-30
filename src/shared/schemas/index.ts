@@ -71,6 +71,8 @@ export const arrayOfStringSchema = z
 
 export const booleanSchema = z.boolean().nullable().optional();
 
+export const optionalDateSchema = z.coerce.date().optional();
+export const requiredDateSchema = z.coerce.date();
 const discountSchema = z
   .array(z.object({ type: z.string(), value: z.number() }))
   .optional();

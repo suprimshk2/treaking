@@ -5,7 +5,15 @@ import { formatDateToView } from 'shared/utils/date';
 import { config } from 'shared/constants/config';
 import Chip from 'shared/theme/components/Chip';
 import { checkAndReplaceEmptyValue, truncateText } from 'shared/utils/misc';
+import { BsPencilSquare, BsTrashFill } from 'react-icons/bs';
+import EllipseMenu from 'shared/components/menu/EllipseMenu';
+import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
+import { ColorType } from 'shared/interfaces/misc';
+import { useConfirmationModal } from 'shared/stores/ConfirmationModal';
 import { IOffer } from '../interfaces';
+import { getOfferStatus } from '../utils';
+import { OfferStatus } from '../enums';
+import { useDeleteOfferMutation } from '../mutations';
 
 const { DATE_FORMAT } = config;
 
@@ -15,44 +23,62 @@ interface IProps {
 }
 
 function OfferTableRow({ data, onEditClick }: IProps) {
-  // const onDeleteClick = async () => {
-  //   const result = await offerConfirmationModal?.openConfirmationModal({
-  //     title: 'Delete Offer',
-  //     content: (
-  //       <>
-  //         Are you sure you want to delete &quot;
-  //         <Typography
-  //           component="span"
-  //           sx={{ fontWeight: (theme) => theme.typography.fontWeightMedium }}
-  //         >
-  //           {data.demographic.fullName}
-  //         </Typography>
-  //         &quot;?
-  //       </>
-  //     ),
-  //   });
+  const confirmationModal = useConfirmationModal();
+  const deleteOfferMutation = useDeleteOfferMutation();
+  const onDeleteClick = async () => {
+    const result = await confirmationModal?.openConfirmationModal({
+      title: 'Delete Offer',
+      content: (
+        <>
+          Are you sure you want to delete &quot;
+          <Typography
+            component="span"
+            sx={{ fontWeight: (theme) => theme.typography.fontWeightMedium }}
+          >
+            {data.title}
+          </Typography>
+          &quot;?
+        </>
+      ),
+    });
 
-  //   if (result) {
-  //     offerConfirmationModal?.changeSubmittingStatus(true);
+    if (result) {
+      confirmationModal?.changeSubmittingStatus(true);
 
-  //     deleteOfferMutation.mutate(
-  //       { id: data._id },
-  //       {
-  //         onSettled: () => {
-  //           offerConfirmationModal?.changeSubmittingStatus(false);
-  //         },
-  //       }
-  //     );
-  //   }
-  // };
-
-  // const textOverflowEllipseStyles = {
-  //   whiteSpace: 'nowrap',
-  //   overflow: 'hidden',
-  //   textOverflow: 'ellipsis',
-  // };
+      deleteOfferMutation.mutate(
+        { id: data.offerId },
+        {
+          onSettled: () => {
+            confirmationModal?.changeSubmittingStatus(false);
+          },
+        }
+      );
+    }
+  };
 
   const DEFAULT_TRUNCATE_LENGTH = 100;
+
+  const statusStyles = {
+    [OfferStatus.ACTIVE]: {
+      color: 'success',
+      label: OfferStatus.ACTIVE,
+    },
+    [OfferStatus.UPCOMING]: {
+      color: 'info',
+      label: OfferStatus.UPCOMING,
+    },
+    [OfferStatus.EXPIRED]: {
+      color: 'error',
+      label: OfferStatus.EXPIRED,
+    },
+  };
+  const status =
+    statusStyles[
+      getOfferStatus({
+        availableUntil: data.availableUntil,
+        startDate: data.startDate,
+      })
+    ];
 
   return (
     <TableRow key={data.offerId}>
@@ -90,14 +116,14 @@ function OfferTableRow({ data, onEditClick }: IProps) {
         </Tooltip>
       </TableCell>
       <TableCell>
-        <Chip label="Active" color="success" />
+        <Chip label={status.label} color={status.color as ColorType} />
       </TableCell>
       <TableCell>
-        {data.updated?.by && data.updated.by}
-        {data.updated?.by && <br />}
-        {data.updated?.at && (
+        {/* {data.updated?.by && data.updated.by} */}
+        {/* {data.updated?.by && <br />} */}
+        {data.updated?.date && (
           <Typography variant="bodyTextMedium">
-            {formatDateToView(data.updated.at, {
+            {formatDateToView(data.updated.date, {
               inputDateFormat: DATE_FORMAT.ISO,
               outputDateFormat: DATE_FORMAT.dateViewFormat,
             })}
@@ -105,7 +131,20 @@ function OfferTableRow({ data, onEditClick }: IProps) {
         )}
       </TableCell>
 
-      <TableCell align="right" />
+      <TableCell align="right">
+        <EllipseMenu>
+          <EllipseMenuItem
+            text="Edit"
+            icon={BsPencilSquare}
+            onClick={() => onEditClick(data.offerId)}
+          />
+          <EllipseMenuItem
+            text="Delete"
+            icon={BsTrashFill}
+            onClick={onDeleteClick}
+          />
+        </EllipseMenu>
+      </TableCell>
     </TableRow>
   );
 }

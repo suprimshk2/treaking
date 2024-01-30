@@ -232,11 +232,11 @@ function UserTableRow({ data, onEditClick }: IProps) {
       </TableCell>
 
       <TableCell>
-        {data.updated?.by && data.updated.by}
-        {data.updated?.by && <br />}
-        {data.updated?.at && (
+        {data.updated?.name && data.updated.name}
+        {data.updated?.name && <br />}
+        {data.updated?.date && (
           <Typography variant="bodyTextMedium">
-            {formatDateToView(data.updated.at, {
+            {formatDateToView(data.updated.date, {
               inputDateFormat: DATE_FORMAT.ISO,
               outputDateFormat: DATE_FORMAT.dateViewFormat,
             })}

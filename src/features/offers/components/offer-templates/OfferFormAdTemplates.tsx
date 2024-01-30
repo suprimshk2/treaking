@@ -7,14 +7,14 @@ import template3 from 'shared/assets/png/offer-template3.png';
 import template4 from 'shared/assets/png/offer-template4.png';
 import template5 from 'shared/assets/png/offer-template5.png';
 
-export interface ITemplate {
+export interface IOfferTemplate {
   id: string;
   img: string;
   code: OfferTemplateCode;
   label: string;
 }
 
-export const offerTemplates: ITemplate[] = [
+export const offerTemplates: IOfferTemplate[] = [
   {
     id: '1',
     img: template1,
@@ -39,7 +39,6 @@ export const offerTemplates: ITemplate[] = [
     id: '4',
     img: template4,
     code: OfferTemplateCode.TURQUOISE,
-
     label: 'Turquoise',
   },
   {
@@ -51,8 +50,8 @@ export const offerTemplates: ITemplate[] = [
 ];
 
 interface IProps {
-  template: ITemplate;
-  onChange: (template: ITemplate) => void;
+  template: IOfferTemplate;
+  onChange: (template: IOfferTemplate) => void;
   selected: boolean;
 }
 
@@ -101,10 +100,8 @@ interface IFormProps {
 export function OfferFormAdTemplates({ name }: IFormProps) {
   const { setValue, watch } = useFormContext();
   const selectedValue = watch(name);
-  //   const [value, setValue] = useState<ITemplate | null>(null);
-  const handleSelect = (template: ITemplate) => {
-    console.log(template);
-    // setValue(template);
+  //   const [value, setValue] = useState<IOfferTemplate | null>(null);
+  const handleSelect = (template: IOfferTemplate) => {
     setValue(name, template);
   };
   return (
@@ -121,7 +118,7 @@ export function OfferFormAdTemplates({ name }: IFormProps) {
       >
         {offerTemplates.map((template) => (
           <TemplateCard
-            selected={selectedValue?.id === template.id}
+            selected={selectedValue?.code === template.code}
             key={template.id}
             template={template}
             onChange={handleSelect}

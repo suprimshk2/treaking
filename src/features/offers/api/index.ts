@@ -67,6 +67,9 @@ export const getOfferById = async (id: string): Promise<IResponse<IOffer>> => {
   const { response, error } = await baseRequest({
     method: 'GET',
     url: apiRoute.getOne.replace(':id', id),
+    params: {
+      paramType: 'offerId',
+    },
   });
 
   if (error) {
@@ -115,6 +118,9 @@ export const deleteOffer = async (
   const { response, error } = await baseRequest({
     method: 'DELETE',
     url: apiRoute.delete.replace(':id', id),
+    params: {
+      paramType: 'offerId',
+    },
   });
 
   if (error) {
