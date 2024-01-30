@@ -61,7 +61,12 @@ export const useEditProductMutation = () => {
             data: {
               ...old.data,
               count: old.data.count + 1,
-              rows: [res.data, ...old.data.rows],
+              rows: [
+                res.data,
+                ...old.data.rows.filter(
+                  (item) => item.productId !== res.data.productId
+                ),
+              ],
             },
           };
         }
