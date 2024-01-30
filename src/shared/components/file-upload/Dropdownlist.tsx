@@ -1,11 +1,4 @@
-import {
-  Box,
-  IconButton,
-  ImageListItem,
-  Skeleton,
-  Tooltip,
-  useTheme,
-} from '@mui/material';
+import { Box, IconButton, Skeleton, Tooltip, useTheme } from '@mui/material';
 import { BsCheckCircle, BsTrash, BsXCircle } from 'react-icons/bs';
 import { IFilePayload } from 'features/product/interfaces';
 import { LoadingIndicator } from '../display/LoadingIndicator';
@@ -44,7 +37,7 @@ function DropZoneFileList({
           <img
             srcSet={`${url}?w=50&fit=crop&auto=format&dpr=2 2x`}
             src={`${url}`}
-            alt={file.file.name}
+            alt={file?.file?.name ?? file.url}
             loading="lazy"
             width={50}
             height={50}
