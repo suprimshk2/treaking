@@ -75,9 +75,6 @@ export const formatProductAddPayload = (
       discountPrice
     );
 
-    console.log('price', sellingPrice, discountPrice);
-    console.log(' percentage', percentage);
-
     payload.price[0].discount = {
       type: ProductDiscountType.PERCENTAGE,
       value: percentage,
