@@ -7,6 +7,7 @@ interface IProps {
   autoFocus?: boolean;
   label?: string;
   name: string;
+  // value?: string;
   id: string;
   placeholder?: string;
   disabled?: boolean;
@@ -23,6 +24,7 @@ interface IProps {
 function FormInput({
   autoFocus,
   name,
+  // value,
   label,
   placeholder,
   id,
@@ -47,6 +49,7 @@ function FormInput({
       render={({ field }) => (
         <Input
           {...field}
+          // value={value}
           id={id}
           label={label}
           placeholder={placeholder}

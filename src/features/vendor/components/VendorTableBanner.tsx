@@ -24,7 +24,7 @@ export function VendorTableBanner({ onAddClick }: IProps) {
     <Stack spacing={4} mb={4} alignItems="flex-end">
       <CenterRowSpaceBetween>
         <Stack direction="row" spacing={4}>
-          {/* <Box display="flex" alignItems="center">
+          <Box display="flex" alignItems="center">
             <SearchInput
               placeholder="Search"
               value={value}
@@ -33,7 +33,7 @@ export function VendorTableBanner({ onAddClick }: IProps) {
                 setUserTableFilters({ keyword: v })
               }
             />
-          </Box> */}
+          </Box>
           <Button
             size={ButtonSize.MEDIUM}
             variant={ButtonVariant.CONTAINED}

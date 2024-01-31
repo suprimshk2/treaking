@@ -29,9 +29,10 @@ export function QuizMultiple({
   const theme = useTheme();
   const [options, setOptions] = useState(['']);
   useEffect(() => {
-    if (isEditMode) {
+    if (isEditMode && optionsData) {
       // `${fieldArrayName}.${fieldArrayIndex}.question`.
-      optionsData?.map((item: Option) => setOptions([item?.name]));
+      const optionNames = optionsData?.map((item) => item?.name || '');
+      setOptions(optionNames);
     }
   }, [isEditMode, optionsData]);
   const {

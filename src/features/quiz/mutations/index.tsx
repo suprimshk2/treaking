@@ -1,16 +1,14 @@
-import {
-  InfiniteData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { enqueueSnackbar, useSnackbar } from 'notistack';
+import { InfiniteData, useMutation, useQuery } from '@tanstack/react-query';
+
 import { formatSortParam } from 'shared/utils/misc';
 import { queryClient } from 'App';
 import { IError, IListResponse } from 'shared/interfaces/http';
 import { useBoundStore } from 'shared/stores/useBoundStore';
+import { enqueueSnackbar } from 'notistack';
 import { infiniteQuizKeys } from '../queries';
 import * as quizAPI from '../api';
+import { formatQuizDetail } from '../utils';
+
 import { IAddQuizSchema, IFormattedQuizFormSchema, IQuiz } from '../interfaces';
 
 export const useAddQuizMutation = () => {
@@ -21,8 +19,6 @@ export const useAddQuizMutation = () => {
     mutationFn: ({ data }: { data: IFormattedQuizFormSchema }) =>
       quizAPI.addQuiz(data),
     onSuccess: (res) => {
-      console.log(res, 'logg ress');
-
       enqueueSnackbar(res.message || 'Quiz added successfully', {
         variant: 'success',
       });
@@ -182,13 +178,13 @@ export const useQuizDetailQuery = (
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
+    select: formatQuizDetail,
     queryKey: infiniteQuizKeys.detail(id),
     queryFn: () => quizAPI.getQuizById(id),
     enabled,
   });
-
   return {
     ...queryInfo,
-    data: queryInfo.data?.data,
+    data: queryInfo.data,
   };
 };

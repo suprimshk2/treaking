@@ -1,4 +1,5 @@
 import {
+  imageSchema,
   nullableStringSchema,
   optionalDateSchema,
   optionalStringSchema,

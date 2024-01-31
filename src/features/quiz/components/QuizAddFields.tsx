@@ -1,36 +1,31 @@
 import { Box, Grid, IconButton, Stack, useTheme } from '@mui/material';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import FormInput from 'shared/components/form/FormInput';
-import { SETTINGS_BAR_PROPERTY } from 'shared/constants/settings';
 import { IoIosAddCircleOutline } from 'react-icons/io';
 import FileDropzone, {
   IFileRef,
 } from 'shared/components/file-upload/FileUpload';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { config } from 'shared/constants/config';
 import { FormDatePicker } from 'shared/components/form/FormDatePicker';
 import { FormTimePicker } from 'shared/components/form/FormTimePicker';
 import { ICloudFile, IFilePayload } from 'features/product/interfaces';
 import { CloudFileCategory } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
-import { IFileSchema } from '../interfaces';
 import { QuizMultiple } from './QuizMultiple';
+import { Option } from '../interfaces';
 
-// import { FormMaskedDateInput } from 'shared/components/form/FormMaskedDateInput';
-// import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
-
-// interface IProps {
-//   isEditMode?: boolean;
-// }
-
-export function QuizAddFields({ control, isEditMode, optionsData }: any) {
+interface IProps {
+  control: any;
+  isEditMode: boolean;
+  optionsData: Option[];
+}
+export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
   const theme = useTheme();
   const uploadImageMutation = useUploadImageMutation();
   const ref = useRef<IFileRef>(null);
-  const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
-  const [prizeFiles, setPrizeFiles] = useState<IFileSchema[]>([]);
+  const prizeRef = useRef<IFileRef>(null);
   const { getValues, setValue } = useFormContext();
-  const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
     width: '100%',
     backgroundColor: theme.palette.gray.lighter,
@@ -45,7 +40,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
   });
 
   const onFileChange = (files: IFilePayload[]) => {
-    files.forEach(async (item, index) => {
+    files.forEach(async (item) => {
       const payload: ICloudFile = {
         file: item.file,
         category: CloudFileCategory.QUIZ_LOGO,
@@ -53,36 +48,40 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
 
       try {
         const data = await uploadImageMutation.mutateAsync(payload);
-        const images = getValues('logoUrl');
-        setValue('logoUrl', [
-          ...images,
-          { url: data?.data?.url ?? '', order: index },
-        ]);
 
-        ref.current?.setFileState(item.fileId, false, true);
+        const images = getValues('images');
+
+        setValue('images', [...images, { url: data?.data?.url ?? '' }]);
+
+        ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
       } catch (error) {
-        ref.current?.setFileState(item.fileId, false, false);
+        ref.current?.setFileState(item.fileId, '', false, false);
       }
     });
   };
-  const onPrizeFileChange = (files: IFileSchema[]) => {
-    if (files[0]?.error) {
-      return;
-    }
-    const data = files.map((e: IFileSchema) => {
-      const { error, ...rest } = e;
-      return rest;
+
+  const onPrizeFileChange = (files: IFilePayload[]) => {
+    files.forEach(async (item) => {
+      const payload: ICloudFile = {
+        file: item.file,
+        category: CloudFileCategory.QUIZ_PRIZE,
+      };
+
+      try {
+        const data = await uploadImageMutation.mutateAsync(payload);
+
+        const images = getValues('prizeImages');
+
+        setValue('prizeImages', [...images, { url: data?.data?.url ?? '' }]);
+
+        ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
+      } catch (error) {
+        ref.current?.setFileState(item.fileId, '', false, false);
+      }
     });
-    setPrizeFiles(data);
   };
   return (
-    <Box
-      width="100%"
-      height="100%"
-      // sx={{
-      //   backgroundColor: 'red',
-      // }}
-    >
+    <Box width="100%" height="100%">
       <Box sx={childrenContainerStyle}>
         <Stack
           p={4}
@@ -99,6 +98,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
               <FileDropzone
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onFileChange}
+                ref={ref}
               />
             </Box>
             <Grid container spacing={4} mb={2}>
@@ -173,6 +173,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
               <FileDropzone
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onPrizeFileChange}
+                ref={prizeRef}
               />
             </Box>
           </Box>
@@ -232,7 +233,3 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
     </Box>
   );
 }
-
-QuizAddFields.defaultProps = {
-  isEditMode: false,
-};
