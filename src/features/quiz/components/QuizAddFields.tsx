@@ -1,15 +1,20 @@
 import { Box, Grid, IconButton, Stack, useTheme } from '@mui/material';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import FormInput from 'shared/components/form/FormInput';
 import { SETTINGS_BAR_PROPERTY } from 'shared/constants/settings';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import FileDropzone from 'shared/components/file-upload/FileUpload';
-import { useState } from 'react';
+import FileDropzone, {
+  IFileRef,
+} from 'shared/components/file-upload/FileUpload';
+import { useState, useRef } from 'react';
 import { config } from 'shared/constants/config';
 import { FormDatePicker } from 'shared/components/form/FormDatePicker';
 import { FormTimePicker } from 'shared/components/form/FormTimePicker';
-import { QuizMultiple } from './QuizMultiple';
+import { ICloudFile, IFilePayload } from 'features/product/interfaces';
+import { CloudFileCategory } from 'shared/enums';
+import { useUploadImageMutation } from 'shared/mutation';
 import { IFileSchema } from '../interfaces';
+import { QuizMultiple } from './QuizMultiple';
 
 // import { FormMaskedDateInput } from 'shared/components/form/FormMaskedDateInput';
 // import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
@@ -20,9 +25,11 @@ import { IFileSchema } from '../interfaces';
 
 export function QuizAddFields({ control, isEditMode, optionsData }: any) {
   const theme = useTheme();
+  const uploadImageMutation = useUploadImageMutation();
+  const ref = useRef<IFileRef>(null);
   const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
   const [prizeFiles, setPrizeFiles] = useState<IFileSchema[]>([]);
-
+  const { getValues, setValue } = useFormContext();
   const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
     width: '100%',
@@ -37,15 +44,26 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
     name: 'quizzes',
   });
 
-  const onFileChange = (files: IFileSchema[]) => {
-    if (files[0]?.error) {
-      return;
-    }
-    const data = files.map((e: IFileSchema) => {
-      const { error, ...rest } = e;
-      return rest;
+  const onFileChange = (files: IFilePayload[]) => {
+    files.forEach(async (item, index) => {
+      const payload: ICloudFile = {
+        file: item.file,
+        category: CloudFileCategory.QUIZ_LOGO,
+      };
+
+      try {
+        const data = await uploadImageMutation.mutateAsync(payload);
+        const images = getValues('logoUrl');
+        setValue('logoUrl', [
+          ...images,
+          { url: data?.data?.url ?? '', order: index },
+        ]);
+
+        ref.current?.setFileState(item.fileId, false, true);
+      } catch (error) {
+        ref.current?.setFileState(item.fileId, false, false);
+      }
     });
-    setSelectedFiles(data);
   };
   const onPrizeFileChange = (files: IFileSchema[]) => {
     if (files[0]?.error) {

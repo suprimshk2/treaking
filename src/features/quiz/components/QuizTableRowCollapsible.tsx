@@ -11,13 +11,13 @@ import {
   useTheme,
 } from '@mui/material';
 
-import { IQuiz, Option } from '../interfaces';
+import { IAdoptQuiz, Option } from '../interfaces';
 
 const COLS_NO_IN_COLLAPSIBLE_TABLE = 12;
 
 interface IProps {
   open: boolean;
-  data: IQuiz;
+  data: IAdoptQuiz;
 }
 
 export function QuizTableRowCollapsible({ open, data }: IProps): JSX.Element {

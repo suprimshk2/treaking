@@ -18,18 +18,17 @@ import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { useConfirmationModal } from 'shared/stores/ConfirmationModal';
 import { ListWithIcon } from 'shared/components/display/list-with-icon/ListWithIcon';
-import { formatDateTimeToView } from 'shared/utils/date';
+
 import { ColorType } from 'shared/interfaces/misc';
-import { formatFullName } from 'shared/utils/common';
+
 import Chip from 'shared/theme/components/Chip';
 import { useDeleteQuizMutation } from '../mutations';
-import { IQuiz } from '../interfaces';
+import { IAdoptQuiz } from '../interfaces';
 import { QuizTableRowCollapsible } from './QuizTableRowCollapsible';
 import { QuizStatus } from '../enums';
-import { formatQuizStatus } from '../utils';
 
 interface IProps {
-  data: IQuiz;
+  data: IAdoptQuiz;
   onEditClick: (id: string) => void;
   onDuplicate: (id: string) => void;
 }
@@ -39,7 +38,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
   const deleteUserMutation = useDeleteQuizMutation();
   const [open, setOpen] = useState(false);
 
-  const status = formatQuizStatus(data?.startDate, data?.endDate);
+  const status = data?.status;
   const onDeleteClick = async () => {
     const result = await userConfirmationModal?.openConfirmationModal({
       title: 'Delete Quiz',
@@ -131,7 +130,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
                 {
                   id: 1,
                   icon: BsClock,
-                  text: formatDateTimeToView(data?.startDate?.toString()),
+                  text: data?.startDate,
                   tooltip: true,
                   truncateLength: 50,
                 },
@@ -142,7 +141,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
                 {
                   id: 1,
                   icon: BsClock,
-                  text: formatDateTimeToView(data?.endDate?.toString()),
+                  text: data?.endDate,
                   tooltip: true,
                   truncateLength: 50,
                 },
@@ -156,12 +155,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
 
         <TableCell>
           <Box display="flex" flexDirection="row">
-            <Typography>
-              {formatFullName(
-                data?.winner?.firstName,
-                data?.winner?.lastName
-              ) || 'N/A'}
-            </Typography>
+            <Typography>{data?.winnerFullName}</Typography>
           </Box>
         </TableCell>
         <TableCell>

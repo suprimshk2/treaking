@@ -1,6 +1,6 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
+import { ICreatedAt } from 'features/product/interfaces';
 import { QuizSortBy } from '../enums';
-import { CreatedAt } from 'features/product/interfaces';
 
 export interface IAddQuizSchema {
   imageUrl: string;
@@ -97,10 +97,14 @@ export interface IQuiz {
   content: Content;
   winner: Winner;
   totalResponseCount: number;
-  created: CreatedAt;
-  updated: CreatedAt;
+  created: ICreatedAt;
+  updated: ICreatedAt;
 }
-
+export interface IAdoptQuiz extends Omit<IQuiz, 'endDate' | 'startDate'> {
+  endDate: string;
+  startDate: string;
+  winnerFullName: string;
+}
 export interface Content {
   logoUrl: string;
   subTitle: string;
