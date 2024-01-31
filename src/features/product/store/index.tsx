@@ -4,12 +4,14 @@ import { productConfig } from '../constant/config';
 
 export const createProductSlice: StateCreator<IProductSlice> = (set) => ({
   productTableFilters: {
-    limit: 100,
+    limit: 20,
+    page: 1,
   },
   setProductTableFilters: (newFilters: Partial<IProductTableFilter>) =>
     set((state) => ({
       productTableFilters: { ...state.productTableFilters, ...newFilters },
     })),
+
   productSort: {
     sortBy: null,
     sortOrder: null,

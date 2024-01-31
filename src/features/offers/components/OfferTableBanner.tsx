@@ -19,7 +19,6 @@ interface IProps {
 export function OfferTableBanner({ onAddClick, children }: IProps) {
   const [value, setValue] = useState('');
   const setOfferTableFilters = useBoundStore.use.setOfferTableFilters();
-  // const totalOffers = useBoundStore.use.totalOffers();
 
   return (
     <Stack spacing={4} mb={4}>
