@@ -37,28 +37,29 @@ export function QuizTableBanner({ onAddClick }: IProps) {
   return (
     <Stack spacing={4} mb={4} alignItems="flex-end">
       <CenterRowSpaceBetween>
-        <Box display="flex" alignItems="center">
-          <SearchInput
-            placeholder="Search"
-            value={value}
-            onChangeHandler={(v) => setValue(v)}
-            onDebouncedChangeHandler={(v) =>
-              setQuizTableFilters({ keyword: v })
-            }
-          />
-        </Box>
         <Stack direction="row" spacing={4}>
-          <Button
-            size={ButtonSize.MEDIUM}
-            variant={ButtonVariant.CONTAINED}
-            suffix={<BsPlusLg />}
-            buttonType={ButtonType.NORMAL}
-            onClick={onAddClick}
-          >
-            Add
-          </Button>
+          <Box display="flex" alignItems="center">
+            <SearchInput
+              placeholder="Search"
+              value={value}
+              onChangeHandler={(v) => setValue(v)}
+              onDebouncedChangeHandler={(v) =>
+                setQuizTableFilters({ keyword: v })
+              }
+            />
+          </Box>
+          <Stack direction="row" spacing={4}>
+            <Button
+              size={ButtonSize.MEDIUM}
+              variant={ButtonVariant.CONTAINED}
+              suffix={<BsPlusLg />}
+              buttonType={ButtonType.NORMAL}
+              onClick={onAddClick}
+            >
+              Add
+            </Button>
+          </Stack>
         </Stack>
-        {/* )} */}
       </CenterRowSpaceBetween>
     </Stack>
   );
