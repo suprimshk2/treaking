@@ -25,19 +25,12 @@ export const useProductsQuery = (
     queryFn: () => productAPI.getProducts(filters),
     enabled,
     getNextPageParam: (lastPage) => {
-      if (lastPage?.total === 0) return undefined;
+      const { metaInfo } = lastPage.data;
+      if (metaInfo?.totalPage === 0) return undefined;
       const nextPage =
-        lastPage?.metaInfo?.currentPage === lastPage?.metaInfo?.totalPage
+        metaInfo?.currentPage === metaInfo?.totalPage
           ? undefined
-          : lastPage.metaInfo.currentPage + 1;
-      // setOfferTableFilters({ page: nextPage || 1 });
-
-      // Commenting as this may be needed in the future
-      // const nextPage =
-      //   lastPage.length === filters.limit && allPages.length < totalPages
-      //     ? allPages.length * filters.limit
-      //     : undefined;
-
+          : metaInfo.currentPage + 1;
       return nextPage;
     },
     select: adaptProductList,

@@ -35,6 +35,7 @@ export const useInfiniteOffersQuery = (filters: IOfferTableFilter) => {
       //   lastPage.length === filters.limit && allPages.length < totalPages
       //     ? allPages.length * filters.limit
       //     : undefined;
+      console.log('nextPage', nextPage);
 
       return nextPage;
     },
