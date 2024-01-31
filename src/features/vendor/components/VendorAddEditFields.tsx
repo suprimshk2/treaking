@@ -33,13 +33,7 @@ export function VendorAddEditFields({
     setSelectedFiles(data);
   };
   return (
-    <Box
-      width="100%"
-      height="100%"
-      // sx={{
-      //   backgroundColor: 'red',
-      // }}
-    >
+    <Box width="100%" height="100%">
       <Box sx={childrenContainerStyle}>
         <Stack
           p={4}
@@ -68,13 +62,15 @@ export function VendorAddEditFields({
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
                 <FormInput
+                  type="number"
                   name="contactsOne"
                   id="contactsOne"
-                  label="Primary Contact *"
+                  label="Primary Contact "
                 />
               </Grid>
               <Grid item xs={6}>
                 <FormInput
+                  type="number"
                   name="contactsTwo"
                   id="contactsTwo"
                   label="Secondary Contact"
@@ -135,7 +131,12 @@ export function VendorAddEditFields({
                 <FormInput name="fullName" id="fullName" label="Full Name" />
               </Grid>
               <Grid item xs={6}>
-                <FormInput name="phone" id="phone" label="Phone" />
+                <FormInput
+                  name="phone"
+                  id="phone"
+                  label="Phone"
+                  type="number"
+                />
               </Grid>
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>

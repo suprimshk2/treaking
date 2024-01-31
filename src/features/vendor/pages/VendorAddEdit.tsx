@@ -25,7 +25,7 @@ interface IProps {
   onClose: VoidFunction;
 }
 
-const defaultValues: any = {
+const defaultValues = {
   logoUrl: '',
   businessName: '',
   contactsOne: '',
@@ -46,8 +46,6 @@ const defaultValues: any = {
 export function VendorAddEdit({ editVendorId, onClose }: IProps) {
   const theme = useTheme();
 
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
 
   const addVendorMutation = useAddVendorMutation();
