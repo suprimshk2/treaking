@@ -18,7 +18,7 @@ export const config = {
    */
   TABLE_DEFAULT_FILTER: {
     keyword: '',
-    limit: 20,
+    limit: 5,
     page: 1,
   },
 

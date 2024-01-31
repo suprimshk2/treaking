@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { FormDatePicker } from 'shared/components/form/FormDatePicker';
 import { FormTimePicker } from 'shared/components/form/FormTimePicker';
+import { FormVendorSelect } from 'shared/select/VendorSelect';
 import { OfferFormAdTemplates } from './offer-templates/OfferFormAdTemplates';
 import { OfferTypeFormSelect } from './OfferTypeFormSelect';
 import { OfferBodyType } from '../enums';
@@ -33,7 +34,13 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
     >
       <Grid container spacing={4} mb={4}>
         <Grid item xs={6}>
-          <FormInput name="vendor" id="vendor" label="Vendor" />
+          <FormVendorSelect
+            name="vendor"
+            id="vendor"
+            label="Vendor"
+            clearable
+            placeholder="Select vendor"
+          />
         </Grid>
         <Grid item xs={6}>
           <FormInput name="manager" id="manager" label="Account Manager" />

@@ -15,17 +15,15 @@ export const infiniteProductKeys = {
     [...infiniteProductKeys.lists(), 'autocomplete', { filters }] as const,
 };
 
-export const useProductsQuery = (
-  filters: IProductTableFilter,
-  { enabled }: { enabled: boolean }
-) => {
+export const useProductsQuery = (filters: IProductTableFilter) => {
   const queryInfo = useInfiniteQuery({
-    initialPageParam: 1,
     queryKey: infiniteProductKeys.list(filters),
-    queryFn: () => productAPI.getProducts(filters),
-    enabled,
+    initialPageParam: 1,
+    queryFn: ({ pageParam = 1 }) =>
+      productAPI.getProducts({ ...filters, page: pageParam }),
     getNextPageParam: (lastPage) => {
       const { metaInfo } = lastPage.data;
+
       if (metaInfo?.totalPage === 0) return undefined;
       const nextPage =
         metaInfo?.currentPage === metaInfo?.totalPage
