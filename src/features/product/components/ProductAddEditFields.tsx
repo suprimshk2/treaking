@@ -83,7 +83,7 @@ export function ProductAddEditFields({
               </Grid>
               <Grid item xs={6}>
                 <FormInput
-                  name="discountPrice"
+                  name="discount"
                   id="discountPrice"
                   label="Discounted Price"
                   type="number"

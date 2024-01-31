@@ -1,13 +1,12 @@
 /* eslint-disable react/display-name */
-import { useState, forwardRef, useImperativeHandle, useId } from 'react';
 import {
-  Box,
-  ImageList,
-  Stack,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useId,
+  useEffect,
+} from 'react';
+import { Box, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from 'react-icons/bs';
 import { useFormContext } from 'react-hook-form';
@@ -44,8 +43,12 @@ const FileDropzone = forwardRef(
   ) => {
     const {
       clearErrors,
+      getValues,
+      setValue,
       formState: { errors },
     } = useFormContext();
+    const images = getValues(name);
+
     const hasError = errors[name];
     const fileId = useId();
 
@@ -53,9 +56,18 @@ const FileDropzone = forwardRef(
     const theme = useTheme();
     const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
 
+    useEffect(() => {
+      if (images?.length) {
+        const mapIdToImage = images.map((item: IFilePayload, index: number) => {
+          return { ...item, fileId: `${fileId}-${index}`, isSuccess: true };
+        });
+        setSelectedFiles(mapIdToImage);
+      }
+    }, [fileId, images, setValue]);
+
     const { getRootProps, getInputProps } = useDropzone({
       onDrop: async (droppedFiles: File[]) => {
-        clearErrors('images');
+        clearErrors(name);
         const newFiles: IFilePayload[] = [];
         droppedFiles.forEach((file) => {
           if (maxSize && file.size > maxSize) {
@@ -77,6 +89,7 @@ const FileDropzone = forwardRef(
     const handleFileDelete = (id: string) => {
       const files = selectedFiles.filter((item) => item.fileId !== id);
       setSelectedFiles(files);
+      setValue('images', files);
     };
 
     const files = selectedFiles.map((file: IFilePayload) => (

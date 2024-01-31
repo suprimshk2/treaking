@@ -26,7 +26,58 @@ export const useAddProductMutation = () => {
             data: {
               ...old.data,
               count: old.data.count + 1,
-              rows: [res.data, ...old.data.rows],
+              rows: [
+                {
+                  ...res.data,
+                  point: { originalValue: res.data.point[0].value },
+                  price: { originalValue: res.data.price[0].value },
+                },
+                ...old.data.rows,
+              ],
+            },
+          };
+        }
+      );
+    },
+  });
+};
+
+export const useEditProductMutation = () => {
+  const queryClient = useQueryClient();
+
+  const filters = useBoundStore.getState().productTableFilters;
+
+  return useMutation({
+    mutationFn: ({
+      productId,
+      data,
+    }: {
+      productId: string;
+      data: IAdaptedproductSchema;
+    }) => productAPI.editProduct(productId, data),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'Product added successfully', {
+        variant: 'success',
+      });
+
+      queryClient.setQueryData(
+        infiniteProductKeys.list(filters),
+        (old: any) => {
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              count: old.data.count + 1,
+              rows: [
+                {
+                  ...res.data,
+                  point: { originalValue: res.data.point[0].value },
+                  price: { originalValue: res.data.price[0].value },
+                },
+                ...old.data.rows.filter(
+                  (item) => item.productId !== res.data.productId
+                ),
+              ],
             },
           };
         }
@@ -65,3 +116,4 @@ export const useDeleteProductMutation = () => {
     },
   });
 };
+

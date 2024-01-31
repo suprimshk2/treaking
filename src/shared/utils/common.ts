@@ -542,8 +542,14 @@ export const convertStringToNumber = (value: string | number): number => {
   return 0;
 };
 
-export const convertNumberToString = (value?: number): string => {
-  if (Number.isInteger(value)) {
+export const convertNumberToString = (
+  value?: number,
+  divide = false
+): string => {
+  if (Number.isInteger(value) && !Number.isNaN(value)) {
+    if (divide) {
+      return String(value / 100);
+    }
     return String(value);
   }
   return '';
