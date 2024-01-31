@@ -1,10 +1,10 @@
 const apiRoute = {
-  add: '/main/quiz',
-  delete: '/quiz/:id',
-  edit: '/quiz/:id',
+  add: '/main/games/bulk',
+  delete: '/main/games/:id',
+  edit: '/main/games/:id',
   getAll: '/main/games',
-  getOne: '/games/:id',
-  getAutoCompleteQuiz: '/quiz/active',
+  getOne: '/main/games/:id',
+  getAutoCompleteQuiz: '/main/games/active',
 };
 
 export default apiRoute;

@@ -1,6 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { IQuizTableFilter } from '../interfaces';
+import { IListResponse, IResponse } from 'shared/interfaces/http';
+import { IAdoptQuiz, IQuizTableFilter } from '../interfaces';
 import * as quizAPI from '../api';
+import { formatQuizList } from '../utils';
 
 export const infiniteQuizKeys = {
   all: ['infinite-quiz'] as const,
@@ -17,8 +19,10 @@ export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
   // const totalPages = Math.ceil(totalUsers / filters.limit);
 
   return useInfiniteQuery({
+    select: formatQuizList,
     queryKey: infiniteQuizKeys.list(filters),
     initialPageParam: 1,
+
     queryFn: ({ pageParam = 1 }) =>
       quizAPI.getInfiniteQuiz({ ...filters, page: pageParam }),
     getNextPageParam: (lastPage, allPages) => {

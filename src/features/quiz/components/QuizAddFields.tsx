@@ -1,15 +1,20 @@
 import { Box, Grid, IconButton, Stack, useTheme } from '@mui/material';
-import { TimeField } from '@mui/x-date-pickers';
-import { useFieldArray } from 'react-hook-form';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import FormInput from 'shared/components/form/FormInput';
-import { FormMaskedDateInput } from 'shared/components/form/FormMaskedDateInput';
 import { SETTINGS_BAR_PROPERTY } from 'shared/constants/settings';
 import { IoIosAddCircleOutline } from 'react-icons/io';
-import FileDropzone from 'shared/components/file-upload/FileUpload';
-import { useState } from 'react';
+import FileDropzone, {
+  IFileRef,
+} from 'shared/components/file-upload/FileUpload';
+import { useState, useRef } from 'react';
 import { config } from 'shared/constants/config';
-import { QuizMultiple } from './QuizMultiple';
+import { FormDatePicker } from 'shared/components/form/FormDatePicker';
+import { FormTimePicker } from 'shared/components/form/FormTimePicker';
+import { ICloudFile, IFilePayload } from 'features/product/interfaces';
+import { CloudFileCategory } from 'shared/enums';
+import { useUploadImageMutation } from 'shared/mutation';
 import { IFileSchema } from '../interfaces';
+import { QuizMultiple } from './QuizMultiple';
 
 // import { FormMaskedDateInput } from 'shared/components/form/FormMaskedDateInput';
 // import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
@@ -18,10 +23,13 @@ import { IFileSchema } from '../interfaces';
 //   isEditMode?: boolean;
 // }
 
-export function QuizAddFields({ control }: any) {
+export function QuizAddFields({ control, isEditMode, optionsData }: any) {
   const theme = useTheme();
+  const uploadImageMutation = useUploadImageMutation();
+  const ref = useRef<IFileRef>(null);
   const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
-
+  const [prizeFiles, setPrizeFiles] = useState<IFileSchema[]>([]);
+  const { getValues, setValue } = useFormContext();
   const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
     width: '100%',
@@ -36,7 +44,28 @@ export function QuizAddFields({ control }: any) {
     name: 'quizzes',
   });
 
-  const onFileChange = (files: IFileSchema[]) => {
+  const onFileChange = (files: IFilePayload[]) => {
+    files.forEach(async (item, index) => {
+      const payload: ICloudFile = {
+        file: item.file,
+        category: CloudFileCategory.QUIZ_LOGO,
+      };
+
+      try {
+        const data = await uploadImageMutation.mutateAsync(payload);
+        const images = getValues('logoUrl');
+        setValue('logoUrl', [
+          ...images,
+          { url: data?.data?.url ?? '', order: index },
+        ]);
+
+        ref.current?.setFileState(item.fileId, false, true);
+      } catch (error) {
+        ref.current?.setFileState(item.fileId, false, false);
+      }
+    });
+  };
+  const onPrizeFileChange = (files: IFileSchema[]) => {
     if (files[0]?.error) {
       return;
     }
@@ -44,7 +73,7 @@ export function QuizAddFields({ control }: any) {
       const { error, ...rest } = e;
       return rest;
     });
-    setSelectedFiles(data);
+    setPrizeFiles(data);
   };
   return (
     <Box
@@ -92,32 +121,60 @@ export function QuizAddFields({ control }: any) {
               />
             </Grid>
 
-            <Grid container spacing={4} mb={2}>
-              <Grid item xs={4}>
-                <FormMaskedDateInput
-                  name="dob"
-                  id="dob"
-                  label="Date of Birth "
-                />
-              </Grid>
-              <Grid item xs={4} mb={2}>
-                <TimeField name="startTime" id="startTime" label="Start Time" />
-              </Grid>
-              <Grid item xs={4} mb={2}>
-                <TimeField name="startTime" id="startTime" label="Start Time" />
-              </Grid>
-            </Grid>
-
             <Grid item xs={6} mb={2}>
-              <FormInput name="campaign" id="campaign" label="Campaign *" />
+              <FormInput name="campaign" id="campaign" label="Campaign" />
             </Grid>
             <Grid item xs={6} mb={2}>
               <FormInput
-                name="prize"
-                id="prize"
-                label="Winning Prize Description "
+                name="termsAndConditions"
+                id="termsAndConditions"
+                label="Terms & Condition "
+                multiline
               />
             </Grid>
+          </Box>
+        </Stack>
+        <Stack
+          mt={4}
+          p={4}
+          spacing={4}
+          maxWidth={518}
+          mx="auto"
+          sx={{
+            borderRadius: 2,
+            backgroundColor: theme.palette.common.white,
+          }}
+        >
+          <Box>
+            <Grid container spacing={4} mb={2}>
+              <Grid item xs={5}>
+                <FormDatePicker
+                  minDate={new Date()}
+                  name="winnerDate"
+                  label="Winner Announcement Date"
+                />
+              </Grid>
+              <Grid item xs={3.5} mb={2}>
+                <FormTimePicker name="winnerDate" label="Start Time" />
+              </Grid>
+              <Grid item xs={3.5} mb={2}>
+                <FormTimePicker name="winnerEndTime" label="End Time" />
+              </Grid>
+            </Grid>
+            <Grid item spacing={4} mb={2}>
+              <FormInput
+                name="prizeDescription"
+                id="prizeDescription"
+                label="Winning Prize Description"
+                multiline
+              />
+            </Grid>
+            <Box paddingY={theme.spacing(3)}>
+              <FileDropzone
+                maxSize={config.MAX_FILE_SIZE}
+                onChange={onPrizeFileChange}
+              />
+            </Box>
           </Box>
         </Stack>
 
@@ -142,27 +199,31 @@ export function QuizAddFields({ control }: any) {
               >
                 <Box key={item.id}>
                   <QuizMultiple
+                    isEditMode={isEditMode}
                     fieldArrayIndex={index}
                     fieldArrayName="quizzes"
                     onDelete={() => remove(index)}
+                    optionsData={optionsData}
                   />
                 </Box>
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  justifyContent="flex-end"
-                  alignContent="center"
-                  position="absolute"
-                  sx={{
-                    right: -50,
-                    backgroundColor: theme.palette.common.white,
-                    borderRadius: 1,
-                  }}
-                >
-                  <IconButton onClick={() => append([{ name: 'quizzes' }])}>
-                    <IoIosAddCircleOutline color="green" />
-                  </IconButton>
-                </Box>
+                {isEditMode ? null : (
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="flex-end"
+                    alignContent="center"
+                    position="absolute"
+                    sx={{
+                      right: -50,
+                      backgroundColor: theme.palette.common.white,
+                      borderRadius: 1,
+                    }}
+                  >
+                    <IconButton onClick={() => append([{ name: 'quizzes' }])}>
+                      <IoIosAddCircleOutline color="green" />
+                    </IconButton>
+                  </Box>
+                )}
               </Box>
             );
           })}

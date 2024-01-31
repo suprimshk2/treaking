@@ -55,10 +55,10 @@ export const addQuiz = async (
 };
 export const editQuiz = async (
   id: string,
-  data: IAddQuizSchema
+  data: IFormattedQuizFormSchema
 ): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
-    method: 'PUT',
+    method: 'PATCH',
     url: apiRoute.edit.replace(':id', id),
     data,
   });
@@ -71,7 +71,7 @@ export const editQuiz = async (
 };
 export const getQuizById = async (
   id: string
-): Promise<IResponse<IAddQuizSchema>> => {
+): Promise<IResponse<IFormattedQuizFormSchema>> => {
   const { response, error } = await baseRequest({
     method: 'GET',
     url: apiRoute.getOne.replace(':id', id),
