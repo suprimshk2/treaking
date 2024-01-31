@@ -37,8 +37,10 @@ export const adaptProductList = (
   return {
     ...res,
     data: {
-      ...res.data,
-      rows: res.data.rows.map((item: IProductTableRow) => adaptProduct(item)),
+      ...res.pages?.[0],
+      rows: res?.pages?.[0]?.data?.rows.map((item: IProductTableRow) =>
+        adaptProduct(item)
+      ),
     },
   };
 };
