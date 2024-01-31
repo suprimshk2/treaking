@@ -8,16 +8,18 @@ import {
 } from '@mui/material';
 import { TableEmptyResult } from 'shared/components/display/TableEmptyResult';
 import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
+import { useBoundStore } from 'shared/stores/useBoundStore';
 import { useProductsQuery } from '../queries';
 import ProductTableRow from './ProductTableRow';
 import { IAdaptedProductTableRow } from '../interfaces';
 import { PRODUCT_COLUMNS } from '../constant/ProducTableHeader';
 
 function ProductTable() {
-  const { data, isLoading, isSuccess } = useProductsQuery(
-    { limit: 100 },
-    { enabled: true }
-  );
+  const filters = useBoundStore.use.productTableFilters();
+
+  const { data, isLoading, isSuccess } = useProductsQuery(filters, {
+    enabled: true,
+  });
 
   const isEmptyResult = isSuccess && data?.count === 0;
 

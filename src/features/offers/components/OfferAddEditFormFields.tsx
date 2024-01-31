@@ -86,6 +86,7 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
             id="highlights"
             label="Offer Highlights"
             multiline
+            rows={3}
             inputProps={{
               maxLength: 100,
             }}
