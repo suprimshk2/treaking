@@ -55,8 +55,8 @@ function DashboardLayout() {
 
   return (
     <Box>
-      <DashboardHeader />
-      <Sidebar />
+      {/* <DashboardHeader /> */}
+      {/* <Sidebar /> */}
       <Box sx={contentWrapperStyles}>
         <Box sx={{ padding: layoutPadding }}>
           <Outlet />
