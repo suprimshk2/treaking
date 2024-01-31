@@ -3,29 +3,29 @@ import { ICreatedAt } from 'features/product/interfaces';
 import { QuizSortBy } from '../enums';
 
 export interface IAddQuizSchema {
-  imageUrl: string;
+  logoUrl: IFileSchema[];
   titleOne: string;
   titleTwo: string;
   subTitle: string;
   description: string;
   termsAndConditions: string;
-  winnerDate: string;
-  winnerStartTime: string;
-  winnerEndTime: string;
-  prizeDescription: '';
+  winnerDate: string | Date;
+  // winnerStartTime: string;
+  // winnerEndTime: string;
+  prizeDescription: string;
   campaign: string;
 
   quizzes: {
     question: string;
-    startDate: string;
-    endDate: string;
+    startDate: string | Date;
+    endDate: string | Date;
     options: Option[];
   }[];
 }
 export interface IQuizTableFilter extends IFilter {
   titleOne?: string;
   titleTwo?: string;
-  body?: string;
+  description?: string;
 }
 export interface IQuizSort {
   sortBy: QuizSortBy | null;
@@ -41,9 +41,12 @@ export interface IFileSchema {
   error?: boolean;
   file_url?: string;
   isPublic?: boolean;
+  url?: string;
+  order?: number;
   isLoading?: boolean;
 }
 export interface IFormattedQuizFormSchema {
+  images?: IFileSchema[];
   title: string;
   endDate: Date;
   imageUrl: string;
@@ -104,6 +107,7 @@ export interface IAdoptQuiz extends Omit<IQuiz, 'endDate' | 'startDate'> {
   endDate: string;
   startDate: string;
   winnerFullName: string;
+  images: IFileSchema[];
 }
 export interface Content {
   logoUrl: string;

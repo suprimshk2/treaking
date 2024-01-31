@@ -1,4 +1,5 @@
-import { Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import { useState } from 'react';
 import { CenterRowSpaceBetween } from 'shared/components/layouts/CenterRowSpaceBetween';
 import {
   Button,
@@ -12,14 +13,16 @@ import { checkAuthForPermissions } from 'shared/utils/common';
 import { ModuleCodes, ResourceCode } from 'shared/enums';
 import { RolesMangementPermissions } from 'features/settings/roles-and-permissions/enums';
 import { useInfiniteRolesQuery } from 'features/settings/roles-and-permissions/queries';
+import { SearchInput } from 'shared/theme/components/SearchInput';
 
 interface IProps {
   onAddClick: VoidFunction;
 }
 
 export function QuizTableBanner({ onAddClick }: IProps) {
-  // const [value, setValue] = useState('');
-  // const [isAdvancedFilterOpen, setIsAdvancedFilterOpen] = useState(false);
+  const [value, setValue] = useState('');
+  const setQuizTableFilters = useBoundStore.use.setQuizTableFilters();
+
   const isRolesCreateEnabled = checkAuthForPermissions(
     ModuleCodes.SETTING,
     RolesMangementPermissions.CREATE,
@@ -34,8 +37,16 @@ export function QuizTableBanner({ onAddClick }: IProps) {
   return (
     <Stack spacing={4} mb={4} alignItems="flex-end">
       <CenterRowSpaceBetween>
-        {/* {isRolesCreateEnabled && ( */}
-
+        <Box display="flex" alignItems="center">
+          <SearchInput
+            placeholder="Search"
+            value={value}
+            onChangeHandler={(v) => setValue(v)}
+            onDebouncedChangeHandler={(v) =>
+              setQuizTableFilters({ keyword: v })
+            }
+          />
+        </Box>
         <Stack direction="row" spacing={4}>
           <Button
             size={ButtonSize.MEDIUM}

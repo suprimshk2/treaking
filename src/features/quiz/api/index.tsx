@@ -2,11 +2,7 @@ import { IListResponse, IResponse } from 'shared/interfaces/http';
 import { baseRequest } from 'shared/utils/axios';
 
 import { useBoundStore } from 'shared/stores/useBoundStore';
-import {
-  IAddQuizSchema,
-  IFormattedQuizFormSchema,
-  IQuizTableFilter,
-} from '../interfaces';
+import { IFormattedQuizFormSchema, IQuizTableFilter } from '../interfaces';
 import apiRoute from '../constant/apiRoute';
 import { formatQuizFilterParams } from '../utils';
 

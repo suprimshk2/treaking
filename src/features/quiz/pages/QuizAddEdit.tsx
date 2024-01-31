@@ -15,7 +15,7 @@ import { IAddQuizSchema } from '../interfaces';
 import { FORMTYPE } from '../enums';
 
 const defaultValues: IAddQuizSchema = {
-  imageUrl: '',
+  logoUrl: [],
   titleOne: '',
   titleTwo: '',
   subTitle: '',
@@ -24,8 +24,8 @@ const defaultValues: IAddQuizSchema = {
   campaign: '',
   prizeDescription: '',
   winnerDate: '',
-  winnerStartTime: '',
-  winnerEndTime: '',
+  // winnerStartTime: '',
+  // winnerEndTime: '',
   quizzes: [
     {
       question: '',
@@ -43,12 +43,12 @@ export function QuizAddEdit() {
 
   const editQuizId = searchParams.get('id');
   const type = searchParams.get('type');
-  const isDuplicate = type === FORMTYPE.DUPLICATE;
+
   const isEditMode = !!editQuizId && type === FORMTYPE.EDIT;
 
   const addQuizMutation = useAddQuizMutation();
   const editQuizMutation = useEditQuizMutation();
-  const methods = useForm<AddQuizFormSchemaType>({
+  const methods = useForm({
     // resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
@@ -66,24 +66,24 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
+
       reset({
-        logoUrl: quizData.content.logoUrl || '',
+        ...quizData,
         subTitle: quizData.title || '',
-        termsAndConditions: quizData?.termsAndConditions || '',
-        // imageUrl: quizData.imageUrl || '',
+
         titleOne: quizData.content.title || '',
         titleTwo: quizData.content.subTitle || '',
         description: quizData.content.description || '',
         winnerDate: new Date(quizData.winnerAnnouncementDate) || '',
         campaign: quizData.status || '',
         prizeDescription: quizData.prize.description || '',
-        terms: quizData.termsAndConditions || '',
         quizzes: [
           {
+            ...quizData,
             question: quizData.description || '',
             startDate: new Date(quizData.startDate) || '',
             endDate: new Date(quizData.endDate) || '',
-            options: quizData.options.map((option) => option.name) || [],
+            options: quizData.options || [],
           },
         ],
       });
@@ -92,8 +92,6 @@ export function QuizAddEdit() {
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
-    console.log({ payload });
-    console.log({ data });
 
     addQuizMutation.mutate(
       { data: payload },

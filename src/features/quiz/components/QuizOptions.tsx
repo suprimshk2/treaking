@@ -30,10 +30,13 @@ function QuizOptions({
         Options
       </Typography>
       {options?.map((option, index) => {
+        console.log({ option });
+
         return (
           // eslint-disable-next-line react/no-array-index-key
           <Box key={index} pb={2}>
             <FormInput
+              // value={option}
               name={
                 `${fieldArrayName}.${fieldArrayIndex}.options.${index}` as const
               }
@@ -42,14 +45,6 @@ function QuizOptions({
               // }
               id="options"
             />
-            {/* <Input
-              // sx={{ width: '100%' }}
-              type="text"
-              value={option}
-              onChange={(e) => handleOptionChange(e.target.value, index)}
-              id={option}
-              name={option}
-            /> */}
           </Box>
         );
       })}

@@ -32,11 +32,12 @@ export const formatQuizList = (
 ): InfiniteData<IListResponse<IAdoptQuiz>> => {
   return {
     ...res,
-    pages: res.pages.map((group) => {
+    pages: res?.pages?.map((group) => {
       return {
         rows: group.rows.map((item: IQuiz) => {
           return {
             ...item,
+            images: [{ url: item.content.logoUrl }],
             status: formatQuizStatus(item?.startDate, item?.endDate),
             startDate: formatDateTimeToView(item?.startDate?.toString()),
             endDate: formatDateTimeToView(item?.endDate?.toString()),
@@ -50,15 +51,20 @@ export const formatQuizList = (
   };
 };
 
+export const formatQuizDetail = (res: any): any => {
+  return {
+    ...res.data,
+    images: [{ url: res.data.content.logoUrl }],
+  };
+};
+
 export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
   return data?.quizzes?.map((item) => ({
     title: data.subTitle,
     endDate: new Date(item.startDate),
-
     imageUrl: '',
     type: 'QUIZ',
     startDate: new Date(item.startDate),
-
     prize: {
       title: '',
       description: data?.prizeDescription,
@@ -67,12 +73,12 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     termsAndConditions: '',
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data.winnerDate),
-    options: item?.options.map((option, index) => ({
+    options: item?.options?.map((option, index) => ({
       name: option,
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.logoUrl[0]?.url,
+      logoUrl: data?.images[0]?.url,
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
@@ -103,7 +109,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.logoUrl[0]?.url,
+      logoUrl: data?.images[0]?.url,
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
