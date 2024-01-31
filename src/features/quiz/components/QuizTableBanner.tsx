@@ -35,31 +35,28 @@ export function QuizTableBanner({ onAddClick }: IProps) {
   const { isFetching } = useInfiniteRolesQuery(rolesTableFilter);
 
   return (
-    <Stack spacing={4} mb={4} alignItems="flex-end">
+    <Stack spacing={4} mb={4}>
       <CenterRowSpaceBetween>
-        <Stack direction="row" spacing={4}>
-          <Box display="flex" alignItems="center">
-            <SearchInput
-              placeholder="Search"
-              value={value}
-              onChangeHandler={(v) => setValue(v)}
-              onDebouncedChangeHandler={(v) =>
-                setQuizTableFilters({ keyword: v })
-              }
-            />
-          </Box>
-          <Stack direction="row" spacing={4}>
-            <Button
-              size={ButtonSize.MEDIUM}
-              variant={ButtonVariant.CONTAINED}
-              suffix={<BsPlusLg />}
-              buttonType={ButtonType.NORMAL}
-              onClick={onAddClick}
-            >
-              Add
-            </Button>
-          </Stack>
-        </Stack>
+        <Box display="flex" alignItems="center">
+          <SearchInput
+            placeholder="Search"
+            value={value}
+            onChangeHandler={(v) => setValue(v)}
+            onDebouncedChangeHandler={(v) =>
+              setQuizTableFilters({ keyword: v })
+            }
+          />
+        </Box>
+        <Button
+          size={ButtonSize.MEDIUM}
+          variant={ButtonVariant.CONTAINED}
+          prefix={<BsPlusLg />}
+          buttonType={ButtonType.NORMAL}
+          onClick={onAddClick}
+          sx={{ color: 'common.black' }}
+        >
+          Add Question
+        </Button>
       </CenterRowSpaceBetween>
     </Stack>
   );

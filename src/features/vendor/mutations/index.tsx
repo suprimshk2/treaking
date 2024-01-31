@@ -18,6 +18,11 @@ export const useAddVendorMutation = () => {
   const { sortBy, sortOrder } = useBoundStore.getState().vendorSort;
 
   return useMutation({
+    onError: (error: IError) => {
+      enqueueSnackbar(error.message, {
+        variant: 'error',
+      });
+    },
     mutationFn: ({ data }: { data: IFormattedVendorFormSchema }) =>
       vendorAPI.addVendor(data),
     onSuccess: (res) => {

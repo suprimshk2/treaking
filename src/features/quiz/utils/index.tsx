@@ -37,7 +37,6 @@ export const formatQuizList = (
         rows: group.rows.map((item: IQuiz) => {
           return {
             ...item,
-            images: [{ url: item.content.logoUrl }],
             status: formatQuizStatus(item?.startDate, item?.endDate),
             startDate: formatDateTimeToView(item?.startDate?.toString()),
             endDate: formatDateTimeToView(item?.endDate?.toString()),
