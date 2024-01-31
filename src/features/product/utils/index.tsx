@@ -1,5 +1,9 @@
 import { IListResponse, IResponse } from 'shared/interfaces/http';
-import { convertStringToNumber, formatCurrency } from 'shared/utils/common';
+import {
+  convertNumberToString,
+  convertStringToNumber,
+  formatCurrency,
+} from 'shared/utils/common';
 import { formatDateToView } from 'shared/utils/date';
 import {
   IAdaptedProductTableRow,
@@ -82,4 +86,11 @@ export const formatProductAddPayload = (
   }
 
   return payload;
+};
+
+export const calculateDiscount = (sPrice?: number, dPrice?: number) => {
+  if (sPrice && dPrice) {
+    return sPrice - dPrice;
+  }
+  return 0;
 };

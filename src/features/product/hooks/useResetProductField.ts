@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { convertNumberToString } from 'shared/utils/common';
 import { IProductTableRow } from '../interfaces';
+import { calculateDiscount } from '../utils';
 
 const useResetProductField = (data: IProductTableRow) => {
   const { reset } = useFormContext();
@@ -16,7 +17,13 @@ const useResetProductField = (data: IProductTableRow) => {
         retailPrice: convertNumberToString(data.retailPrice, true),
         costPrice: convertNumberToString(data.costPrice, true),
         vendor: { name: data.vendor.businessName, id: data.vendor.vendorId },
-        discount: convertNumberToString(data.price.discountedValue, true),
+        discount: convertNumberToString(
+          calculateDiscount(
+            data.price.originalValue,
+            data.price.discountedValue
+          ),
+          true
+        ),
       });
     }
   }, [data, reset]);
