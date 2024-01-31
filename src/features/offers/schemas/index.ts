@@ -3,6 +3,7 @@ import {
   optionalStringSchema,
   requiredDateSchema,
   requiredStringSchema,
+  vendorSchema,
 } from 'shared/schemas';
 
 export const offerAddEditFormSchema = z.object({
@@ -12,7 +13,7 @@ export const offerAddEditFormSchema = z.object({
     code: requiredStringSchema,
     label: requiredStringSchema,
   }),
-  vendor: requiredStringSchema,
+  vendor: vendorSchema,
   title: requiredStringSchema,
   shortDescription: requiredStringSchema,
   description: requiredStringSchema,

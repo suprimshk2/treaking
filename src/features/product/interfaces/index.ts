@@ -1,4 +1,4 @@
-import { IFilter, SortOrderType } from 'shared/interfaces/misc';
+import { IFilter, IVendorSchema, SortOrderType } from 'shared/interfaces/misc';
 import { ProductSortBy } from '../enums';
 
 export interface IProductTableRow {
@@ -36,7 +36,7 @@ export interface IAdaptedProductTableRow {
 export interface IProductSchema {
   title: string;
   description: string;
-  vendor: IVendor;
+  vendor: IVendorSchema;
   images: IFileSchema[];
   point: string;
   price: string;
@@ -67,11 +67,6 @@ export interface IPrice {
   effStartDate?: string;
   effEndDate?: string;
   discountedValue?: number;
-}
-
-export interface IVendor {
-  id?: string;
-  name?: string;
 }
 
 export interface Ated {

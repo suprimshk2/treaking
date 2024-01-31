@@ -59,3 +59,9 @@ export type ColorType =
   | 'info'
   | 'success'
   | 'warning';
+
+export interface IVendorSchema {
+  id?: string;
+  name?: string;
+  logo_url?: string;
+}

@@ -2,7 +2,7 @@ import { Box, Grid, Stack, useTheme } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
 
 import TextEditor from 'shared/components/text-editor';
-import { FormVendorSelect } from './VendorSelect';
+import { FormVendorSelect } from '../../../shared/select/VendorSelect';
 import useResetProductField from '../hooks/useResetProductField';
 import { useProductDetailQuery } from '../queries';
 

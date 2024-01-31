@@ -50,6 +50,7 @@ export function FormVendorSelect({
             setValue('vendor', {
               name: vendor?.businessName,
               id: vendor?.vendorId,
+              logo_url: vendor?.logoUrl,
             });
             clearErrors('vendor');
           }}

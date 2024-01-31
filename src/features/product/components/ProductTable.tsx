@@ -24,24 +24,20 @@ import { PRODUCT_COLUMNS } from '../constant/ProducTableHeader';
 
 function ProductTable() {
   const filters = useBoundStore.use.productTableFilters();
-  const setproductFilters = useBoundStore.use.setProductTableFilters();
 
-  const { data, isLoading, isSuccess, hasNextPage, isFetchingNextPage } =
-    useProductsQuery(filters, {
-      enabled: true,
-    });
+  const {
+    data,
+    isLoading,
+    isSuccess,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useProductsQuery(filters);
 
   const isEmptyResult = isSuccess && data?.count === 0;
 
   if (isLoading) {
     return <LoadingIndicator />;
-  }
-
-  function fetchNextPage(): void {
-    setproductFilters({
-      ...filters,
-      page: (filters.page ?? 0) + 1,
-    });
   }
 
   return (
