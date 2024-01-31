@@ -1,6 +1,6 @@
 import { isEmpty, pickBy } from 'shared/utils/lodash';
 import { mapKeys } from 'shared/utils/misc';
-import { IListResponse, IResponse } from 'shared/interfaces/http';
+import { IListResponse } from 'shared/interfaces/http';
 import { formatFullName } from 'shared/utils/common';
 import { formatDateTimeToView } from 'shared/utils/date';
 import { InfiniteData } from '@tanstack/react-query';
@@ -55,11 +55,10 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     title: data.subTitle,
     endDate: new Date(item.startDate),
 
-    // endDate: unformatDate(item.endDate.toString()),
     imageUrl: '',
     type: 'QUIZ',
     startDate: new Date(item.startDate),
-    // startDate: unformatDate(item.startDate.toString()),
+
     prize: {
       title: '',
       description: data?.prizeDescription,

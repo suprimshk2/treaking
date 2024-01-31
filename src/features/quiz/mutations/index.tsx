@@ -94,8 +94,6 @@ export const useEditQuizMutation = () => {
         return;
       }
 
-      // Update the offer in the list with updated data
-
       queryData.pages.find((page) => {
         const exist = page.rows.findIndex(
           (item: IQuiz) => item.gameId === res.data.gameId
