@@ -1,4 +1,5 @@
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
@@ -11,6 +12,12 @@ import { TableEmptyResult } from 'shared/components/display/TableEmptyResult';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 
 import { TableLoader } from 'shared/components/display/TableLoader';
+import {
+  Button,
+  ButtonSize,
+  ButtonType,
+  ButtonVariant,
+} from 'shared/theme/components/Button';
 import { QUIZ_COLUMNS } from '../constant/QuizTableHeader';
 import { useInfiniteQuizQuery } from '../queries';
 import { MemoizedQuizTableRow } from './MemorizedQuizTableRow';
@@ -21,7 +28,9 @@ interface IProps {
 }
 function QuizTable({ onEditClick, onDuplicate }: IProps) {
   const filters = useBoundStore.use.quizTableFilters();
-  const { data, isSuccess, isInitialLoading } = useInfiniteQuizQuery(filters);
+  const setQuizFilters = useBoundStore.use.setQuizTableFilters();
+  const { data, isSuccess, isInitialLoading, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuizQuery(filters);
   const isEmptyResult = isSuccess && data?.pages?.[0]?.count === 0;
   const renderedTableRows =
     isSuccess &&
@@ -38,29 +47,51 @@ function QuizTable({ onEditClick, onDuplicate }: IProps) {
       </React.Fragment>
     ));
 
+  function fetchNextPage(): void {
+    setQuizFilters({
+      ...filters,
+      page: (filters.page ?? 0) + 1,
+    });
+  }
   return (
-    <TableContainer>
-      <Table size="small" className="with-border">
-        <TableHead className="filled sizeMedium">
-          <TableRow>
-            {QUIZ_COLUMNS.map((column) => (
-              <TableCell
-                key={column.id}
-                align={column.align}
-                sx={{ minWidth: column.minWidth, width: column.width }}
-              >
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {isInitialLoading && <TableLoader cols={QUIZ_COLUMNS.length} />}
-          {renderedTableRows}
-          {isEmptyResult && <TableEmptyResult cols={QUIZ_COLUMNS.length} />}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer>
+        <Table size="small" className="with-border">
+          <TableHead className="filled sizeMedium">
+            <TableRow>
+              {QUIZ_COLUMNS.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  sx={{ minWidth: column.minWidth, width: column.width }}
+                >
+                  {column.label}
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {isInitialLoading && <TableLoader cols={QUIZ_COLUMNS.length} />}
+            {renderedTableRows}
+            {isEmptyResult && <TableEmptyResult cols={QUIZ_COLUMNS.length} />}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {hasNextPage && (
+        <Box mt={2} display="flex" justifyContent="center">
+          <Button
+            buttonType={ButtonType.LOADING}
+            // suffix={<BsChevronRight />}
+            size={ButtonSize.MEDIUM}
+            loading={isFetchingNextPage}
+            variant={ButtonVariant.TEXT}
+            onClick={() => fetchNextPage()}
+          >
+            Load More
+          </Button>
+        </Box>
+      )}
+    </>
   );
 }
 

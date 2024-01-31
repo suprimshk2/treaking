@@ -31,8 +31,6 @@ function ProductTable() {
       enabled: true,
     });
 
-  console.log('hasNextPage', data?.rows?.length);
-
   const isEmptyResult = isSuccess && data?.count === 0;
 
   if (isLoading) {
