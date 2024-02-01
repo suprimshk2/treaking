@@ -56,6 +56,11 @@ export const useAddQuizMutation = () => {
       // Update the total users in the store
       // setTotalUsers(totalUsers + 1);
     },
+    onError: (error: IError) => {
+      enqueueSnackbar(error.message, {
+        variant: 'error',
+      });
+    },
   });
 };
 export const useEditQuizMutation = () => {

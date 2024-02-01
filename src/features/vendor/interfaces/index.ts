@@ -57,7 +57,7 @@ export interface IVendor {
   businessName: string;
   contacts: Contact[];
   email: string;
-  phone: string;
+  phone: [];
   accountOwner: AccountOwner;
   socialMedias: SocialMedia[];
   enrolledDate: Date;
