@@ -97,7 +97,7 @@ export function QuizMultiple({
         />
       </Grid>
       <Grid item xs={6} mb={2}>
-        <div>
+        <Box>
           <QuizOptions
             fieldArrayIndex={fieldArrayIndex}
             fieldArrayName={fieldArrayName}
@@ -106,7 +106,6 @@ export function QuizMultiple({
           <Button
             size={ButtonSize.SMALL}
             onClick={handleAddOption}
-            fullWidth
             variant={ButtonVariant.OUTLINED}
             sx={{
               marginTop: 2,
@@ -117,11 +116,12 @@ export function QuizMultiple({
               color: theme.palette.gray.dark,
               height: 40,
               borderRadius: 1,
+              width: '92%',
             }}
           >
             Add Option
           </Button>
-        </div>
+        </Box>
       </Grid>
 
       <Box

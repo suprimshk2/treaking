@@ -22,10 +22,10 @@ import createSelectors from './selectors';
 const useBoundStoreBase = create<
   IAuthSlice &
     ILayoutSlice &
+    IRoleSlice &
     IUserSlice &
     IVendorSlice &
     IProductSlice &
-    IRoleSlice &
     IQuizSlice &
     IOfferSlice
 >()(

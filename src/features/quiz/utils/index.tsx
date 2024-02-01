@@ -65,7 +65,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     type: 'QUIZ',
     startDate: new Date(item.startDate),
     prize: {
-      title: '',
+      title: data?.prizeDescription,
       description: data?.prizeDescription,
     },
     description: item.question,
@@ -77,7 +77,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.images[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
@@ -108,7 +108,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.images[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
