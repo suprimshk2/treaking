@@ -44,8 +44,6 @@ const defaultValues: IOfferForm = {
 };
 
 export function OfferAddEditForm() {
-  console.log('mm', offerTemplates);
-
   const methods = useForm<OfferAddEditFormSchemaType>({
     resolver: zodResolver(offerAddEditFormSchema),
     defaultValues,
@@ -99,17 +97,14 @@ export function OfferAddEditForm() {
   };
 
   const handleOfferAdd = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-    // const payload = formatOfferAddPayload(data);
-
-    // addOfferMutation.mutate(
-    //   { data: payload },
-    //   {
-    //     onSuccess: () => {
-    //       onCloseModal();
-    //     },
-    //   }
-    // );
+    addOfferMutation.mutate(
+      { data },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const handleOfferEdit = (data: OfferAddEditFormSchemaType) => {
@@ -128,12 +123,11 @@ export function OfferAddEditForm() {
   };
 
   const onSubmit = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-    // if (isEditMode) {
-    //   handleOfferEdit(data);
-    // } else {
-    //   handleOfferAdd(data);
-    // }
+    if (isEditMode) {
+      handleOfferEdit(data);
+    } else {
+      handleOfferAdd(data);
+    }
   };
 
   const TEXT = {

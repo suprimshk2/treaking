@@ -33,19 +33,24 @@ export function OfferTypeFormSelect({
   const {
     control,
     setValue,
-    watch,
     getValues,
     formState: { errors },
   } = useFormContext();
 
-  const type = watch('type');
-
   useEffect(() => {
-    setValue('type', OPTIONS[0].code);
     const values = getValues('template');
     setValue('template', { ...values, layoutType: OPTIONS[0].code });
-  }, [type, setValue, getValues]);
+    setValue('layoutType', OPTIONS[0].code);
+  }, [setValue, getValues]);
 
+  const handleChange = (code: string) => {
+    const values = getValues('template');
+    setValue('template', {
+      ...values,
+      layoutType: code,
+    });
+    setValue('layoutType', code);
+  };
   const handleClear = () => {
     setValue(name, '');
   };
@@ -64,6 +69,9 @@ export function OfferTypeFormSelect({
           hint={(errors[name]?.message as string) ?? ''}
           clearable={clearable}
           handleClear={handleClear}
+          onChange={(value) => {
+            handleChange(value.target.value);
+          }}
         >
           {OPTIONS?.map?.((role) => (
             <MenuItem value={role.code} key={role.name}>

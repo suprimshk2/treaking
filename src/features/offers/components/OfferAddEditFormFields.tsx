@@ -52,7 +52,7 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
               top: 40,
             }}
           >
-            <OfferTypeFormSelect name="type" id="bodyType" width="76px" />
+            <OfferTypeFormSelect name="layoutType" id="bodyType" width="76px" />
           </Box>
           <FormInput
             type="number"

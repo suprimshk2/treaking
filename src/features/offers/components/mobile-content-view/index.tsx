@@ -58,7 +58,7 @@ function MobileContentView() {
         >
           <Box
             sx={{
-              fontFamily: fontFamily,
+              fontFamily,
               display: 'flex',
               alignItems: 'center',
               flexDirection: 'column',
@@ -81,7 +81,7 @@ function MobileContentView() {
                 <Typography
                   sx={{
                     fontSize: styles.headerFontSize,
-                    fontFamily: fontFamily,
+                    fontFamily,
                   }}
                 >
                   {title}
@@ -96,7 +96,7 @@ function MobileContentView() {
                 <Typography
                   sx={{
                     fontSize: styles.bodyFontSize,
-                    fontFamily: fontFamily,
+                    fontFamily,
                   }}
                 >
                   {isFreeType ? OfferBodyType.FREE : body}

@@ -115,13 +115,15 @@ export function OfferFormAdTemplates({ name }: IFormProps) {
   const selectedValue = watch(name);
 
   const lookup = useCallback(
-    (code: string) => {
+    (value: IOfferTemplate) => {
       const data = lookUpQuery?.data?.data?.rows ?? [];
-      const templete = data?.find((item) => item.code === code);
+      const templete = data?.find((item) => item.code === value.code);
       const templeteValue = getValues(name);
       setValue(name, {
         ...templeteValue,
         backgroundType: templete.code,
+        code: templete.code,
+        id: value.id ?? '1',
       });
     },
     [getValues, lookUpQuery?.data?.data?.rows, name, setValue]
@@ -130,12 +132,12 @@ export function OfferFormAdTemplates({ name }: IFormProps) {
   useEffect(() => {
     if (lookUpQuery?.data?.data?.rows) {
       const code = lookUpQuery?.data?.data?.rows[0];
-      lookup(code.code);
+      lookup({ code: code.code });
     }
   }, [lookUpQuery?.data?.data?.rows, lookup]);
 
   const handleSelect = (value: IOfferTemplate) => {
-    lookup(value.code);
+    lookup(value);
   };
 
   return (
