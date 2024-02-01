@@ -5,7 +5,7 @@ import {
   IVendorSchema,
   SortOrderType,
 } from 'shared/interfaces/misc';
-import { OfferBodyType, OfferSortBy, OfferTemplateCode } from '../enums';
+import { OfferSortBy, OfferTemplateCode } from '../enums';
 import { IOfferTemplate } from '../components/offer-templates/OfferFormAdTemplates';
 
 export interface IVendor {
@@ -104,16 +104,23 @@ export interface IOfferSlice {
 }
 
 export interface IOfferForm {
-  template: IOfferTemplate;
+  template: { layoutType?: string; backgroundType?: string };
   vendor: IVendorSchema;
   title: string;
   startDate: Date;
   endDate: Date;
+  imageUrl: string;
   shortDescription: string;
   description: string;
+  subTitle: string;
   body: string;
-  bodyType: OfferBodyType;
+  type: string;
   accountManager: string;
+  name: string;
+  link: string;
+  termsAndConditions: string;
+  usageInstructions: string;
+  availableUntil: Date;
 }
 
 export interface IEditOfferSchema {}

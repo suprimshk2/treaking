@@ -1,37 +1,19 @@
-import { Box, Grid, Typography, useTheme } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
-import { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
 import { FormDatePicker } from 'shared/components/form/FormDatePicker';
 import { FormTimePicker } from 'shared/components/form/FormTimePicker';
 import { FormVendorSelect } from 'shared/select/VendorSelect';
+import TextEditor from 'shared/components/text-editor';
+import { LookUpCode } from 'shared/enums';
 import { OfferFormAdTemplates } from './offer-templates/OfferFormAdTemplates';
 import { OfferTypeFormSelect } from './OfferTypeFormSelect';
-import { OfferBodyType } from '../enums';
 
 interface IProps {
   isEditMode?: boolean;
 }
-
 export function OfferAddEditFormFields({ isEditMode }: IProps) {
-  const theme = useTheme();
-  const { watch, setValue } = useFormContext();
-
-  const bodyType = watch('bodyType');
-  const body = watch('body');
-
-  useEffect(() => {
-    if (bodyType === OfferBodyType.FREE) {
-      setValue('body', '');
-    }
-  }, [body, bodyType, setValue]);
-
   return (
-    <Box
-      sx={{
-        overflow: 'auto',
-      }}
-    >
+    <Box>
       <Grid container spacing={4} mb={4}>
         <Grid item xs={6}>
           <FormVendorSelect
@@ -70,11 +52,11 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
               top: 40,
             }}
           >
-            <OfferTypeFormSelect name="bodyType" id="bodyType" width="76px" />
+            <OfferTypeFormSelect name="type" id="bodyType" width="76px" />
           </Box>
           <FormInput
             type="number"
-            name="body"
+            name="subTitle"
             id="body"
             label="Offer Body"
             prefix={<Box ml={17} />}
@@ -82,7 +64,7 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
               max: 999,
               min: 1,
             }}
-            disabled={bodyType === OfferBodyType.FREE}
+            // disabled={bodyType === OfferBodyType.FREE}
           />
         </Grid>
       </Grid>
@@ -143,6 +125,26 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
         </Grid>
         <Grid item xs={6}>
           <FormTimePicker name="validityEndTime" label="End Time" />
+        </Grid>
+      </Grid>
+      <Grid container spacing={4} mb={4}>
+        <Grid item xs={12} mx={0.1}>
+          <TextEditor
+            name="usageInstructions"
+            label="How to use offer"
+            checkBoxEnabled
+            param={LookUpCode.QUIZ_TERMS}
+          />
+        </Grid>
+      </Grid>
+      <Grid container spacing={4} mb={4}>
+        <Grid item xs={12} mx={0.1}>
+          <TextEditor
+            name="termsAndConditions"
+            label="Terms & Condition"
+            checkBoxEnabled
+            param={LookUpCode.OFFER_USAGE_INSTRUCTION}
+          />
         </Grid>
       </Grid>
     </Box>

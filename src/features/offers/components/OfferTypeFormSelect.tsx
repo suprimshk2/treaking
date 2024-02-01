@@ -3,23 +3,24 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import Select, { ISelectProps } from 'shared/theme/components/Select';
 
-import { OfferBodyType } from '../enums';
+import { useEffect } from 'react';
+import { OfferBodyType, OfferContentLayoutType } from '../enums';
 
 const OPTIONS = [
   {
     id: 1,
     name: OfferBodyType.PERCENTAGE,
-    code: OfferBodyType.PERCENTAGE,
+    code: OfferContentLayoutType.PERCENT_OFF,
   },
   {
     id: 2,
     name: OfferBodyType.RUPEES,
-    code: OfferBodyType.RUPEES,
+    code: OfferContentLayoutType.AMOUNT_OFF,
   },
   {
     id: 3,
     name: OfferBodyType.FREE,
-    code: OfferBodyType.FREE,
+    code: OfferContentLayoutType.DEFAULT,
   },
 ];
 
@@ -32,12 +33,18 @@ export function OfferTypeFormSelect({
   const {
     control,
     setValue,
+    watch,
+    getValues,
     formState: { errors },
   } = useFormContext();
-  //   const filters = useBoundStore.use.roleTableFilters();
-  //   const { data } = useRolesQuery(filters, {
-  //     enabled: true,
-  //   });
+
+  const type = watch('type');
+
+  useEffect(() => {
+    setValue('type', OPTIONS[0].code);
+    const values = getValues('template');
+    setValue('template', { ...values, layoutType: OPTIONS[0].code });
+  }, [type, setValue, getValues]);
 
   const handleClear = () => {
     setValue(name, '');

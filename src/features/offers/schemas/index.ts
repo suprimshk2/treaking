@@ -7,22 +7,24 @@ import {
 } from 'shared/schemas';
 
 export const offerAddEditFormSchema = z.object({
-  template: z.object({
-    id: requiredStringSchema,
-    img: requiredStringSchema,
-    code: requiredStringSchema,
-    label: requiredStringSchema,
-  }),
-  vendor: vendorSchema,
+  link: optionalStringSchema,
+  name: optionalStringSchema,
+  type: requiredStringSchema,
   title: requiredStringSchema,
-  shortDescription: requiredStringSchema,
-  description: requiredStringSchema,
-  startDate: requiredDateSchema,
   endDate: requiredDateSchema,
-  body: optionalStringSchema,
-  bodyType: requiredStringSchema,
-  // startTime: requiredDateSchema,
-  // endTime: requiredDateSchema,
+  imageUrl: optionalStringSchema,
+  vendor: vendorSchema,
+  startDate: requiredDateSchema,
+  description: requiredStringSchema,
+  subTitle: requiredStringSchema,
+  shortDescription: requiredStringSchema,
+  termsAndConditions: requiredStringSchema,
+  template: z.object({
+    layoutType: requiredStringSchema,
+    backgroundType: requiredStringSchema,
+  }),
+  usageInstructions: requiredStringSchema,
+  availableUntil: requiredDateSchema,
 });
 // TODO: Gonna be used in the future removed required validations for gender,dob and phone
 // export const offerEditFormSchema = z.object({
