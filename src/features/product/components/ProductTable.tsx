@@ -24,7 +24,6 @@ import { PRODUCT_COLUMNS } from '../constant/ProducTableHeader';
 
 function ProductTable() {
   const filters = useBoundStore.use.productTableFilters();
-
   const {
     data,
     isLoading,
