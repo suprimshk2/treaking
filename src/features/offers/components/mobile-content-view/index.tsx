@@ -32,6 +32,7 @@ function MobileContentView() {
 
   if (selectedTemplate) {
     const styles = templateStyles[selectedTemplate.code as OfferTemplateCode];
+    const fontFamily = styles?.headerFontFamily ?? '';
     return (
       <Box
         sx={{
@@ -57,7 +58,7 @@ function MobileContentView() {
         >
           <Box
             sx={{
-              fontFamily: styles.headerFontFamily,
+              fontFamily,
               display: 'flex',
               alignItems: 'center',
               flexDirection: 'column',
@@ -80,7 +81,7 @@ function MobileContentView() {
                 <Typography
                   sx={{
                     fontSize: styles.headerFontSize,
-                    fontFamily: styles.headerFontFamily,
+                    fontFamily,
                   }}
                 >
                   {title}
@@ -95,7 +96,7 @@ function MobileContentView() {
                 <Typography
                   sx={{
                     fontSize: styles.bodyFontSize,
-                    fontFamily: styles.headerFontFamily,
+                    fontFamily,
                   }}
                 >
                   {isFreeType ? OfferBodyType.FREE : body}

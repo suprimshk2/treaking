@@ -5,27 +5,60 @@ import { useFormContext } from 'react-hook-form';
 import ReactDOMServer from 'react-dom/server';
 import { compiler } from 'markdown-to-jsx';
 import TurndownService from 'turndown';
-import { Typography, useTheme } from '@mui/material';
+import { Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { useLookUpQuery } from 'shared/queries';
+import { CenterRowSpaceBetween } from '../layouts/CenterRowSpaceBetween';
 
 function TextEditor({
   name,
-  height = 290,
-  placeholder = '',
+  height,
+  label,
+  checkBoxEnabled,
+  param = '',
 }: {
   name: string;
   height?: number;
-  placeholder?: string;
+  label?: string;
+  checkBoxEnabled?: boolean;
+  param?: string;
 }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const turndownService = new TurndownService();
   const [text, setText] = useState('');
   const { setValue, getValues } = useFormContext();
   const description = getValues(name);
-  const theme = useTheme();
+  const [checkBox, setCheckBox] = useState(true);
+
+  const lookUpQuery = useLookUpQuery(
+    {
+      key: 'code',
+      value: param,
+    },
+    checkBox && !!param
+  );
+
+  useEffect(() => {
+    // If the functionality of this TextEditor extends more than this than seperate this
+    if (lookUpQuery.data?.data?.rows?.length && checkBox && !text) {
+      const value = lookUpQuery.data?.data?.rows?.[0].metadata.payload;
+      const markdownString = turndownService.turndown(value);
+      setValue(name, markdownString);
+      setText(markdownString);
+    }
+  }, [
+    description,
+    lookUpQuery.data?.data?.rows,
+    name,
+    setValue,
+    turndownService,
+    checkBox,
+    text,
+  ]);
+
   useEffect(() => {
     if (description && !text) {
-      const htmlString = turndownService.turndown(description);
-      setText(htmlString);
+      const markdownString = turndownService.turndown(description);
+      setText(markdownString);
     }
   }, [description, text, turndownService]);
 
@@ -36,16 +69,36 @@ function TextEditor({
     setValue(name, htmlString || '');
   };
 
+  const onChangeCheckValue = (isChecked: boolean) => {
+    if (isChecked) {
+      setText('');
+      setValue(name, '');
+    }
+  };
+
   return (
-    <div className="max-w-[736px]" data-color-mode="light">
-      <div className="wmde-markdown-var" />
-      <Typography
-        pb={1}
-        sx={theme.typography.bodyTextMedium}
-        color={theme.palette.gray.dark}
-      >
-        {placeholder || ''}
-      </Typography>
+    <div data-color-mode="light">
+      <CenterRowSpaceBetween>
+        <Typography variant="bodyTextMedium" color="rgb(102, 102, 102)">
+          {label}
+        </Typography>
+        {checkBoxEnabled && (
+          <FormControlLabel
+            control={
+              <Checkbox
+                value={checkBox}
+                checked={checkBox}
+                onChange={(e) => {
+                  setCheckBox((prev) => !prev);
+                  onChangeCheckValue(e);
+                }}
+              />
+            }
+            label="Use Default Description"
+          />
+        )}
+      </CenterRowSpaceBetween>
+      <div style={{ marginBottom: 6, fontSize: '24px' }} />
       <MDEditor
         extraCommands={[
           commands.codeEdit,
@@ -63,5 +116,12 @@ function TextEditor({
     </div>
   );
 }
+
+TextEditor.defaultProps = {
+  height: 290,
+  label: 'Description',
+  checkBoxEnabled: false,
+  param: '',
+};
 
 export default TextEditor;
