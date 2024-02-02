@@ -67,3 +67,12 @@ export enum CloudFileCategory {
   USER_AVATAR = 'USER_AVATAR',
   PRODUCT_IMAGE = 'PRODUCT_IMAGE',
 }
+
+export enum LookupCategory {
+  OFFER_CONTENT_BACKGROUND = 'OFFER_CONTENT_BACKGROUND',
+}
+
+export enum LookUpCode {
+  OFFER_USAGE_INSTRUCTION = 'OFFER_USAGE_INSTRUCTION',
+  QUIZ_TERMS = 'QUIZ_TERMS',
+}

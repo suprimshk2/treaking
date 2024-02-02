@@ -20,22 +20,27 @@ import { useOfferDetailQuery } from '../queries';
 import MobileContentView from './mobile-content-view';
 import { offerTemplates } from './offer-templates/OfferFormAdTemplates';
 import { IOfferForm } from '../interfaces';
-import { OfferBodyType } from '../enums';
+import { OfferType } from '../enums';
 import { getSelectedOfferTemplateFromCode } from '../utils';
 
 const defaultValues: IOfferForm = {
+  name: '',
+  link: '',
+  type: OfferType.ADVERTISEMENT,
+  title: '',
+  endDate: new Date(),
+  imageUrl: '',
+  vendor: {},
+  startDate: new Date(),
+  description: '',
+  shortDescription: '',
+  termsAndConditions: '',
+  subTitle: '',
   template: offerTemplates[0],
   accountManager: '',
-  vendor: {},
-  title: '',
   body: '0',
-  bodyType: OfferBodyType.RUPEES,
-  shortDescription: '',
-  description: '',
-  startDate: new Date(),
-  endDate: new Date(),
-  // startTime: new Date(),
-  // endTime: new Date(),
+  usageInstructions: '',
+  availableUntil: new Date(),
 };
 
 export function OfferAddEditForm() {
@@ -62,7 +67,6 @@ export function OfferAddEditForm() {
         title,
         endDate,
         startDate,
-        subTitle,
         shortDescription,
         description,
       } = offerDetailQuery.data;
@@ -81,7 +85,6 @@ export function OfferAddEditForm() {
         endDate: new Date(endDate) || '',
         // startTime: new Date(startDate),
         // endTime: new Date(endDate),
-        body: subTitle,
       });
     }
   }, [offerDetailQuery?.data, reset]);
@@ -94,17 +97,14 @@ export function OfferAddEditForm() {
   };
 
   const handleOfferAdd = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-    // const payload = formatOfferAddPayload(data);
-
-    // addOfferMutation.mutate(
-    //   { data: payload },
-    //   {
-    //     onSuccess: () => {
-    //       onCloseModal();
-    //     },
-    //   }
-    // );
+    addOfferMutation.mutate(
+      { data },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const handleOfferEdit = (data: OfferAddEditFormSchemaType) => {
@@ -123,12 +123,11 @@ export function OfferAddEditForm() {
   };
 
   const onSubmit = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-    // if (isEditMode) {
-    //   handleOfferEdit(data);
-    // } else {
-    //   handleOfferAdd(data);
-    // }
+    if (isEditMode) {
+      handleOfferEdit(data);
+    } else {
+      handleOfferAdd(data);
+    }
   };
 
   const TEXT = {
@@ -159,14 +158,7 @@ export function OfferAddEditForm() {
               )}
               <Grid container rowSpacing={4} columnSpacing={8}>
                 <Grid item xs={7}>
-                  <Box
-                    component={Paper}
-                    p={4}
-                    // sx={{
-                    //   height: 'calc(100vh - 188px)',
-                    //   overflow: 'auto',
-                    // }}
-                  >
+                  <Box component={Paper} p={4}>
                     <OfferAddEditFormFields isEditMode={isEditMode} />
                   </Box>
                 </Grid>
@@ -202,7 +194,6 @@ export function OfferAddEditForm() {
                     >
                       Cancel
                     </Button>
-
                     <Button
                       size={ButtonSize.MEDIUM}
                       buttonType={ButtonType.LOADING}
