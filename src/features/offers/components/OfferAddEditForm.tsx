@@ -26,7 +26,7 @@ import { getSelectedOfferTemplateFromCode } from '../utils';
 const defaultValues: IOfferForm = {
   template: offerTemplates[0],
   accountManager: '',
-  vendor: '',
+  vendor: {},
   title: '',
   body: '0',
   bodyType: OfferBodyType.RUPEES,
@@ -65,7 +65,6 @@ export function OfferAddEditForm() {
         subTitle,
         shortDescription,
         description,
-        imageUrl,
       } = offerDetailQuery.data;
       const selectedTemplate =
         getSelectedOfferTemplateFromCode(template.background.type) ||
@@ -77,7 +76,7 @@ export function OfferAddEditForm() {
         title,
         shortDescription,
         description,
-        vendor: vendor.name,
+        vendor: { name: vendor.name },
         startDate: new Date(startDate) || '',
         endDate: new Date(endDate) || '',
         // startTime: new Date(startDate),

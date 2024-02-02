@@ -1,15 +1,14 @@
 import { MenuItem } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
-import Select, { ISelectProps } from 'shared/theme/components/Select';
-import { useBoundStore } from 'shared/stores/useBoundStore';
-import { useVendorQuery } from 'features/vendor/queries';
+import Select from 'shared/theme/components/Select';
 
-export function FormVendorSelect({
+export function QuizOptionSelect({
+  optionList,
   name,
   placeholder,
   clearable,
   ...others
-}: Omit<ISelectProps, 'children'>) {
+}: any) {
   const {
     control,
     watch,
@@ -18,15 +17,12 @@ export function FormVendorSelect({
     formState: { errors },
   } = useFormContext();
 
-  const filters = useBoundStore.use.roleTableFilters();
-  const { data } = useVendorQuery(filters);
-  const vendorList = data?.data?.rows ?? [];
-
-  const vendorId = watch('vendor')?.id || '';
+  const vendorId = watch('correctOptionNumber')?.id || '';
 
   const handleClear = () => {
     setValue(name, '');
   };
+  console.log({ optionList });
 
   return (
     <Controller
@@ -43,20 +39,19 @@ export function FormVendorSelect({
           clearable={clearable}
           handleClear={handleClear}
           onChange={(item) => {
-            const vendor = vendorList?.find(
-              (el) => el.vendorId === item.target.value
-            );
+            const option = optionList?.find((el) => el === item.target.value);
 
-            setValue('vendor', {
-              name: vendor?.businessName,
-              id: vendor?.vendorId,
+            setValue('correctOption', {
+              name: option,
+              //   id: option?.optionId,
+              //   logo_url: option?.logoUrl,
             });
-            clearErrors('vendor');
+            clearErrors('correctOption');
           }}
         >
-          {vendorList?.map?.((vendor) => (
-            <MenuItem value={vendor.vendorId} key={vendor._id}>
-              {vendor.businessName}
+          {optionList?.map?.((option, index) => (
+            <MenuItem value={option} key={index}>
+              {option}
             </MenuItem>
           ))}
         </Select>

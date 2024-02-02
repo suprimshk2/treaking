@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, useTheme } from '@mui/material';
 import {
   Button,
   ButtonSize,
   ButtonVariant,
 } from 'shared/theme/components/Button';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { Dialog, DialogSize } from 'shared/theme/components/dialog/Dialog';
 import { DialogLoader } from 'shared/components/display/DialogLoader';
-import uiRoute from 'shared/constants/uiRoute';
+
 import {
   useAddVendorMutation,
   useEditVendorMutation,
@@ -18,7 +19,7 @@ import {
 import { VendorAddEditFields } from '../components/VendorAddEditFields';
 import { formatVendorAddPayload } from '../utils';
 import { IFileSchema } from '../interfaces';
-import { AddVendorFormSchemaType } from '../schemas';
+import { AddVendorFormSchemaType, addVendorFormSchema } from '../schemas';
 
 interface IProps {
   editVendorId: string; // id of user which is to be edited
@@ -26,7 +27,7 @@ interface IProps {
 }
 
 const defaultValues = {
-  logoUrl: '',
+  images: [],
   businessName: '',
   contactsOne: '',
   contactsTwo: '',
@@ -45,13 +46,10 @@ const defaultValues = {
 
 export function VendorAddEdit({ editVendorId, onClose }: IProps) {
   const theme = useTheme();
-
-  const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
-
   const addVendorMutation = useAddVendorMutation();
   const editVendorMutation = useEditVendorMutation();
   const methods = useForm({
-    // resolver: zodResolver(addVendorFormSchema),
+    resolver: zodResolver(addVendorFormSchema),
     defaultValues,
   });
   const {
@@ -69,7 +67,7 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
       const vendorData = vendorDetailQuery.data;
 
       reset({
-        logoUrl: vendorData?.logoUrl || '',
+        ...vendorData,
         businessName: vendorData?.businessName || '',
         contactsOne: vendorData.phone?.[0] || '',
         contactsTwo: vendorData.phone?.[1] || '',
@@ -118,11 +116,10 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
   const isEditMode = !!editVendorId;
 
   const onSubmit = (data) => {
-    const payload = { ...data, logoUrl: selectedFiles[0]?.base64 ?? '' };
     if (isEditMode) {
       handleVendorEdit(data);
     } else {
-      handleVendorAdd(payload);
+      handleVendorAdd(data);
     }
   };
   const TEXT = {
@@ -158,7 +155,7 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
                 paddingBottom: theme.spacing(10),
               }}
             >
-              <VendorAddEditFields setSelectedFiles={setSelectedFiles} />
+              <VendorAddEditFields />
               <Box
                 maxWidth={518}
                 display="flex"

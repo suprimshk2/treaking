@@ -3,11 +3,11 @@ import { baseRequest } from 'shared/utils/axios';
 
 import apiRoute from '../constant/apiRoute';
 
-export const getProducts = async (data: any) => {
+export const getProducts = async (param: any) => {
   const { response, error } = await baseRequest({
     method: 'GET',
     url: apiRoute.getAll,
-    params: data,
+    params: param,
   });
 
   if (error) {

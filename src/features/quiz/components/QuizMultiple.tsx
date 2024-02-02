@@ -12,6 +12,7 @@ import {
 import { AddQuizFormSchemaType } from '../schemas';
 import QuizOptions from './QuizOptions';
 import { Option } from '../interfaces';
+import { QuizOptionSelect } from './OptionSelect';
 
 export function QuizMultiple({
   fieldArrayIndex,
@@ -122,6 +123,18 @@ export function QuizMultiple({
             Add Option
           </Button>
         </Box>
+      </Grid>
+      <Grid item xs={6} mb={2}>
+        <QuizOptionSelect
+          name={
+            `${fieldArrayName}.${fieldArrayIndex}.correctOptionNumber` as const
+          }
+          id="correctOptionNumber"
+          label="Correct Option"
+          clearable
+          optionList={options}
+          // placeholder="Select vendor"
+        />
       </Grid>
 
       <Box

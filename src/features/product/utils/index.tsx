@@ -34,13 +34,13 @@ export const adaptProduct = (
 export const adaptProductList = (
   res: IResponse<IListResponse<IProductTableRow>>
 ): IResponse<IListResponse<IAdaptedProductTableRow>> => {
+  const allRows = res?.pages?.map((item) => item.data.rows).flat();
+
   return {
     ...res,
     data: {
-      ...res.pages?.[0],
-      rows: res?.pages?.[0]?.data?.rows.map((item: IProductTableRow) =>
-        adaptProduct(item)
-      ),
+      ...res.data,
+      rows: allRows.map((item: IProductTableRow) => adaptProduct(item)),
     },
   };
 };

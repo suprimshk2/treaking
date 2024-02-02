@@ -2,6 +2,7 @@ import {
   ICreated,
   IFilter,
   IUpdated,
+  IVendorSchema,
   SortOrderType,
 } from 'shared/interfaces/misc';
 import { OfferBodyType, OfferSortBy, OfferTemplateCode } from '../enums';
@@ -104,7 +105,7 @@ export interface IOfferSlice {
 
 export interface IOfferForm {
   template: IOfferTemplate;
-  vendor: string;
+  vendor: IVendorSchema;
   title: string;
   startDate: Date;
   endDate: Date;
@@ -112,7 +113,6 @@ export interface IOfferForm {
   description: string;
   body: string;
   bodyType: OfferBodyType;
-
   accountManager: string;
 }
 

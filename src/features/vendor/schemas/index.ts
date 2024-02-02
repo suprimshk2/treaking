@@ -1,6 +1,9 @@
 import {
-  dobSchema,
+  emailSchema,
+  optionalImageSchema,
   optionalStringSchema,
+  phoneSchema,
+  phoneSchemaOptional,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
@@ -10,15 +13,21 @@ const vendorSchema = z.object({
 });
 
 export const addVendorFormSchema = z.object({
-  titleOne: requiredStringSchema,
-  titleTwo: requiredStringSchema,
-  body: requiredStringSchema,
-  winnerDate: dobSchema,
-  startDate: dobSchema,
-  endDate: dobSchema,
-  campaign: requiredStringSchema,
-  prize: requiredStringSchema,
-  terms: requiredStringSchema,
+  images: optionalImageSchema,
+  businessName: requiredStringSchema,
+  contactsOne: phoneSchema,
+  contactsTwo: phoneSchemaOptional,
+  email: emailSchema,
+  accountOwner: requiredStringSchema,
+  description: requiredStringSchema,
+  instagram: optionalStringSchema,
+  facebook: optionalStringSchema,
+  youtube: optionalStringSchema,
+  website: optionalStringSchema,
+  address: optionalStringSchema,
+  vendorEmail: emailSchema,
+  phone: phoneSchema,
+  fullName: requiredStringSchema,
 
   // quizzes: z.array(quizSchema),
 });

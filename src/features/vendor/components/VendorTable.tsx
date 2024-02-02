@@ -38,6 +38,7 @@ function VendorTable({ onEditClick }: IProps) {
     isLoading,
   } = useInfiniteVendorQuery(filters);
   const isEmptyResult = isSuccess && data.pages?.[0].count === 0;
+
   const renderedTableRows =
     isSuccess &&
     data.pages.map((group, i) => (
@@ -51,6 +52,7 @@ function VendorTable({ onEditClick }: IProps) {
         ))}
       </React.Fragment>
     ));
+
   return (
     <>
       <TableContainer>

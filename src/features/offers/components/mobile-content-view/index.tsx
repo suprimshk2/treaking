@@ -26,6 +26,7 @@ function MobileContentView() {
   const body = watch('body');
   const bodyType = watch('bodyType');
   const description = watch('shortDescription');
+  const vendor = watch('vendor');
 
   const isFreeType = bodyType === OfferBodyType.FREE;
 
@@ -66,13 +67,13 @@ function MobileContentView() {
             <Box
               mt={16}
               mb={8}
-              height={68}
-              width={211}
+              height={100}
+              width={100}
               sx={{
-                objectFit: 'cover',
+                objectFit: 'contain',
               }}
               component="img"
-              src="https://s3-alpha-sig.figma.com/img/05f8/dbed/7de6c54a9ef956635f5a7d14161e110a?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ajmEVCyn-~FXO9iEL5netjWLA~0mHVBP5jnSlLcZ6JhdVvFyMEIkUoJtorbqV1xxAbmvD-LJc6ndZ1t1o6odzeOeLakpvBhxclsd1tkTVQpvLiUmSSNAREWknBC-R6yukYTYrGfi5EbXBkvfQ89Jb6SCSgUgnADjPmexv~4zQSFR~ukLB4vRrleztmZHMIxCqL~3GvrBRyQdy9p7DDzqSP-fmFbz68iUmSMOy1T2Qpp3BtX8pktdGyaqR8dCDb2j15ntGJHRxrLB3EnLCRaKDWttK50ZWB8zQv3mG~BMEYiBtGKT2a~5lCQ80Mh~95gVOVHpd-BcOOVCD1PJKVKDRw__"
+              src={vendor.logo_url}
             />
             <Box height={350} component="center">
               <Box minHeight="28%" maxHeight="38%">

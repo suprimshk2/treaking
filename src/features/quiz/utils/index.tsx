@@ -50,7 +50,7 @@ export const formatQuizList = (
   };
 };
 
-export const formatQuizDetail = (res: any): any => {
+export const formatQuizDetail = (res) => {
   return {
     ...res.data,
     images: [{ url: res.data.content.logoUrl }],
