@@ -41,6 +41,7 @@ const defaultValues: IOfferForm = {
   body: '0',
   usageInstructions: '',
   availableUntil: new Date(),
+  layoutType: '',
 };
 
 export function OfferAddEditForm() {
@@ -83,8 +84,8 @@ export function OfferAddEditForm() {
         vendor: { name: vendor.name },
         startDate: new Date(startDate) || '',
         endDate: new Date(endDate) || '',
-        // startTime: new Date(startDate),
-        // endTime: new Date(endDate),
+        layoutType: template.layout.type ?? '',
+        subTitle: '100',
       });
     }
   }, [offerDetailQuery?.data, reset]);
@@ -108,18 +109,14 @@ export function OfferAddEditForm() {
   };
 
   const handleOfferEdit = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-
-    // const payload = formatOfferEditPayload(data);
-
-    // editOfferMutation.mutate(
-    //   { id: editOfferId, data: payload },
-    //   {
-    //     onSuccess: () => {
-    //       onCloseModal();
-    //     },
-    //   }
-    // );
+    editOfferMutation.mutate(
+      { id: editOfferId, data },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const onSubmit = (data: OfferAddEditFormSchemaType) => {

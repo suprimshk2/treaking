@@ -33,6 +33,7 @@ function MobileContentView() {
   if (selectedTemplate) {
     const styles = templateStyles[selectedTemplate.code as OfferTemplateCode];
     const fontFamily = styles?.headerFontFamily ?? '';
+
     return (
       <Box
         sx={{

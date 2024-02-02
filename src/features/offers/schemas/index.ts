@@ -25,6 +25,7 @@ export const offerAddEditFormSchema = z.object({
   }),
   usageInstructions: requiredStringSchema,
   availableUntil: requiredDateSchema,
+  layoutType: optionalStringSchema,
 });
 // TODO: Gonna be used in the future removed required validations for gender,dob and phone
 // export const offerEditFormSchema = z.object({
