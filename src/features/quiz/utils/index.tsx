@@ -9,8 +9,10 @@ import {
   IFormattedQuizFormSchema,
   IQuiz,
   IQuizTableFilter,
+  IWinnerAdd,
+  IWinnerDefaultValue,
 } from '../interfaces';
-import { AddQuizFormSchemaType } from '../schemas';
+import { AddQuizFormSchemaType, WinnerAddFormSchemaType } from '../schemas';
 import { quizConfig } from '../constant/config';
 import { QuizStatus } from '../enums';
 
@@ -112,7 +114,16 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     correctOptionNumber: 1,
   };
 };
+export const formatAddWinner = (
+  data: IWinnerDefaultValue
+): WinnerAddFormSchemaType => {
+  const res = Object.values(data).flat();
+  const formatRes = res.map((item: IWinnerAdd) => {
+    return { ...item, rank: +item.rank };
+  });
 
+  return formatRes;
+};
 export const formatQuizAddPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {

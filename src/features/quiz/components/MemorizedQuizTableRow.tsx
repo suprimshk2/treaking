@@ -18,14 +18,17 @@ import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { useConfirmationModal } from 'shared/stores/ConfirmationModal';
 import { ListWithIcon } from 'shared/components/display/list-with-icon/ListWithIcon';
+import { FaPeopleGroup } from 'react-icons/fa6';
 
 import { ColorType } from 'shared/interfaces/misc';
 
 import Chip from 'shared/theme/components/Chip';
+import useDisclosure from 'shared/hooks/useDisclosure';
 import { useDeleteQuizMutation } from '../mutations';
 import { IAdoptQuiz } from '../interfaces';
 import { QuizTableRowCollapsible } from './QuizTableRowCollapsible';
 import { QuizStatus } from '../enums';
+import { WinnerAddModal } from './WinnerAddModel';
 
 interface IProps {
   data: IAdoptQuiz;
@@ -37,8 +40,12 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
   const userConfirmationModal = useConfirmationModal();
   const deleteUserMutation = useDeleteQuizMutation();
   const [open, setOpen] = useState(false);
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const status = data?.status;
+  const onCloseClick = () => {
+    onClose();
+  };
   const onDeleteClick = async () => {
     const result = await userConfirmationModal?.openConfirmationModal({
       title: 'Delete Quiz',
@@ -87,7 +94,9 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
 
   const currentStatus =
     quizStatusStyles[status as keyof typeof quizStatusStyles];
-
+  const onWinnerAdd = () => {
+    onOpen();
+  };
   return (
     <>
       <TableRow key={data._id}>
@@ -184,6 +193,11 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
               icon={BsCopy}
               onClick={() => onDuplicate(data?._id)}
             />
+            <EllipseMenuItem
+              text="Add Winner"
+              icon={FaPeopleGroup}
+              onClick={() => onWinnerAdd()}
+            />
 
             <EllipseMenuItem
               text="Delete"
@@ -193,6 +207,9 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
           </EllipseMenu>
         </TableCell>
       </TableRow>
+      {isOpen && (
+        <WinnerAddModal quizId={data?.gameId} onClose={onCloseClick} />
+      )}
       {open && <QuizTableRowCollapsible open={open} data={data} />}
     </>
   );

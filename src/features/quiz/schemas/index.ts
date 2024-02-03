@@ -3,6 +3,7 @@ import {
   optionalDateSchema,
   optionalStringSchema,
   requiredDateSchema,
+  requiredNumberSchema,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
@@ -37,8 +38,16 @@ export const addQuizFormSchema = z.object({
 
   quizzes: z.array(quizSchema),
 });
+export const winnerPayloadSchema = z.object({
+  id: optionalStringSchema,
+  rank: requiredNumberSchema,
+  rankLabel: requiredStringSchema,
+  name: requiredStringSchema,
+});
+export const addWinnerFormSchema = z.array(winnerPayloadSchema);
 
 export type AddQuizFormSchemaType = z.infer<typeof addQuizFormSchema>;
+export type WinnerAddFormSchemaType = z.infer<typeof addWinnerFormSchema>;
 export const quizAdvancedFilterFormSchema = z.object({
   titleOne: optionalStringSchema,
   titleTwo: optionalStringSchema,

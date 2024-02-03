@@ -13,6 +13,7 @@ import { FormTimePicker } from 'shared/components/form/FormTimePicker';
 import { ICloudFile, IFilePayload } from 'features/product/interfaces';
 import { CloudFileCategory } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
+import { FormCampaignSelect } from 'shared/components/form/FormCampaignSelect';
 import { IFileSchema } from '../interfaces';
 import { QuizMultiple } from './QuizMultiple';
 
@@ -122,7 +123,12 @@ export function QuizAddFields({ control, isEditMode, optionsData }: any) {
             </Grid>
 
             <Grid item xs={6} mb={2}>
-              <FormInput name="campaign" id="campaign" label="Campaign" />
+              <FormCampaignSelect
+                name="campaign"
+                id="campaign"
+                label="Campaign"
+                clearable
+              />
             </Grid>
             <Grid item xs={6} mb={2}>
               <FormInput

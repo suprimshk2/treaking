@@ -112,7 +112,14 @@ export interface Content {
   description: string;
   upcomingTitle: string;
 }
-
+export interface ICampaignResponse {
+  _id: string;
+  name: string;
+  code: string;
+  updated: ICreatedAt;
+  created: ICreatedAt;
+  campaignId: string;
+}
 export interface Option {
   name: string;
   order: number;
@@ -123,10 +130,18 @@ export interface Prize {
   title?: string | undefined;
   description?: string;
 }
-
+export interface IWinnerAdd {
+  id: string;
+  name: string;
+  rank: number;
+  rankLabel: string;
+}
 export interface Winner {
   email: string;
   lastName: string;
   firstName: string;
   middleName: string;
+}
+export interface IWinnerDefaultValue {
+  winners: IWinnerAdd[];
 }

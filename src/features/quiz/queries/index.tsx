@@ -1,6 +1,5 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { IListResponse, IResponse } from 'shared/interfaces/http';
-import { IAdoptQuiz, IQuizTableFilter } from '../interfaces';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { IQuizTableFilter } from '../interfaces';
 import * as quizAPI from '../api';
 import { formatQuizList } from '../utils';
 
@@ -49,4 +48,19 @@ export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
     // cacheTime: 0,
     gcTime: 0,
   });
+};
+export const useCampaignQuery = (
+  filters: IQuizTableFilter,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteQuizKeys.autocomplete(filters),
+    queryFn: () => quizAPI.getAllCampaign(filters),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo?.data?.rows,
+  };
 };
