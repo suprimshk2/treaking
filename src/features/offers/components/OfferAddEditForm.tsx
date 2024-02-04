@@ -21,7 +21,10 @@ import MobileContentView from './mobile-content-view';
 import { offerTemplates } from './offer-templates/OfferFormAdTemplates';
 import { IOfferForm } from '../interfaces';
 import { OfferType } from '../enums';
-import { getSelectedOfferTemplateFromCode } from '../utils';
+import {
+  formatAddEditOfferPayload,
+  getSelectedOfferTemplateFromCode,
+} from '../utils';
 
 const defaultValues: IOfferForm = {
   name: '',
@@ -52,7 +55,13 @@ export function OfferAddEditForm() {
     resolver: zodResolver(offerAddEditFormSchema),
     defaultValues,
   });
-  const { handleSubmit, reset } = methods;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = methods;
+
+  console.log('err', errors);
 
   const [search] = useSearchParams();
   const navigate = useNavigate();
@@ -74,6 +83,8 @@ export function OfferAddEditForm() {
         startDate,
         shortDescription,
         description,
+        subTitle,
+        availableUntil,
       } = offerDetailQuery.data;
       const selectedTemplate =
         getSelectedOfferTemplateFromCode(template.background.type) ||
@@ -93,7 +104,8 @@ export function OfferAddEditForm() {
         startDate: new Date(startDate) || '',
         endDate: new Date(endDate) || '',
         layoutType: template.layout.type ?? '',
-        subTitle: '100',
+        subTitle,
+        availableUntil: new Date(availableUntil) || '',
       });
     }
   }, [offerDetailQuery?.data, reset]);
@@ -103,8 +115,9 @@ export function OfferAddEditForm() {
   };
 
   const handleOfferAdd = (data: OfferAddEditFormSchemaType) => {
+    const payload = formatAddEditOfferPayload(data);
     addOfferMutation.mutate(
-      { data },
+      { data: payload },
       {
         onSuccess: () => {
           onClose();
@@ -114,8 +127,9 @@ export function OfferAddEditForm() {
   };
 
   const handleOfferEdit = (data: OfferAddEditFormSchemaType) => {
+    const payload = formatAddEditOfferPayload(data);
     editOfferMutation.mutate(
-      { id: editOfferId, data },
+      { id: editOfferId, data: payload },
       {
         onSuccess: () => {
           onClose();

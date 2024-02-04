@@ -127,7 +127,7 @@ export function OfferAddEditFormFields({
       </Grid>
       <Grid container spacing={4} mb={4}>
         <Grid item xs={6}>
-          <FormDatePicker name="validityDate" label="Validity Date" />
+          <FormDatePicker name="availableUntil" label="Validity Date" />
         </Grid>
         <Grid item xs={6}>
           <FormTimePicker name="validityEndTime" label="End Time" />
