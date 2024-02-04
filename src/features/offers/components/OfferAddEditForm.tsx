@@ -55,13 +55,7 @@ export function OfferAddEditForm() {
     resolver: zodResolver(offerAddEditFormSchema),
     defaultValues,
   });
-  const {
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = methods;
-
-  console.log('err', errors);
+  const { handleSubmit, reset } = methods;
 
   const [search] = useSearchParams();
   const navigate = useNavigate();
