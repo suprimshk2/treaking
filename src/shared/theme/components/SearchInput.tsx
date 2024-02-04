@@ -15,7 +15,7 @@ interface IProps {
 
 export function SearchInput({
   id = 'Search',
-  name = 'search',
+  name = 'searchText',
   placeholder,
   value,
   onChangeHandler,
@@ -54,7 +54,7 @@ export function SearchInput({
 
 SearchInput.defaultProps = {
   id: 'search-input',
-  name: 'search',
+  name: 'searchText',
   placeholder: 'Search',
   fullWidth: false,
 };
