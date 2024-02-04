@@ -81,7 +81,7 @@ export function OfferAddEditForm() {
         title,
         shortDescription,
         description,
-        vendor: { name: vendor.name },
+        vendor: { name: vendor.businessName, id: vendor.vendorId },
         startDate: new Date(startDate) || '',
         endDate: new Date(endDate) || '',
         layoutType: template.layout.type ?? '',
