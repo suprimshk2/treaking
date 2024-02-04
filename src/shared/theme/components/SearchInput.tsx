@@ -54,7 +54,7 @@ export function SearchInput({
 
 SearchInput.defaultProps = {
   id: 'search-input',
-  name: 'searchText',
+  name: 'searchText', // Adding search will auto preffill
   placeholder: 'Search',
   fullWidth: false,
 };
