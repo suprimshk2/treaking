@@ -102,7 +102,7 @@ export function OfferTable({ onEditClick }: IProps) {
     data.pages.map((group, i) => (
       // eslint-disable-next-line react/no-array-index-key
       <React.Fragment key={i}>
-        {group.rows.slice(0, 1).map((offer) => (
+        {group.rows.map((offer) => (
           <MemoizedOfferTableRow
             key={offer.offerId}
             data={offer}
