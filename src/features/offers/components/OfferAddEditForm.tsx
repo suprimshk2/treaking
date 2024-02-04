@@ -45,11 +45,15 @@ const defaultValues: IOfferForm = {
 };
 
 export function OfferAddEditForm() {
+  const addOfferMutation = useAddOfferMutation();
+  const editOfferMutation = useEditOfferMutation();
+
   const methods = useForm<OfferAddEditFormSchemaType>({
     resolver: zodResolver(offerAddEditFormSchema),
     defaultValues,
   });
   const { handleSubmit, reset } = methods;
+
   const [search] = useSearchParams();
   const navigate = useNavigate();
   const editOfferId = search.get('id') ?? '';
@@ -77,7 +81,11 @@ export function OfferAddEditForm() {
 
       reset({
         ...defaultValues,
-        template: selectedTemplate,
+        template: {
+          ...selectedTemplate,
+          layoutType: template.layout.type,
+          backgroundType: template.background.type,
+        },
         title,
         shortDescription,
         description,
@@ -89,9 +97,6 @@ export function OfferAddEditForm() {
       });
     }
   }, [offerDetailQuery?.data, reset]);
-
-  const addOfferMutation = useAddOfferMutation();
-  const editOfferMutation = useEditOfferMutation();
 
   const onClose = () => {
     navigate(-1);
