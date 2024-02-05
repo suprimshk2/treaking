@@ -77,7 +77,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
       description: data?.prizeDescription,
     },
     campaign: {
-      id: 'aa800201-817c-4619-8a32-f3e9a4b6a102',
+      id: 'aa800201-817c-4619-8a32-f3e9a4b6a102', // TODO change this
       name: data.campaign,
     },
     description: item?.question,
