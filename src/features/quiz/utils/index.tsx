@@ -76,15 +76,15 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
       title: data?.prizeDescription,
       description: data?.prizeDescription,
     },
-    campaignId: 'aa800201-817c-4619-8a32-f3e9a4b6a102',
+    campaign: {
+      id: 'aa800201-817c-4619-8a32-f3e9a4b6a102',
+      name: data.campaign,
+    },
     description: item?.question,
     termsAndConditions: '',
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate),
-    options: item?.options?.map((option, index) => ({
-      name: option,
-      order: index + 1,
-    })),
+    options: item?.options,
     content: {
       logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
@@ -133,11 +133,13 @@ export const formatQuizAddPayload = (
 ): IFormattedQuizFormSchema => {
   return formatQuizAddPayloadData(data);
 };
+
 export const formatQuizEditPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {
   return formatQuizEditPayloadData(data);
 };
+
 export const formatQuizFilterParams = (filters: IQuizTableFilter) => {
   const params = pickBy(filters, (value: string | number) => value !== '');
   if (isEmpty(params)) {

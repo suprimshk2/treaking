@@ -31,15 +31,19 @@ const defaultValues: IAddQuizSchema = {
       question: '',
       startDate: new Date(),
       endDate: new Date(),
-      options: [],
+      options: [{ name: '', order: 0 }],
       correctOptionNumber: 1,
     },
   ],
-  options: [{ name: '', order: 0 }],
 };
 
 export function QuizAddEdit() {
   const theme = useTheme();
+  const childrenContainerStyle = {
+    width: '100%',
+    backgroundColor: theme.palette.gray.lighter,
+  };
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -54,7 +58,15 @@ export function QuizAddEdit() {
     resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
-  const { handleSubmit, reset, control } = methods;
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+    watch,
+  } = methods;
+
+  console.log('errors', errors, watch('quizzes'));
 
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,
@@ -118,10 +130,7 @@ export function QuizAddEdit() {
       handleQuizAdd(data);
     }
   };
-  const childrenContainerStyle = {
-    width: '100%',
-    backgroundColor: theme.palette.gray.lighter,
-  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>

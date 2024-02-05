@@ -19,10 +19,9 @@ export interface IAddQuizSchema {
     question: string;
     startDate: string | Date;
     endDate: string | Date;
-    options: Option[];
+    options: IQuizOptions[];
     correctOptionNumber: number;
   }[];
-  options: IQuizOptions[];
 }
 
 export interface IQuizOptions {

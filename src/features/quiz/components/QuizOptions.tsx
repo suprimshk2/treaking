@@ -1,19 +1,10 @@
 import { Stack, Typography, useTheme, IconButton, Grid } from '@mui/material';
 import { BsX } from 'react-icons/bs';
-import React from 'react';
 import FormInput from 'shared/components/form/FormInput';
 import { useFormContext } from 'react-hook-form';
 import { IQuizOptions } from '../interfaces';
 
-function QuizOptions({
-  fieldArrayIndex,
-  fieldArrayName,
-  setOptions,
-}: {
-  fieldArrayIndex: number;
-  fieldArrayName: string;
-  setOptions: any;
-}) {
+function QuizOptions({ index }: { index: number }) {
   const {
     register,
     setValue,
@@ -21,20 +12,16 @@ function QuizOptions({
     formState: { errors },
   } = useFormContext();
   const theme = useTheme();
-  const options = watch('options');
+  const quizzes = watch('quizzes');
+  const { options } = quizzes[index];
 
-  const onDeleteOption = (index: number) => {
-    const newOptions = [...options];
-    newOptions.splice(index, 1);
-
-    setOptions(newOptions);
-    setValue(`${fieldArrayName}.${fieldArrayIndex}.options`, newOptions, {
-      shouldValidate: true,
-      shouldDirty: true,
-    });
+  const onDeleteOption = (optionIndex: number) => {
+    const quizzesList = quizzes;
+    quizzesList[index].options = quizzesList[index].options.filter(
+      (item: IQuizOptions) => item.order !== optionIndex
+    );
+    setValue(`quizzes`, quizzes);
   };
-
-  console.log('opts -> 🐸', options);
 
   return (
     <Stack gap={2}>
@@ -48,7 +35,7 @@ function QuizOptions({
       >
         Options
       </Typography>
-      {options?.map((option: IQuizOptions, index: number) => {
+      {options?.map((option: IQuizOptions, optionIndex: number) => {
         return (
           <Grid
             container
@@ -60,14 +47,14 @@ function QuizOptions({
             <Grid item xs={11} mb={2}>
               <FormInput
                 {...register(option.name)}
-                value={watch(`options[${index}].name`)}
-                name={`options[${index}].name`}
+                value={watch(`quizzes[${index}].options[${optionIndex}].name`)}
+                name={`quizzes[${index}].options[${optionIndex}].name`}
                 id="options"
               />
             </Grid>
             <Grid item xs={1} mb={2}>
               <IconButton
-                onClick={() => onDeleteOption(index)}
+                onClick={() => onDeleteOption(option.order)}
                 sx={{
                   color: theme.palette.common.black,
                 }}

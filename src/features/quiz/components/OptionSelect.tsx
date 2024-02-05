@@ -1,6 +1,7 @@
 import { MenuItem } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'shared/theme/components/Select';
+import { IQuizOptions } from '../interfaces';
 
 export function QuizOptionSelect({
   optionList,
@@ -38,17 +39,13 @@ export function QuizOptionSelect({
           clearable={clearable}
           handleClear={handleClear}
           onChange={(item) => {
-            const itemIndex = optionList?.indexOf(
-              optionList?.find((el, index) => index + 1 === item.target.value)
-            );
-
-            setValue(name, itemIndex + 1);
+            setValue(name, item.target.value);
             clearErrors(name);
           }}
         >
-          {optionList?.map?.((option, index) => (
-            <MenuItem value={index + 1} key={index}>
-              {option}
+          {optionList?.map?.((option: IQuizOptions) => (
+            <MenuItem value={option.order} key={option.order}>
+              {option.name}
             </MenuItem>
           ))}
         </Select>

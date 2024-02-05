@@ -195,6 +195,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
               >
                 <Box key={item.id}>
                   <QuizMultiple
+                    index={index}
                     isEditMode={isEditMode}
                     fieldArrayIndex={index}
                     fieldArrayName="quizzes"

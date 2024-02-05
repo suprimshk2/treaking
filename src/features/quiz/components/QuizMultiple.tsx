@@ -1,5 +1,4 @@
 import { Box, Grid, useTheme } from '@mui/material';
-import React, { useState, useEffect } from 'react';
 import { FieldError, useFormContext } from 'react-hook-form';
 import FormInput from 'shared/components/form/FormInput';
 import { FormTimePicker } from 'shared/components/form/FormTimePicker';
@@ -13,16 +12,18 @@ import { useSearchParams } from 'react-router-dom';
 import { AddQuizFormSchemaType } from '../schemas';
 import QuizOptions from './QuizOptions';
 import { Option } from '../interfaces';
-import { QuizOptionSelect } from './OptionSelect';
 import { FORMTYPE } from '../enums';
+import { QuizOptionSelect } from './OptionSelect';
 
 export function QuizMultiple({
+  index,
   fieldArrayIndex,
   fieldArrayName,
   onDelete,
   isEditMode,
   optionsData,
 }: {
+  index: number;
   fieldArrayIndex: number;
   fieldArrayName: string;
   onDelete: () => void;
@@ -34,30 +35,32 @@ export function QuizMultiple({
 
   const duplicateId = searchParams.get('id');
   const type = searchParams.get('type');
-
   const isDuplicate = !!duplicateId && type === FORMTYPE.DUPLICATE;
+
   const {
     formState: { errors },
   } = useFormContext<AddQuizFormSchemaType>();
-
   const { setValue, getValues, watch } = useFormContext();
-  const quizzes = getValues('quizzes');
-  const quizOption = quizzes[fieldArrayIndex].options;
-  watch(`quizzes[${fieldArrayIndex}].options`);
-  const [options, setOptions] = useState(['']);
 
-  useEffect(() => {
-    if ((isEditMode && optionsData) || (isDuplicate && optionsData)) {
-      const optionNames = optionsData?.map((item) => item?.name || '');
-      setOptions(optionNames);
-    }
-  }, [isDuplicate, isEditMode, optionsData]);
+  const { options } = watch('quizzes')[index];
+
+  // Use this on edit quiz
+  // useEffect(() => {
+  //   if ((isEditMode && optionsData) || (isDuplicate && optionsData)) {
+  //     const optionNames = optionsData?.map((item) => item?.name || '');
+  //   }
+  // }, [isDuplicate, isEditMode, optionsData]);
 
   const handleAddOption = () => {
-    const optionsList = getValues('options');
+    const quizzes = getValues('quizzes');
+    const optionsList = quizzes[index].options;
     const lastOption = [...optionsList].pop()?.order ?? 0;
 
-    setValue('options', [...optionsList, { name: '', order: lastOption + 1 }]);
+    quizzes[index].options = [
+      ...quizzes[index].options,
+      { name: '', order: lastOption + 1 },
+    ];
+    setValue('quizzes', quizzes);
   };
 
   return (
@@ -116,12 +119,7 @@ export function QuizMultiple({
       </Grid>
       <Grid item xs={6} mb={2}>
         <Box>
-          <QuizOptions
-            fieldArrayIndex={fieldArrayIndex}
-            fieldArrayName={fieldArrayName}
-            options={options}
-            setOptions={setOptions}
-          />
+          <QuizOptions index={index} />
           <Button
             size={ButtonSize.SMALL}
             onClick={handleAddOption}
@@ -150,7 +148,7 @@ export function QuizMultiple({
           id="correctOptionNumber"
           label="Correct Option"
           clearable
-          optionList={quizOption}
+          optionList={options}
         />
       </Grid>
       <Box
