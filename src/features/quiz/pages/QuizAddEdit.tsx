@@ -68,7 +68,6 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
-      console.log({ quizData });
 
       reset({
         ...quizData,

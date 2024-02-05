@@ -6,7 +6,7 @@ import { IQuizOptions } from '../interfaces';
 
 function QuizOptions({ index }: { index: number }) {
   const {
-    register,
+    getValues,
     setValue,
     watch,
     formState: { errors },
@@ -46,8 +46,7 @@ function QuizOptions({ index }: { index: number }) {
           >
             <Grid item xs={11} mb={2}>
               <FormInput
-                {...register(option.name)}
-                value={watch(`quizzes[${index}].options[${optionIndex}].name`)}
+                value={option.name}
                 name={`quizzes[${index}].options[${optionIndex}].name`}
                 id="options"
               />
