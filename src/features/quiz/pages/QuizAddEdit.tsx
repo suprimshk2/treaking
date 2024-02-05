@@ -23,6 +23,7 @@ const defaultValues: IAddQuizSchema = {
   termsAndConditions: '',
   campaign: '',
   prizeDescription: '',
+  prizeImage: [],
   winnerDate: new Date(),
   // winnerStartTime: '',
   // winnerEndTime: '',
@@ -68,24 +69,24 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
+      console.log({ quizData });
 
       reset({
         ...quizData,
-        subTitle: quizData.title || '',
-
-        titleOne: quizData.content.title || '',
-        titleTwo: quizData.content.subTitle || '',
-        description: quizData.content.description || '',
-        winnerDate: new Date(quizData.winnerAnnouncementDate) || '',
-        campaign: quizData.status || '',
-        prizeDescription: quizData.prize.description || '',
+        subTitle: quizData?.title || '',
+        titleOne: quizData?.content?.title || '',
+        titleTwo: quizData?.content?.subTitle || '',
+        description: quizData?.content?.description || '',
+        winnerDate: new Date(quizData?.winnerAnnouncementDate) || '',
+        campaign: quizData?.status || '',
+        prizeDescription: quizData?.prize?.description || '',
         quizzes: [
           {
             ...quizData,
-            question: quizData.description || '',
-            startDate: new Date(quizData.startDate) || '',
-            endDate: new Date(quizData.endDate) || '',
-            options: quizData.options || [],
+            question: quizData?.description || '',
+            startDate: new Date(quizData?.startDate) || '',
+            endDate: new Date(quizData?.endDate) || '',
+            options: quizData?.options || [],
           },
         ],
       });
