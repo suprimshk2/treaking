@@ -21,7 +21,10 @@ import MobileContentView from './mobile-content-view';
 import { offerTemplates } from './offer-templates/OfferFormAdTemplates';
 import { IOfferForm } from '../interfaces';
 import { OfferType } from '../enums';
-import { getSelectedOfferTemplateFromCode } from '../utils';
+import {
+  formatAddEditOfferPayload,
+  getSelectedOfferTemplateFromCode,
+} from '../utils';
 
 const defaultValues: IOfferForm = {
   name: '',
@@ -41,14 +44,19 @@ const defaultValues: IOfferForm = {
   body: '0',
   usageInstructions: '',
   availableUntil: new Date(),
+  layoutType: '',
 };
 
 export function OfferAddEditForm() {
+  const addOfferMutation = useAddOfferMutation();
+  const editOfferMutation = useEditOfferMutation();
+
   const methods = useForm<OfferAddEditFormSchemaType>({
     resolver: zodResolver(offerAddEditFormSchema),
     defaultValues,
   });
   const { handleSubmit, reset } = methods;
+
   const [search] = useSearchParams();
   const navigate = useNavigate();
   const editOfferId = search.get('id') ?? '';
@@ -69,6 +77,8 @@ export function OfferAddEditForm() {
         startDate,
         shortDescription,
         description,
+        subTitle,
+        availableUntil,
       } = offerDetailQuery.data;
       const selectedTemplate =
         getSelectedOfferTemplateFromCode(template.background.type) ||
@@ -76,29 +86,32 @@ export function OfferAddEditForm() {
 
       reset({
         ...defaultValues,
-        template: selectedTemplate,
+        template: {
+          ...selectedTemplate,
+          layoutType: template.layout.type,
+          backgroundType: template.background.type,
+        },
         title,
         shortDescription,
         description,
-        vendor: { name: vendor.name },
+        vendor: { name: vendor.businessName, id: vendor.vendorId },
         startDate: new Date(startDate) || '',
         endDate: new Date(endDate) || '',
-        // startTime: new Date(startDate),
-        // endTime: new Date(endDate),
+        layoutType: template.layout.type ?? '',
+        subTitle,
+        availableUntil: new Date(availableUntil) || '',
       });
     }
   }, [offerDetailQuery?.data, reset]);
-
-  const addOfferMutation = useAddOfferMutation();
-  const editOfferMutation = useEditOfferMutation();
 
   const onClose = () => {
     navigate(-1);
   };
 
   const handleOfferAdd = (data: OfferAddEditFormSchemaType) => {
+    const payload = formatAddEditOfferPayload(data);
     addOfferMutation.mutate(
-      { data },
+      { data: payload },
       {
         onSuccess: () => {
           onClose();
@@ -108,18 +121,15 @@ export function OfferAddEditForm() {
   };
 
   const handleOfferEdit = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-
-    // const payload = formatOfferEditPayload(data);
-
-    // editOfferMutation.mutate(
-    //   { id: editOfferId, data: payload },
-    //   {
-    //     onSuccess: () => {
-    //       onCloseModal();
-    //     },
-    //   }
-    // );
+    const payload = formatAddEditOfferPayload(data);
+    editOfferMutation.mutate(
+      { id: editOfferId, data: payload },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const onSubmit = (data: OfferAddEditFormSchemaType) => {

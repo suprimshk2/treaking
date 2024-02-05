@@ -43,7 +43,7 @@ export function OfferTypeFormSelect({
     setValue('layoutType', OPTIONS[0].code);
   }, [setValue, getValues]);
 
-  const handleChange = (code: string) => {
+  const handleChange = (code: string | number) => {
     const values = getValues('template');
     setValue('template', {
       ...values,

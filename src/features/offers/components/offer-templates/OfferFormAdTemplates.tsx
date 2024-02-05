@@ -102,10 +102,11 @@ function TemplateCard({ template, selected, onChange }: IProps) {
 }
 
 interface IFormProps {
+  isEditMode: boolean;
   name: string;
 }
 
-export function OfferFormAdTemplates({ name }: IFormProps) {
+export function OfferFormAdTemplates({ name, isEditMode }: IFormProps) {
   const lookUpQuery = useLookUpQuery({
     key: 'subCategory',
     value: LookupCategory.OFFER_CONTENT_BACKGROUND,
@@ -130,11 +131,11 @@ export function OfferFormAdTemplates({ name }: IFormProps) {
   );
 
   useEffect(() => {
-    if (lookUpQuery?.data?.data?.rows) {
+    if (lookUpQuery?.data?.data?.rows && !isEditMode) {
       const code = lookUpQuery?.data?.data?.rows[0];
       lookup({ code: code.code });
     }
-  }, [lookUpQuery?.data?.data?.rows, lookup]);
+  }, [isEditMode, lookUpQuery?.data?.data?.rows, lookup]);
 
   const handleSelect = (value: IOfferTemplate) => {
     lookup(value);

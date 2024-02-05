@@ -7,7 +7,12 @@ import template3 from 'shared/assets/png/offer-template3.png';
 import template4 from 'shared/assets/png/offer-template4.png';
 import template5 from 'shared/assets/png/offer-template5.png';
 import { templateStyles } from 'features/offers/constants/template';
-import { OfferBodyType, OfferTemplateCode } from 'features/offers/enums';
+import {
+  OfferBodyType,
+  OfferContentLayoutType,
+  OfferTemplateCode,
+} from 'features/offers/enums';
+import { LAYOUT_TYPE } from 'shared/constants/layoutType';
 import { IOfferTemplate } from '../offer-templates/OfferFormAdTemplates';
 
 const templateImage = {
@@ -23,16 +28,17 @@ function MobileContentView() {
   const { watch } = useFormContext();
   const selectedTemplate: IOfferTemplate = watch('template');
   const title = watch('title');
-  const body = watch('body');
-  const bodyType = watch('bodyType');
+  const subTitle = watch('subTitle');
+  const layoutType: OfferContentLayoutType = watch('layoutType');
   const description = watch('shortDescription');
   const vendor = watch('vendor');
 
-  const isFreeType = bodyType === OfferBodyType.FREE;
+  const isFreeType = layoutType === OfferContentLayoutType.DEFAULT;
 
   if (selectedTemplate) {
     const styles = templateStyles[selectedTemplate.code as OfferTemplateCode];
     const fontFamily = styles?.headerFontFamily ?? '';
+
     return (
       <Box
         sx={{
@@ -99,16 +105,16 @@ function MobileContentView() {
                     fontFamily,
                   }}
                 >
-                  {isFreeType ? OfferBodyType.FREE : body}
+                  {isFreeType ? OfferBodyType.FREE : subTitle}
                 </Typography>
-                {bodyType !== OfferBodyType.FREE && (
+                {!isFreeType && (
                   <Stack spacing={-6} position="relative" top={-6}>
                     <Typography
                       sx={{
                         fontSize: '108px',
                       }}
                     >
-                      {body && bodyType}
+                      {LAYOUT_TYPE[layoutType]}
                     </Typography>
                     <Box alignSelf="baseline">
                       <Typography
@@ -116,14 +122,13 @@ function MobileContentView() {
                           fontSize: '52px',
                         }}
                       >
-                        {body && 'OFF'}
+                        OFF
                       </Typography>
                     </Box>
                   </Stack>
                 )}
               </Stack>
             </Box>
-
             <Typography
               sx={{
                 fontSize: styles.footerFontSize,
