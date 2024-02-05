@@ -20,6 +20,7 @@ export interface IAddQuizSchema {
     startDate: string | Date;
     endDate: string | Date;
     options: Option[];
+    correctOptionNumber: number;
   }[];
 }
 export interface IQuizTableFilter extends IFilter {
@@ -56,6 +57,7 @@ export interface IFormattedQuizFormSchema {
     title: string;
     description: string;
   };
+  campaignId: string;
   description: string;
   termsAndConditions: string;
   status: string;

@@ -114,11 +114,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
               </Grid>
             </Grid>
             <Grid item spacing={4} mb={2}>
-              <TextEditor
-                name="description"
-                height={100}
-                placeholder="Description"
-              />
+              <TextEditor name="description" height={100} />
             </Grid>
 
             <Grid item xs={6} mb={2}>
@@ -128,7 +124,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
               <TextEditor
                 name="termsAndConditions"
                 height={100}
-                placeholder="Terms & Condition"
+                label="Terms & Condition"
               />
             </Grid>
           </Box>

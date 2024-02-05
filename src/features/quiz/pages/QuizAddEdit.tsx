@@ -32,6 +32,7 @@ const defaultValues: IAddQuizSchema = {
       startDate: new Date(),
       endDate: new Date(),
       options: [],
+      correctOptionNumber: 1,
     },
   ],
 };

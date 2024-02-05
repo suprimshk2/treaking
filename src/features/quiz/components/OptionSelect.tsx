@@ -17,12 +17,11 @@ export function QuizOptionSelect({
     formState: { errors },
   } = useFormContext();
 
-  const vendorId = watch('correctOptionNumber')?.id || '';
+  const correctOption = watch(name) || '';
 
   const handleClear = () => {
-    setValue(name, '');
+    setValue(name, 0);
   };
-  console.log({ optionList });
 
   return (
     <Controller
@@ -32,25 +31,23 @@ export function QuizOptionSelect({
         <Select
           {...field}
           {...others}
-          value={vendorId}
-          placeholder={placeholder || 'Select Vendor'}
+          value={correctOption}
+          placeholder={placeholder || 'Select Correct Option'}
           color={errors[name] ? 'error' : undefined}
           hint={(errors[name]?.message as string) ?? ''}
           clearable={clearable}
           handleClear={handleClear}
           onChange={(item) => {
-            const option = optionList?.find((el) => el === item.target.value);
+            const itemIndex = optionList?.indexOf(
+              optionList?.find((el, index) => index + 1 === item.target.value)
+            );
 
-            setValue('correctOption', {
-              name: option,
-              //   id: option?.optionId,
-              //   logo_url: option?.logoUrl,
-            });
-            clearErrors('correctOption');
+            setValue(name, itemIndex + 1);
+            clearErrors(name);
           }}
         >
           {optionList?.map?.((option, index) => (
-            <MenuItem value={option} key={index}>
+            <MenuItem value={index + 1} key={index}>
               {option}
             </MenuItem>
           ))}

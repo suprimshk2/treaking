@@ -1,11 +1,4 @@
-import {
-  Box,
-  Stack,
-  Typography,
-  useTheme,
-  IconButton,
-  Grid,
-} from '@mui/material';
+import { Stack, Typography, useTheme, IconButton, Grid } from '@mui/material';
 import { BsX } from 'react-icons/bs';
 import React from 'react';
 import FormInput from 'shared/components/form/FormInput';
@@ -15,17 +8,29 @@ function QuizOptions({
   fieldArrayIndex,
   fieldArrayName,
   options,
+  setOptions,
 }: {
   fieldArrayIndex: number;
   fieldArrayName: string;
   options: string[];
+  setOptions: any;
 }) {
   const {
+    setValue,
     formState: { errors },
   } = useFormContext();
   const theme = useTheme();
-  console.log({ options });
-  console.log('op', errors);
+
+  const onDeleteOption = (index: number) => {
+    const newOptions = [...options];
+    newOptions.splice(index, 1);
+
+    setOptions(newOptions);
+    setValue(`${fieldArrayName}.${fieldArrayIndex}.options`, newOptions, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
   return (
     <Stack gap={2}>
@@ -40,8 +45,6 @@ function QuizOptions({
         Options
       </Typography>
       {options?.map((option, index) => {
-        console.log({ option });
-
         return (
           <Grid container spacing={4} mb={2} pb={2} key={index}>
             <Grid item xs={11} mb={2}>
@@ -58,9 +61,7 @@ function QuizOptions({
             </Grid>
             <Grid item xs={1} mb={2}>
               <IconButton
-                onClick={() => {
-                  options.splice(index, 1);
-                }}
+                onClick={() => onDeleteOption(index)}
                 sx={{
                   color: theme.palette.common.black,
                 }}

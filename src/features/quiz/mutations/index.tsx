@@ -188,6 +188,7 @@ export const useQuizDetailQuery = (
     queryFn: () => quizAPI.getQuizById(id),
     enabled,
   });
+
   return {
     ...queryInfo,
     data: queryInfo.data,
