@@ -6,7 +6,6 @@ import {
   SortOrderType,
 } from 'shared/interfaces/misc';
 import { OfferSortBy, OfferTemplateCode } from '../enums';
-import { IOfferTemplate } from '../components/offer-templates/OfferFormAdTemplates';
 
 export interface IVendor {
   _id: string;
@@ -121,6 +120,7 @@ export interface IOfferForm {
   termsAndConditions: string;
   usageInstructions: string;
   availableUntil: Date;
+  layoutType: string;
 }
 
 export interface IEditOfferSchema {}

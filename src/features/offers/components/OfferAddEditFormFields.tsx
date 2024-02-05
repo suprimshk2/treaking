@@ -8,10 +8,11 @@ import { LookUpCode } from 'shared/enums';
 import { OfferFormAdTemplates } from './offer-templates/OfferFormAdTemplates';
 import { OfferTypeFormSelect } from './OfferTypeFormSelect';
 
-interface IProps {
+export function OfferAddEditFormFields({
+  isEditMode = false,
+}: {
   isEditMode?: boolean;
-}
-export function OfferAddEditFormFields({ isEditMode }: IProps) {
+}) {
   return (
     <Box>
       <Grid container spacing={4} mb={4}>
@@ -30,7 +31,7 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
       </Grid>
       <Grid container spacing={4} mb={4}>
         <Grid item xs={12}>
-          <OfferFormAdTemplates name="template" />
+          <OfferFormAdTemplates name="template" isEditMode={isEditMode} />
         </Grid>
       </Grid>
       <Grid container spacing={4} mb={4}>
@@ -52,7 +53,12 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
               top: 40,
             }}
           >
-            <OfferTypeFormSelect name="layoutType" id="bodyType" width="76px" />
+            <OfferTypeFormSelect
+              name="layoutType"
+              id="bodyType"
+              width="76px"
+              isEditMode={isEditMode}
+            />
           </Box>
           <FormInput
             type="number"
@@ -121,7 +127,7 @@ export function OfferAddEditFormFields({ isEditMode }: IProps) {
       </Grid>
       <Grid container spacing={4} mb={4}>
         <Grid item xs={6}>
-          <FormDatePicker name="validityDate" label="Validity Date" />
+          <FormDatePicker name="availableUntil" label="Validity Date" />
         </Grid>
         <Grid item xs={6}>
           <FormTimePicker name="validityEndTime" label="End Time" />

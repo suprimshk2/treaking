@@ -84,6 +84,11 @@ export const formatDateToSave = (date: string) => {
  * Normally, the input date format is ISO format
  *
  */
+
+export const formatDateTimeToSave = (date: Date) => {
+  return `${format(date, "yyyy-MM-dd'T'HH:mm:ss.000").toString()}Z`;
+};
+
 export const formatDateToView = (
   date: string,
   dateFormat: {
