@@ -1,5 +1,5 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
-import { CreatedAt } from 'features/product/interfaces';
+import { ICreatedAt } from 'features/product/interfaces';
 import { VendorSortBy } from '../enums';
 
 export interface IVendorTableFilter extends IFilter {
@@ -39,7 +39,8 @@ export interface AccountOwner {
   name: string;
 }
 export interface Contact {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
 }
@@ -61,8 +62,8 @@ export interface IVendor {
   accountOwner: AccountOwner;
   socialMedias: SocialMedia[];
   enrolledDate: Date;
-  updated: CreatedAt;
-  created: CreatedAt;
+  updated: ICreatedAt;
+  created: ICreatedAt;
   vendorId: string;
 }
 

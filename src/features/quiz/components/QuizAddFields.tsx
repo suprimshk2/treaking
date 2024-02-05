@@ -71,13 +71,18 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
       try {
         const data = await uploadImageMutation.mutateAsync(payload);
 
-        const images = getValues('prizeImages');
+        const images = getValues('prizeImage');
 
-        setValue('prizeImages', [...images, { url: data?.data?.url ?? '' }]);
+        setValue('prizeImage', [...images, { url: data?.data?.url ?? '' }]);
 
-        ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
+        prizeRef.current?.setFileState(
+          item.fileId,
+          data?.data?.url,
+          false,
+          true
+        );
       } catch (error) {
-        ref.current?.setFileState(item.fileId, '', false, false);
+        prizeRef.current?.setFileState(item.fileId, '', false, false);
       }
     });
   };
@@ -166,6 +171,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
             </Grid>
             <Box paddingY={theme.spacing(3)}>
               <FileDropzone
+                name="prizeImage"
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onPrizeFileChange}
                 ref={prizeRef}

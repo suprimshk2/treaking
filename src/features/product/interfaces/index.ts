@@ -1,4 +1,5 @@
 import { IFilter, IVendorSchema, SortOrderType } from 'shared/interfaces/misc';
+import { IVendor } from 'features/offers/interfaces';
 import { ProductSortBy } from '../enums';
 
 export interface IProductTableRow {
@@ -154,10 +155,9 @@ export interface IDiscount {
 }
 
 export interface IProductSlice {
-  vendorTableFilters: any;
-  vendorSort: any;
-  productSort: IProductSort;
   productTableFilters: IProductTableFilter;
+  productSort: IProductSort;
+
   // totalProduct: number;
   changeProductSortByAndOrder: (newOrder: Partial<IProductSort>) => void;
   setProductTableFilters: (newFilters: Partial<IProductTableFilter>) => void;
