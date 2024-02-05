@@ -98,7 +98,7 @@ export const useEditUserMutation = () => {
       if (!queryData) {
         return;
       }
-      console.log({ queryData });
+
       // Update the user in the list with updated data
 
       queryData.pages.find((page) => {

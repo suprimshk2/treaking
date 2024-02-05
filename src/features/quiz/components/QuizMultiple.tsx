@@ -36,25 +36,30 @@ export function QuizMultiple({
   const type = searchParams.get('type');
 
   const isDuplicate = !!duplicateId && type === FORMTYPE.DUPLICATE;
+  const {
+    formState: { errors },
+  } = useFormContext<AddQuizFormSchemaType>();
 
-  const { getValues, watch } = useFormContext();
+  const { setValue, getValues, watch } = useFormContext();
   const quizzes = getValues('quizzes');
   const quizOption = quizzes[fieldArrayIndex].options;
   watch(`quizzes[${fieldArrayIndex}].options`);
   const [options, setOptions] = useState(['']);
+
   useEffect(() => {
     if ((isEditMode && optionsData) || (isDuplicate && optionsData)) {
       const optionNames = optionsData?.map((item) => item?.name || '');
       setOptions(optionNames);
     }
   }, [isDuplicate, isEditMode, optionsData]);
-  const {
-    formState: { errors },
-  } = useFormContext<AddQuizFormSchemaType>();
 
   const handleAddOption = () => {
-    setOptions([...options, '']);
+    const optionsList = getValues('options');
+    const lastOption = [...optionsList].pop()?.order ?? 0;
+
+    setValue('options', [...optionsList, { name: '', order: lastOption + 1 }]);
   };
+
   return (
     <Box
       display="flex"
@@ -148,7 +153,6 @@ export function QuizMultiple({
           optionList={quizOption}
         />
       </Grid>
-
       <Box
         display="flex"
         flexDirection="row"

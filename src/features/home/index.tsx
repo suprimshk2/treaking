@@ -33,10 +33,7 @@ function Auth() {
 
   const { handleSubmit } = methods;
 
-  const onSubmit = (data: FormSchemaType) => {
-    // eslint-disable-next-line no-console
-    console.log({ data });
-  };
+  const onSubmit = (data: FormSchemaType) => {};
 
   return (
     <Box margin="auto">

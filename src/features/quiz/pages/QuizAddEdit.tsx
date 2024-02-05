@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, useTheme } from '@mui/material';
@@ -35,6 +35,7 @@ const defaultValues: IAddQuizSchema = {
       correctOptionNumber: 1,
     },
   ],
+  options: [{ name: '', order: 0 }],
 };
 
 export function QuizAddEdit() {
@@ -53,13 +54,7 @@ export function QuizAddEdit() {
     resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
-  const {
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-  } = methods;
-  console.log({ errors });
+  const { handleSubmit, reset, control } = methods;
 
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,

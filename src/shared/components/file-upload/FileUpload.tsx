@@ -50,7 +50,6 @@ const FileDropzone = forwardRef(
     const images = getValues(name);
 
     const hasError = errors[name];
-    console.log({ hasError });
 
     const fileId = useId();
 

@@ -22,6 +22,12 @@ export interface IAddQuizSchema {
     options: Option[];
     correctOptionNumber: number;
   }[];
+  options: IQuizOptions[];
+}
+
+export interface IQuizOptions {
+  name: string;
+  order: number;
 }
 export interface IQuizTableFilter extends IFilter {
   titleOne?: string;

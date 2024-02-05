@@ -3,23 +3,25 @@ import { BsX } from 'react-icons/bs';
 import React from 'react';
 import FormInput from 'shared/components/form/FormInput';
 import { useFormContext } from 'react-hook-form';
+import { IQuizOptions } from '../interfaces';
 
 function QuizOptions({
   fieldArrayIndex,
   fieldArrayName,
-  options,
   setOptions,
 }: {
   fieldArrayIndex: number;
   fieldArrayName: string;
-  options: string[];
   setOptions: any;
 }) {
   const {
+    register,
     setValue,
+    watch,
     formState: { errors },
   } = useFormContext();
   const theme = useTheme();
+  const options = watch('options');
 
   const onDeleteOption = (index: number) => {
     const newOptions = [...options];
@@ -31,6 +33,8 @@ function QuizOptions({
       shouldDirty: true,
     });
   };
+
+  console.log('opts -> 🐸', options);
 
   return (
     <Stack gap={2}>
@@ -44,18 +48,20 @@ function QuizOptions({
       >
         Options
       </Typography>
-      {options?.map((option, index) => {
+      {options?.map((option: IQuizOptions, index: number) => {
         return (
-          <Grid container spacing={4} mb={2} pb={2} key={index}>
+          <Grid
+            container
+            spacing={4}
+            mb={2}
+            pb={2}
+            key={option?.order?.toString()}
+          >
             <Grid item xs={11} mb={2}>
               <FormInput
-                // value={option}
-                name={
-                  `${fieldArrayName}.${fieldArrayIndex}.options.${index}` as const
-                }
-                fieldError={
-                  errors?.quizzes?.[fieldArrayIndex]?.options as FieldError
-                }
+                {...register(option.name)}
+                value={watch(`options[${index}].name`)}
+                name={`options[${index}].name`}
                 id="options"
               />
             </Grid>
