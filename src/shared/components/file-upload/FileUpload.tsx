@@ -90,7 +90,7 @@ const FileDropzone = forwardRef(
     const handleFileDelete = (id: string) => {
       const files = selectedFiles.filter((item) => item.fileId !== id);
       setSelectedFiles(files);
-      setValue('images', files);
+      setValue(name, files);
     };
 
     const files = selectedFiles.map((file: IFilePayload) => (

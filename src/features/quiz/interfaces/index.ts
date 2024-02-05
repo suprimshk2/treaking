@@ -4,6 +4,7 @@ import { QuizSortBy } from '../enums';
 
 export interface IAddQuizSchema {
   logoUrl: IFileSchema[];
+  prizeImage: IFileSchema[];
   titleOne: string;
   titleTwo: string;
   subTitle: string;
@@ -62,6 +63,7 @@ export interface IFormattedQuizFormSchema {
   prize: {
     title: string;
     description: string;
+    imageUrl: IFileSchema[];
   };
   campaignId: string;
   description: string;
@@ -116,6 +118,7 @@ export interface IAdoptQuiz extends Omit<IQuiz, 'endDate' | 'startDate'> {
   startDate: string;
   winnerFullName: string;
   images: IFileSchema[];
+  prizeImage: IFileSchema[];
 }
 export interface Content {
   logoUrl: string;
@@ -134,6 +137,7 @@ export interface Option {
 export interface Prize {
   title?: string | undefined;
   description?: string;
+  imageUrl?: string;
 }
 
 export interface Winner {

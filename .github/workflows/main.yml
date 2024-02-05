@@ -1,0 +1,117 @@
+name: Build Docker image
+on:
+  push:
+    branches:
+      - dev
+      - qa
+      - prod
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Get repository name
+        id: repo-name
+        uses: MariachiBear/get-repo-name-action@v1.1.0
+        with:
+          with-owner: 'false'
+          string-case: 'lowercase'
+
+      # - name: envv
+      #   run: |
+      #     echo ${{ vars.BASE_ENCODED_ENV}}
+      #     echo ${{ vars.BASE_ENCODED_ENV}}  >> .env.${{ github.ref_name }}.txt
+      #     base64 -d .env.${{ github.ref_name }}.txt >> .env.${{ github.ref_name }}
+
+      - name: Build Docker image
+        id: docker_build
+        run: |
+          sed -i "s/dev/${{ github.ref_name }}/g" Dockerfile || echo " failed "
+          docker build -t ${{ steps.repo-name.outputs.repository-name }}-${{ github.ref_name }} .
+
+      - name: list all docker images
+        run: docker images
+        
+      - name: Save Docker image as tar
+        run: docker save -o docker-image.tar ${{ steps.repo-name.outputs.repository-name }}-${{ github.ref_name }}
+
+      - name: Upload Docker image tarball
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image.tar
+          path: ./docker-image.tar
+
+  push_artifacts:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Get repository name
+        id: repo-name
+        uses: MariachiBear/get-repo-name-action@v1.1.0
+        with:
+          with-owner: 'false'
+          string-case:
+            'lowercase'
+            # Download artifacts
+      - name: Download Artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image.tar
+          # delete-artifact
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: docker-image.tar
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: 'docker-image.tar'
+          target: /home/ubuntu/${{ github.ref_name }}/${{ steps.repo-name.outputs.repository-name }}
+
+  deploy:
+    needs: push_artifacts
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Get repository name
+        id: repo-name
+        uses: MariachiBear/get-repo-name-action@v1.1.0
+        with:
+          with-owner: 'false'
+          string-case: 'lowercase'
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SERVER }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /home/ubuntu/${{ github.ref_name }}/${{ steps.repo-name.outputs.repository-name }}
+            docker load -i docker-image.tar
+            docker compose up -d --build

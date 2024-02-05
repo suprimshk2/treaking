@@ -75,6 +75,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     prize: {
       title: data?.prizeDescription,
       description: data?.prizeDescription,
+      imageUrl: data?.prizeImage?.[0]?.url || '',
     },
     campaign: {
       id: 'aa800201-817c-4619-8a32-f3e9a4b6a102', // TODO change this
@@ -107,6 +108,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     prize: {
       title: '',
       description: data?.prizeDescription,
+      imageUrl: data?.prizeImage,
     },
     description: data?.quizzes?.[0]?.question,
     termsAndConditions: '',

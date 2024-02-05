@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, useTheme } from '@mui/material';
 import {
@@ -18,7 +18,6 @@ import {
 } from '../mutations';
 import { VendorAddEditFields } from '../components/VendorAddEditFields';
 import { formatVendorAddPayload } from '../utils';
-import { IFileSchema } from '../interfaces';
 import { AddVendorFormSchemaType, addVendorFormSchema } from '../schemas';
 
 interface IProps {
