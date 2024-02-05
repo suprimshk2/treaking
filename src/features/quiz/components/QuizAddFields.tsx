@@ -14,14 +14,13 @@ import { CloudFileCategory } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
 import TextEditor from 'shared/components/text-editor';
 import { QuizMultiple } from './QuizMultiple';
-import { Option } from '../interfaces';
 
 interface IProps {
   control: any;
   isEditMode: boolean;
-  optionsData: Option[];
 }
-export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
+
+export function QuizAddFields({ control, isEditMode }: IProps) {
   const theme = useTheme();
   const uploadImageMutation = useUploadImageMutation();
   const ref = useRef<IFileRef>(null);
@@ -196,11 +195,9 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
                 <Box key={item.id}>
                   <QuizMultiple
                     index={index}
-                    isEditMode={isEditMode}
                     fieldArrayIndex={index}
                     fieldArrayName="quizzes"
                     onDelete={() => remove(index)}
-                    optionsData={optionsData}
                   />
                 </Box>
                 {isEditMode ? null : (

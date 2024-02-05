@@ -31,8 +31,8 @@ const defaultValues: IAddQuizSchema = {
       question: '',
       startDate: new Date(),
       endDate: new Date(),
-      options: [{ name: '', order: 0 }],
-      correctOptionNumber: 1,
+      options: [{ name: '', order: 0, id: '' }],
+      correctOptionNumber: 0,
     },
   ],
 };
@@ -58,15 +58,7 @@ export function QuizAddEdit() {
     resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
-  const {
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-    watch,
-  } = methods;
-
-  console.log('errors', errors, watch('quizzes'));
+  const { handleSubmit, reset, control } = methods;
 
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,
@@ -79,7 +71,6 @@ export function QuizAddEdit() {
       reset({
         ...quizData,
         subTitle: quizData.title || '',
-
         titleOne: quizData.content.title || '',
         titleTwo: quizData.content.subTitle || '',
         description: quizData.content.description || '',
@@ -88,11 +79,11 @@ export function QuizAddEdit() {
         prizeDescription: quizData.prize.description || '',
         quizzes: [
           {
-            ...quizData,
+            correctOptionNumber: quizData.correctOptionNumber,
+            options: quizData.options,
             question: quizData.description || '',
             startDate: new Date(quizData.startDate) || '',
             endDate: new Date(quizData.endDate) || '',
-            options: quizData.options || [],
           },
         ],
       });
@@ -101,7 +92,6 @@ export function QuizAddEdit() {
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
-
     addQuizMutation.mutate(
       { data: payload },
       {
@@ -111,9 +101,9 @@ export function QuizAddEdit() {
       }
     );
   };
+
   const handleQuizEdit = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizEditPayload(data);
-
     editQuizMutation.mutate(
       { id: editQuizId ?? '', data: payload },
       {
@@ -123,6 +113,7 @@ export function QuizAddEdit() {
       }
     );
   };
+
   const onSubmit = (data: AddQuizFormSchemaType) => {
     if (isEditMode) {
       handleQuizEdit(data);

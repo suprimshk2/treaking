@@ -27,6 +27,7 @@ export interface IAddQuizSchema {
 export interface IQuizOptions {
   name: string;
   order: number;
+  id?: string;
 }
 export interface IQuizTableFilter extends IFilter {
   titleOne?: string;

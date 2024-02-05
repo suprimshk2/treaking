@@ -18,7 +18,7 @@ export function QuizOptionSelect({
     formState: { errors },
   } = useFormContext();
 
-  const correctOption = watch(name) || '';
+  const correctOption = watch(name) || 0;
 
   const handleClear = () => {
     setValue(name, 0);
@@ -32,14 +32,14 @@ export function QuizOptionSelect({
         <Select
           {...field}
           {...others}
-          value={correctOption}
+          value={String(correctOption)}
           placeholder={placeholder || 'Select Correct Option'}
           color={errors[name] ? 'error' : undefined}
           hint={(errors[name]?.message as string) ?? ''}
           clearable={clearable}
           handleClear={handleClear}
           onChange={(item) => {
-            setValue(name, item.target.value);
+            setValue(name, +item.target.value);
             clearErrors(name);
           }}
         >

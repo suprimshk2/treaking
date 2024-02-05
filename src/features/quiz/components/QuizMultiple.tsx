@@ -8,11 +8,8 @@ import {
   ButtonSize,
   ButtonVariant,
 } from 'shared/theme/components/Button';
-import { useSearchParams } from 'react-router-dom';
 import { AddQuizFormSchemaType } from '../schemas';
 import QuizOptions from './QuizOptions';
-import { Option } from '../interfaces';
-import { FORMTYPE } from '../enums';
 import { QuizOptionSelect } from './OptionSelect';
 
 export function QuizMultiple({
@@ -20,39 +17,23 @@ export function QuizMultiple({
   fieldArrayIndex,
   fieldArrayName,
   onDelete,
-  isEditMode,
-  optionsData,
 }: {
   index: number;
   fieldArrayIndex: number;
   fieldArrayName: string;
   onDelete: () => void;
-  isEditMode: boolean;
-  optionsData: Option[];
 }) {
   const theme = useTheme();
-  const [searchParams] = useSearchParams();
-
-  const duplicateId = searchParams.get('id');
-  const type = searchParams.get('type');
-  const isDuplicate = !!duplicateId && type === FORMTYPE.DUPLICATE;
 
   const {
     formState: { errors },
   } = useFormContext<AddQuizFormSchemaType>();
-  const { setValue, getValues, watch } = useFormContext();
+  const { setValue, watch } = useFormContext();
 
-  const { options } = watch('quizzes')[index];
-
-  // Use this on edit quiz
-  // useEffect(() => {
-  //   if ((isEditMode && optionsData) || (isDuplicate && optionsData)) {
-  //     const optionNames = optionsData?.map((item) => item?.name || '');
-  //   }
-  // }, [isDuplicate, isEditMode, optionsData]);
+  const quizzes = watch('quizzes');
+  const { options } = quizzes[index];
 
   const handleAddOption = () => {
-    const quizzes = getValues('quizzes');
     const optionsList = quizzes[index].options;
     const lastOption = [...optionsList].pop()?.order ?? 0;
 
@@ -142,9 +123,7 @@ export function QuizMultiple({
       </Grid>
       <Grid item xs={6} mb={2}>
         <QuizOptionSelect
-          name={
-            `${fieldArrayName}.${fieldArrayIndex}.correctOptionNumber` as const
-          }
+          name={`quizzes[${index}].correctOptionNumber`}
           id="correctOptionNumber"
           label="Correct Option"
           clearable

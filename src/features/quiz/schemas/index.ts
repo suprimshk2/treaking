@@ -1,9 +1,7 @@
 import {
-  imageSchema,
   optionalImageSchema,
   optionalStringSchema,
   requiredDateSchema,
-  requiredNumberSchema,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
@@ -11,6 +9,7 @@ import { z } from 'zod';
 const optionSchema = z.object({
   name: requiredStringSchema,
   order: z.number(),
+  id: optionalStringSchema,
 });
 
 const quizSchema = z.object({
@@ -19,11 +18,7 @@ const quizSchema = z.object({
   endDate: requiredDateSchema,
   logoUrl: optionalStringSchema,
   options: z.array(optionSchema),
-  correctOptionNumber: requiredNumberSchema,
-});
-const prizeSchema = z.object({
-  title: optionalStringSchema,
-  description: requiredStringSchema,
+  correctOptionNumber: z.number(),
 });
 
 export const addQuizFormSchema = z.object({
