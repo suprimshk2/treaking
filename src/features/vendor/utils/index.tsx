@@ -4,9 +4,12 @@ import { IFormattedVendorFormSchema, IVendorTableFilter } from '../interfaces';
 import { vendorConfig } from '../constant/config';
 
 const { VENDOR_TABLE_FILTER_MAP } = vendorConfig;
+export const formatVendorDetail = (res) => {
+  return { ...res?.data, images: [{ url: res?.data?.logoUrl }] };
+};
 const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
   return {
-    logoUrl: data.logoUrl,
+    logoUrl: data?.images?.[0]?.url,
     businessName: data.businessName,
     contacts: [
       {

@@ -9,9 +9,12 @@ import {
   ButtonSize,
   ButtonVariant,
 } from 'shared/theme/components/Button';
+import { useSearchParams } from 'react-router-dom';
 import { AddQuizFormSchemaType } from '../schemas';
 import QuizOptions from './QuizOptions';
 import { Option } from '../interfaces';
+import { QuizOptionSelect } from './OptionSelect';
+import { FORMTYPE } from '../enums';
 
 export function QuizMultiple({
   fieldArrayIndex,
@@ -27,14 +30,24 @@ export function QuizMultiple({
   optionsData: Option[];
 }) {
   const theme = useTheme();
+  const [searchParams] = useSearchParams();
+
+  const duplicateId = searchParams.get('id');
+  const type = searchParams.get('type');
+
+  const isDuplicate = !!duplicateId && type === FORMTYPE.DUPLICATE;
+
+  const { getValues, watch } = useFormContext();
+  const quizzes = getValues('quizzes');
+  const quizOption = quizzes[fieldArrayIndex].options;
+  watch(`quizzes[${fieldArrayIndex}].options`);
   const [options, setOptions] = useState(['']);
   useEffect(() => {
-    if (isEditMode && optionsData) {
-      // `${fieldArrayName}.${fieldArrayIndex}.question`.
+    if ((isEditMode && optionsData) || (isDuplicate && optionsData)) {
       const optionNames = optionsData?.map((item) => item?.name || '');
       setOptions(optionNames);
     }
-  }, [isEditMode, optionsData]);
+  }, [isDuplicate, isEditMode, optionsData]);
   const {
     formState: { errors },
   } = useFormContext<AddQuizFormSchemaType>();
@@ -97,16 +110,16 @@ export function QuizMultiple({
         />
       </Grid>
       <Grid item xs={6} mb={2}>
-        <div>
+        <Box>
           <QuizOptions
             fieldArrayIndex={fieldArrayIndex}
             fieldArrayName={fieldArrayName}
             options={options}
+            setOptions={setOptions}
           />
           <Button
             size={ButtonSize.SMALL}
             onClick={handleAddOption}
-            fullWidth
             variant={ButtonVariant.OUTLINED}
             sx={{
               marginTop: 2,
@@ -117,11 +130,23 @@ export function QuizMultiple({
               color: theme.palette.gray.dark,
               height: 40,
               borderRadius: 1,
+              width: '92%',
             }}
           >
             Add Option
           </Button>
-        </div>
+        </Box>
+      </Grid>
+      <Grid item xs={6} mb={2}>
+        <QuizOptionSelect
+          name={
+            `${fieldArrayName}.${fieldArrayIndex}.correctOptionNumber` as const
+          }
+          id="correctOptionNumber"
+          label="Correct Option"
+          clearable
+          optionList={quizOption}
+        />
       </Grid>
 
       <Box

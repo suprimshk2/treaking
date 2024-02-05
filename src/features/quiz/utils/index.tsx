@@ -50,10 +50,18 @@ export const formatQuizList = (
   };
 };
 
-export const formatQuizDetail = (res: any): any => {
+export const formatQuizDetail = (res) => {
+  const options = res?.data?.options;
+  const correctOptionId = res?.data?.correctOptionId;
+  const correctOptionIndex = res?.data?.options.indexOf(
+    options.find((item) => item?.id === correctOptionId)
+  );
+
   return {
     ...res.data,
+    options: res?.data?.options.map((option) => option.name),
     images: [{ url: res.data.content.logoUrl }],
+    correctOptionNumber: correctOptionIndex + 1,
   };
 };
 
@@ -65,25 +73,26 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     type: 'QUIZ',
     startDate: new Date(item.startDate),
     prize: {
-      title: '',
+      title: data?.prizeDescription,
       description: data?.prizeDescription,
     },
-    description: item.question,
+    campaignId: 'aa800201-817c-4619-8a32-f3e9a4b6a102',
+    description: item?.question,
     termsAndConditions: '',
     status: 'ACTIVE',
-    winnerAnnouncementDate: new Date(data.winnerDate),
+    winnerAnnouncementDate: new Date(data?.winnerDate),
     options: item?.options?.map((option, index) => ({
       name: option,
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.images[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
       upcomingTitle: '',
     },
-    correctOptionNumber: 1,
+    correctOptionNumber: item?.correctOptionNumber,
   }));
 };
 
@@ -94,6 +103,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     imageUrl: '',
     type: 'QUIZ',
     startDate: new Date(data?.quizzes?.[0]?.startDate),
+    campaignId: 'aa800201-817c-4619-8a32-f3e9a4b6a102',
 
     prize: {
       title: '',
@@ -108,13 +118,13 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.images[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
       upcomingTitle: '',
     },
-    correctOptionNumber: 1,
+    correctOptionNumber: data?.quizzes?.[0]?.correctOptionNumber,
   };
 };
 

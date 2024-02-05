@@ -44,6 +44,7 @@ function QuizTable({ onEditClick, onDuplicate }: IProps) {
     ...formatSortParam({ sortBy, sortOrder }),
   });
   const isEmptyResult = isSuccess && data?.pages?.[0]?.count === 0;
+
   const renderedTableRows =
     isSuccess &&
     data?.pages?.map((group, i) => (

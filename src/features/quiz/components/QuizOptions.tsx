@@ -1,4 +1,5 @@
-import { Box, Stack, Typography, useTheme } from '@mui/material';
+import { Stack, Typography, useTheme, IconButton, Grid } from '@mui/material';
+import { BsX } from 'react-icons/bs';
 import React from 'react';
 import FormInput from 'shared/components/form/FormInput';
 import { useFormContext } from 'react-hook-form';
@@ -7,15 +8,29 @@ function QuizOptions({
   fieldArrayIndex,
   fieldArrayName,
   options,
+  setOptions,
 }: {
   fieldArrayIndex: number;
   fieldArrayName: string;
   options: string[];
+  setOptions: any;
 }) {
   const {
+    setValue,
     formState: { errors },
   } = useFormContext();
   const theme = useTheme();
+
+  const onDeleteOption = (index: number) => {
+    const newOptions = [...options];
+    newOptions.splice(index, 1);
+
+    setOptions(newOptions);
+    setValue(`${fieldArrayName}.${fieldArrayIndex}.options`, newOptions, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
+  };
 
   return (
     <Stack gap={2}>
@@ -30,22 +45,31 @@ function QuizOptions({
         Options
       </Typography>
       {options?.map((option, index) => {
-        console.log({ option });
-
         return (
-          // eslint-disable-next-line react/no-array-index-key
-          <Box key={index} pb={2}>
-            <FormInput
-              // value={option}
-              name={
-                `${fieldArrayName}.${fieldArrayIndex}.options.${index}` as const
-              }
-              // fieldError={
-              //   errors?.quizzes?.[fieldArrayIndex]?.options as FieldError
-              // }
-              id="options"
-            />
-          </Box>
+          <Grid container spacing={4} mb={2} pb={2} key={index}>
+            <Grid item xs={11} mb={2}>
+              <FormInput
+                // value={option}
+                name={
+                  `${fieldArrayName}.${fieldArrayIndex}.options.${index}` as const
+                }
+                fieldError={
+                  errors?.quizzes?.[fieldArrayIndex]?.options as FieldError
+                }
+                id="options"
+              />
+            </Grid>
+            <Grid item xs={1} mb={2}>
+              <IconButton
+                onClick={() => onDeleteOption(index)}
+                sx={{
+                  color: theme.palette.common.black,
+                }}
+              >
+                <BsX />
+              </IconButton>
+            </Grid>
+          </Grid>
         );
       })}
     </Stack>

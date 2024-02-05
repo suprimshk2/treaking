@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, useTheme } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddQuizFormSchemaType } from '../schemas';
+import { AddQuizFormSchemaType, addQuizFormSchema } from '../schemas';
 import {
   useAddQuizMutation,
   useEditQuizMutation,
@@ -23,15 +23,16 @@ const defaultValues: IAddQuizSchema = {
   termsAndConditions: '',
   campaign: '',
   prizeDescription: '',
-  winnerDate: '',
+  winnerDate: new Date(),
   // winnerStartTime: '',
   // winnerEndTime: '',
   quizzes: [
     {
       question: '',
-      startDate: '',
-      endDate: '',
+      startDate: new Date(),
+      endDate: new Date(),
       options: [],
+      correctOptionNumber: 1,
     },
   ],
 };
@@ -49,7 +50,7 @@ export function QuizAddEdit() {
   const addQuizMutation = useAddQuizMutation();
   const editQuizMutation = useEditQuizMutation();
   const methods = useForm({
-    // resolver: zodResolver(addQuizFormSchema),
+    resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
   const {
@@ -58,6 +59,7 @@ export function QuizAddEdit() {
     control,
     formState: { errors },
   } = methods;
+  console.log({ errors });
 
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,

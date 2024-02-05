@@ -11,11 +11,13 @@ import { CenterRowSpaceBetween } from '../layouts/CenterRowSpaceBetween';
 
 function TextEditor({
   name,
-  label = 'Description',
-  checkBoxEnabled = false,
+  height,
+  label,
+  checkBoxEnabled,
   param = '',
 }: {
   name: string;
+  height?: number;
   label?: string;
   checkBoxEnabled?: boolean;
   param?: string;
@@ -103,7 +105,7 @@ function TextEditor({
           commands.codePreview,
           commands.codeLive,
         ]}
-        height={290}
+        height={height}
         preview="edit"
         style={{
           backgroundColor: 'transparent',
@@ -116,6 +118,7 @@ function TextEditor({
 }
 
 TextEditor.defaultProps = {
+  height: 290,
   label: 'Description',
   checkBoxEnabled: false,
   param: '',

@@ -53,13 +53,23 @@ export function QuizTableRowCollapsible({ open, data }: IProps): JSX.Element {
                   >
                     Answers
                   </Typography>
-                  {data.options.map((option: Option) => (
-                    <Box key={option.id}>
-                      <Typography variant="bodyTextMedium" color="shade.dark">
-                        {option.name}
-                      </Typography>
-                    </Box>
-                  ))}
+
+                  <Box pl={2}>
+                    {data?.options?.map((option: Option, index) => (
+                      <Box key={option.id}>
+                        <Typography
+                          variant="bodyTextMedium"
+                          color={
+                            option?.id === data?.correctOptionId
+                              ? theme.palette.success.light
+                              : 'shade.dark'
+                          }
+                        >
+                          {option?.name}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
                 </Box>
               </TableRow>
             </TableBody>

@@ -12,6 +12,7 @@ import { FormTimePicker } from 'shared/components/form/FormTimePicker';
 import { ICloudFile, IFilePayload } from 'features/product/interfaces';
 import { CloudFileCategory } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
+import TextEditor from 'shared/components/text-editor';
 import { QuizMultiple } from './QuizMultiple';
 import { Option } from '../interfaces';
 
@@ -113,23 +114,17 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
               </Grid>
             </Grid>
             <Grid item spacing={4} mb={2}>
-              <FormInput
-                name="description"
-                id="description"
-                label="Description"
-                multiline
-              />
+              <TextEditor name="description" height={100} />
             </Grid>
 
             <Grid item xs={6} mb={2}>
               <FormInput name="campaign" id="campaign" label="Campaign" />
             </Grid>
             <Grid item xs={6} mb={2}>
-              <FormInput
+              <TextEditor
                 name="termsAndConditions"
-                id="termsAndConditions"
-                label="Terms & Condition "
-                multiline
+                height={100}
+                label="Terms & Condition"
               />
             </Grid>
           </Box>
