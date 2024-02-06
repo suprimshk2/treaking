@@ -476,7 +476,6 @@ export const checkAuthForPermissions = (
   resourceCode?: string
 ) => {
   const authModules = useBoundStore.use.authModule();
-
   if (resourceCode) {
     const checkAuthPermission = authModules?.modules
       ?.find((module: any) => module.code === moduleCode)

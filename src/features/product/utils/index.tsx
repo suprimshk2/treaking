@@ -28,7 +28,7 @@ export const adaptProduct = (
 };
 
 export const adaptProductList = (
-  res: IResponse<IListResponse<IProductTableRow>>
+  res: IResponse<IListResponse<IProductTableRow>> | any
 ): IResponse<IListResponse<IAdaptedProductTableRow>> => {
   const allRows = res?.pages?.map((item) => item.data.rows).flat();
 
@@ -49,7 +49,7 @@ const calculatePercentageDifference = (sPrice: number, dPrice: number) => {
 export const formatProductAddPayload = (
   data: IProductSchema
 ): IAdaptedproductSchema => {
-  const payload = {
+  const payload: any = {
     ...data,
     point: [
       {

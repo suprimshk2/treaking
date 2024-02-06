@@ -88,8 +88,8 @@ export function WinnerAddModal({ quizId, onClose }: IProps) {
   };
 
   const TEXT = {
-    title: isEditMode ? 'Edit Winner' : 'Add Winner',
-    footerActionButtonText: isEditMode ? 'Update' : 'Save',
+    title: 'Add Winner',
+    footerActionButtonText: 'Save',
     errorTitle: isEditMode ? 'Error updating winner' : 'Error adding winner',
   };
 

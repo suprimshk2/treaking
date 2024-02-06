@@ -11,11 +11,11 @@ import { LookupCategory } from 'shared/enums';
 import { useLookUpQuery } from 'shared/queries';
 
 export interface IOfferTemplate {
-  id: string;
-  img: string;
+  id?: string;
+  img?: string;
   code: OfferTemplateCode;
-  label: string;
-  name: string;
+  label?: string;
+  name?: string;
   backgroundType?: string;
 }
 

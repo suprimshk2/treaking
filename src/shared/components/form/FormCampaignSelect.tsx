@@ -21,7 +21,8 @@ export function FormCampaignSelect({
   const { data } = useCampaignQuery(filters, {
     enabled: true,
   });
-  const campaignId = watch(name)?.campaignId || '';
+  const campaignId = watch(name)?.id || '';
+  console.log({ campaignId });
 
   const handleClear = () => {
     setValue(name, '');

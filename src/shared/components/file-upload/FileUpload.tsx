@@ -50,7 +50,6 @@ const FileDropzone = forwardRef(
     const images = getValues(name);
 
     const hasError = errors[name];
-    console.log({ hasError });
 
     const fileId = useId();
 
@@ -59,6 +58,9 @@ const FileDropzone = forwardRef(
     const isSmallerThanMd = useMediaQuery(theme.breakpoints.down('md'));
 
     useEffect(() => {
+      console.log(images, 'images?.length');
+      // const isEmpty = images?.some((obj) => obj?.url === '');
+
       if (images?.length) {
         const mapIdToImage = images.map((item: IFilePayload, index: number) => {
           return { ...item, fileId: `${fileId}-${index}`, isSuccess: true };
