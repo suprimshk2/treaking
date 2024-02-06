@@ -87,6 +87,23 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
       }
     });
   };
+
+  const onAddGame = () => {
+    const quizzes = getValues('quizzes');
+    const data = [
+      ...quizzes,
+      {
+        question: '',
+        startDate: new Date(),
+        endDate: new Date(),
+        options: [{ name: '', order: 0, id: '' }],
+        correctOptionNumber: 0,
+      },
+    ];
+
+    setValue('quizzes', data);
+  };
+
   return (
     <Box width="100%" height="100%">
       <Box sx={childrenContainerStyle}>
@@ -226,7 +243,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                       borderRadius: 1,
                     }}
                   >
-                    <IconButton onClick={() => append([{ name: 'quizzes' }])}>
+                    <IconButton onClick={onAddGame}>
                       <IoIosAddCircleOutline color="green" />
                     </IconButton>
                   </Box>
