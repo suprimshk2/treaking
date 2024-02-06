@@ -106,7 +106,7 @@ export const editQuiz = async (
 };
 export const addWinnerQuiz = async (
   id: string,
-  data: IWinnerAdd[]
+  data: IWinnerAdd[] | any
 ): Promise<IResponse<any>> => {
   console.log('sss');
 
