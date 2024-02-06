@@ -7,6 +7,7 @@ const apiRoute = {
   addWinner: '/main/games/:id/winners',
   getQuizWinner: '/main/games/winner/:id',
   getAllCampaign: '/main/campaigns',
+  getParticipants: '/main/games/:gameId/participants',
   getAutoCompleteQuiz: '/main/games/active',
 };
 

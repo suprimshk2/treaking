@@ -159,7 +159,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
           </Box>
         </TableCell>
         <TableCell>
-          <Typography>test</Typography>
+          <Typography>{data?.campaign}</Typography>
         </TableCell>
 
         <TableCell>

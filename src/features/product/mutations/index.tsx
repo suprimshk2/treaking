@@ -21,20 +21,25 @@ export const useAddProductMutation = () => {
       queryClient.setQueryData(
         infiniteProductKeys.list(filters),
         (old: any) => {
+          const { data } = old.pages[0];
           return {
             ...old,
-            data: {
-              ...old.data,
-              count: old.data.count + 1,
-              rows: [
-                {
-                  ...res.data,
-                  point: { originalValue: res.data.point[0].value },
-                  price: { originalValue: res.data.price[0].value },
+            pages: [
+              {
+                data: {
+                  ...data,
+                  count: data.count + 1,
+                  rows: [
+                    {
+                      ...res.data,
+                      point: { originalValue: res.data.point[0].value },
+                      price: { originalValue: res.data.price[0].value },
+                    },
+                    ...data.rows,
+                  ],
                 },
-                ...old.data.rows,
-              ],
-            },
+              },
+            ],
           };
         }
       );
@@ -63,22 +68,27 @@ export const useEditProductMutation = () => {
       queryClient.setQueryData(
         infiniteProductKeys.list(filters),
         (old: any) => {
+          const { data } = old.pages[0];
           return {
             ...old,
-            data: {
-              ...old.data,
-              count: old.data.count + 1,
-              rows: [
-                {
-                  ...res.data,
-                  point: { originalValue: res.data.point[0].value },
-                  price: { originalValue: res.data.price[0].value },
+            pages: [
+              {
+                data: {
+                  ...data,
+                  count: data.count + 1,
+                  rows: [
+                    {
+                      ...res.data,
+                      point: { originalValue: res.data.point[0].value },
+                      price: { originalValue: res.data.price[0].value },
+                    },
+                    ...data.rows.filter(
+                      (item) => item.productId !== res.data.productId
+                    ),
+                  ],
                 },
-                ...old.data.rows.filter(
-                  (item) => item.productId !== res.data.productId
-                ),
-              ],
-            },
+              },
+            ],
           };
         }
       );
@@ -116,4 +126,3 @@ export const useDeleteProductMutation = () => {
     },
   });
 };
-

@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, Button, useTheme } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AddQuizFormSchemaType } from '../schemas';
+import { AddQuizFormSchemaType, addQuizFormSchema } from '../schemas';
 import {
   useAddQuizMutation,
   useEditQuizMutation,
@@ -15,23 +15,25 @@ import { IAddQuizSchema } from '../interfaces';
 import { FORMTYPE } from '../enums';
 
 const defaultValues: IAddQuizSchema = {
-  imageUrl: '',
+  logoUrl: [],
   titleOne: '',
   titleTwo: '',
   subTitle: '',
   description: '',
   termsAndConditions: '',
-  campaign: '',
+  campaign: {},
   prizeDescription: '',
-  winnerDate: '',
-  winnerStartTime: '',
-  winnerEndTime: '',
+  prizeImage: [],
+  winnerDate: new Date(),
+  // winnerStartTime: '',
+  // winnerEndTime: '',
   quizzes: [
     {
       question: '',
-      startDate: '',
-      endDate: '',
+      startDate: new Date(),
+      endDate: new Date(),
       options: [],
+      correctOptionNumber: 1,
     },
   ],
 };
@@ -43,13 +45,13 @@ export function QuizAddEdit() {
 
   const editQuizId = searchParams.get('id');
   const type = searchParams.get('type');
-  const isDuplicate = type === FORMTYPE.DUPLICATE;
+
   const isEditMode = !!editQuizId && type === FORMTYPE.EDIT;
 
   const addQuizMutation = useAddQuizMutation();
   const editQuizMutation = useEditQuizMutation();
-  const methods = useForm<AddQuizFormSchemaType>({
-    // resolver: zodResolver(addQuizFormSchema),
+  const methods = useForm({
+    resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
   const {
@@ -58,6 +60,7 @@ export function QuizAddEdit() {
     control,
     formState: { errors },
   } = methods;
+  console.log({ errors });
 
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,
@@ -66,24 +69,22 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
+
       reset({
-        logoUrl: quizData.content.logoUrl || '',
-        subTitle: quizData.title || '',
-        termsAndConditions: quizData?.termsAndConditions || '',
-        // imageUrl: quizData.imageUrl || '',
-        titleOne: quizData.content.title || '',
-        titleTwo: quizData.content.subTitle || '',
-        description: quizData.content.description || '',
-        winnerDate: new Date(quizData.winnerAnnouncementDate) || '',
-        campaign: quizData.status || '',
-        prizeDescription: quizData.prize.description || '',
-        terms: quizData.termsAndConditions || '',
+        ...quizData,
+        subTitle: quizData?.title || '',
+        titleOne: quizData?.content?.title || '',
+        titleTwo: quizData?.content?.subTitle || '',
+        description: quizData?.content?.description || '',
+        winnerDate: new Date(quizData?.winnerAnnouncementDate) || '',
+        prizeDescription: quizData?.prize?.description || '',
         quizzes: [
           {
-            question: quizData.description || '',
-            startDate: new Date(quizData.startDate) || '',
-            endDate: new Date(quizData.endDate) || '',
-            options: quizData.options.map((option) => option.name) || [],
+            ...quizData,
+            question: quizData?.description || '',
+            startDate: new Date(quizData?.startDate) || '',
+            endDate: new Date(quizData?.endDate) || '',
+            options: quizData?.options || [],
           },
         ],
       });
@@ -92,8 +93,6 @@ export function QuizAddEdit() {
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
-    console.log({ payload });
-    console.log({ data });
 
     addQuizMutation.mutate(
       { data: payload },

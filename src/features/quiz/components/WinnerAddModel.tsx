@@ -14,7 +14,7 @@ import { DialogLoader } from 'shared/components/display/DialogLoader';
 import { WinnerAddFormSchemaType, addWinnerFormSchema } from '../schemas';
 import { useAddWinnerMutation, useWinnerDetailQuery } from '../mutations';
 import { WinnerAddEditForm } from './WinnerAddForm';
-import { IWinnerAdd } from '../interfaces';
+
 import { formatAddWinner } from '../utils';
 
 interface IProps {
@@ -23,6 +23,7 @@ interface IProps {
 }
 
 const defaultValues = {
+  applyToAllQuizInCampaign: false,
   winners: [{ id: '', rank: 1, rankLabel: '', name: '' }],
 };
 
@@ -69,8 +70,7 @@ export function WinnerAddModal({ quizId, onClose }: IProps) {
 
   const handleWinner = (data: typeof defaultValues) => {
     const payload: WinnerAddFormSchemaType = formatAddWinner(data);
-    console.log({ payload });
-    console.log({ data });
+
     addWinnerMutation.mutate(
       { id: quizId, data: payload },
       {
@@ -116,7 +116,7 @@ export function WinnerAddModal({ quizId, onClose }: IProps) {
                 />
               </Box>
             )} */}
-            <WinnerAddEditForm isEditMode={isEditMode} />
+            <WinnerAddEditForm isEditMode={isEditMode} gameId={quizId} />
           </DialogContent>
           <DialogFooter
             primaryButtonText={TEXT.footerActionButtonText}

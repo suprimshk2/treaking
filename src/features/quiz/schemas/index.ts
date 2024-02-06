@@ -1,9 +1,10 @@
 import {
-  nullableStringSchema,
-  optionalDateSchema,
+  optionalCheckboxSchema,
+  optionalImageSchema,
   optionalStringSchema,
   requiredDateSchema,
   requiredNumberSchema,
+  requiredObjectSchema,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
@@ -16,35 +17,42 @@ const quizSchema = z.object({
   startDate: requiredDateSchema,
   endDate: requiredDateSchema,
   logoUrl: optionalStringSchema,
-  options: z.array(z.string()).nonempty('At least one option is required'),
+  options: z.array(z.string()).nonempty('At least two option is required'),
+  correctOptionNumber: requiredNumberSchema,
 });
 const prizeSchema = z.object({
-  title: nullableStringSchema,
-  description: optionalStringSchema,
-});
-
-export const addQuizFormSchema = z.object({
-  logoUrl: optionalStringSchema,
-  titleOne: requiredStringSchema,
-  titleTwo: requiredStringSchema,
-  subTitle: optionalStringSchema,
+  title: optionalStringSchema,
   description: requiredStringSchema,
-  termsAndConditions: optionalStringSchema,
-  winnerDate: optionalDateSchema,
-  // startDate: dobSchema,
-  // endDate: dobSchema,
-  campaign: requiredStringSchema,
-  prize: z.array(prizeSchema),
-
-  quizzes: z.array(quizSchema),
 });
-export const winnerPayloadSchema = z.object({
+const winnersSchema = z.object({
   id: optionalStringSchema,
   rank: requiredNumberSchema,
   rankLabel: requiredStringSchema,
   name: requiredStringSchema,
 });
-export const addWinnerFormSchema = z.array(winnerPayloadSchema);
+
+export const addQuizFormSchema = z.object({
+  logoUrl: optionalImageSchema,
+  titleOne: requiredStringSchema,
+  titleTwo: requiredStringSchema,
+  subTitle: optionalStringSchema,
+  description: requiredStringSchema,
+  termsAndConditions: optionalStringSchema,
+  winnerDate: requiredDateSchema,
+  prizeDescription: requiredStringSchema,
+  prizeImage: optionalImageSchema,
+  // startDate: dobSchema,
+  // endDate: dobSchema,
+  campaign: requiredObjectSchema,
+  // prize: z.array(prizeSchema),
+
+  quizzes: z.array(quizSchema),
+});
+export const winnerPayloadSchema = z.object({
+  applyToAllQuizInCampaign: optionalCheckboxSchema,
+  winners: z.array(winnersSchema),
+});
+export const addWinnerFormSchema = winnerPayloadSchema;
 
 export type AddQuizFormSchemaType = z.infer<typeof addQuizFormSchema>;
 export type WinnerAddFormSchemaType = z.infer<typeof addWinnerFormSchema>;

@@ -1,17 +1,22 @@
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import { OfferTemplateCode } from 'features/offers/enums';
+import { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 import template1 from 'shared/assets/png/offer-template1.png';
 import template2 from 'shared/assets/png/offer-template2.png';
 import template3 from 'shared/assets/png/offer-template3.png';
 import template4 from 'shared/assets/png/offer-template4.png';
 import template5 from 'shared/assets/png/offer-template5.png';
+import { LookupCategory } from 'shared/enums';
+import { useLookUpQuery } from 'shared/queries';
 
 export interface IOfferTemplate {
   id: string;
   img: string;
   code: OfferTemplateCode;
   label: string;
+  name: string;
+  backgroundType?: string;
 }
 
 export const offerTemplates: IOfferTemplate[] = [
@@ -20,32 +25,35 @@ export const offerTemplates: IOfferTemplate[] = [
     img: template1,
     code: OfferTemplateCode.GRADIENT,
     label: 'Gradient',
+    name: 'Gradient',
   },
-
   {
     id: '2',
     img: template2,
     code: OfferTemplateCode.SUN_BURST,
     label: 'Sunburst',
+    name: 'Sunburst',
   },
   {
     id: '3',
     img: template3,
     code: OfferTemplateCode.DARK,
-
     label: 'Dark',
+    name: 'Dark',
   },
   {
     id: '4',
     img: template4,
     code: OfferTemplateCode.TURQUOISE,
     label: 'Turquoise',
+    name: 'Turquoise',
   },
   {
     id: '5',
     img: template5,
     code: OfferTemplateCode.LIGHT,
     label: 'Light',
+    name: 'Light',
   },
 ];
 
@@ -94,16 +102,45 @@ function TemplateCard({ template, selected, onChange }: IProps) {
 }
 
 interface IFormProps {
+  isEditMode: boolean;
   name: string;
 }
 
-export function OfferFormAdTemplates({ name }: IFormProps) {
-  const { setValue, watch } = useFormContext();
+export function OfferFormAdTemplates({ name, isEditMode }: IFormProps) {
+  const lookUpQuery = useLookUpQuery({
+    key: 'subCategory',
+    value: LookupCategory.OFFER_CONTENT_BACKGROUND,
+  });
+
+  const { setValue, getValues, watch } = useFormContext();
   const selectedValue = watch(name);
-  //   const [value, setValue] = useState<IOfferTemplate | null>(null);
-  const handleSelect = (template: IOfferTemplate) => {
-    setValue(name, template);
+
+  const lookup = useCallback(
+    (value: IOfferTemplate) => {
+      const data = lookUpQuery?.data?.data?.rows ?? [];
+      const templete = data?.find((item) => item.code === value.code);
+      const templeteValue = getValues(name);
+      setValue(name, {
+        ...templeteValue,
+        backgroundType: templete.code,
+        code: templete.code,
+        id: value.id ?? '1',
+      });
+    },
+    [getValues, lookUpQuery?.data?.data?.rows, name, setValue]
+  );
+
+  useEffect(() => {
+    if (lookUpQuery?.data?.data?.rows && !isEditMode) {
+      const code = lookUpQuery?.data?.data?.rows[0];
+      lookup({ code: code.code });
+    }
+  }, [isEditMode, lookUpQuery?.data?.data?.rows, lookup]);
+
+  const handleSelect = (value: IOfferTemplate) => {
+    lookup(value);
   };
+
   return (
     <Stack gap={1}>
       <Typography gutterBottom variant="bodyTextMediumMd" color="gray.dark">
@@ -118,7 +155,7 @@ export function OfferFormAdTemplates({ name }: IFormProps) {
       >
         {offerTemplates.map((template) => (
           <TemplateCard
-            selected={selectedValue?.code === template.code}
+            selected={selectedValue?.backgroundType === template.code}
             key={template.id}
             template={template}
             onChange={handleSelect}

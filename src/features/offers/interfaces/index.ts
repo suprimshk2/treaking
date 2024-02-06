@@ -2,10 +2,10 @@ import {
   ICreated,
   IFilter,
   IUpdated,
+  IVendorSchema,
   SortOrderType,
 } from 'shared/interfaces/misc';
-import { OfferBodyType, OfferSortBy, OfferTemplateCode } from '../enums';
-import { IOfferTemplate } from '../components/offer-templates/OfferFormAdTemplates';
+import { OfferSortBy, OfferTemplateCode } from '../enums';
 
 export interface IVendor {
   _id: string;
@@ -103,17 +103,24 @@ export interface IOfferSlice {
 }
 
 export interface IOfferForm {
-  template: IOfferTemplate;
-  vendor: string;
+  template: { layoutType?: string; backgroundType?: string };
+  vendor: IVendorSchema;
   title: string;
   startDate: Date;
   endDate: Date;
+  imageUrl: string;
   shortDescription: string;
   description: string;
+  subTitle: string;
   body: string;
-  bodyType: OfferBodyType;
-
+  type: string;
   accountManager: string;
+  name: string;
+  link: string;
+  termsAndConditions: string;
+  usageInstructions: string;
+  availableUntil: Date;
+  layoutType: string;
 }
 
 export interface IEditOfferSchema {}

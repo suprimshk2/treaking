@@ -34,11 +34,12 @@ export const formatQuizList = (
 ): InfiniteData<IListResponse<IAdoptQuiz>> => {
   return {
     ...res,
-    pages: res.pages.map((group) => {
+    pages: res?.pages?.map((group) => {
       return {
         rows: group.rows.map((item: IQuiz) => {
           return {
             ...item,
+            campaign: item?.campaign?.name || 'N/A',
             status: formatQuizStatus(item?.startDate, item?.endDate),
             startDate: formatDateTimeToView(item?.startDate?.toString()),
             endDate: formatDateTimeToView(item?.endDate?.toString()),
@@ -52,49 +53,72 @@ export const formatQuizList = (
   };
 };
 
+export const formatQuizDetail = (res) => {
+  const options = res?.data?.options;
+  const correctOptionId = res?.data?.correctOptionId;
+  const correctOptionIndex = res?.data?.options.indexOf(
+    options.find((item) => item?.id === correctOptionId)
+  );
+
+  return {
+    ...res.data,
+    // campaign: res?.data?.campaign?.name || '-',
+    options: res?.data?.options.map((option) => option.name),
+    images: [{ url: res.data.content.logoUrl }],
+    prizeImage: [{ url: res.data.prize.imageUrl }],
+    correctOptionNumber: correctOptionIndex + 1,
+  };
+};
+
 export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
   return data?.quizzes?.map((item) => ({
     title: data.subTitle,
     endDate: new Date(item.startDate),
-
     imageUrl: '',
     type: 'QUIZ',
     startDate: new Date(item.startDate),
-
     prize: {
-      title: '',
+      title: data?.prizeDescription,
       description: data?.prizeDescription,
+      imageUrl: data?.prizeImage?.[0]?.url || '',
     },
-    description: item.question,
+    campaign: {
+      id: data?.campaign?.id,
+      name: data?.campaign?.name,
+    },
+    campaignId: data?.campaign ?? '',
+    description: item?.question,
     termsAndConditions: '',
     status: 'ACTIVE',
-    winnerAnnouncementDate: new Date(data.winnerDate),
-    options: item?.options.map((option, index) => ({
+    winnerAnnouncementDate: new Date(data?.winnerDate),
+    options: item?.options?.map((option, index) => ({
       name: option,
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.logoUrl[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
       upcomingTitle: '',
     },
-    correctOptionNumber: 1,
+    correctOptionNumber: item?.correctOptionNumber,
   }));
 };
 
 export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
   return {
-    title: data.subTitle,
+    title: data?.subTitle,
     endDate: new Date(data?.quizzes?.[0]?.endDate),
     imageUrl: '',
     type: 'QUIZ',
     startDate: new Date(data?.quizzes?.[0]?.startDate),
+    campaignId: data?.campaign ?? '',
 
     prize: {
       title: '',
       description: data?.prizeDescription,
+      imageUrl: data?.prizeImage,
     },
     description: data?.quizzes?.[0]?.question,
     termsAndConditions: '',
@@ -105,24 +129,30 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
       order: index + 1,
     })),
     content: {
-      logoUrl: data?.logoUrl[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
       upcomingTitle: '',
     },
-    correctOptionNumber: 1,
+    correctOptionNumber: data?.quizzes?.[0]?.correctOptionNumber,
   };
 };
 export const formatAddWinner = (
   data: IWinnerDefaultValue
 ): WinnerAddFormSchemaType => {
-  const res = Object.values(data).flat();
-  const formatRes = res.map((item: IWinnerAdd) => {
-    return { ...item, rank: +item.rank };
-  });
+  // const res = Object.values(data).flat();
+  // console.log({ res });
+  console.log(data, 'kk');
 
-  return formatRes;
+  // const formatRes =
+
+  return {
+    ...data,
+    winners: data?.winners?.map((item: IWinnerAdd) => {
+      return { ...item, rank: +item.rank, name: 'Pragyan Shrestha' };
+    }),
+  };
 };
 export const formatQuizAddPayload = (
   data: AddQuizFormSchemaType

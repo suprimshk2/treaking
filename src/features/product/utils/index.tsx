@@ -1,9 +1,5 @@
 import { IListResponse, IResponse } from 'shared/interfaces/http';
-import {
-  convertNumberToString,
-  convertStringToNumber,
-  formatCurrency,
-} from 'shared/utils/common';
+import { convertStringToNumber, formatCurrency } from 'shared/utils/common';
 import { formatDateToView } from 'shared/utils/date';
 import {
   IAdaptedProductTableRow,
@@ -34,11 +30,13 @@ export const adaptProduct = (
 export const adaptProductList = (
   res: IResponse<IListResponse<IProductTableRow>>
 ): IResponse<IListResponse<IAdaptedProductTableRow>> => {
+  const allRows = res?.pages?.map((item) => item.data.rows).flat();
+
   return {
     ...res,
     data: {
       ...res.data,
-      rows: res.data.rows.map((item: IProductTableRow) => adaptProduct(item)),
+      rows: allRows.map((item: IProductTableRow) => adaptProduct(item)),
     },
   };
 };

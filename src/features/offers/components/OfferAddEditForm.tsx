@@ -20,30 +20,43 @@ import { useOfferDetailQuery } from '../queries';
 import MobileContentView from './mobile-content-view';
 import { offerTemplates } from './offer-templates/OfferFormAdTemplates';
 import { IOfferForm } from '../interfaces';
-import { OfferBodyType } from '../enums';
-import { getSelectedOfferTemplateFromCode } from '../utils';
+import { OfferType } from '../enums';
+import {
+  formatAddEditOfferPayload,
+  getSelectedOfferTemplateFromCode,
+} from '../utils';
 
 const defaultValues: IOfferForm = {
+  name: '',
+  link: '',
+  type: OfferType.ADVERTISEMENT,
+  title: '',
+  endDate: new Date(),
+  imageUrl: '',
+  vendor: {},
+  startDate: new Date(),
+  description: '',
+  shortDescription: '',
+  termsAndConditions: '',
+  subTitle: '',
   template: offerTemplates[0],
   accountManager: '',
-  vendor: '',
-  title: '',
   body: '0',
-  bodyType: OfferBodyType.RUPEES,
-  shortDescription: '',
-  description: '',
-  startDate: new Date(),
-  endDate: new Date(),
-  // startTime: new Date(),
-  // endTime: new Date(),
+  usageInstructions: '',
+  availableUntil: new Date(),
+  layoutType: '',
 };
 
 export function OfferAddEditForm() {
+  const addOfferMutation = useAddOfferMutation();
+  const editOfferMutation = useEditOfferMutation();
+
   const methods = useForm<OfferAddEditFormSchemaType>({
     resolver: zodResolver(offerAddEditFormSchema),
     defaultValues,
   });
   const { handleSubmit, reset } = methods;
+
   const [search] = useSearchParams();
   const navigate = useNavigate();
   const editOfferId = search.get('id') ?? '';
@@ -62,10 +75,10 @@ export function OfferAddEditForm() {
         title,
         endDate,
         startDate,
-        subTitle,
         shortDescription,
         description,
-        imageUrl,
+        subTitle,
+        availableUntil,
       } = offerDetailQuery.data;
       const selectedTemplate =
         getSelectedOfferTemplateFromCode(template.background.type) ||
@@ -73,63 +86,58 @@ export function OfferAddEditForm() {
 
       reset({
         ...defaultValues,
-        template: selectedTemplate,
+        template: {
+          ...selectedTemplate,
+          layoutType: template.layout.type,
+          backgroundType: template.background.type,
+        },
         title,
         shortDescription,
         description,
-        vendor: vendor.name,
+        vendor: { name: vendor.businessName, id: vendor.vendorId },
         startDate: new Date(startDate) || '',
         endDate: new Date(endDate) || '',
-        // startTime: new Date(startDate),
-        // endTime: new Date(endDate),
-        body: subTitle,
+        layoutType: template.layout.type ?? '',
+        subTitle,
+        availableUntil: new Date(availableUntil) || '',
       });
     }
   }, [offerDetailQuery?.data, reset]);
-
-  const addOfferMutation = useAddOfferMutation();
-  const editOfferMutation = useEditOfferMutation();
 
   const onClose = () => {
     navigate(-1);
   };
 
   const handleOfferAdd = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-    // const payload = formatOfferAddPayload(data);
-
-    // addOfferMutation.mutate(
-    //   { data: payload },
-    //   {
-    //     onSuccess: () => {
-    //       onCloseModal();
-    //     },
-    //   }
-    // );
+    const payload = formatAddEditOfferPayload(data);
+    addOfferMutation.mutate(
+      { data: payload },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const handleOfferEdit = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-
-    // const payload = formatOfferEditPayload(data);
-
-    // editOfferMutation.mutate(
-    //   { id: editOfferId, data: payload },
-    //   {
-    //     onSuccess: () => {
-    //       onCloseModal();
-    //     },
-    //   }
-    // );
+    const payload = formatAddEditOfferPayload(data);
+    editOfferMutation.mutate(
+      { id: editOfferId, data: payload },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   const onSubmit = (data: OfferAddEditFormSchemaType) => {
-    console.log({ data });
-    // if (isEditMode) {
-    //   handleOfferEdit(data);
-    // } else {
-    //   handleOfferAdd(data);
-    // }
+    if (isEditMode) {
+      handleOfferEdit(data);
+    } else {
+      handleOfferAdd(data);
+    }
   };
 
   const TEXT = {
@@ -160,14 +168,7 @@ export function OfferAddEditForm() {
               )}
               <Grid container rowSpacing={4} columnSpacing={8}>
                 <Grid item xs={7}>
-                  <Box
-                    component={Paper}
-                    p={4}
-                    // sx={{
-                    //   height: 'calc(100vh - 188px)',
-                    //   overflow: 'auto',
-                    // }}
-                  >
+                  <Box component={Paper} p={4}>
                     <OfferAddEditFormFields isEditMode={isEditMode} />
                   </Box>
                 </Grid>
@@ -203,7 +204,6 @@ export function OfferAddEditForm() {
                     >
                       Cancel
                     </Button>
-
                     <Button
                       size={ButtonSize.MEDIUM}
                       buttonType={ButtonType.LOADING}

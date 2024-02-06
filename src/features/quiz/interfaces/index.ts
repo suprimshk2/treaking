@@ -3,29 +3,30 @@ import { ICreatedAt } from 'features/product/interfaces';
 import { QuizSortBy } from '../enums';
 
 export interface IAddQuizSchema {
-  imageUrl: string;
+  logoUrl: IFileSchema[];
+  prizeImage: IFileSchema[];
   titleOne: string;
   titleTwo: string;
   subTitle: string;
   description: string;
   termsAndConditions: string;
-  winnerDate: string;
-  winnerStartTime: string;
-  winnerEndTime: string;
-  prizeDescription: '';
-  campaign: string;
-
+  winnerDate: string | Date;
+  // winnerStartTime: string;
+  // winnerEndTime: string;
+  prizeDescription: string;
+  campaign: { id?: string; name?: string };
   quizzes: {
     question: string;
-    startDate: string;
-    endDate: string;
+    startDate: string | Date;
+    endDate: string | Date;
     options: Option[];
+    correctOptionNumber: number;
   }[];
 }
 export interface IQuizTableFilter extends IFilter {
   titleOne?: string;
   titleTwo?: string;
-  body?: string;
+  description?: string;
 }
 export interface IQuizSort {
   sortBy: QuizSortBy | null;
@@ -41,9 +42,12 @@ export interface IFileSchema {
   error?: boolean;
   file_url?: string;
   isPublic?: boolean;
+  url?: string;
+  order?: number;
   isLoading?: boolean;
 }
 export interface IFormattedQuizFormSchema {
+  images?: IFileSchema[];
   title: string;
   endDate: Date;
   imageUrl: string;
@@ -52,7 +56,9 @@ export interface IFormattedQuizFormSchema {
   prize: {
     title: string;
     description: string;
+    imageUrl: IFileSchema[];
   };
+  campaignId: string;
   description: string;
   termsAndConditions: string;
   status: string;
@@ -99,11 +105,16 @@ export interface IQuiz {
   totalResponseCount: number;
   created: ICreatedAt;
   updated: ICreatedAt;
+  campaign: ICampaignResponse;
 }
-export interface IAdoptQuiz extends Omit<IQuiz, 'endDate' | 'startDate'> {
+export interface IAdoptQuiz
+  extends Omit<IQuiz, 'endDate' | 'startDate' | 'campaign'> {
   endDate: string;
   startDate: string;
   winnerFullName: string;
+  images: IFileSchema[];
+  prizeImage: IFileSchema[];
+  campaign: string;
 }
 export interface Content {
   logoUrl: string;
@@ -112,6 +123,39 @@ export interface Content {
   description: string;
   upcomingTitle: string;
 }
+export interface IGameParticipants {
+  _id: string;
+  userId: string;
+  status: string;
+  updated: Updated;
+  created: Created;
+  imageUrl: string;
+  hasCompletedProfile: boolean;
+  demographic: Demographic;
+}
+
+export interface Created {
+  date: Date;
+  name: string;
+}
+
+export interface Demographic {
+  email: string;
+  firstName: string;
+  middleName: null;
+  lastName: string;
+  mobileNumber: string;
+  address: string;
+  gender: string;
+  dob: Date;
+}
+
+export interface Updated {
+  date: Date;
+  name: string;
+  id: string;
+}
+
 export interface ICampaignResponse {
   _id: string;
   name: string;
@@ -129,6 +173,7 @@ export interface Option {
 export interface Prize {
   title?: string | undefined;
   description?: string;
+  imageUrl?: string;
 }
 export interface IWinnerAdd {
   id: string;
@@ -143,5 +188,6 @@ export interface Winner {
   middleName: string;
 }
 export interface IWinnerDefaultValue {
+  applyToAllQuizInCampaign: boolean;
   winners: IWinnerAdd[];
 }

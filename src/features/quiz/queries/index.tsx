@@ -24,7 +24,7 @@ export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
 
     queryFn: ({ pageParam = 1 }) =>
       quizAPI.getInfiniteQuiz({ ...filters, page: pageParam }),
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage) => {
       if (lastPage?.total === 0) return undefined;
       const nextPage =
         lastPage?.metaInfo?.currentPage === lastPage?.metaInfo?.totalPage
@@ -56,6 +56,22 @@ export const useCampaignQuery = (
   const queryInfo = useQuery({
     queryKey: infiniteQuizKeys.autocomplete(filters),
     queryFn: () => quizAPI.getAllCampaign(filters),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo?.data?.rows,
+  };
+};
+export const useGameParticipantsQuery = (
+  gameId: string,
+  filters: IQuizTableFilter,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteQuizKeys.autocomplete(filters),
+    queryFn: () => quizAPI.getParticipants(gameId, filters),
     enabled,
   });
 

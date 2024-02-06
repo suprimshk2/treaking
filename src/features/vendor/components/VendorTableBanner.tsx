@@ -21,29 +21,28 @@ export function VendorTableBanner({ onAddClick }: IProps) {
   const setUserTableFilters = useBoundStore.use.setVendorTableFilters();
 
   return (
-    <Stack spacing={4} mb={4} alignItems="flex-end">
+    <Stack spacing={4} mb={4}>
       <CenterRowSpaceBetween>
-        <Stack direction="row" spacing={4}>
-          {/* <Box display="flex" alignItems="center">
-            <SearchInput
-              placeholder="Search"
-              value={value}
-              onChangeHandler={(v) => setValue(v)}
-              onDebouncedChangeHandler={(v) =>
-                setUserTableFilters({ keyword: v })
-              }
-            />
-          </Box> */}
-          <Button
-            size={ButtonSize.MEDIUM}
-            variant={ButtonVariant.CONTAINED}
-            prefix={<BsPlusLg />}
-            buttonType={ButtonType.NORMAL}
-            onClick={onAddClick}
-          >
-            Add Vendor
-          </Button>
-        </Stack>
+        <Box display="flex" alignItems="center">
+          <SearchInput
+            placeholder="Search"
+            value={value}
+            onChangeHandler={(v) => setValue(v)}
+            onDebouncedChangeHandler={(v) =>
+              setUserTableFilters({ keyword: v })
+            }
+          />
+        </Box>
+        <Button
+          size={ButtonSize.MEDIUM}
+          variant={ButtonVariant.CONTAINED}
+          prefix={<BsPlusLg />}
+          buttonType={ButtonType.NORMAL}
+          onClick={onAddClick}
+          sx={{ color: 'common.black' }}
+        >
+          Add Vendor
+        </Button>
       </CenterRowSpaceBetween>
     </Stack>
   );

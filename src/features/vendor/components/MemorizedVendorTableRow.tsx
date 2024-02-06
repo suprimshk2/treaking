@@ -88,7 +88,11 @@ function VendorTableRow({ data, onEditClick }: IProps) {
           maxWidth: 200,
         }}
       >
-        <Typography variant="bodyTextMedium">{data?.businessName}</Typography>
+        {/* {data?.phone?.map((item, index) => (
+          <Typography key={index} variant="bodyTextMedium">
+            {item}
+          </Typography>
+        ))} */}
       </TableCell>
       <TableCell>
         <Typography variant="bodyTextMedium">{data?.email}</Typography>

@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { IProductTableFilter } from '../interfaces';
 import * as productAPI from '../api';
 import { adaptProductList } from '../utils';
@@ -15,15 +15,24 @@ export const infiniteProductKeys = {
     [...infiniteProductKeys.lists(), 'autocomplete', { filters }] as const,
 };
 
-export const useProductsQuery = (
-  filters: IProductTableFilter,
-  { enabled }: { enabled: boolean }
-) => {
-  const queryInfo = useQuery({
+export const useProductsQuery = (filters: IProductTableFilter) => {
+  const queryInfo = useInfiniteQuery({
     queryKey: infiniteProductKeys.list(filters),
-    queryFn: () => productAPI.getProducts(filters),
-    enabled,
+    initialPageParam: 1,
+    queryFn: ({ pageParam = 1 }) =>
+      productAPI.getProducts({ ...filters, page: pageParam }),
+    getNextPageParam: (lastPage) => {
+      const { metaInfo } = lastPage.data;
+
+      if (metaInfo?.totalPage === 0) return undefined;
+      const nextPage =
+        metaInfo?.currentPage === metaInfo?.totalPage
+          ? undefined
+          : metaInfo.currentPage + 1;
+      return nextPage;
+    },
     select: adaptProductList,
+    gcTime: 0,
   });
 
   return {

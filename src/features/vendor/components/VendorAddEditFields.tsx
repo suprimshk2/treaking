@@ -1,18 +1,20 @@
 import { Box, Grid, Stack, Typography, useTheme } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
 import { SETTINGS_BAR_PROPERTY } from 'shared/constants/settings';
-
-import FileDropzone from 'shared/components/file-upload/FileUpload';
+import { useFormContext } from 'react-hook-form';
+import FileDropzone, {
+  IFileRef,
+} from 'shared/components/file-upload/FileUpload';
 import { config } from 'shared/constants/config';
-import { IFileSchema } from '../interfaces';
+import { ICloudFile, IFilePayload } from 'features/product/interfaces';
+import { CloudFileCategory } from 'shared/enums';
+import { useUploadImageMutation } from 'shared/mutation';
+import { useRef } from 'react';
 
-export function VendorAddEditFields({
-  setSelectedFiles,
-}: {
-  setSelectedFiles: any;
-}) {
+export function VendorAddEditFields() {
+  const ref = useRef<IFileRef>(null);
   const theme = useTheme();
-
+  const uploadImageMutation = useUploadImageMutation();
   const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
     width: '100%',
@@ -21,25 +23,30 @@ export function VendorAddEditFields({
     borderRadius: 1,
     height: '100%',
   };
+  const { getValues, setValue } = useFormContext();
 
-  const onFileChange = (files: IFileSchema[]) => {
-    if (files[0]?.error) {
-      return;
-    }
-    const data = files.map((e: IFileSchema) => {
-      const { error, ...rest } = e;
-      return rest;
+  const onFileChange = (files: IFilePayload[]) => {
+    files.forEach(async (item) => {
+      const payload: ICloudFile = {
+        file: item.file,
+        category: CloudFileCategory.VENDORS_LOGO,
+      };
+
+      try {
+        const data = await uploadImageMutation.mutateAsync(payload);
+
+        const images = getValues('images');
+
+        setValue('images', [...images, { url: data?.data?.url ?? '' }]);
+
+        ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
+      } catch (error) {
+        ref.current?.setFileState(item.fileId, '', false, false);
+      }
     });
-    setSelectedFiles(data);
   };
   return (
-    <Box
-      width="100%"
-      height="100%"
-      // sx={{
-      //   backgroundColor: 'red',
-      // }}
-    >
+    <Box width="100%" height="100%">
       <Box sx={childrenContainerStyle}>
         <Stack
           p={4}
@@ -68,13 +75,15 @@ export function VendorAddEditFields({
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
                 <FormInput
+                  type="number"
                   name="contactsOne"
                   id="contactsOne"
-                  label="Primary Contact *"
+                  label="Primary Contact "
                 />
               </Grid>
               <Grid item xs={6}>
                 <FormInput
+                  type="number"
                   name="contactsTwo"
                   id="contactsTwo"
                   label="Secondary Contact"
@@ -135,7 +144,12 @@ export function VendorAddEditFields({
                 <FormInput name="fullName" id="fullName" label="Full Name" />
               </Grid>
               <Grid item xs={6}>
-                <FormInput name="phone" id="phone" label="Phone" />
+                <FormInput
+                  name="phone"
+                  id="phone"
+                  label="Phone"
+                  type="number"
+                />
               </Grid>
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>

@@ -5,6 +5,7 @@ import { useBoundStore } from 'shared/stores/useBoundStore';
 import {
   ICampaignResponse,
   IFormattedQuizFormSchema,
+  IGameParticipants,
   IQuizTableFilter,
   IWinnerAdd,
 } from '../interfaces';
@@ -54,6 +55,24 @@ export const getAllCampaign = async (
     return Promise.reject(error);
   }
   return response?.data?.data;
+};
+export const getParticipants = async (
+  gameId: string,
+  filters: IQuizTableFilter
+): Promise<IListResponse<IGameParticipants>> => {
+  const params = formatQuizFilterParams(filters);
+
+  const { response, error } = await baseRequest({
+    method: 'GET',
+    url: apiRoute.getParticipants.replace(':gameId', gameId),
+    params,
+  });
+  console.log({ response });
+
+  if (error) {
+    return Promise.reject(error);
+  }
+  return response?.data;
 };
 export const addQuiz = async (
   data: IFormattedQuizFormSchema
@@ -109,7 +128,7 @@ export const getQuizById = async (
 ): Promise<IResponse<IFormattedQuizFormSchema>> => {
   const { response, error } = await baseRequest({
     method: 'GET',
-    url: apiRoute.addWinner.replace(':id', id),
+    url: apiRoute.getOne.replace(':id', id),
   });
 
   if (error) {

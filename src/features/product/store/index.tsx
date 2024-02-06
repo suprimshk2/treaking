@@ -3,13 +3,12 @@ import { IProductSlice, IProductTableFilter } from '../interfaces';
 import { productConfig } from '../constant/config';
 
 export const createProductSlice: StateCreator<IProductSlice> = (set) => ({
-  productTableFilters: {
-    limit: 100,
-  },
+  productTableFilters: productConfig.PRODUCT_TABLE_DEFAULT_FILTER,
   setProductTableFilters: (newFilters: Partial<IProductTableFilter>) =>
     set((state) => ({
       productTableFilters: { ...state.productTableFilters, ...newFilters },
     })),
+
   productSort: {
     sortBy: null,
     sortOrder: null,

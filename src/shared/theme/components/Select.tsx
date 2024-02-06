@@ -31,6 +31,7 @@ export interface ISelectProps {
   handleClear?: () => void;
   clearable?: boolean;
   width?: string;
+  isEditMode?: boolean;
 }
 
 const Select = React.forwardRef((props: ISelectProps, ref) => {

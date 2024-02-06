@@ -28,7 +28,7 @@ function Sidebar() {
   };
 
   return (
-    <Box className="sidebar" sx={{ padding: 3, backgroundColor: 'red' }}>
+    <Box className="sidebar" sx={{ padding: 3 }}>
       <Drawer
         open={isSidebarOpen}
         onClose={onCloseDrawer}
