@@ -17,9 +17,6 @@ import { QuizList } from 'features/quiz/pages/Quiz';
 // Lazy load route level components (for bundle splitting)
 // Maintain alphabetical order
 
-const Dashboard = lazyImportWithRetry(
-  () => import('../features/dashboard/pages/Dashboard')
-);
 // const QuizList = lazyImportWithRetry(
 //   () => import('../features/quiz/pages/Quiz')
 // );
@@ -59,10 +56,6 @@ const SetPassword = lazyImportWithRetry(
 
 const UserList = lazyImportWithRetry(
   () => import('../features/users/pages/UserList')
-);
-
-const SideMenuLayout = lazyImportWithRetry(
-  () => import('../shared/components/sidebar')
 );
 
 const UserProfile = lazyImportWithRetry(() =>

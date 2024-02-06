@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Box, Button, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AddQuizFormSchemaType, addQuizFormSchema } from '../schemas';
 import {
@@ -13,6 +13,12 @@ import { QuizAddFields } from '../components/QuizAddFields';
 import { formatQuizAddPayload, formatQuizEditPayload } from '../utils';
 import { IAddQuizSchema } from '../interfaces';
 import { FORMTYPE } from '../enums';
+import {
+  Button,
+  ButtonSize,
+  ButtonType,
+  ButtonVariant,
+} from 'shared/theme/components/Button';
 
 const defaultValues: IAddQuizSchema = {
   logoUrl: [],
@@ -32,7 +38,7 @@ const defaultValues: IAddQuizSchema = {
       question: '',
       startDate: new Date(),
       endDate: new Date(),
-      options: [],
+      options: [{ name: '', order: 0, id: '' }],
       correctOptionNumber: 1,
     },
   ],
@@ -40,6 +46,11 @@ const defaultValues: IAddQuizSchema = {
 
 export function QuizAddEdit() {
   const theme = useTheme();
+  const childrenContainerStyle = {
+    width: '100%',
+    backgroundColor: theme.palette.gray.lighter,
+  };
+
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -54,13 +65,7 @@ export function QuizAddEdit() {
     resolver: zodResolver(addQuizFormSchema),
     defaultValues,
   });
-  const {
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-  } = methods;
-  console.log({ errors });
+  const { handleSubmit, reset, control } = methods;
 
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,
@@ -80,11 +85,11 @@ export function QuizAddEdit() {
         prizeDescription: quizData?.prize?.description || '',
         quizzes: [
           {
-            ...quizData,
-            question: quizData?.description || '',
-            startDate: new Date(quizData?.startDate) || '',
-            endDate: new Date(quizData?.endDate) || '',
-            options: quizData?.options || [],
+            correctOptionNumber: quizData.correctOptionNumber,
+            options: quizData.options,
+            question: quizData.description || '',
+            startDate: new Date(quizData.startDate) || '',
+            endDate: new Date(quizData.endDate) || '',
           },
         ],
       });
@@ -93,6 +98,7 @@ export function QuizAddEdit() {
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
+    console.log({ payload });
 
     addQuizMutation.mutate(
       { data: payload },
@@ -103,9 +109,9 @@ export function QuizAddEdit() {
       }
     );
   };
+
   const handleQuizEdit = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizEditPayload(data);
-
     editQuizMutation.mutate(
       { id: editQuizId ?? '', data: payload },
       {
@@ -115,6 +121,7 @@ export function QuizAddEdit() {
       }
     );
   };
+
   const onSubmit = (data: AddQuizFormSchemaType) => {
     if (isEditMode) {
       handleQuizEdit(data);
@@ -122,10 +129,7 @@ export function QuizAddEdit() {
       handleQuizAdd(data);
     }
   };
-  const childrenContainerStyle = {
-    width: '100%',
-    backgroundColor: theme.palette.gray.lighter,
-  };
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -139,11 +143,7 @@ export function QuizAddEdit() {
             paddingBottom: theme.spacing(10),
           }}
         >
-          <QuizAddFields
-            control={control}
-            isEditMode={isEditMode}
-            optionsData={quizDetailQuery?.data?.options}
-          />
+          <QuizAddFields control={control} isEditMode={isEditMode} />
           <Box
             maxWidth={518}
             display="flex"
@@ -153,10 +153,20 @@ export function QuizAddEdit() {
             alignContent="center"
             sx={childrenContainerStyle}
           >
-            <Button type="submit" variant="outlined">
+            <Button
+              type="submit"
+              variant={ButtonVariant.OUTLINED}
+              size={ButtonSize.MEDIUM}
+            >
               Cancel
             </Button>
-            <Button type="submit">Save</Button>
+            <Button
+              loading={editQuizMutation.isPending || addQuizMutation.isPending}
+              type="submit"
+              buttonType={ButtonType.LOADING}
+              children="Save"
+              size={ButtonSize.MEDIUM}
+            />
           </Box>
         </Box>
       </form>

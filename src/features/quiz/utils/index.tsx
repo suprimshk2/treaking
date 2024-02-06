@@ -31,7 +31,7 @@ export const formatQuizStatus = (startDate: Date, endDate: Date) => {
 
 export const formatQuizList = (
   res: InfiniteData<IListResponse<IQuiz>>
-): InfiniteData<IListResponse<IAdoptQuiz>> => {
+): InfiniteData<IListResponse<IAdoptQuiz>> | any => {
   return {
     ...res,
     pages: res?.pages?.map((group) => {
@@ -60,6 +60,7 @@ export const formatQuizList = (
 export const formatQuizDetail = (res) => {
   const options = res?.data?.options;
   const correctOptionId = res?.data?.correctOptionId;
+
   const correctOptionIndex = res?.data?.options.indexOf(
     options.find((item) => item?.id === correctOptionId)
   );
@@ -67,10 +68,13 @@ export const formatQuizDetail = (res) => {
   return {
     ...res.data,
     // campaign: res?.data?.campaign?.name || '-',
-    options: res?.data?.options.map((option) => option.name),
+    // options: res?.data?.options.map((option) => option.name),
     images: [{ url: res.data.content.logoUrl }],
-    prizeImage: [{ url: res.data.prize.imageUrl }],
-    correctOptionNumber: correctOptionIndex + 1,
+    correctOptionNumber: correctOptionIndex,
+    campaign: {
+      ...res?.data?.campaign,
+      id: res?.data?.campaign.campaignId,
+    },
   };
 };
 
@@ -95,10 +99,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     termsAndConditions: '',
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate),
-    options: item?.options?.map((option, index) => ({
-      name: option,
-      order: index + 1,
-    })),
+    options: item?.options,
     content: {
       logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
@@ -128,10 +129,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     termsAndConditions: '',
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate),
-    options: data?.quizzes?.[0]?.options?.map((option, index) => ({
-      name: option,
-      order: index + 1,
-    })),
+    options: data?.quizzes?.[0]?.options,
     content: {
       logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
@@ -157,11 +155,13 @@ export const formatQuizAddPayload = (
 ): IFormattedQuizFormSchema => {
   return formatQuizAddPayloadData(data);
 };
+
 export const formatQuizEditPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {
   return formatQuizEditPayloadData(data);
 };
+
 export const formatQuizFilterParams = (filters: IQuizTableFilter) => {
   const params = pickBy(filters, (value: string | number) => value !== '');
   if (isEmpty(params)) {

@@ -21,7 +21,7 @@ export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
     queryKey: infiniteQuizKeys.list(filters),
     initialPageParam: 1,
 
-    queryFn: ({ pageParam = 1 }) =>
+    queryFn: ({ pageParam = 1 }: { pageParam: number | any }) =>
       quizAPI.getInfiniteQuiz({ ...filters, page: pageParam }),
     getNextPageParam: (lastPage) => {
       if (lastPage?.total === 0) return undefined;

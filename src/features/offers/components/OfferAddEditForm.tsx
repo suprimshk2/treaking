@@ -79,6 +79,8 @@ export function OfferAddEditForm() {
         description,
         subTitle,
         availableUntil,
+        termsAndConditions,
+        usageInstructions,
       } = offerDetailQuery.data;
       const selectedTemplate =
         getSelectedOfferTemplateFromCode(template.background.type) ||
@@ -95,11 +97,13 @@ export function OfferAddEditForm() {
         shortDescription,
         description,
         vendor: { name: vendor.businessName, id: vendor.vendorId },
-        startDate: new Date(startDate) || '',
-        endDate: new Date(endDate) || '',
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
         layoutType: template.layout.type ?? '',
         subTitle,
-        availableUntil: new Date(availableUntil) || '',
+        availableUntil: new Date(availableUntil),
+        termsAndConditions,
+        usageInstructions,
       });
     }
   }, [offerDetailQuery?.data, reset]);
@@ -208,7 +212,10 @@ export function OfferAddEditForm() {
                       size={ButtonSize.MEDIUM}
                       buttonType={ButtonType.LOADING}
                       type="submit"
-                      // loading={isSubmitting}
+                      loading={
+                        addOfferMutation.isPending ||
+                        editOfferMutation.isPending
+                      }
                     >
                       Save
                     </Button>

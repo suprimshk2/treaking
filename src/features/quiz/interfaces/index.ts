@@ -10,18 +10,24 @@ export interface IAddQuizSchema {
   subTitle: string;
   description: string;
   termsAndConditions: string;
-  winnerDate: string | Date;
+  winnerDate: Date;
   // winnerStartTime: string;
   // winnerEndTime: string;
   prizeDescription: string;
   campaign: { id?: string; name?: string };
   quizzes: {
     question: string;
-    startDate: string | Date;
-    endDate: string | Date;
-    options: Option[];
+    startDate: Date;
+    endDate: Date;
+    options: IQuizOptions[];
     correctOptionNumber: number;
   }[];
+}
+
+export interface IQuizOptions {
+  name: string;
+  order: number;
+  id?: string;
 }
 export interface IQuizTableFilter extends IFilter {
   titleOne?: string;

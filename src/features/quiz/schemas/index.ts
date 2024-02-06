@@ -10,14 +10,17 @@ import {
 import { z } from 'zod';
 
 const optionSchema = z.object({
-  options: requiredStringSchema,
+  name: requiredStringSchema,
+  order: z.number(),
+  id: optionalStringSchema,
 });
+
 const quizSchema = z.object({
   question: requiredStringSchema,
   startDate: requiredDateSchema,
   endDate: requiredDateSchema,
   logoUrl: optionalStringSchema,
-  options: z.array(z.string()).nonempty('At least two option is required'),
+  options: z.array(optionSchema),
   correctOptionNumber: requiredNumberSchema,
 });
 const prizeSchema = z.object({

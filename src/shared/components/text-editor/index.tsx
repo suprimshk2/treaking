@@ -96,7 +96,7 @@ function TextEditor({
               <Checkbox
                 value={checkBox}
                 checked={checkBox}
-                onChange={(e) => {
+                onChange={(e: any) => {
                   setCheckBox((prev) => !prev);
                   onChangeCheckValue(e);
                 }}
