@@ -101,7 +101,7 @@ export interface IQuiz {
   options: Option[];
   correctOptionId: string;
   content: Content;
-  winner: Winner;
+  winners: Winner[];
   totalResponseCount: number;
   created: ICreatedAt;
   updated: ICreatedAt;
@@ -186,6 +186,7 @@ export interface Winner {
   lastName: string;
   firstName: string;
   middleName: string;
+  fullName: string;
 }
 export interface IWinnerDefaultValue {
   applyToAllQuizInCampaign: boolean;

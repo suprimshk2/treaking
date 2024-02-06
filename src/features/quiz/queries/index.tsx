@@ -16,7 +16,6 @@ export const infiniteQuizKeys = {
 export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
   // const { totalUsers } = useBoundStore.getState();
   // const totalPages = Math.ceil(totalUsers / filters.limit);
-
   return useInfiniteQuery({
     select: formatQuizList,
     queryKey: infiniteQuizKeys.list(filters),

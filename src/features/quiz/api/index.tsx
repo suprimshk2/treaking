@@ -67,12 +67,11 @@ export const getParticipants = async (
     url: apiRoute.getParticipants.replace(':gameId', gameId),
     params,
   });
-  console.log({ response });
 
   if (error) {
     return Promise.reject(error);
   }
-  return response?.data;
+  return response?.data?.data;
 };
 export const addQuiz = async (
   data: IFormattedQuizFormSchema

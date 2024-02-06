@@ -43,9 +43,13 @@ export const formatQuizList = (
             status: formatQuizStatus(item?.startDate, item?.endDate),
             startDate: formatDateTimeToView(item?.startDate?.toString()),
             endDate: formatDateTimeToView(item?.endDate?.toString()),
-            winnerFullName:
-              formatFullName(item?.winner?.firstName, item?.winner?.lastName) ||
-              'N/A',
+            winners: item?.winners?.map((winner) => {
+              return {
+                ...winner,
+                fullName:
+                  formatFullName(winner?.firstName, winner?.lastName) || 'N/A',
+              };
+            }),
           };
         }),
       };
@@ -141,16 +145,10 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
 export const formatAddWinner = (
   data: IWinnerDefaultValue
 ): WinnerAddFormSchemaType => {
-  // const res = Object.values(data).flat();
-  // console.log({ res });
-  console.log(data, 'kk');
-
-  // const formatRes =
-
   return {
     ...data,
     winners: data?.winners?.map((item: IWinnerAdd) => {
-      return { ...item, rank: +item.rank, name: 'Pragyan Shrestha' };
+      return { ...item, rank: +item.rank, name: item?.name ?? '' };
     }),
   };
 };

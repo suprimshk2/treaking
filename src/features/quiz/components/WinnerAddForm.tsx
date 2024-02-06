@@ -25,6 +25,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
     setValue,
   } = useFormContext();
   const [checkBox, setCheckBox] = useState(false);
+  console.log({ checkBox });
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -35,8 +36,9 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
   };
   const onChange = () => {
     setCheckBox((prev) => !prev);
-    setValue('applyToAllQuizInCampaign', checkBox);
   };
+  setValue('applyToAllQuizInCampaign', checkBox);
+
   return (
     <>
       {fields.map((item, index) => {
@@ -62,6 +64,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
               <FormGameParticipantsSelect
                 gameId={gameId}
                 name={`winners.${index}.name`}
+                participantsId={`winners.${index}.id`}
                 id="name"
                 label="Name"
                 clearable
@@ -92,14 +95,22 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
             prefix={<BsPlusLg />}
             buttonType={ButtonType.NORMAL}
             onClick={onAddWinner}
-            sx={{ alignItems: 'flex-end' }}
+            sx={{
+              alignItems: 'flex-end',
+              color: 'black',
+              justifyContent: 'flex-end',
+            }}
           >
             Add Winner
           </Button>
         </Box>
       </Grid>
       <Grid item xs={1} alignItems="flex-end" mt={4}>
-        <Checkbox label="Apply to all" checked={checkBox} onChange={onChange} />
+        <Checkbox
+          label="Apply to all question within this campaign."
+          checked={checkBox}
+          onChange={onChange}
+        />
       </Grid>
     </>
   );

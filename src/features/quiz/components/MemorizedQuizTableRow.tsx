@@ -25,7 +25,7 @@ import { ColorType } from 'shared/interfaces/misc';
 import Chip from 'shared/theme/components/Chip';
 import useDisclosure from 'shared/hooks/useDisclosure';
 import { useDeleteQuizMutation } from '../mutations';
-import { IAdoptQuiz } from '../interfaces';
+import { IAdoptQuiz, Winner } from '../interfaces';
 import { QuizTableRowCollapsible } from './QuizTableRowCollapsible';
 import { QuizStatus } from '../enums';
 import { WinnerAddModal } from './WinnerAddModel';
@@ -164,7 +164,14 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
 
         <TableCell>
           <Box display="flex" flexDirection="row">
-            <Typography>{data?.winnerFullName}</Typography>
+            {data?.winners.length > 1 ? (
+              <Typography>{`${data?.winners.length} Winners`}</Typography>
+            ) : (
+              data?.winners?.map((winner: Winner, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <Typography key={index}>{winner?.fullName}</Typography>
+              ))
+            )}
           </Box>
         </TableCell>
         <TableCell>
