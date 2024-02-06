@@ -36,7 +36,9 @@ function QuizOptions({ index }: { index: number }) {
         Options
       </Typography>
       {options?.map((option: IQuizOptions, optionIndex: number) => {
-        const value = watch(`quizzes[${index}].options[${optionIndex}].name`);
+        const value: string | any = watch(
+          `quizzes[${index}].options[${optionIndex}].name`
+        );
 
         return (
           <Grid
@@ -48,7 +50,6 @@ function QuizOptions({ index }: { index: number }) {
           >
             <Grid item xs={11} mb={2}>
               <FormInput
-                value={value}
                 name={`quizzes[${index}].options[${optionIndex}].name`}
                 id="options"
               />

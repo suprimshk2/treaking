@@ -7,7 +7,7 @@ export interface IConfirmationModalContent {
 }
 
 interface IConfirmationModalContext {
-  openConfirmationModal: (content: IConfirmationModalContent) => void;
+  openConfirmationModal: (content: IConfirmationModalContent) => any;
   isSubmitting: boolean;
   changeSubmittingStatus: (newStatus: boolean) => void;
 }

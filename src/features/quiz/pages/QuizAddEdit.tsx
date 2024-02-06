@@ -136,11 +136,7 @@ export function QuizAddEdit() {
             paddingBottom: theme.spacing(10),
           }}
         >
-          <QuizAddFields
-            control={control}
-            isEditMode={isEditMode}
-            optionsData={quizDetailQuery?.data?.options}
-          />
+          <QuizAddFields control={control} isEditMode={isEditMode} />
           <Box
             maxWidth={518}
             display="flex"

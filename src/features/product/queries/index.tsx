@@ -21,7 +21,7 @@ export const useProductsQuery = (filters: IProductTableFilter) => {
     initialPageParam: 1,
     queryFn: ({ pageParam = 1 }) =>
       productAPI.getProducts({ ...filters, page: pageParam }),
-    getNextPageParam: (lastPage) => {
+    getNextPageParam: (lastPage: any) => {
       const { metaInfo } = lastPage.data;
 
       if (metaInfo?.totalPage === 0) return undefined;

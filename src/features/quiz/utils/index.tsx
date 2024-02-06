@@ -29,7 +29,7 @@ export const formatQuizStatus = (startDate: Date, endDate: Date) => {
 
 export const formatQuizList = (
   res: InfiniteData<IListResponse<IQuiz>>
-): InfiniteData<IListResponse<IAdoptQuiz>> => {
+): InfiniteData<IListResponse<IAdoptQuiz>> | any => {
   return {
     ...res,
     pages: res?.pages?.map((group) => {

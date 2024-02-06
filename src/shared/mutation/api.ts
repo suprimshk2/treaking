@@ -2,7 +2,7 @@ import apiRoute from 'features/product/constant/apiRoute';
 import { ICloudFile } from 'features/product/interfaces';
 import { baseRequest } from 'shared/utils/axios';
 
-export const uploadImage = async (data: ICloudFile) => {
+export const uploadImage = async (data: ICloudFile | any) => {
   const bodyFormData = new FormData();
   bodyFormData.append('file', data.file);
   bodyFormData.append('category', data.category);

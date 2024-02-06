@@ -10,7 +10,7 @@ export interface IAddQuizSchema {
   subTitle: string;
   description: string;
   termsAndConditions: string;
-  winnerDate: string | Date;
+  winnerDate: Date;
   // winnerStartTime: string;
   // winnerEndTime: string;
   prizeDescription: string;
@@ -18,8 +18,8 @@ export interface IAddQuizSchema {
 
   quizzes: {
     question: string;
-    startDate: string | Date;
-    endDate: string | Date;
+    startDate: Date;
+    endDate: Date;
     options: IQuizOptions[];
     correctOptionNumber: number;
   }[];
