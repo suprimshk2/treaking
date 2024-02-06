@@ -1,9 +1,5 @@
 import { IListResponse, IResponse } from 'shared/interfaces/http';
-import {
-  convertNumberToString,
-  convertStringToNumber,
-  formatCurrency,
-} from 'shared/utils/common';
+import { convertStringToNumber, formatCurrency } from 'shared/utils/common';
 import { formatDateToView } from 'shared/utils/date';
 import {
   IAdaptedProductTableRow,

@@ -12,6 +12,7 @@ import { FormTimePicker } from 'shared/components/form/FormTimePicker';
 import { ICloudFile, IFilePayload } from 'features/product/interfaces';
 import { CloudFileCategory } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
+import { FormCampaignSelect } from 'shared/components/form/FormCampaignSelect';
 import TextEditor from 'shared/components/text-editor';
 import { QuizMultiple } from './QuizMultiple';
 import { Option } from '../interfaces';
@@ -27,6 +28,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
   const ref = useRef<IFileRef>(null);
   const prizeRef = useRef<IFileRef>(null);
   const { getValues, setValue } = useFormContext();
+
   const childrenContainerStyle = {
     width: '100%',
     backgroundColor: theme.palette.gray.lighter,
@@ -118,12 +120,17 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
                 <FormInput name="subTitle" id="subTitle" label="Sub Title *" />
               </Grid>
             </Grid>
-            <Grid item spacing={4} mb={2}>
+            <Grid item mb={2}>
               <TextEditor name="description" height={100} />
             </Grid>
 
             <Grid item xs={6} mb={2}>
-              <FormInput name="campaign" id="campaign" label="Campaign" />
+              <FormCampaignSelect
+                name="campaign"
+                id="campaign"
+                label="Campaign"
+                clearable
+              />
             </Grid>
             <Grid item xs={6} mb={2}>
               <TextEditor
@@ -161,7 +168,7 @@ export function QuizAddFields({ control, isEditMode, optionsData }: IProps) {
                 <FormTimePicker name="winnerEndTime" label="End Time" />
               </Grid>
             </Grid>
-            <Grid item spacing={4} mb={2}>
+            <Grid item mb={2}>
               <FormInput
                 name="prizeDescription"
                 id="prizeDescription"

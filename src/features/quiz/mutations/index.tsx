@@ -10,6 +10,7 @@ import * as quizAPI from '../api';
 import { formatQuizDetail } from '../utils';
 
 import { IAddQuizSchema, IFormattedQuizFormSchema, IQuiz } from '../interfaces';
+import { WinnerAddFormSchemaType } from '../schemas';
 
 export const useAddQuizMutation = () => {
   const filters = useBoundStore.getState().quizTableFilters;
@@ -65,7 +66,7 @@ export const useAddQuizMutation = () => {
 };
 export const useEditQuizMutation = () => {
   const { sortBy, sortOrder } = useBoundStore.getState().quizSort;
-  const filters = useBoundStore.getState().offerTableFilters;
+  const filters = useBoundStore.getState().quizTableFilters;
 
   return useMutation({
     mutationFn: ({
@@ -188,9 +189,81 @@ export const useQuizDetailQuery = (
     queryFn: () => quizAPI.getQuizById(id),
     enabled,
   });
+  console.log(queryInfo.data, 'queryInfo');
 
   return {
     ...queryInfo,
-    data: queryInfo.data,
+    data: queryInfo?.data,
   };
+};
+export const useWinnerDetailQuery = (
+  id: string,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteQuizKeys.detail(id),
+    queryFn: () => quizAPI.getQuizWinnerById(id),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo.data?.data,
+  };
+};
+export const useAddWinnerMutation = () => {
+  const { sortBy, sortOrder } = useBoundStore.getState().quizSort;
+  const filters = useBoundStore.getState().quizTableFilters;
+
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: WinnerAddFormSchemaType }) =>
+      quizAPI.addWinnerQuiz(id, data),
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'winner added successfully', {
+        variant: 'success',
+      });
+
+      const queryKey = infiniteQuizKeys.list({
+        ...filters,
+        ...formatSortParam({
+          sortBy,
+          sortOrder,
+        }),
+      });
+
+      const queryData: InfiniteData<IListResponse<IQuiz>> | undefined =
+        queryClient.getQueryData(queryKey);
+
+      if (!queryData) {
+        return;
+      }
+
+      queryData.pages.find((page) => {
+        const exist = page.rows.findIndex(
+          (item: IQuiz) => item.gameId === res.data.gameId
+        );
+        if (exist >= 0) {
+          // eslint-disable-next-line no-param-reassign
+          page.rows[exist] = res.data;
+          return exist;
+        }
+        return false;
+        // return {
+        //   ...page,
+        //   rows: page.rows.map((item: IQuiz) => {
+        //     if (item._id !== res.data._id) return item;
+        //     return res.data;
+        //   }),
+        // };
+      });
+
+      queryClient.setQueryData<InfiniteData<IListResponse<IQuiz>>>(
+        queryKey,
+        (data) => ({
+          pages: queryData.pages,
+          pageParams: data?.pageParams || [],
+        })
+      );
+    },
+  });
 };

@@ -1,5 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { IQuizTableFilter } from '../interfaces';
 import * as quizAPI from '../api';
 import { formatQuizList } from '../utils';
@@ -17,7 +16,6 @@ export const infiniteQuizKeys = {
 export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
   // const { totalUsers } = useBoundStore.getState();
   // const totalPages = Math.ceil(totalUsers / filters.limit);
-
   return useInfiniteQuery({
     select: formatQuizList,
     queryKey: infiniteQuizKeys.list(filters),
@@ -49,4 +47,35 @@ export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
     // cacheTime: 0,
     gcTime: 0,
   });
+};
+export const useCampaignQuery = (
+  filters: IQuizTableFilter,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteQuizKeys.autocomplete(filters),
+    queryFn: () => quizAPI.getAllCampaign(filters),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo?.data?.rows,
+  };
+};
+export const useGameParticipantsQuery = (
+  gameId: string,
+  filters: IQuizTableFilter,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteQuizKeys.autocomplete(filters),
+    queryFn: () => quizAPI.getParticipants(gameId, filters),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo?.data?.rows,
+  };
 };

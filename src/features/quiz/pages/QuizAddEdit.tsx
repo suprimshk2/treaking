@@ -21,7 +21,7 @@ const defaultValues: IAddQuizSchema = {
   subTitle: '',
   description: '',
   termsAndConditions: '',
-  campaign: '',
+  campaign: {},
   prizeDescription: '',
   prizeImage: [],
   winnerDate: new Date(),
@@ -69,7 +69,6 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
-      console.log({ quizData });
 
       reset({
         ...quizData,
@@ -78,7 +77,6 @@ export function QuizAddEdit() {
         titleTwo: quizData?.content?.subTitle || '',
         description: quizData?.content?.description || '',
         winnerDate: new Date(quizData?.winnerAnnouncementDate) || '',
-        campaign: quizData?.status || '',
         prizeDescription: quizData?.prize?.description || '',
         quizzes: [
           {

@@ -14,8 +14,7 @@ export interface IAddQuizSchema {
   // winnerStartTime: string;
   // winnerEndTime: string;
   prizeDescription: string;
-  campaign: string;
-
+  campaign: { id?: string; name?: string };
   quizzes: {
     question: string;
     startDate: string | Date;
@@ -102,17 +101,20 @@ export interface IQuiz {
   options: Option[];
   correctOptionId: string;
   content: Content;
-  winner: Winner;
+  winners: Winner[];
   totalResponseCount: number;
   created: ICreatedAt;
   updated: ICreatedAt;
+  campaign: ICampaignResponse;
 }
-export interface IAdoptQuiz extends Omit<IQuiz, 'endDate' | 'startDate'> {
+export interface IAdoptQuiz
+  extends Omit<IQuiz, 'endDate' | 'startDate' | 'campaign'> {
   endDate: string;
   startDate: string;
   winnerFullName: string;
   images: IFileSchema[];
   prizeImage: IFileSchema[];
+  campaign: string;
 }
 export interface Content {
   logoUrl: string;
@@ -121,7 +123,47 @@ export interface Content {
   description: string;
   upcomingTitle: string;
 }
+export interface IGameParticipants {
+  _id: string;
+  userId: string;
+  status: string;
+  updated: Updated;
+  created: Created;
+  imageUrl: string;
+  hasCompletedProfile: boolean;
+  demographic: Demographic;
+}
 
+export interface Created {
+  date: Date;
+  name: string;
+}
+
+export interface Demographic {
+  email: string;
+  firstName: string;
+  middleName: null;
+  lastName: string;
+  mobileNumber: string;
+  address: string;
+  gender: string;
+  dob: Date;
+}
+
+export interface Updated {
+  date: Date;
+  name: string;
+  id: string;
+}
+
+export interface ICampaignResponse {
+  _id: string;
+  name: string;
+  code: string;
+  updated: ICreatedAt;
+  created: ICreatedAt;
+  campaignId: string;
+}
 export interface Option {
   name: string;
   order: number;
@@ -133,10 +175,20 @@ export interface Prize {
   description?: string;
   imageUrl?: string;
 }
-
+export interface IWinnerAdd {
+  id: string;
+  name: string;
+  rank: number;
+  rankLabel: string;
+}
 export interface Winner {
   email: string;
   lastName: string;
   firstName: string;
   middleName: string;
+  fullName: string;
+}
+export interface IWinnerDefaultValue {
+  applyToAllQuizInCampaign: boolean;
+  winners: IWinnerAdd[];
 }

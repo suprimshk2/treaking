@@ -37,7 +37,7 @@ function QuizOptions({
       <Typography
         sx={theme.typography.bodyTextMedium}
         color={
-          Object.keys(errors).length !== 0
+          errors?.quizzes?.[fieldArrayIndex]?.options
             ? theme.palette.error.main
             : theme.palette.gray.dark
         }
@@ -72,6 +72,17 @@ function QuizOptions({
           </Grid>
         );
       })}
+      {/* this willbe in use to show validation text */}
+      {/* <Typography
+        sx={theme.typography.bodyTextMedium}
+        color={
+          errors?.quizzes?.[fieldArrayIndex]?.options
+            ? theme.palette.error.main
+            : theme.palette.gray.dark
+        }
+      >
+        at leasts 2
+      </Typography> */}
     </Stack>
   );
 }

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, FieldError } from 'react-hook-form';
 import ReactDOMServer from 'react-dom/server';
 import { compiler } from 'markdown-to-jsx';
 import TurndownService from 'turndown';
@@ -15,17 +15,24 @@ function TextEditor({
   label,
   checkBoxEnabled,
   param = '',
+  fieldError,
 }: {
   name: string;
   height?: number;
   label?: string;
   checkBoxEnabled?: boolean;
   param?: string;
+  fieldError?: FieldError;
 }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const turndownService = new TurndownService();
   const [text, setText] = useState('');
-  const { setValue, getValues } = useFormContext();
+  const {
+    setValue,
+    getValues,
+    formState: { errors },
+    clearErrors,
+  } = useFormContext();
   const description = getValues(name);
   const [checkBox, setCheckBox] = useState(true);
 
@@ -67,6 +74,7 @@ function TextEditor({
     const compilerData = compiler(data);
     const htmlString = ReactDOMServer.renderToStaticMarkup(compilerData);
     setValue(name, htmlString || '');
+    clearErrors(name);
   };
 
   const onChangeCheckValue = (isChecked: boolean) => {
@@ -108,11 +116,18 @@ function TextEditor({
         height={height}
         preview="edit"
         style={{
+          border: fieldError || errors[name] ? '1px solid red' : undefined,
           backgroundColor: 'transparent',
         }}
         value={text}
         onChange={onChange}
       />
+      {fieldError?.message ||
+        (errors[name] && (
+          <Typography mt={2} color="error">
+            {(fieldError?.message || (errors[name]?.message as string)) ?? ''}
+          </Typography>
+        ))}
     </div>
   );
 }
@@ -122,6 +137,7 @@ TextEditor.defaultProps = {
   label: 'Description',
   checkBoxEnabled: false,
   param: '',
+  fieldError: undefined,
 };
 
 export default TextEditor;

@@ -9,8 +9,10 @@ import {
   IFormattedQuizFormSchema,
   IQuiz,
   IQuizTableFilter,
+  IWinnerAdd,
+  IWinnerDefaultValue,
 } from '../interfaces';
-import { AddQuizFormSchemaType } from '../schemas';
+import { AddQuizFormSchemaType, WinnerAddFormSchemaType } from '../schemas';
 import { quizConfig } from '../constant/config';
 import { QuizStatus } from '../enums';
 
@@ -37,12 +39,17 @@ export const formatQuizList = (
         rows: group.rows.map((item: IQuiz) => {
           return {
             ...item,
+            campaign: item?.campaign?.name || 'N/A',
             status: formatQuizStatus(item?.startDate, item?.endDate),
             startDate: formatDateTimeToView(item?.startDate?.toString()),
             endDate: formatDateTimeToView(item?.endDate?.toString()),
-            winnerFullName:
-              formatFullName(item?.winner?.firstName, item?.winner?.lastName) ||
-              'N/A',
+            winners: item?.winners?.map((winner) => {
+              return {
+                ...winner,
+                fullName:
+                  formatFullName(winner?.firstName, winner?.lastName) || 'N/A',
+              };
+            }),
           };
         }),
       };
@@ -59,6 +66,7 @@ export const formatQuizDetail = (res) => {
 
   return {
     ...res.data,
+    // campaign: res?.data?.campaign?.name || '-',
     options: res?.data?.options.map((option) => option.name),
     images: [{ url: res.data.content.logoUrl }],
     prizeImage: [{ url: res.data.prize.imageUrl }],
@@ -78,7 +86,11 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
       description: data?.prizeDescription,
       imageUrl: data?.prizeImage?.[0]?.url || '',
     },
-    campaignId: 'aa800201-817c-4619-8a32-f3e9a4b6a102',
+    campaign: {
+      id: data?.campaign?.id,
+      name: data?.campaign?.name,
+    },
+    campaignId: data?.campaign ?? '',
     description: item?.question,
     termsAndConditions: '',
     status: 'ACTIVE',
@@ -100,12 +112,12 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
 
 export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
   return {
-    title: data.subTitle,
+    title: data?.subTitle,
     endDate: new Date(data?.quizzes?.[0]?.endDate),
     imageUrl: '',
     type: 'QUIZ',
     startDate: new Date(data?.quizzes?.[0]?.startDate),
-    campaignId: 'aa800201-817c-4619-8a32-f3e9a4b6a102',
+    campaignId: data?.campaign ?? '',
 
     prize: {
       title: '',
@@ -130,7 +142,16 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     correctOptionNumber: data?.quizzes?.[0]?.correctOptionNumber,
   };
 };
-
+export const formatAddWinner = (
+  data: IWinnerDefaultValue
+): WinnerAddFormSchemaType => {
+  return {
+    ...data,
+    winners: data?.winners?.map((item: IWinnerAdd) => {
+      return { ...item, rank: +item.rank, name: item?.name ?? '' };
+    }),
+  };
+};
 export const formatQuizAddPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {

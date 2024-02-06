@@ -1,9 +1,10 @@
 import {
-  imageSchema,
+  optionalCheckboxSchema,
   optionalImageSchema,
   optionalStringSchema,
   requiredDateSchema,
   requiredNumberSchema,
+  requiredObjectSchema,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
@@ -16,12 +17,18 @@ const quizSchema = z.object({
   startDate: requiredDateSchema,
   endDate: requiredDateSchema,
   logoUrl: optionalStringSchema,
-  options: z.array(z.string()).nonempty('At least one option is required'),
+  options: z.array(z.string()).nonempty('At least two option is required'),
   correctOptionNumber: requiredNumberSchema,
 });
 const prizeSchema = z.object({
   title: optionalStringSchema,
   description: requiredStringSchema,
+});
+const winnersSchema = z.object({
+  id: optionalStringSchema,
+  rank: requiredNumberSchema,
+  rankLabel: requiredStringSchema,
+  name: requiredStringSchema,
 });
 
 export const addQuizFormSchema = z.object({
@@ -36,13 +43,19 @@ export const addQuizFormSchema = z.object({
   prizeImage: optionalImageSchema,
   // startDate: dobSchema,
   // endDate: dobSchema,
-  campaign: optionalStringSchema,
+  campaign: requiredObjectSchema,
   // prize: z.array(prizeSchema),
 
   quizzes: z.array(quizSchema),
 });
+export const winnerPayloadSchema = z.object({
+  applyToAllQuizInCampaign: optionalCheckboxSchema,
+  winners: z.array(winnersSchema),
+});
+export const addWinnerFormSchema = winnerPayloadSchema;
 
 export type AddQuizFormSchemaType = z.infer<typeof addQuizFormSchema>;
+export type WinnerAddFormSchemaType = z.infer<typeof addWinnerFormSchema>;
 export const quizAdvancedFilterFormSchema = z.object({
   titleOne: optionalStringSchema,
   titleTwo: optionalStringSchema,
