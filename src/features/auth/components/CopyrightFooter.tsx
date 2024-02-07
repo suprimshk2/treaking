@@ -20,8 +20,8 @@ function CopyrightFooter({ containerSx }: IProps) {
         <Link to={uiRoute.index}>Privacy Policy</Link>
       </Typography>
       <Typography variant="bodyTextLarge" textAlign="center" color="white">
-        © {new Date().getFullYear()} Copyright Holista Therapy. Powered by
-        Novelty Technology.
+        © {new Date().getFullYear()} Copyright Makaii. Powered by Novelty
+        Technology.
       </Typography>
     </Stack>
   );
