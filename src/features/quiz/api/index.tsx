@@ -7,10 +7,10 @@ import {
   IFormattedQuizFormSchema,
   IGameParticipants,
   IQuizTableFilter,
-  IWinnerAdd,
 } from '../interfaces';
 import apiRoute from '../constant/apiRoute';
 import { formatQuizFilterParams } from '../utils';
+import { WinnerAddFormSchemaType } from '../schemas';
 
 export const getInfiniteQuiz = async (
   filters: IQuizTableFilter
@@ -106,7 +106,7 @@ export const editQuiz = async (
 };
 export const addWinnerQuiz = async (
   id: string,
-  data: IWinnerAdd[]
+  data: WinnerAddFormSchemaType
 ): Promise<IResponse<any>> => {
   const { response, error } = await baseRequest({
     method: 'POST',
