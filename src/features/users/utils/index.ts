@@ -35,7 +35,7 @@ export const formatUserEditPayload = (
       email: data.email,
       gender: data.gender,
       dob: data.dob ? formatDateToSave(data.dob) : undefined,
-      phone: data.phone || '',
+      mobileNumber: data.mobileNumber || '',
     },
     association: {
       roles: [`${data.role}`],

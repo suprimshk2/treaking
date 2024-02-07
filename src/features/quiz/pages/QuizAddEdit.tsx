@@ -39,7 +39,7 @@ const defaultValues: IAddQuizSchema = {
       startDate: new Date(),
       endDate: new Date(),
       options: [{ name: '', order: 0, id: '' }],
-      correctOptionNumber: 1,
+      correctOptionNumber: 0,
     },
   ],
 };
@@ -85,11 +85,11 @@ export function QuizAddEdit() {
         prizeDescription: quizData?.prize?.description || '',
         quizzes: [
           {
-            correctOptionNumber: quizData.correctOptionNumber,
-            options: quizData.options,
-            question: quizData.description || '',
-            startDate: new Date(quizData.startDate) || '',
-            endDate: new Date(quizData.endDate) || '',
+            correctOptionNumber: quizData?.correctOptionNumber,
+            options: quizData?.options,
+            question: quizData?.description || '',
+            startDate: new Date(quizData?.startDate) || '',
+            endDate: new Date(quizData?.endDate) || '',
           },
         ],
       });
@@ -98,7 +98,6 @@ export function QuizAddEdit() {
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
-    console.log({ payload });
 
     addQuizMutation.mutate(
       { data: payload },

@@ -21,7 +21,7 @@ const quizSchema = z.object({
   endDate: requiredDateSchema,
   logoUrl: optionalStringSchema,
   options: z.array(optionSchema),
-  correctOptionNumber: requiredNumberSchema,
+  correctOptionNumber: z.number(),
 });
 const prizeSchema = z.object({
   title: optionalStringSchema,

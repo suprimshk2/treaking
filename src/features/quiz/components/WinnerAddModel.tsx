@@ -69,8 +69,6 @@ export function WinnerAddModal({ quizId, onClose }: IProps) {
   };
 
   const handleWinner = (data: typeof defaultValues) => {
-    console.log({ data });
-
     const payload: WinnerAddFormSchemaType = formatAddWinner(data);
 
     addWinnerMutation.mutate(

@@ -108,8 +108,6 @@ export const addWinnerQuiz = async (
   id: string,
   data: IWinnerAdd[] | any
 ): Promise<IResponse<any>> => {
-  console.log('sss');
-
   const { response, error } = await baseRequest({
     method: 'POST',
     url: apiRoute.addWinner.replace(':id', id),

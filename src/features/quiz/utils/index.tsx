@@ -67,13 +67,16 @@ export const formatQuizDetail = (res) => {
 
   return {
     ...res.data,
-    // campaign: res?.data?.campaign?.name || '-',
-    // options: res?.data?.options.map((option) => option.name),
-    images: [{ url: res.data.content.logoUrl }],
+    images: res?.data?.content?.logoUrl
+      ? [{ url: res?.data?.content?.logoUrl }]
+      : null,
+    prizeImage: res?.data?.prize?.imageUrl
+      ? [{ url: res?.data?.prize?.imageUrl }]
+      : null,
     correctOptionNumber: correctOptionIndex,
     campaign: {
       ...res?.data?.campaign,
-      id: res?.data?.campaign.campaignId,
+      id: res?.data?.campaign?.campaignId,
     },
   };
 };
@@ -123,7 +126,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     prize: {
       title: '',
       description: data?.prizeDescription,
-      imageUrl: data?.prizeImage,
+      imageUrl: data?.prizeImage?.[0]?.url || '',
     },
     description: data?.quizzes?.[0]?.question,
     termsAndConditions: '',

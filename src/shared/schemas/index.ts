@@ -103,7 +103,8 @@ export const pointSchema = z.array(
 export const imageSchema = z.array(z.object({ url: z.string() })).nonempty();
 export const optionalImageSchema = z
   .array(z.object({ url: z.string() }))
-  .optional();
+  .optional()
+  .nullable();
 export const requiredObjectSchema = z.object({
   id: requiredStringSchema,
   name: requiredStringSchema,

@@ -41,9 +41,9 @@ function QuizTable({ onEditClick, onDuplicate }: IProps) {
     isFetchingNextPage,
   } = useInfiniteQuizQuery({
     ...filters,
-    ...formatSortParam({ sortBy, sortOrder }),
+    // ...formatSortParam({ sortBy, sortOrder }),
   });
-  const isEmptyResult = isSuccess && data?.pages?.[0]?.count === 0;
+  const isEmptyResult = isSuccess && data?.pages?.[0]?.rows?.length === 0;
 
   const renderedTableRows =
     isSuccess &&

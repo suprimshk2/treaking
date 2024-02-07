@@ -44,7 +44,7 @@ export default function RolesAndPermissionTable({ onEditClick }: IProps) {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-    isInitialLoading,
+    isLoading,
   } = useInfiniteRolesQuery(filters);
 
   const renderedTableRows =
@@ -85,7 +85,7 @@ export default function RolesAndPermissionTable({ onEditClick }: IProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {isInitialLoading && <TableLoader cols={COLUMNS.length} />}
+            {isLoading && <TableLoader cols={COLUMNS.length} />}
             {renderedTableRows}
             {isEmptyResult && <TableEmptyResult cols={COLUMNS.length} />}
           </TableBody>

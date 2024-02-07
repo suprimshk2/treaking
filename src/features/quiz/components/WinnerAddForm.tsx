@@ -25,7 +25,6 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
     setValue,
   } = useFormContext();
   const [checkBox, setCheckBox] = useState(false);
-  console.log({ checkBox });
 
   const { fields, append, remove } = useFieldArray({
     control,

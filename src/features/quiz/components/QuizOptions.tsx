@@ -22,7 +22,6 @@ function QuizOptions({ index }: { index: number }) {
     );
     setValue(`quizzes`, quizzes);
   };
-  console.log({ errors });
 
   return (
     <Stack gap={2}>
