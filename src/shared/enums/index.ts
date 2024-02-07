@@ -1,7 +1,7 @@
 export enum Gender {
-  MALE = 'Male',
-  FEMALE = 'Female',
-  OTHER = 'Other',
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
+  OTHER = 'OTHER',
 }
 
 export enum Role {
@@ -28,6 +28,7 @@ export enum ModuleCodes {
   NOTIFICATION = 'NOTIFICATION',
   DASHBOARD = 'DASHBOARD',
   PAYMENT = 'PAYMENT',
+  USER_MANAGEMENT = 'USER-MANAGEMENT',
 }
 
 export enum ResourceCode {

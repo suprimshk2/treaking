@@ -44,10 +44,15 @@ function RolesAndPermissionTableRow({ data, onEditClick }: IProps) {
     ResourceCode.ROLES_PERMISSION_MANAGEMENT
   );
 
+  // const isRolesManageEnabled = checkAuthForPermissions(
+  //   ModuleCodes.SETTING,
+  //   RolesMangementPermissions.MANAGE_PERMISSION,
+  //   ResourceCode.ROLES_PERMISSION_MANAGEMENT
+  // );
+
   const isRolesManageEnabled = checkAuthForPermissions(
-    ModuleCodes.SETTING,
-    RolesMangementPermissions.MANAGE_PERMISSION,
-    ResourceCode.ROLES_PERMISSION_MANAGEMENT
+    ResourceCode.ROLES_PERMISSION_MANAGEMENT,
+    RolesMangementPermissions.MANAGE_PERMISSION
   );
 
   const isEllipsisEnabled = isRolesUpdateEnabled || isRolesDeleteEnabled;

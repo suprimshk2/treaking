@@ -35,7 +35,7 @@ export interface IQuizTableFilter extends IFilter {
   description?: string;
 }
 export interface IQuizSort {
-  sortBy: QuizSortBy | null;
+  sortBy?: QuizSortBy | null;
   sortOrder: SortOrderType | null;
 }
 export interface IFileSchema {

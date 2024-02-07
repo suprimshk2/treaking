@@ -51,7 +51,11 @@ export function UserAddEditForm({ isEditMode }: IProps) {
           />
         </Grid>
         <Grid item xs={6}>
-          <FormMaskedPhoneInput name="phone" id="phone" label="Phone " />
+          <FormMaskedPhoneInput
+            name="mobileNumber"
+            id="mobileNumber"
+            label="Phone "
+          />
         </Grid>
       </Grid>
     </>

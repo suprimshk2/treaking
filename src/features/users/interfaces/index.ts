@@ -15,7 +15,7 @@ export interface IDemographic {
   gender: string;
   dob: string;
   email: string;
-  phone: string;
+  mobileNumber: string;
   address?: IAddress;
 }
 
@@ -84,7 +84,7 @@ export interface IEditUserSchema {
     email?: string;
     gender?: string | null;
     dob?: string;
-    phone?: string;
+    mobileNumber?: string;
   };
   association: IAssociation;
   security?: {
@@ -100,7 +100,7 @@ export interface IAddUserSchema {
     email?: string;
     gender?: string | null;
     dob?: string;
-    phone?: string;
+    mobileNumber?: string;
   };
 }
 

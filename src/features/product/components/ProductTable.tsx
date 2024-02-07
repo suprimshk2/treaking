@@ -33,7 +33,7 @@ function ProductTable() {
     fetchNextPage,
   } = useProductsQuery(filters);
 
-  const isEmptyResult = isSuccess && data?.count === 0;
+  const isEmptyResult = isSuccess && data?.rows?.length === 0;
 
   if (isLoading) {
     return <LoadingIndicator />;

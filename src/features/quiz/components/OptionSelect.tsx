@@ -18,7 +18,7 @@ export function QuizOptionSelect({
     formState: { errors },
   } = useFormContext();
 
-  const correctOption = watch(name) || 0;
+  const correctOption = watch(name);
 
   const handleClear = () => {
     setValue(name, 0);

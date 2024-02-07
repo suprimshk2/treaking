@@ -15,7 +15,11 @@ export function UserTableAdvancedFilterFormFields() {
         <FormInput name="email" id="email" label="Email" />
       </Grid>
       <Grid item xs={6} sm={4} lg={2}>
-        <FormMaskedPhoneInput name="phone" id="phone" label="Phone" />
+        <FormMaskedPhoneInput
+          name="mobileNumber"
+          id="mobileNumber"
+          label="Phone"
+        />
       </Grid>
       {/* <Grid item xs={6} sm={4} lg={2}>
         <FormStateSelect name="state" id="state" label="State" />

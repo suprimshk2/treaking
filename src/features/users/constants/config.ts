@@ -25,6 +25,6 @@ export const userConfig = {
     firstName: 'firstName',
     lastName: 'lastName',
     email: 'email',
-    phone: 'phone',
+    mobileNumber: 'mobileNumber',
   },
 };

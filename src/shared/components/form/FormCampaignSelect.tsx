@@ -22,7 +22,6 @@ export function FormCampaignSelect({
     enabled: true,
   });
   const campaignId = watch(name)?.id || '';
-  console.log({ campaignId });
 
   const handleClear = () => {
     setValue(name, '');

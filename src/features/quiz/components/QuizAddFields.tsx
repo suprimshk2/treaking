@@ -97,7 +97,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
         startDate: new Date(),
         endDate: new Date(),
         options: [{ name: '', order: 0, id: '' }],
-        correctOptionNumber: 0,
+        correctOptionNumber: 1,
       },
     ];
 
