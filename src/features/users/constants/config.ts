@@ -6,7 +6,7 @@ export const USER_ADVANCED_FILTER_DEFAULT_VALUES: UserAdvancedFilterFormSchemaTy
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
+    mobileNumber: '',
   };
 
 export const userConfig = {

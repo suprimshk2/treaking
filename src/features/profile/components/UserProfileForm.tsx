@@ -18,7 +18,7 @@ const defaultValues: ProfileSchemaType = {
   middleName: '',
   lastName: '',
   email: '',
-  phone: '',
+  mobileNumber: '',
   dob: '',
   gender: null,
   role: '',
@@ -43,14 +43,21 @@ function UserProfileForm() {
     if (userDetailQuery?.data) {
       const { demographic } = userDetailQuery.data;
       const { security } = userDetailQuery.data;
-      const { firstName, middleName, lastName, email, dob, gender, phone } =
-        demographic;
+      const {
+        firstName,
+        middleName,
+        lastName,
+        email,
+        dob,
+        gender,
+        mobileNumber,
+      } = demographic;
       setValue('firstName', firstName);
       setValue('middleName', middleName);
       setValue('lastName', lastName);
       setValue('dob', unformatDate(dob || ''));
       setValue('gender', gender);
-      setValue('phone', unformatPhone(phone || ''));
+      setValue('mobileNumber', unformatPhone(mobileNumber || ''));
       setValue('email', email);
       setValue('enableMFA', security?.enableMFA ?? false);
       setValue('role', userDetailQuery.data.association?.roles?.[0] ?? '');
