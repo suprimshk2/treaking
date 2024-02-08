@@ -4,6 +4,7 @@ import { QuizSortBy } from '../enums';
 
 export interface IAddQuizSchema {
   logoUrl: IFileSchema[];
+  images: IFileSchema[];
   prizeImage: IFileSchema[];
   titleOne: string;
   titleTwo: string;
@@ -55,10 +56,10 @@ export interface IFileSchema {
 export interface IFormattedQuizFormSchema {
   images?: IFileSchema[];
   title: string;
-  endDate: Date;
+  endDate: string;
   imageUrl: string;
   type: string;
-  startDate: Date;
+  startDate: string;
   prize: {
     title: string;
     description: string;
@@ -68,7 +69,7 @@ export interface IFormattedQuizFormSchema {
   description: string;
   termsAndConditions: string;
   status: string;
-  winnerAnnouncementDate: Date;
+  winnerAnnouncementDate: string;
   options: {
     name: string;
     order: number;

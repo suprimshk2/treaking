@@ -67,6 +67,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
       try {
         const data = await uploadImageMutation.mutateAsync(payload);
         const images = getValues('images');
+
         setValue('images', [...images, { url: data?.data?.url ?? '' }]);
 
         ref.current?.setFileState(item.fileId, data?.data?.url, false, true);

@@ -53,7 +53,10 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
 
         const images = getValues('images');
 
-        setValue('images', [...images, { url: data?.data?.url ?? '' }]);
+        setValue('images', [
+          ...(images ? images : []),
+          { url: data?.data?.url ?? '' },
+        ]);
 
         ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
       } catch (error) {
@@ -74,7 +77,10 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
 
         const images = getValues('prizeImage');
 
-        setValue('prizeImage', [...images, { url: data?.data?.url ?? '' }]);
+        setValue('prizeImage', [
+          ...(images ? images : []),
+          { url: data?.data?.url ?? '' },
+        ]);
 
         prizeRef.current?.setFileState(
           item.fileId,

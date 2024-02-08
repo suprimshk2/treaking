@@ -36,6 +36,7 @@ const winnersSchema = z.object({
 
 export const addQuizFormSchema = z.object({
   logoUrl: optionalImageSchema,
+  images: optionalImageSchema,
   titleOne: requiredStringSchema,
   titleTwo: requiredStringSchema,
   subTitle: optionalStringSchema,
