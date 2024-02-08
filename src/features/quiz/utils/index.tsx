@@ -84,10 +84,10 @@ export const formatQuizDetail = (res) => {
 export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
   return data?.quizzes?.map((item) => ({
     title: data.subTitle,
-    endDate: new Date(item.startDate),
+    endDate: new Date(item.endDate).toISOString(),
     imageUrl: '',
     type: 'QUIZ',
-    startDate: new Date(item.startDate),
+    startDate: new Date(item.startDate).toISOString(),
     prize: {
       title: data?.prizeDescription,
       description: data?.prizeDescription,
@@ -101,7 +101,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     description: item?.question,
     termsAndConditions: '',
     status: 'ACTIVE',
-    winnerAnnouncementDate: new Date(data?.winnerDate),
+    winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
     options: item?.options,
     content: {
       logoUrl: data?.images?.[0]?.url || '',
@@ -117,10 +117,10 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
 export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
   return {
     title: data?.subTitle,
-    endDate: new Date(data?.quizzes?.[0]?.endDate),
+    endDate: new Date(data?.quizzes?.[0]?.endDate).toISOString(),
     imageUrl: '',
     type: 'QUIZ',
-    startDate: new Date(data?.quizzes?.[0]?.startDate),
+    startDate: new Date(data?.quizzes?.[0]?.startDate).toISOString(),
     campaignId: data?.campaign ?? '',
 
     prize: {
@@ -131,7 +131,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     description: data?.quizzes?.[0]?.question,
     termsAndConditions: '',
     status: 'ACTIVE',
-    winnerAnnouncementDate: new Date(data?.winnerDate),
+    winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
     options: data?.quizzes?.[0]?.options,
     content: {
       logoUrl: data?.images?.[0]?.url || '',

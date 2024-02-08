@@ -53,7 +53,10 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
 
         const images = getValues('images');
 
-        setValue('images', [...images, { url: data?.data?.url ?? '' }]);
+        setValue('images', [
+          ...(images ? images : []),
+          { url: data?.data?.url ?? '' },
+        ]);
 
         ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
       } catch (error) {
@@ -74,7 +77,10 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
 
         const images = getValues('prizeImage');
 
-        setValue('prizeImage', [...images, { url: data?.data?.url ?? '' }]);
+        setValue('prizeImage', [
+          ...(images ? images : []),
+          { url: data?.data?.url ?? '' },
+        ]);
 
         prizeRef.current?.setFileState(
           item.fileId,
@@ -123,6 +129,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onFileChange}
                 ref={ref}
+                isMultiImage={false}
               />
             </Box>
             <Grid container spacing={4} mb={2}>
@@ -198,6 +205,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onPrizeFileChange}
                 ref={prizeRef}
+                isMultiImage={false}
               />
             </Box>
           </Box>

@@ -12,6 +12,8 @@ import { useUserDetailQuery } from 'features/users/queries';
 import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
 import { UpdateProfileFields } from './UpdateProfileFields';
 import { ProfileSchemaType, profileSchema } from '../schemas';
+import { useNavigate } from 'react-router-dom';
+import uiRoute from 'shared/constants/uiRoute';
 
 const defaultValues: ProfileSchemaType = {
   firstName: '',
@@ -26,6 +28,7 @@ const defaultValues: ProfileSchemaType = {
 };
 
 function UserProfileForm() {
+  const navigate = useNavigate();
   const authData = useBoundStore.use.authData();
   const setAuthData = useBoundStore.use.setAuthData();
   const methods = useForm<ProfileSchemaType>({
@@ -52,6 +55,7 @@ function UserProfileForm() {
         gender,
         mobileNumber,
       } = demographic;
+
       setValue('firstName', firstName);
       setValue('middleName', middleName);
       setValue('lastName', lastName);
@@ -87,6 +91,7 @@ function UserProfileForm() {
             middleName: response?.data.demographic?.middleName || '',
             email: response?.data.demographic.email,
           });
+          navigate(uiRoute.quiz);
         },
       }
     );

@@ -64,6 +64,7 @@ export function VendorAddEditFields() {
               <FileDropzone
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onFileChange}
+                isMultiImage={false}
               />
             </Box>
             <Grid item spacing={4} mb={theme.spacing(3)}>

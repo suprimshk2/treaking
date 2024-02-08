@@ -22,6 +22,7 @@ import {
 
 const defaultValues: IAddQuizSchema = {
   logoUrl: [],
+  images: [],
   titleOne: '',
   titleTwo: '',
   subTitle: '',
@@ -58,6 +59,7 @@ export function QuizAddEdit() {
   const type = searchParams.get('type');
 
   const isEditMode = !!editQuizId && type === FORMTYPE.EDIT;
+  const isDuplicateMode = !!editQuizId && type === FORMTYPE.DUPLICATE;
 
   const addQuizMutation = useAddQuizMutation();
   const editQuizMutation = useEditQuizMutation();
@@ -81,15 +83,21 @@ export function QuizAddEdit() {
         titleOne: quizData?.content?.title || '',
         titleTwo: quizData?.content?.subTitle || '',
         description: quizData?.content?.description || '',
-        winnerDate: new Date(quizData?.winnerAnnouncementDate) || '',
+        winnerDate: isDuplicateMode
+          ? new Date()
+          : new Date(quizData?.winnerAnnouncementDate) || '',
         prizeDescription: quizData?.prize?.description || '',
         quizzes: [
           {
             correctOptionNumber: quizData?.correctOptionNumber,
             options: quizData?.options,
             question: quizData?.description || '',
-            startDate: new Date(quizData?.startDate) || '',
-            endDate: new Date(quizData?.endDate) || '',
+            startDate: isDuplicateMode
+              ? new Date()
+              : new Date(quizData?.startDate) || '',
+            endDate: isDuplicateMode
+              ? new Date()
+              : new Date(quizData?.endDate) || '',
           },
         ],
       });
@@ -98,6 +106,8 @@ export function QuizAddEdit() {
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
+    console.log({ payload });
+    console.log({ data });
 
     addQuizMutation.mutate(
       { data: payload },
@@ -111,6 +121,7 @@ export function QuizAddEdit() {
 
   const handleQuizEdit = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizEditPayload(data);
+
     editQuizMutation.mutate(
       { id: editQuizId ?? '', data: payload },
       {
