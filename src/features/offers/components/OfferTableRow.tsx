@@ -14,6 +14,9 @@ import { IOffer } from '../interfaces';
 import { getOfferStatus } from '../utils';
 import { OfferStatus } from '../enums';
 import { useDeleteOfferMutation } from '../mutations';
+import { checkAuthForPermissions } from 'shared/utils/common';
+import { ResourceCode } from 'shared/enums';
+import { offerManagementPermissions } from 'features/settings/roles-and-permissions/enums';
 
 const { DATE_FORMAT } = config;
 
@@ -79,7 +82,16 @@ function OfferTableRow({ data, onEditClick }: IProps) {
         startDate: data.startDate,
       })
     ];
+  const isOfferDeleteEnabled = checkAuthForPermissions(
+    ResourceCode.OFFERS_MANAGEMENT,
+    offerManagementPermissions.DELETE
+  );
+  const isOfferEditEnabled = checkAuthForPermissions(
+    ResourceCode.OFFERS_MANAGEMENT,
+    offerManagementPermissions.UPDATE
+  );
 
+  const isEnable = isOfferEditEnabled || isOfferDeleteEnabled;
   return (
     <TableRow key={data.offerId}>
       <TableCell
@@ -131,20 +143,26 @@ function OfferTableRow({ data, onEditClick }: IProps) {
         )}
       </TableCell>
 
-      <TableCell align="right">
-        <EllipseMenu>
-          <EllipseMenuItem
-            text="Edit"
-            icon={BsPencilSquare}
-            onClick={() => onEditClick(data.offerId)}
-          />
-          <EllipseMenuItem
-            text="Delete"
-            icon={BsTrashFill}
-            onClick={onDeleteClick}
-          />
-        </EllipseMenu>
-      </TableCell>
+      {isEnable && (
+        <TableCell align="right">
+          <EllipseMenu>
+            {isOfferEditEnabled && (
+              <EllipseMenuItem
+                text="Edit"
+                icon={BsPencilSquare}
+                onClick={() => onEditClick(data.offerId)}
+              />
+            )}
+            {isOfferDeleteEnabled && (
+              <EllipseMenuItem
+                text="Delete"
+                icon={BsTrashFill}
+                onClick={onDeleteClick}
+              />
+            )}
+          </EllipseMenu>
+        </TableCell>
+      )}
     </TableRow>
   );
 }

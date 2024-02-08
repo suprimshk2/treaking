@@ -10,6 +10,7 @@ import { ICloudFile, IFilePayload } from 'features/product/interfaces';
 import { CloudFileCategory } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
 import { useRef } from 'react';
+import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
 
 export function VendorAddEditFields() {
   const ref = useRef<IFileRef>(null);
@@ -74,19 +75,17 @@ export function VendorAddEditFields() {
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
-                <FormInput
-                  type="number"
+                <FormMaskedPhoneInput
                   name="contactsOne"
                   id="contactsOne"
-                  label="Primary Contact "
+                  label="Primary Contact  "
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormInput
-                  type="number"
+                <FormMaskedPhoneInput
                   name="contactsTwo"
                   id="contactsTwo"
-                  label="Secondary Contact"
+                  label="Secondary Contact  "
                 />
               </Grid>
             </Grid>
@@ -144,12 +143,7 @@ export function VendorAddEditFields() {
                 <FormInput name="fullName" id="fullName" label="Full Name" />
               </Grid>
               <Grid item xs={6}>
-                <FormInput
-                  name="phone"
-                  id="phone"
-                  label="Phone"
-                  type="number"
-                />
+                <FormMaskedPhoneInput name="phone" id="phone" label="Phone" />
               </Grid>
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>
