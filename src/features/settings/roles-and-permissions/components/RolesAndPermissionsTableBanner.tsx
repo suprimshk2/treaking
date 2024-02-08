@@ -23,9 +23,8 @@ export function RolesAndPermissionsTableBanner({ onAddClick }: IProps) {
   // const [value, setValue] = useState('');
   // const [isAdvancedFilterOpen, setIsAdvancedFilterOpen] = useState(false);
   const isRolesCreateEnabled = checkAuthForPermissions(
-    ModuleCodes.SETTING,
-    RolesMangementPermissions.CREATE,
-    ResourceCode.ROLES_PERMISSION_MANAGEMENT
+    ResourceCode.ROLES_PERMISSION_MANAGEMENT,
+    RolesMangementPermissions.CREATE
   );
 
   const totalRoles = useBoundStore.use.totalRoles();

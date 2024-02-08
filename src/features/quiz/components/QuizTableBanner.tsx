@@ -10,8 +10,8 @@ import {
 import { BsPlusLg } from 'react-icons/bs';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import { checkAuthForPermissions } from 'shared/utils/common';
-import { ModuleCodes, ResourceCode } from 'shared/enums';
-import { RolesMangementPermissions } from 'features/settings/roles-and-permissions/enums';
+import { ResourceCode } from 'shared/enums';
+import { quizManagementPermissions } from 'features/settings/roles-and-permissions/enums';
 import { useInfiniteRolesQuery } from 'features/settings/roles-and-permissions/queries';
 import { SearchInput } from 'shared/theme/components/SearchInput';
 
@@ -23,10 +23,9 @@ export function QuizTableBanner({ onAddClick }: IProps) {
   const [value, setValue] = useState('');
   const setQuizTableFilters = useBoundStore.use.setQuizTableFilters();
 
-  const isRolesCreateEnabled = checkAuthForPermissions(
-    ModuleCodes.SETTING,
-    RolesMangementPermissions.CREATE,
-    ResourceCode.ROLES_PERMISSION_MANAGEMENT
+  const isQuizCreateEnabled = checkAuthForPermissions(
+    ResourceCode.QUIZ_MANAGEMENT,
+    quizManagementPermissions.CREATE
   );
 
   const totalRoles = useBoundStore.use.totalRoles();
@@ -47,16 +46,18 @@ export function QuizTableBanner({ onAddClick }: IProps) {
             }
           />
         </Box>
-        <Button
-          size={ButtonSize.MEDIUM}
-          variant={ButtonVariant.CONTAINED}
-          prefix={<BsPlusLg />}
-          buttonType={ButtonType.NORMAL}
-          onClick={onAddClick}
-          sx={{ color: 'common.black' }}
-        >
-          Add Question
-        </Button>
+        {isQuizCreateEnabled && (
+          <Button
+            size={ButtonSize.MEDIUM}
+            variant={ButtonVariant.CONTAINED}
+            prefix={<BsPlusLg />}
+            buttonType={ButtonType.NORMAL}
+            onClick={onAddClick}
+            sx={{ color: 'common.black' }}
+          >
+            Add Question
+          </Button>
+        )}
       </CenterRowSpaceBetween>
     </Stack>
   );

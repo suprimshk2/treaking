@@ -62,6 +62,7 @@ const FileDropzone = forwardRef(
         const mapIdToImage = images.map((item: IFilePayload, index: number) => {
           return { ...item, fileId: `${fileId}-${index}`, isSuccess: true };
         });
+
         setSelectedFiles(mapIdToImage);
       }
     }, [fileId, images, setValue]);

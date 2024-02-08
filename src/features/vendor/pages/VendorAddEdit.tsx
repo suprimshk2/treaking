@@ -4,6 +4,7 @@ import { Box, useTheme } from '@mui/material';
 import {
   Button,
   ButtonSize,
+  ButtonType,
   ButtonVariant,
 } from 'shared/theme/components/Button';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -68,8 +69,8 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
       reset({
         ...vendorData,
         businessName: vendorData?.businessName || '',
-        contactsOne: vendorData.phone?.[0] || '',
-        contactsTwo: vendorData.phone?.[1] || '',
+        contactsOne: vendorData.phone?.[0] || vendorData?.contactsOne,
+        contactsTwo: vendorData.phone?.[1] || vendorData?.contactsTwo,
         email: vendorData?.email || '',
         accountOwner: vendorData?.accountOwner?.name || '',
         description: vendorData?.description || '',
@@ -171,9 +172,15 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
                 >
                   Cancel
                 </Button>
-                <Button type="submit" size={ButtonSize.MEDIUM}>
-                  Save
-                </Button>
+                <Button
+                  loading={
+                    editVendorMutation.isPending || addVendorMutation.isPending
+                  }
+                  type="submit"
+                  buttonType={ButtonType.LOADING}
+                  children="Save"
+                  size={ButtonSize.MEDIUM}
+                />
               </Box>
             </Box>
           </form>

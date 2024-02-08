@@ -14,6 +14,7 @@ import {
   BsChevronDown,
   BsChevronUp,
 } from 'react-icons/bs';
+import { checkAuthForPermissions } from 'shared/utils/common';
 import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { useConfirmationModal } from 'shared/stores/ConfirmationModal';
@@ -29,6 +30,8 @@ import { IAdoptQuiz, Winner } from '../interfaces';
 import { QuizTableRowCollapsible } from './QuizTableRowCollapsible';
 import { QuizStatus } from '../enums';
 import { WinnerAddModal } from './WinnerAddModel';
+import { ResourceCode } from 'shared/enums';
+import { quizManagementPermissions } from 'features/settings/roles-and-permissions/enums';
 
 interface IProps {
   data: IAdoptQuiz;
@@ -97,6 +100,14 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
   const onWinnerAdd = () => {
     onOpen();
   };
+  const isQuizUpdateEnabled = checkAuthForPermissions(
+    ResourceCode.QUIZ_MANAGEMENT,
+    quizManagementPermissions.UPDATE
+  );
+  const isQuizDeleteEnabled = checkAuthForPermissions(
+    ResourceCode.QUIZ_MANAGEMENT,
+    quizManagementPermissions.DELETE
+  );
   return (
     <>
       <TableRow key={data._id}>
@@ -190,11 +201,13 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
         </TableCell>
         <TableCell align="right">
           <EllipseMenu>
-            <EllipseMenuItem
-              text="Edit"
-              icon={BsPencilSquare}
-              onClick={() => onEditClick(data?._id)}
-            />
+            {isQuizUpdateEnabled && (
+              <EllipseMenuItem
+                text="Edit"
+                icon={BsPencilSquare}
+                onClick={() => onEditClick(data?._id)}
+              />
+            )}
             <EllipseMenuItem
               text="Duplicate"
               icon={BsCopy}
@@ -206,11 +219,13 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
               onClick={() => onWinnerAdd()}
             />
 
-            <EllipseMenuItem
-              text="Delete"
-              icon={BsTrashFill}
-              onClick={onDeleteClick}
-            />
+            {isQuizDeleteEnabled && (
+              <EllipseMenuItem
+                text="Delete"
+                icon={BsTrashFill}
+                onClick={onDeleteClick}
+              />
+            )}
           </EllipseMenu>
         </TableCell>
       </TableRow>

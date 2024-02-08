@@ -34,9 +34,8 @@ export function UserTableBanner({ onAddClick, children }: IProps) {
   // const { isFetching } = useInfiniteUsersQuery(userTableFilters);
 
   const isUserCreateEnabled = checkAuthForPermissions(
-    ModuleCodes.SETTING,
-    UserMangementPermissions.CREATE,
-    ResourceCode.USER_MANAGEMENT
+    ResourceCode.USER_MANAGEMENT,
+    UserMangementPermissions.CREATE
   );
 
   return (
@@ -53,21 +52,21 @@ export function UserTableBanner({ onAddClick, children }: IProps) {
             }
           />
         </Box>
-        {/* {isUserCreateEnabled && ( */}
-        <Stack direction="row" spacing={4}>
-          {children}
-          <Button
-            size={ButtonSize.MEDIUM}
-            variant={ButtonVariant.CONTAINED}
-            prefix={<BsPlusLg />}
-            buttonType={ButtonType.NORMAL}
-            onClick={onAddClick}
-            sx={{ flexShrink: 0 }}
-          >
-            Add User
-          </Button>
-        </Stack>
-        {/* )} */}
+        {isUserCreateEnabled && (
+          <Stack direction="row" spacing={4}>
+            {children}
+            <Button
+              size={ButtonSize.MEDIUM}
+              variant={ButtonVariant.CONTAINED}
+              prefix={<BsPlusLg />}
+              buttonType={ButtonType.NORMAL}
+              onClick={onAddClick}
+              sx={{ flexShrink: 0 }}
+            >
+              Add User
+            </Button>
+          </Stack>
+        )}
       </CenterRowSpaceBetween>
 
       <Box>

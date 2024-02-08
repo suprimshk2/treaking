@@ -2,8 +2,6 @@ import {
   emailSchema,
   optionalImageSchema,
   optionalStringSchema,
-  phoneSchema,
-  phoneSchemaOptional,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
@@ -15,8 +13,8 @@ const vendorSchema = z.object({
 export const addVendorFormSchema = z.object({
   images: optionalImageSchema,
   businessName: requiredStringSchema,
-  contactsOne: phoneSchema,
-  contactsTwo: phoneSchemaOptional,
+  contactsOne: requiredStringSchema,
+  contactsTwo: requiredStringSchema,
   email: emailSchema,
   accountOwner: requiredStringSchema,
   description: requiredStringSchema,
@@ -26,10 +24,8 @@ export const addVendorFormSchema = z.object({
   website: optionalStringSchema,
   address: optionalStringSchema,
   vendorEmail: emailSchema,
-  phone: phoneSchema,
+  phone: requiredStringSchema,
   fullName: requiredStringSchema,
-
-  // quizzes: z.array(quizSchema),
 });
 
 export type AddVendorFormSchemaType = z.infer<typeof addVendorFormSchema>;
