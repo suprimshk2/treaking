@@ -123,6 +123,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onFileChange}
                 ref={ref}
+                isMultiImage={false}
               />
             </Box>
             <Grid container spacing={4} mb={2}>
@@ -198,6 +199,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onPrizeFileChange}
                 ref={prizeRef}
+                isMultiImage={false}
               />
             </Box>
           </Box>
