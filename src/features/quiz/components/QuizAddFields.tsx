@@ -177,19 +177,19 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
         >
           <Box>
             <Grid container spacing={4} mb={2}>
-              <Grid item xs={5}>
+              <Grid item xs={8}>
                 <FormDatePicker
                   minDate={new Date()}
                   name="winnerDate"
                   label="Winner Announcement Date"
                 />
               </Grid>
-              <Grid item xs={3.5} mb={2}>
+              <Grid item xs={4} mb={2}>
                 <FormTimePicker name="winnerDate" label="Start Time" />
               </Grid>
-              <Grid item xs={3.5} mb={2}>
+              {/* <Grid item xs={3.5} mb={2}>
                 <FormTimePicker name="winnerEndTime" label="End Time" />
-              </Grid>
+              </Grid> */}
             </Grid>
             <Grid item mb={2}>
               <FormInput
