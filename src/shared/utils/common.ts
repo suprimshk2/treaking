@@ -551,7 +551,7 @@ export const convertNumberToString = (
 ): string => {
   if (Number.isInteger(value) && !Number.isNaN(value)) {
     if (divide) {
-      return String(value || 0 / 100);
+      return String((value || 0) / 100);
     }
     return String(value);
   }
