@@ -192,6 +192,16 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
 
         <TableCell>
           <Box display="flex" flexDirection="row">
+            {data?.winners?.length <= 0 && (
+              <Typography
+                justifyContent="center"
+                display="flex"
+                alignItems="center"
+                width="100%"
+              >
+                -
+              </Typography>
+            )}
             {data?.winners?.length > 1 ? (
               <Button
                 onClick={() => winnerProfileOnOpen()}
@@ -215,8 +225,6 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
                 >
                   {winner?.fullName}
                 </Button>
-                // eslint-disable-next-line react/no-array-index-key
-                // <Typography key={index}>{winner?.fullName}</Typography>
               ))
             )}
           </Box>

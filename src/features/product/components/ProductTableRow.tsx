@@ -75,12 +75,7 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
         <TableCell>
           <Chip
             label={item.status}
-            sx={{
-              color: theme.palette.common.white,
-              bgcolor: item.isInStock
-                ? theme.palette.success.main
-                : theme.palette.error.main,
-            }}
+            color={item.isInStock ? 'success' : 'error'}
           />
         </TableCell>
         <TableCell>

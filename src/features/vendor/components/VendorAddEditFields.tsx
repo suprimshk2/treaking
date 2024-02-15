@@ -100,18 +100,10 @@ export function VendorAddEditFields() {
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
-                <FormInput
-                  name="facebook"
-                  id="facebook"
-                  label="Facebook link"
-                />
+                <FormInput name="facebook" id="facebook" label="Facebook" />
               </Grid>
               <Grid item xs={6}>
-                <FormInput
-                  name="instagram"
-                  id="instagram"
-                  label="Instagram link"
-                />
+                <FormInput name="instagram" id="instagram" label="Instagram" />
               </Grid>
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
@@ -131,7 +123,13 @@ export function VendorAddEditFields() {
               />
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>
-              <FormUserSelect name="accountManager" id="" />
+              <FormInput
+                name="accountOwner"
+                id="accountOwner"
+                label="Account Owner"
+              />
+
+              {/* <FormUserSelect name="accountOwner" id="accountOwner" /> */}
             </Grid>
             <Grid container xs={6} mb={theme.spacing(3)}>
               <Typography variant="bodyTextMedium">Contact Person</Typography>

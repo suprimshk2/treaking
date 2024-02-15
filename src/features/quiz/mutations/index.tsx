@@ -215,9 +215,19 @@ export const useAddWinnerMutation = () => {
   const { sortBy, sortOrder } = useBoundStore.getState().quizSort;
   const filters = useBoundStore.getState().quizTableFilters;
 
+  let gameId;
+
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: WinnerAddFormSchemaType }) =>
-      quizAPI.addWinnerQuiz(id, data),
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: WinnerAddFormSchemaType;
+    }) => {
+      gameId = id;
+      return quizAPI.addWinnerQuiz(id, data);
+    },
     onSuccess: (res) => {
       enqueueSnackbar(res.message || 'winner added successfully', {
         variant: 'success',
@@ -239,7 +249,7 @@ export const useAddWinnerMutation = () => {
       }
       queryData.pages.find((page) => {
         const exist = page.rows.findIndex(
-          (item: IQuiz) => item.gameId === res.data.gameId
+          (item: IQuiz) => item.gameId === gameId
         );
         if (exist >= 0) {
           page.rows[exist].winners = [

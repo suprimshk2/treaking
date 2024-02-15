@@ -70,6 +70,11 @@ const FileDropzone = forwardRef(
     }, [fileId, images, setValue]);
 
     const { getRootProps, getInputProps } = useDropzone({
+      accept: {
+        'image/png': ['.png'],
+        'image/svg': ['.svg'],
+        'image/jpg': ['.jpg', '.jpeg'],
+      },
       onDrop: async (droppedFiles: File[]) => {
         clearErrors(name);
         const newFiles: IFilePayload[] = [];

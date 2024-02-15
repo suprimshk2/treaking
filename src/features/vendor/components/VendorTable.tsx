@@ -77,7 +77,7 @@ function VendorTable({ onEditClick }: IProps) {
           </TableBody>
         </Table>
       </TableContainer>
-      {hasNextPage && (
+      {hasNextPage && !isEmptyResult && (
         <Box mt={2} display="flex" justifyContent="center">
           <Button
             buttonType={ButtonType.LOADING}
