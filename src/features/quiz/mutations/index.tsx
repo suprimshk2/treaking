@@ -208,7 +208,7 @@ export const useWinnerDetailQuery = (
 
   return {
     ...queryInfo,
-    data: queryInfo?.data?.data?.[0]?.rows,
+    data: queryInfo?.data?.[0]?.rows,
   };
 };
 export const useAddWinnerMutation = () => {

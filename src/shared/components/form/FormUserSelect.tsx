@@ -48,14 +48,14 @@ export function FormUserSelect({
           {data?.map?.((user: IUser) => (
             <MenuItem
               value={concatString(
-                user?.demographic?.firstName,
-                user?.demographic?.lastName
+                user?.demographic?.firstName ?? '',
+                user?.demographic?.lastName ?? ''
               )}
               key={user?.demographic?.mobileNumber}
             >
               {concatString(
-                user?.demographic?.firstName,
-                user?.demographic?.lastName
+                user?.demographic?.firstName ?? '',
+                user?.demographic?.lastName ?? ''
               )}
             </MenuItem>
           ))}
