@@ -63,6 +63,7 @@ export function WinnerAddModal({ quizId, isEditMode, onClose }: IProps) {
 
   const handleWinner = (data: typeof defaultValues) => {
     const payload: WinnerAddFormSchemaType = formatAddWinner(data);
+    console.log({ payload });
 
     addWinnerMutation.mutate(
       { id: quizId, data: payload },

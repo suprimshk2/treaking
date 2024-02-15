@@ -464,9 +464,16 @@ export const managePermissionPayload = (
 
   return resources;
 };
-export const formatFullName = (firstName: string, lastName: string) => {
+export const formatFullName = (
+  firstName: string,
+  lastName: string,
+  middleName?: string
+) => {
   if (firstName) {
     return `${firstName} ${lastName || ''}`;
+  }
+  if (middleName) {
+    return `${firstName} ${middleName || ''} ${lastName || ''}`;
   }
   return 'N/A';
 };

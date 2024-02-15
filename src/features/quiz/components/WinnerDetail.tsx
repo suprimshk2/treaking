@@ -8,6 +8,7 @@ import { IoIosMail } from 'react-icons/io';
 import Chip from 'shared/theme/components/Chip';
 import { spacing } from 'shared/theme/spacing';
 import { IWinnerResponse } from '../interfaces';
+import { formatFullName } from 'shared/utils/common';
 
 function WinnerDetail({ profile }: { profile: IWinnerResponse }) {
   const theme = useTheme();
@@ -23,13 +24,22 @@ function WinnerDetail({ profile }: { profile: IWinnerResponse }) {
     >
       <Grid item px={theme.spacing(6)} xs={4}>
         <Avatar
+          title={
+            profile?.demographic?.firstName + profile?.demographic?.lastName
+          }
           avatarstyle={{ height: 130, width: 130 }}
           src={profile.imageUrl}
         />
       </Grid>
       <Grid item xs={4}>
         <Stack gap={theme.spacing(2)} paddingLeft={theme.spacing(2)}>
-          <Typography>{profile?.demographic?.firstName}</Typography>
+          <Typography>
+            {formatFullName(
+              profile?.demographic?.firstName,
+              profile?.demographic?.lastName,
+              profile?.demographic?.middleName
+            )}
+          </Typography>
           <ListWithIcon
             list={[
               {
