@@ -147,7 +147,7 @@ export const getQuizWinnerById = async (
     return Promise.reject(error);
   }
 
-  return response?.data;
+  return response?.data?.data;
 };
 
 export const deleteQuiz = async (

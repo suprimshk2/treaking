@@ -558,5 +558,5 @@ export const convertNumberToString = (
   return '';
 };
 export const concatString = (title: string, subTitle: string) => {
-  return title ?? ''.concat(' ' + subTitle ?? '');
+  return title.concat(' ' + subTitle ?? '');
 };

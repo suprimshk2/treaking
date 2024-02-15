@@ -16,7 +16,7 @@ export interface IDemographic {
   dob: string;
   email: string;
   mobileNumber: string;
-  address?: IAddress;
+  address?: string;
 }
 
 export interface IClient {
