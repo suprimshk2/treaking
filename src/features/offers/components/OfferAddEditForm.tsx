@@ -69,6 +69,8 @@ export function OfferAddEditForm() {
   // Prepopulate the form in case of edit
   useEffect(() => {
     if (offerDetailQuery?.data) {
+      console.log('data query -> 🔥', offerDetailQuery?.data);
+      
       const {
         vendor,
         template,
