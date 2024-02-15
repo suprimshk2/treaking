@@ -5,6 +5,7 @@ import {
   TableRow,
   Typography,
   IconButton,
+  useTheme,
 } from '@mui/material';
 import {
   BsClock,
@@ -32,6 +33,13 @@ import { QuizStatus } from '../enums';
 import { WinnerAddModal } from './WinnerAddModel';
 import { ResourceCode } from 'shared/enums';
 import { quizManagementPermissions } from 'features/settings/roles-and-permissions/enums';
+import {
+  Button,
+  ButtonSize,
+  ButtonType,
+  ButtonVariant,
+} from 'shared/theme/components/Button';
+import { WinnerListModel } from './WinnerListModel';
 
 interface IProps {
   data: IAdoptQuiz;
@@ -44,10 +52,18 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
   const deleteUserMutation = useDeleteQuizMutation();
   const [open, setOpen] = useState(false);
   const { isOpen, onClose, onOpen } = useDisclosure();
-
+  const {
+    isOpen: isWinnerProfileOpen,
+    onClose: winnerProfileOnClose,
+    onOpen: winnerProfileOnOpen,
+  } = useDisclosure();
+  const theme = useTheme();
   const status = data?.status;
   const onCloseClick = () => {
     onClose();
+  };
+  const onWinnerCloseClick = () => {
+    winnerProfileOnClose();
   };
   const onDeleteClick = async () => {
     const result = await userConfirmationModal?.openConfirmationModal({
@@ -108,6 +124,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
     ResourceCode.QUIZ_MANAGEMENT,
     quizManagementPermissions.DELETE
   );
+  const isWinnerEdit = !!data.winners.length;
   return (
     <>
       <TableRow key={data._id}>
@@ -175,12 +192,31 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
 
         <TableCell>
           <Box display="flex" flexDirection="row">
-            {data?.winners.length > 1 ? (
-              <Typography>{`${data?.winners.length} Winners`}</Typography>
+            {data?.winners?.length > 1 ? (
+              <Button
+                onClick={() => winnerProfileOnOpen()}
+                size={ButtonSize.SMALL}
+                buttonType={ButtonType.NORMAL}
+                variant={ButtonVariant.TEXT}
+                sx={{ color: theme.palette.gray.dark }}
+              >
+                <Typography
+                  sx={{ textDecoration: 'underline' }}
+                >{`${data?.winners.length} Winners`}</Typography>
+              </Button>
             ) : (
               data?.winners?.map((winner: Winner, index) => (
+                <Button
+                  onClick={() => winnerProfileOnOpen()}
+                  size={ButtonSize.SMALL}
+                  buttonType={ButtonType.NORMAL}
+                  variant={ButtonVariant.TEXT}
+                  sx={{ color: theme.palette.gray.dark }}
+                >
+                  {winner?.fullName}
+                </Button>
                 // eslint-disable-next-line react/no-array-index-key
-                <Typography key={index}>{winner?.fullName}</Typography>
+                // <Typography key={index}>{winner?.fullName}</Typography>
               ))
             )}
           </Box>
@@ -195,9 +231,17 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
           )}
         </TableCell>
         <TableCell>
-          <Box display="flex" flexDirection="row">
-            <Typography>{data?.created.name}</Typography>
-          </Box>
+          {data.updated?.date && (
+            <Box display="flex" flexDirection="column">
+              <Typography variant="bodyTextMedium">
+                {data?.updated?.name}
+              </Typography>
+
+              <Typography variant="bodyTextMedium">
+                {data?.updated?.date}
+              </Typography>
+            </Box>
+          )}
         </TableCell>
         <TableCell align="right">
           <EllipseMenu>
@@ -214,7 +258,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
               onClick={() => onDuplicate(data?._id)}
             />
             <EllipseMenuItem
-              text="Add Winner"
+              text={isWinnerEdit ? 'Edit Winner' : 'Add Winner'}
               icon={FaPeopleGroup}
               onClick={() => onWinnerAdd()}
             />
@@ -230,7 +274,14 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
         </TableCell>
       </TableRow>
       {isOpen && (
-        <WinnerAddModal quizId={data?.gameId} onClose={onCloseClick} />
+        <WinnerAddModal
+          quizId={data?.gameId}
+          onClose={onCloseClick}
+          isEditMode={isWinnerEdit}
+        />
+      )}
+      {isWinnerProfileOpen && (
+        <WinnerListModel quizId={data?.gameId} onClose={onWinnerCloseClick} />
       )}
       {open && <QuizTableRowCollapsible open={open} data={data} />}
     </>

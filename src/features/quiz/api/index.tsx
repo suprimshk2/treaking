@@ -7,6 +7,7 @@ import {
   IFormattedQuizFormSchema,
   IGameParticipants,
   IQuizTableFilter,
+  IWinnerResponse,
 } from '../interfaces';
 import apiRoute from '../constant/apiRoute';
 import { formatQuizFilterParams } from '../utils';
@@ -136,7 +137,7 @@ export const getQuizById = async (
 };
 export const getQuizWinnerById = async (
   id: string
-): Promise<IResponse<IFormattedQuizFormSchema>> => {
+): Promise<IListResponse<IWinnerResponse>> => {
   const { response, error } = await baseRequest({
     method: 'GET',
     url: apiRoute.getQuizWinner.replace(':id', id),

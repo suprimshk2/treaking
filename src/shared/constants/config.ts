@@ -45,7 +45,7 @@ export const config = {
 
   INPUT_MASKING: {
     date: '##/##/####',
-    phone: '(###) ### ####',
+    phone: '+977 ##########',
     zip: '####',
   },
 

@@ -13,9 +13,29 @@ export const infiniteQuizKeys = {
   autocomplete: (filters: IQuizTableFilter) =>
     [...infiniteQuizKeys.lists(), 'autocomplete', { filters }] as const,
 };
+export const infiniteCampaignKeys = {
+  all: ['infinite-campaign'] as const,
+  lists: () => [...infiniteCampaignKeys.all, 'list'] as const,
+  list: (filters: IQuizTableFilter) =>
+    [...infiniteCampaignKeys.lists(), { filters }] as const,
+  details: () => [...infiniteCampaignKeys.all, 'detail'] as const,
+  detail: (id: number | string) =>
+    [...infiniteCampaignKeys.details(), id] as const,
+  autocomplete: (filters: IQuizTableFilter) =>
+    [...infiniteCampaignKeys.lists(), 'autocomplete', { filters }] as const,
+};
+export const infiniteParticipantsKeys = {
+  all: ['infinite-Participants'] as const,
+  lists: () => [...infiniteParticipantsKeys.all, 'list'] as const,
+  list: (filters: IQuizTableFilter) =>
+    [...infiniteParticipantsKeys.lists(), { filters }] as const,
+  details: () => [...infiniteParticipantsKeys.all, 'detail'] as const,
+  detail: (id: number | string) =>
+    [...infiniteParticipantsKeys.details(), id] as const,
+  autocomplete: (filters: IQuizTableFilter) =>
+    [...infiniteParticipantsKeys.lists(), 'autocomplete', { filters }] as const,
+};
 export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
-  // const { totalUsers } = useBoundStore.getState();
-  // const totalPages = Math.ceil(totalUsers / filters.limit);
   return useInfiniteQuery({
     select: formatQuizList,
     queryKey: infiniteQuizKeys.list(filters),
@@ -53,7 +73,7 @@ export const useCampaignQuery = (
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
-    queryKey: infiniteQuizKeys.autocomplete(filters),
+    queryKey: infiniteCampaignKeys.autocomplete(filters),
     queryFn: () => quizAPI.getAllCampaign(filters),
     enabled,
   });
@@ -69,7 +89,7 @@ export const useGameParticipantsQuery = (
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
-    queryKey: infiniteQuizKeys.autocomplete(filters),
+    queryKey: infiniteParticipantsKeys.autocomplete(filters),
     queryFn: () => quizAPI.getParticipants(gameId, filters),
     enabled,
   });

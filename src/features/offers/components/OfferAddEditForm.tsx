@@ -104,6 +104,7 @@ export function OfferAddEditForm() {
         availableUntil: new Date(availableUntil),
         termsAndConditions,
         usageInstructions,
+        accountManager: vendor?.accountOwner?.name,
       });
     }
   }, [offerDetailQuery?.data, reset]);

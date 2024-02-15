@@ -28,10 +28,10 @@ export const useAddVendorMutation = () => {
 
       const queryKey = infiniteVendorKeys.list({
         ...filters,
-        ...formatSortParam({
-          sortBy,
-          sortOrder,
-        }),
+        // ...formatSortParam({
+        //   sortBy,
+        //   sortOrder,
+        // }),
       });
       const queryData: InfiniteData<IListResponse<any>> | undefined =
         queryClient.getQueryData(queryKey);

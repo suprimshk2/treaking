@@ -307,10 +307,10 @@ export const toTitleCase = (str: string) => {
 export const formatPhone = (unformattedPhone: string) => {
   let phone = unformattedPhone;
   if (phone) {
-    const x = phone.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    const x = phone.replace(/\D/g, '').match(/(\d{3})(\d{7})/);
     if (!x) return '-';
-    // eslint-disable-next-line prefer-template
-    phone = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+
+    phone = '+977-' + x[1] + x[2];
     return phone;
   }
   return 'N/A';

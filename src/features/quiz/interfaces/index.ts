@@ -1,6 +1,7 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
 import { ICreatedAt } from 'features/product/interfaces';
 import { QuizSortBy } from '../enums';
+import { IDemographic } from 'features/users/interfaces';
 
 export interface IAddQuizSchema {
   logoUrl: IFileSchema[];
@@ -138,23 +139,12 @@ export interface IGameParticipants {
   created: Created;
   imageUrl: string;
   hasCompletedProfile: boolean;
-  demographic: Demographic;
+  demographic: IDemographic;
 }
 
 export interface Created {
   date: Date;
   name: string;
-}
-
-export interface Demographic {
-  email: string;
-  firstName: string;
-  middleName: null;
-  lastName: string;
-  mobileNumber: string;
-  address: string;
-  gender: string;
-  dob: Date;
 }
 
 export interface Updated {
@@ -189,13 +179,23 @@ export interface IWinnerAdd {
   rankLabel: string;
 }
 export interface Winner {
+  imageUrl: string;
+  id: string;
   email: string;
   lastName: string;
   firstName: string;
   middleName: string;
-  fullName: string;
+  fullName?: string;
+  mobileNumber: string;
 }
 export interface IWinnerDefaultValue {
   applyToAllQuizInCampaign: boolean;
   winners: IWinnerAdd[];
+}
+export interface IWinnerResponse {
+  _id: string;
+  userId: string;
+  status: string;
+  imageUrl: string;
+  demographic: IDemographic;
 }

@@ -39,7 +39,12 @@ export interface IUser {
   created: ICreated;
   updated: IUpdated;
 }
-
+export interface IAdoptUser extends Omit<IUser, 'demographic'> {
+  demographic: IAdoptDemography;
+}
+export interface IAdoptDemography extends IDemographic {
+  fullName: string;
+}
 export interface IUserTableFilter extends IFilter {
   firstName?: string;
   lastName?: string;

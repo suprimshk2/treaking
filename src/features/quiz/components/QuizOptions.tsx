@@ -55,14 +55,16 @@ function QuizOptions({ index }: { index: number }) {
               />
             </Grid>
             <Grid item xs={1} mb={2}>
-              <IconButton
-                onClick={() => onDeleteOption(option.order)}
-                sx={{
-                  color: theme.palette.common.black,
-                }}
-              >
-                <BsX />
-              </IconButton>
+              {options.length > 1 && (
+                <IconButton
+                  onClick={() => onDeleteOption(option.order)}
+                  sx={{
+                    color: theme.palette.common.black,
+                  }}
+                >
+                  <BsX />
+                </IconButton>
+              )}
             </Grid>
           </Grid>
         );

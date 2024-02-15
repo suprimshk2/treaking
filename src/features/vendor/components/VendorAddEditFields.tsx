@@ -11,6 +11,7 @@ import { CloudFileCategory } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
 import { useRef } from 'react';
 import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
+import { FormUserSelect } from 'shared/components/form/FormUserSelect';
 
 export function VendorAddEditFields() {
   const ref = useRef<IFileRef>(null);
@@ -130,11 +131,7 @@ export function VendorAddEditFields() {
               />
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>
-              <FormInput
-                name="accountOwner"
-                id="accountOwner"
-                label="Account Manager"
-              />
+              <FormUserSelect name="accountManager" id="" />
             </Grid>
             <Grid container xs={6} mb={theme.spacing(3)}>
               <Typography variant="bodyTextMedium">Contact Person</Typography>
