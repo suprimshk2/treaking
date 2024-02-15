@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { TableCell, TableRow, Tooltip, Typography, Box } from '@mui/material';
 
 import { formatDateToView } from 'shared/utils/date';
 import { config } from 'shared/constants/config';
@@ -131,15 +131,16 @@ function OfferTableRow({ data, onEditClick }: IProps) {
         <Chip label={status.label} color={status.color as ColorType} />
       </TableCell>
       <TableCell>
-        {/* {data.updated?.by && data.updated.by} */}
-        {/* {data.updated?.by && <br />} */}
         {data.updated?.date && (
-          <Typography variant="bodyTextMedium">
-            {formatDateToView(data.updated.date, {
-              inputDateFormat: DATE_FORMAT.ISO,
-              outputDateFormat: DATE_FORMAT.dateViewFormat,
-            })}
-          </Typography>
+          <Box display="flex" flexDirection="column">
+            <Typography variant="bodyTextMedium">
+              {data?.updated?.name}
+            </Typography>
+
+            <Typography variant="bodyTextMedium">
+              {formatDateToView(data?.updated?.date)}
+            </Typography>
+          </Box>
         )}
       </TableCell>
 

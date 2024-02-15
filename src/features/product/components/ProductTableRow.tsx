@@ -84,8 +84,8 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
           />
         </TableCell>
         <TableCell>
-          <Typography>{item.createdBy}</Typography>
-          <Typography>{item.createdAt}</Typography>
+          <Typography>{item.updatedBy}</Typography>
+          <Typography>{item.updatedAt}</Typography>
         </TableCell>
         {isEnable && (
           <TableCell>

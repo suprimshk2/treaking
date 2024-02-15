@@ -1,8 +1,8 @@
 import { isEmpty, pickBy } from 'shared/utils/lodash';
 import { mapKeys } from 'shared/utils/misc';
 import { IListResponse } from 'shared/interfaces/http';
-import { formatFullName } from 'shared/utils/common';
-import { formatDateTimeToView } from 'shared/utils/date';
+import { concatString, formatFullName } from 'shared/utils/common';
+import { formatDateTimeToView, formatDateToView } from 'shared/utils/date';
 import { InfiniteData } from '@tanstack/react-query';
 import {
   IAdoptQuiz,
@@ -39,10 +39,15 @@ export const formatQuizList = (
         rows: group.rows.map((item: IQuiz) => {
           return {
             ...item,
+            title: concatString(item?.content.title, item?.content.subTitle),
             campaign: item?.campaign?.name || 'N/A',
             status: formatQuizStatus(item?.startDate, item?.endDate),
             startDate: formatDateTimeToView(item?.startDate?.toString()),
             endDate: formatDateTimeToView(item?.endDate?.toString()),
+            updated: {
+              name: item?.updated?.name,
+              date: formatDateToView(item?.updated?.date),
+            },
             winners: item?.winners?.map((winner) => {
               return {
                 ...winner,

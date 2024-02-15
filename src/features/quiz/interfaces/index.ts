@@ -189,13 +189,34 @@ export interface IWinnerAdd {
   rankLabel: string;
 }
 export interface Winner {
+  imageUrl: string;
+  id: string;
   email: string;
   lastName: string;
   firstName: string;
   middleName: string;
-  fullName: string;
+  fullName?: string;
+  mobileNumber: string;
 }
 export interface IWinnerDefaultValue {
   applyToAllQuizInCampaign: boolean;
   winners: IWinnerAdd[];
+}
+export interface IWinnerResponse {
+  _id: string;
+  userId: string;
+  status: string;
+  imageUrl: string;
+  demographic: Demographic;
+}
+
+export interface Demographic {
+  email: string;
+  firstName: string;
+  middleName: null;
+  lastName: string;
+  mobileNumber: string;
+  address: string;
+  gender: string;
+  dob: Date;
 }

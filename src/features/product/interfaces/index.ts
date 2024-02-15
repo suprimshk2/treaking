@@ -26,10 +26,10 @@ export interface IAdaptedProductTableRow {
   point: string;
   price: string;
   status: string;
-  createdBy: string;
+  updatedBy: string;
   isInStock: boolean;
   quantityInStock: number;
-  createdAt: string;
+  updatedAt: string;
   image_url: string;
   productId: string;
 }

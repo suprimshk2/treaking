@@ -76,9 +76,9 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
-
       reset({
         ...quizData,
+        termsAndConditions: 'quizData?',
         subTitle: quizData?.title || '',
         titleOne: quizData?.content?.title || '',
         titleTwo: quizData?.content?.subTitle || '',
@@ -106,8 +106,6 @@ export function QuizAddEdit() {
 
   const handleQuizAdd = (data: AddQuizFormSchemaType) => {
     const payload = formatQuizAddPayload(data);
-    console.log({ payload });
-    console.log({ data });
 
     addQuizMutation.mutate(
       { data: payload },

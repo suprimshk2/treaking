@@ -8,6 +8,6 @@ export const QUIZ_COLUMNS: readonly ITableColumn[] = [
   { id: 'category', label: 'Category' },
   { id: 'winners', label: 'Winners' },
   { id: 'status', label: 'Status' },
-  { id: 'createdBy', label: 'Created by' },
+  { id: 'updatedBy', label: 'Updated by' },
   { id: 'action', label: '', align: 'right' },
 ];

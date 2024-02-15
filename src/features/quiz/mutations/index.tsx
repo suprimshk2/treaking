@@ -31,6 +31,7 @@ export const useAddQuizMutation = () => {
           sortOrder,
         }),
       });
+
       const queryData: InfiniteData<IListResponse<IAddQuizSchema>> | undefined =
         queryClient.getQueryData(queryKey);
 
@@ -189,6 +190,7 @@ export const useQuizDetailQuery = (
     queryFn: () => quizAPI.getQuizById(id),
     enabled,
   });
+  console.log(queryInfo.data, 'query data');
 
   return {
     ...queryInfo,
@@ -205,9 +207,14 @@ export const useWinnerDetailQuery = (
     enabled,
   });
 
+  console.log(
+    queryInfo?.data?.data?.[0]?.rows,
+    'queryInfo?.data?.data?.rowsqueryInfo?.data?.data?.rows'
+  );
+
   return {
     ...queryInfo,
-    data: queryInfo.data?.data,
+    data: queryInfo?.data?.data?.[0]?.rows,
   };
 };
 export const useAddWinnerMutation = () => {
@@ -224,26 +231,36 @@ export const useAddWinnerMutation = () => {
 
       const queryKey = infiniteQuizKeys.list({
         ...filters,
-        ...formatSortParam({
-          sortBy,
-          sortOrder,
-        }),
+        // ...formatSortParam({
+        //   sortBy,
+        //   sortOrder,
+        // }),
       });
-
+      console.log({ queryKey });
       const queryData: InfiniteData<IListResponse<IQuiz>> | undefined =
         queryClient.getQueryData(queryKey);
+      console.log(queryData, 'queryData', res);
 
       if (!queryData) {
         return;
       }
-
       queryData.pages.find((page) => {
         const exist = page.rows.findIndex(
           (item: IQuiz) => item.gameId === res.data.gameId
         );
         if (exist >= 0) {
-          // eslint-disable-next-line no-param-reassign
-          page.rows[exist] = res.data;
+          page.rows[exist].winners = [
+            {
+              imageUrl:
+                'https://dev-makaii.s3.amazonaws.com/user-content/5d207e00-84c6-4d00-a2a5-713205affea0/1702029763870_avatar.jpg',
+              id: '5d207e00-84c6-4d00-a2a5-713205affea0',
+              email: 'ssss@gmail.com',
+              lastName: 'Mobile',
+              firstName: 'Dev s',
+              middleName: '',
+              mobileNumber: '+9779860484213',
+            },
+          ];
           return exist;
         }
         return false;
@@ -255,11 +272,18 @@ export const useAddWinnerMutation = () => {
         //   }),
         // };
       });
+      const newPagesArray = [...queryData.pages];
+
+      // // add the newly created user to the list
+      // // const newPagesArray = [
+      // //   [res.data, ...queryData.pages[0].rows],
+      // //   ...queryData.pages.slice(1),
+      // // ];
 
       queryClient.setQueryData<InfiniteData<IListResponse<IQuiz>>>(
         queryKey,
         (data) => ({
-          pages: queryData.pages,
+          pages: newPagesArray,
           pageParams: data?.pageParams || [],
         })
       );

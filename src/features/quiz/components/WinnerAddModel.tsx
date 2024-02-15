@@ -12,13 +12,19 @@ import { IError } from 'shared/interfaces/http';
 import { useEffect } from 'react';
 import { DialogLoader } from 'shared/components/display/DialogLoader';
 import { WinnerAddFormSchemaType, addWinnerFormSchema } from '../schemas';
-import { useAddWinnerMutation, useWinnerDetailQuery } from '../mutations';
+import {
+  useAddWinnerMutation,
+  useQuizDetailQuery,
+  useWinnerDetailQuery,
+} from '../mutations';
 import { WinnerAddEditForm } from './WinnerAddForm';
 
 import { formatAddWinner } from '../utils';
+import { Winner } from '../interfaces';
 
 interface IProps {
   quizId: string;
+  isEditMode: boolean;
   onClose: VoidFunction;
 }
 
@@ -27,40 +33,27 @@ const defaultValues = {
   winners: [{ id: '', rank: 1, rankLabel: '', name: '' }],
 };
 
-export function WinnerAddModal({ quizId, onClose }: IProps) {
+export function WinnerAddModal({ quizId, isEditMode, onClose }: IProps) {
   const methods = useForm({
     // resolver: zodResolver(addWinnerFormSchema),
     defaultValues,
   });
   const { handleSubmit, reset } = methods;
-  //   const { fields, append, remove } = useFieldArray({
-  //     control,
-  //     name: 'winners',
-  //   });
-  //   useEffect(() => {
-  //     // Manually set default values when the component mounts
-  //     if (defaultValues.length > 0) {
-  //       defaultValues.forEach((value) => append(value));
-  //     }
-  //   }, [append]);
 
-  const isEditMode = !!quizId;
+  const quizDetailQuery = useWinnerDetailQuery(quizId ?? '', {
+    enabled: !!quizId,
+  });
+  const data: Winner[] = quizDetailQuery.data;
 
-  //   const winnerDetailQuery = useWinnerDetailQuery(quizId, {
-  //     enabled: !!quizId,
-  //   });
+  useEffect(() => {
+    if (data && isEditMode) {
+      reset({
+        applyToAllQuizInCampaign: false,
+        winners: data,
+      });
+    }
+  }, [data, reset]);
 
-  // useEffect(() => {
-  //   // if (winnerDetailQuery?.data) {
-  //   //   const { demographic } = winnerDetailQuery.data;
-
-  //   reset({
-  //     rank: 0,
-  //     position: '',
-  //     name: '',
-  //   });
-  //   // }
-  // }, [reset]);
   const addWinnerMutation = useAddWinnerMutation();
 
   const onCloseModal = () => {
@@ -86,7 +79,7 @@ export function WinnerAddModal({ quizId, onClose }: IProps) {
   };
 
   const TEXT = {
-    title: 'Add Winner',
+    title: isEditMode ? 'Update Winner' : 'Add Winner',
     footerActionButtonText: 'Save',
     errorTitle: isEditMode ? 'Error updating winner' : 'Error adding winner',
   };

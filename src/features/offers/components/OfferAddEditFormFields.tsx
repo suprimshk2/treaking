@@ -7,12 +7,21 @@ import TextEditor from 'shared/components/text-editor';
 import { LookUpCode } from 'shared/enums';
 import { OfferFormAdTemplates } from './offer-templates/OfferFormAdTemplates';
 import { OfferTypeFormSelect } from './OfferTypeFormSelect';
+import { useFormContext } from 'react-hook-form';
+import { useEffect } from 'react';
 
 export function OfferAddEditFormFields({
   isEditMode = false,
 }: {
   isEditMode?: boolean;
 }) {
+  const { watch, setValue } = useFormContext();
+  const accountManager = watch('vendor');
+
+  useEffect(() => {
+    setValue('accountManager', accountManager?.accountManager);
+  }, [accountManager]);
+
   return (
     <Box>
       <Grid container spacing={4} mb={4}>
@@ -26,7 +35,12 @@ export function OfferAddEditFormFields({
           />
         </Grid>
         <Grid item xs={6}>
-          <FormInput name="manager" id="manager" label="Account Manager" />
+          <FormInput
+            name="accountManager"
+            id="accountManager"
+            label="Account Manager"
+            disabled
+          />
         </Grid>
       </Grid>
       <Grid container spacing={4} mb={4}>
