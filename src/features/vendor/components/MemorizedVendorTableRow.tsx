@@ -25,7 +25,7 @@ function VendorTableRow({ data, onEditClick }: IProps) {
     ResourceCode.VENDORS_MANAGEMENT,
     vendorManagementPermissions.UPDATE
   );
-  console.log(data?.phone);
+
   const isVendorDeleteEnabled = checkAuthForPermissions(
     ResourceCode.VENDORS_MANAGEMENT,
     vendorManagementPermissions.DELETE
