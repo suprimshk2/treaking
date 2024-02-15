@@ -76,9 +76,9 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
+
       reset({
         ...quizData,
-        termsAndConditions: 'quizData?',
         subTitle: quizData?.title || '',
         titleOne: quizData?.content?.title || '',
         titleTwo: quizData?.content?.subTitle || '',
