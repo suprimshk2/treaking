@@ -190,7 +190,6 @@ export const useQuizDetailQuery = (
     queryFn: () => quizAPI.getQuizById(id),
     enabled,
   });
-  console.log(queryInfo.data, 'query data');
 
   return {
     ...queryInfo,
@@ -206,11 +205,6 @@ export const useWinnerDetailQuery = (
     queryFn: () => quizAPI.getQuizWinnerById(id),
     enabled,
   });
-
-  console.log(
-    queryInfo?.data?.data?.[0]?.rows,
-    'queryInfo?.data?.data?.rowsqueryInfo?.data?.data?.rows'
-  );
 
   return {
     ...queryInfo,
@@ -236,10 +230,9 @@ export const useAddWinnerMutation = () => {
         //   sortOrder,
         // }),
       });
-      console.log({ queryKey });
+
       const queryData: InfiniteData<IListResponse<IQuiz>> | undefined =
         queryClient.getQueryData(queryKey);
-      console.log(queryData, 'queryData', res);
 
       if (!queryData) {
         return;
