@@ -31,13 +31,16 @@ function TextEditor({
 }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const turndownService = new TurndownService();
-  const [text, setText] = useState('');
   const {
+    watch,
     setValue,
     getValues,
     formState: { errors },
     clearErrors,
   } = useFormContext();
+  const [text, setText] = useState('');
+  const value = watch(name);
+
   const description = getValues(name);
   const [checkBox, setCheckBox] = useState(true);
   const theme = useTheme();
@@ -73,6 +76,11 @@ function TextEditor({
       setText(markdownString);
     }
   }, [description, text, turndownService]);
+
+  useEffect(() => {
+    const markdownString = turndownService.turndown(value);
+    setText(markdownString);
+  }, [value]);
 
   const onChange = (data: any) => {
     setText(data);
