@@ -21,6 +21,8 @@ export function FormGameParticipantsSelect({
   } = useFormContext();
 
   const participant = watch(participantsId) || '';
+  console.log(participant, 'pp');
+
   const filters = useBoundStore.use.quizTableFilters();
   const { data } = useGameParticipantsQuery(gameId, filters, {
     enabled: true,
@@ -53,7 +55,8 @@ export function FormGameParticipantsSelect({
               name,
               formatFullName(
                 participants?.demographic?.firstName ?? '',
-                participants?.demographic?.lastName ?? ''
+                participants?.demographic?.lastName ?? '',
+                participants?.demographic?.middleName ?? ''
               )
             );
             setValue(participantsId, participants?.userId);

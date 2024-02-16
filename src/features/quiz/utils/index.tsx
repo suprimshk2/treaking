@@ -6,6 +6,7 @@ import { formatDateTimeToView, formatDateToView } from 'shared/utils/date';
 import { InfiniteData } from '@tanstack/react-query';
 import {
   IAdoptQuiz,
+  IAdoptWinnerResponse,
   IFormattedQuizFormSchema,
   IQuiz,
   IQuizTableFilter,
@@ -158,6 +159,23 @@ export const formatAddWinner = (
     }),
   };
 };
+export const formatWinnerData = (data): IListResponse<IAdoptWinnerResponse> => {
+  console.log({ data });
+
+  return {
+    ...data[0],
+    rows: data?.[0]?.rows?.map((winner) => {
+      console.log({ winner });
+      console.log('winner');
+
+      return {
+        ...winner,
+        id: winner?.userId,
+      };
+    }),
+  };
+};
+
 export const formatQuizAddPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {

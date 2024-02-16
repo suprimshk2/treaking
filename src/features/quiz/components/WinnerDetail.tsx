@@ -12,6 +12,7 @@ import { formatFullName } from 'shared/utils/common';
 
 function WinnerDetail({ profile }: { profile: IWinnerResponse }) {
   const theme = useTheme();
+
   return (
     <Grid
       container
@@ -82,7 +83,7 @@ function WinnerDetail({ profile }: { profile: IWinnerResponse }) {
           justifyContent="flex-end"
           color="red"
         >
-          <Chip label={'First RunnerUp'} color={'success'} size="medium" />
+          <Chip label={profile?.rankLabel} color={'success'} size="medium" />
         </Box>
       </Grid>
     </Grid>

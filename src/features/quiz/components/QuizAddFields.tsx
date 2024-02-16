@@ -116,7 +116,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
         <Stack
           p={4}
           spacing={4}
-          maxWidth={518}
+          maxWidth={600}
           mx="auto"
           sx={{
             borderRadius: 2,
@@ -168,7 +168,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
           mt={4}
           p={4}
           spacing={4}
-          maxWidth={518}
+          maxWidth={600}
           mx="auto"
           sx={{
             borderRadius: 2,
@@ -215,7 +215,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
           mt={4}
           // p={4}
           spacing={4}
-          maxWidth={518}
+          maxWidth={600}
           mx="auto"
           sx={{
             borderRadius: 2,
@@ -238,7 +238,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                     onDelete={() => remove(index)}
                   />
                 </Box>
-                {isEditMode ? null : (
+                {index !== fields.length - 1 || isEditMode ? null : (
                   <Box
                     display="flex"
                     flexDirection="row"

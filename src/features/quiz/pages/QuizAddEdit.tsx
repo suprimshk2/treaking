@@ -153,7 +153,7 @@ export function QuizAddEdit() {
         >
           <QuizAddFields control={control} isEditMode={isEditMode} />
           <Box
-            maxWidth={518}
+            maxWidth={600}
             display="flex"
             mx="auto"
             flexDirection="row"

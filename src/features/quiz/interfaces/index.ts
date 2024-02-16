@@ -197,5 +197,17 @@ export interface IWinnerResponse {
   userId: string;
   status: string;
   imageUrl: string;
+  rankLabel: string;
+  rank: number;
+  demographic: IDemographic;
+}
+export interface IAdoptWinnerResponse {
+  _id: string;
+  userId: string;
+  id: string;
+  status: string;
+  imageUrl: string;
+  rankLabel: string;
+  rank: number;
   demographic: IDemographic;
 }
