@@ -137,21 +137,25 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                 <FormInput name="titleOne" id="titleOne" label="Title One *" />
               </Grid>
               <Grid item xs={4}>
-                <FormInput name="titleTwo" id="titleTwo" label="Title Two" />
+                <FormInput name="titleTwo" id="titleTwo" label="Title Two *" />
               </Grid>
               <Grid item xs={4}>
-                <FormInput name="subTitle" id="subTitle" label="Sub Title *" />
+                <FormInput name="subTitle" id="subTitle" label="Sub Title" />
               </Grid>
             </Grid>
             <Grid item mb={2}>
-              <TextEditor name="description" height={100} />
+              <TextEditor
+                name="description"
+                height={100}
+                label="Description *"
+              />
             </Grid>
 
             <Grid item xs={6} mb={2}>
               <FormCampaignSelect
                 name="campaign"
                 id="campaign"
-                label="Campaign"
+                label="Campaign *"
                 clearable
               />
             </Grid>
@@ -195,7 +199,7 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
               <FormInput
                 name="prizeDescription"
                 id="prizeDescription"
-                label="Winning Prize Description"
+                label="Winning Prize Description *"
                 multiline
               />
             </Grid>

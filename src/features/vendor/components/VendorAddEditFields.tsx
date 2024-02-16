@@ -72,7 +72,7 @@ export function VendorAddEditFields() {
               <FormInput
                 name="businessName"
                 id="businessName"
-                label="Business Name"
+                label="Business Name*"
               />
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
@@ -80,20 +80,20 @@ export function VendorAddEditFields() {
                 <FormMaskedPhoneInput
                   name="contactsOne"
                   id="contactsOne"
-                  label="Primary Contact  "
+                  label="Primary Number* "
                 />
               </Grid>
               <Grid item xs={6}>
                 <FormMaskedPhoneInput
                   name="contactsTwo"
                   id="contactsTwo"
-                  label="Secondary Contact  "
+                  label="Secondary Number* "
                 />
               </Grid>
             </Grid>
 
             <Grid item spacing={4} mb={theme.spacing(3)}>
-              <FormInput name="email" id="email" label="Email" />
+              <FormInput name="email" id="email" label="Email*" />
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
               <FormInput name="address" id="address" label="Address" />
@@ -118,32 +118,36 @@ export function VendorAddEditFields() {
               <FormInput
                 name="description"
                 id="description"
-                label="Description"
+                label="Description*"
                 multiline
               />
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>
-              <FormInput
+              {/* <FormInput
                 name="accountOwner"
                 id="accountOwner"
-                label="Account Owner"
-              />
+                label="Account Owner*"
+              /> */}
 
-              {/* <FormUserSelect name="accountOwner" id="accountOwner" /> */}
+              <FormUserSelect
+                name="accountOwner"
+                id="accountOwner"
+                label="Account Owner*"
+              />
             </Grid>
             <Grid container xs={6} mb={theme.spacing(3)}>
               <Typography variant="bodyTextMedium">Contact Person</Typography>
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
-                <FormInput name="fullName" id="fullName" label="Full Name" />
+                <FormInput name="fullName" id="fullName" label="Full Name*" />
               </Grid>
               <Grid item xs={6}>
-                <FormMaskedPhoneInput name="phone" id="phone" label="Phone" />
+                <FormMaskedPhoneInput name="phone" id="phone" label="Phone*" />
               </Grid>
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>
-              <FormInput name="vendorEmail" id="vendorEmail" label="Email" />
+              <FormInput name="vendorEmail" id="vendorEmail" label="Email*" />
             </Grid>
           </Box>
         </Stack>

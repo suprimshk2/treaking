@@ -248,23 +248,14 @@ export const useAddWinnerMutation = () => {
       if (!queryData) {
         return;
       }
+
       queryData.pages.find((page) => {
         const exist = page.rows.findIndex(
           (item: IQuiz) => item.gameId === gameId
         );
         if (exist >= 0) {
-          page.rows[exist].winners = [
-            {
-              imageUrl:
-                'https://dev-makaii.s3.amazonaws.com/user-content/5d207e00-84c6-4d00-a2a5-713205affea0/1702029763870_avatar.jpg',
-              id: '5d207e00-84c6-4d00-a2a5-713205affea0',
-              email: 'ssss@gmail.com',
-              lastName: 'Mobile',
-              firstName: 'Dev s',
-              middleName: '',
-              mobileNumber: '+9779860484213',
-            },
-          ];
+          // eslint-disable-next-line no-param-reassign
+          page.rows[exist] = res.data;
           return exist;
         }
         return false;

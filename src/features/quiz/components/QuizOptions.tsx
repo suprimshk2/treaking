@@ -33,7 +33,7 @@ function QuizOptions({ index }: { index: number }) {
             : theme.palette.gray.dark
         }
       >
-        Options
+        Options *
       </Typography>
       {options?.map((option: IQuizOptions, optionIndex: number) => {
         const value: string | any = watch(

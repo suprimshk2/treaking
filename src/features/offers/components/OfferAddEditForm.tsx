@@ -181,12 +181,17 @@ export function OfferAddEditForm() {
                   display="flex"
                   item
                   xs={5}
-                  alignItems="center"
+                  alignItems="flex-start"
                   justifyContent="center"
-                  // sx={{
-                  //   height: 'calc(100vh - 188px)',
-                  //   overflow: 'auto',
-                  // }}
+                  sx={{
+                    position: 'fixed',
+                    // top: 50,
+                    right: 50,
+                    // // width: '70%', // You can adjust the width as needed
+                    // backgroundColor: '#ffffff', // Set the background color as needed
+                    // zIndex: 1, // Adjust the z-index if needed
+                    // boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
+                  }}
                 >
                   {/* <Box
                     sx={{

@@ -53,6 +53,7 @@ export const useOfferDetailQuery = (
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
+    // select: adoptOfferResponse,
     queryKey: infiniteOfferKeys.detail(id),
     queryFn: () => offerAPI.getOfferById(id),
     enabled,

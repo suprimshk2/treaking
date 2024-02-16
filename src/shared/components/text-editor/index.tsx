@@ -5,7 +5,12 @@ import { useFormContext, FieldError } from 'react-hook-form';
 import ReactDOMServer from 'react-dom/server';
 import { compiler } from 'markdown-to-jsx';
 import TurndownService from 'turndown';
-import { Checkbox, FormControlLabel, Typography } from '@mui/material';
+import {
+  Checkbox,
+  FormControlLabel,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { useLookUpQuery } from 'shared/queries';
 import { CenterRowSpaceBetween } from '../layouts/CenterRowSpaceBetween';
 
@@ -35,7 +40,7 @@ function TextEditor({
   } = useFormContext();
   const description = getValues(name);
   const [checkBox, setCheckBox] = useState(true);
-
+  const theme = useTheme();
   const lookUpQuery = useLookUpQuery(
     {
       key: 'code',
@@ -87,7 +92,14 @@ function TextEditor({
   return (
     <div data-color-mode="light">
       <CenterRowSpaceBetween>
-        <Typography variant="bodyTextMedium" color="rgb(102, 102, 102)">
+        <Typography
+          variant="bodyTextMedium"
+          color={
+            fieldError || errors[name]
+              ? theme.palette.error.main
+              : 'rgb(102, 102, 102)'
+          }
+        >
           {label}
         </Typography>
         {checkBoxEnabled && (
