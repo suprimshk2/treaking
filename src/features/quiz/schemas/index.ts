@@ -31,7 +31,7 @@ const winnersSchema = z.object({
   id: optionalStringSchema,
   rank: requiredNumberSchema,
   rankLabel: requiredStringSchema,
-  name: requiredStringSchema,
+  name: optionalStringSchema,
 });
 
 export const addQuizFormSchema = z.object({

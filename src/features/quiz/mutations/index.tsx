@@ -5,9 +5,9 @@ import { queryClient } from 'App';
 import { IError, IListResponse } from 'shared/interfaces/http';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import { enqueueSnackbar } from 'notistack';
-import { infiniteQuizKeys } from '../queries';
+import { infiniteQuizKeys, infiniteWinnerKeys } from '../queries';
 import * as quizAPI from '../api';
-import { formatQuizDetail } from '../utils';
+import { formatQuizDetail, formatWinnerData } from '../utils';
 
 import { IAddQuizSchema, IFormattedQuizFormSchema, IQuiz } from '../interfaces';
 import { WinnerAddFormSchemaType } from '../schemas';
@@ -201,14 +201,15 @@ export const useWinnerDetailQuery = (
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
-    queryKey: infiniteQuizKeys.detail(id),
+    select: formatWinnerData,
+    queryKey: infiniteWinnerKeys.detail(id),
     queryFn: () => quizAPI.getQuizWinnerById(id),
     enabled,
   });
 
   return {
     ...queryInfo,
-    data: queryInfo?.data?.[0]?.rows,
+    data: queryInfo?.data?.rows,
   };
 };
 export const useAddWinnerMutation = () => {

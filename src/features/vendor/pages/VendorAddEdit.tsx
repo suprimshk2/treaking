@@ -8,8 +8,11 @@ import {
   ButtonVariant,
 } from 'shared/theme/components/Button';
 import { zodResolver } from '@hookform/resolvers/zod';
-
-import { Dialog, DialogSize } from 'shared/theme/components/dialog/Dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+} from 'shared/theme/components/dialog';
 import { DialogLoader } from 'shared/components/display/DialogLoader';
 
 import {
@@ -20,6 +23,7 @@ import {
 import { VendorAddEditFields } from '../components/VendorAddEditFields';
 import { formatVendorAddPayload } from '../utils';
 import { AddVendorFormSchemaType, addVendorFormSchema } from '../schemas';
+import { DialogSize } from 'shared/theme/components/dialog/Dialog';
 
 interface IProps {
   editVendorId: string; // id of user which is to be edited
@@ -145,44 +149,29 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
       ) : (
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Box
-              display="flex"
-              alignContent="center"
-              flexDirection="column"
-              justifyContent="center"
-              sx={{
-                backgroundColor: theme.palette.gray.lighter,
-                paddingBottom: theme.spacing(10),
-              }}
-            >
-              <VendorAddEditFields />
+            <DialogContent sx={{ backgroundColor: theme.palette.common.white }}>
               <Box
-                maxWidth={518}
                 display="flex"
-                mx="auto"
-                flexDirection="row"
-                justifyContent="space-between"
                 alignContent="center"
-                sx={childrenContainerStyle}
+                flexDirection="column"
+                justifyContent="center"
+                sx={{
+                  backgroundColor: theme.palette.common.white,
+                  paddingBottom: theme.spacing(10),
+                }}
               >
-                <Button
-                  onClick={() => onClose()}
-                  size={ButtonSize.MEDIUM}
-                  variant={ButtonVariant.OUTLINED}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  loading={
-                    editVendorMutation.isPending || addVendorMutation.isPending
-                  }
-                  type="submit"
-                  buttonType={ButtonType.LOADING}
-                  children="Save"
-                  size={ButtonSize.MEDIUM}
-                />
+                <VendorAddEditFields />
               </Box>
-            </Box>
+            </DialogContent>
+            <DialogFooter
+              primaryButtonText={TEXT.footerActionButtonText}
+              primaryButtonType="submit"
+              secondaryButtonText="Cancel"
+              isSubmitting={
+                editVendorMutation.isPending || addVendorMutation.isPending
+              }
+              onSecondaryButtonClick={onCloseModal}
+            />
           </form>
         </FormProvider>
       )}

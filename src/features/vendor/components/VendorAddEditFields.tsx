@@ -20,7 +20,7 @@ export function VendorAddEditFields() {
   const { HEADER_HEIGHT } = SETTINGS_BAR_PROPERTY;
   const childrenContainerStyle = {
     width: '100%',
-    backgroundColor: theme.palette.gray.lighter,
+    backgroundColor: theme.palette.common.white,
     p: 4,
     borderRadius: 1,
     height: '100%',
@@ -53,7 +53,7 @@ export function VendorAddEditFields() {
         <Stack
           p={4}
           spacing={4}
-          maxWidth={518}
+          maxWidth={600}
           mx="auto"
           sx={{
             borderRadius: 2,

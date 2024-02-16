@@ -20,7 +20,7 @@ import {
 import { WinnerAddEditForm } from './WinnerAddForm';
 
 import { formatAddWinner } from '../utils';
-import { Winner } from '../interfaces';
+import { IAdoptWinnerResponse } from '../interfaces';
 
 interface IProps {
   quizId: string;
@@ -38,12 +38,17 @@ export function WinnerAddModal({ quizId, isEditMode, onClose }: IProps) {
     // resolver: zodResolver(addWinnerFormSchema),
     defaultValues,
   });
-  const { handleSubmit, reset } = methods;
+  const {
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = methods;
+  console.log({ errors });
 
   const quizDetailQuery = useWinnerDetailQuery(quizId ?? '', {
     enabled: !!quizId,
   });
-  const data: Winner[] = quizDetailQuery.data;
+  const data: IAdoptWinnerResponse[] = quizDetailQuery.data;
 
   useEffect(() => {
     if (data && isEditMode) {

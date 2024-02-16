@@ -49,7 +49,7 @@ export function OfferTableBanner({ onAddClick, children }: IProps) {
               prefix={<BsPlusLg />}
               buttonType={ButtonType.NORMAL}
               onClick={onAddClick}
-              sx={{ flexShrink: 0 }}
+              sx={{ flexShrink: 0, color: 'common.black' }}
             >
               Create Offer
             </Button>

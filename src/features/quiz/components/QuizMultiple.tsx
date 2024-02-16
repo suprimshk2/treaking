@@ -50,7 +50,7 @@ export function QuizMultiple({
       flexDirection="column"
       justifyContent="center"
       alignContent="center"
-      maxWidth={518}
+      maxWidth={600}
       mx="auto"
       p={5}
       sx={{

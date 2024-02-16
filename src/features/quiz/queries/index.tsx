@@ -35,6 +35,17 @@ export const infiniteParticipantsKeys = {
   autocomplete: (filters: IQuizTableFilter) =>
     [...infiniteParticipantsKeys.lists(), 'autocomplete', { filters }] as const,
 };
+export const infiniteWinnerKeys = {
+  all: ['infinite-Winner'] as const,
+  lists: () => [...infiniteWinnerKeys.all, 'list'] as const,
+  list: (filters: IQuizTableFilter) =>
+    [...infiniteWinnerKeys.lists(), { filters }] as const,
+  details: () => [...infiniteWinnerKeys.all, 'detail'] as const,
+  detail: (id: number | string) =>
+    [...infiniteWinnerKeys.details(), id] as const,
+  autocomplete: (filters: IQuizTableFilter) =>
+    [...infiniteWinnerKeys.lists(), 'autocomplete', { filters }] as const,
+};
 export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
   return useInfiniteQuery({
     select: formatQuizList,
