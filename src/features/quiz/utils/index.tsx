@@ -53,7 +53,10 @@ export const formatQuizList = (
               return {
                 ...winner,
                 fullName:
-                  formatFullName(winner?.firstName, winner?.lastName) || 'N/A',
+                  formatFullName(
+                    winner?.firstName || winner?.demographic?.firstName,
+                    winner?.lastName || winner?.demographic?.lastName
+                  ) || 'N/A',
               };
             }),
           };
@@ -152,6 +155,8 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
 export const formatAddWinner = (
   data: IWinnerDefaultValue
 ): WinnerAddFormSchemaType => {
+  console.log('winneradd', data);
+
   return {
     ...data,
     winners: data?.winners?.map((item: IWinnerAdd) => {

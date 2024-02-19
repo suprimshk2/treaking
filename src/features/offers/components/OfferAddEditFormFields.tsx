@@ -15,15 +15,8 @@ export function OfferAddEditFormFields({
 }: {
   isEditMode?: boolean;
 }) {
-  const { watch, setValue } = useFormContext();
+  const { watch } = useFormContext();
   const accountManagers = watch('vendor');
-  // setValue('accountManager', accountManagers?.accountManager);
-
-  useEffect(() => {
-    if (!isEditMode) {
-      setValue('accountManager', accountManagers?.accountManager);
-    }
-  }, [accountManagers]);
 
   return (
     <Box>

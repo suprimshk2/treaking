@@ -78,8 +78,10 @@ function TextEditor({
   }, [description, text, turndownService]);
 
   useEffect(() => {
-    const markdownString = turndownService.turndown(value);
-    setText(markdownString);
+    if (value && !text) {
+      const markdownString = turndownService.turndown(value);
+      setText(markdownString);
+    }
   }, [value]);
 
   const onChange = (data: any) => {

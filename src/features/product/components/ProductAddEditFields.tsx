@@ -44,7 +44,7 @@ export function ProductAddEditFields({
               <FormVendorSelect
                 name="vendor"
                 id="vendor"
-                label="Vendor"
+                label="Vendor *"
                 clearable
               />
             </Grid>
@@ -52,14 +52,14 @@ export function ProductAddEditFields({
               <FormInput name="title" id="title" label="Product Title" />
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
-              <TextEditor name="description" />
+              <TextEditor name="description" label="Description *" />
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
                 <FormInput
                   name="quantityInStock"
                   id="quantity"
-                  label="Quantity"
+                  label="Quantity *"
                   type="number"
                 />
               </Grid>
@@ -67,7 +67,7 @@ export function ProductAddEditFields({
                 <FormInput
                   name="point"
                   id="point"
-                  label="Product Points"
+                  label="Product Points *"
                   type="number"
                 />
               </Grid>
@@ -77,7 +77,7 @@ export function ProductAddEditFields({
                 <FormInput
                   name="price"
                   id="price"
-                  label="Selling Price"
+                  label="Selling Price *"
                   type="number"
                 />
               </Grid>
@@ -95,12 +95,17 @@ export function ProductAddEditFields({
                 <FormInput
                   name="retailPrice"
                   id="retailPrice"
-                  label="Retail Price"
+                  label="Retail Price *"
                   type="number"
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormInput name="costPrice" id="costPrice" label="Cost Price" />
+                <FormInput
+                  name="costPrice"
+                  id="costPrice"
+                  label="Cost Price *"
+                  type="number"
+                />
               </Grid>
             </Grid>
           </Box>

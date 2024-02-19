@@ -249,36 +249,21 @@ export const useAddWinnerMutation = () => {
         return;
       }
 
-      queryData.pages.find((page) => {
-        const exist = page.rows.findIndex(
-          (item: IQuiz) => item.gameId === gameId
-        );
-        if (exist >= 0) {
-          // eslint-disable-next-line no-param-reassign
-          page.rows[exist] = res.data;
-          return exist;
-        }
-        return false;
-        // return {
-        //   ...page,
-        //   rows: page.rows.map((item: IQuiz) => {
-        //     if (item._id !== res.data._id) return item;
-        //     return res.data;
-        //   }),
-        // };
-      });
-      const newPagesArray = [...queryData.pages];
+      const newPages = queryData.pages.map((page) => {
+        const newRows = page.rows.map((row) => {
+          if (row.gameId === gameId) {
+            return { ...row, winners: res.data?.[0]?.rows };
+          }
+          return { ...row };
+        });
 
-      // // add the newly created user to the list
-      // // const newPagesArray = [
-      // //   [res.data, ...queryData.pages[0].rows],
-      // //   ...queryData.pages.slice(1),
-      // // ];
+        return { ...page, rows: newRows };
+      });
 
       queryClient.setQueryData<InfiniteData<IListResponse<IQuiz>>>(
         queryKey,
         (data) => ({
-          pages: newPagesArray,
+          pages: newPages,
           pageParams: data?.pageParams || [],
         })
       );
