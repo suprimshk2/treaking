@@ -31,7 +31,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
     name: 'winners',
   });
   const onAddWinner = () => {
-    append([{ id: '', rank: 1, rankLabel: '', name: '' }]);
+    append([{ id: '', rank: fields.length + 1, rankLabel: '', name: '' }]);
   };
   const onChange = () => {
     setCheckBox((prev) => !prev);
@@ -43,12 +43,13 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
       {fields.map((item, index) => {
         return (
           <Grid container spacing={4} key={item.id} mb={2}>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <FormInput
                 name={`winners.${index}.rank`}
                 id="rank"
                 label="Rank"
                 type="number"
+                inputProps={{ min: 1 }}
               />
             </Grid>
 
@@ -59,7 +60,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
                 label="Position"
               />
             </Grid>
-            <Grid item xs={index === 0 ? 5 : 4}>
+            <Grid item xs={index === 0 ? 6 : 5}>
               <FormGameParticipantsSelect
                 gameId={gameId}
                 name={`winners.${index}.name`}

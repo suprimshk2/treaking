@@ -154,7 +154,18 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
             maxWidth: 200,
           }}
         >
-          <Typography variant="bodyTextMedium">{data?.description}</Typography>
+          <Typography
+            variant="bodyTextMedium"
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              display: '-webkit-box',
+              WebkitLineClamp: '1',
+              WebkitBoxOrient: 'vertical',
+            }}
+          >
+            {data?.description}
+          </Typography>
         </TableCell>
         <TableCell
           sx={{
@@ -187,6 +198,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
           </Box>
         </TableCell>
         <TableCell>
+          <Typography>{data?.campaignCode}</Typography>
           <Typography>{data?.campaign}</Typography>
         </TableCell>
 

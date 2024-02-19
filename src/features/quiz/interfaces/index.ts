@@ -123,6 +123,7 @@ export interface IAdoptQuiz
   images: IFileSchema[];
   prizeImage: IFileSchema[];
   campaign: string;
+  campaignCode: string;
 }
 export interface Content {
   logoUrl: string;
