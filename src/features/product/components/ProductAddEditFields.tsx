@@ -61,6 +61,7 @@ export function ProductAddEditFields({
                   id="quantity"
                   label="Quantity *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -69,6 +70,7 @@ export function ProductAddEditFields({
                   id="point"
                   label="Product Points *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
             </Grid>
@@ -79,6 +81,7 @@ export function ProductAddEditFields({
                   id="price"
                   label="Selling Price *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -87,6 +90,7 @@ export function ProductAddEditFields({
                   id="discountPrice"
                   label="Discounted Price"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
             </Grid>
@@ -97,6 +101,7 @@ export function ProductAddEditFields({
                   id="retailPrice"
                   label="Retail Price *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -105,6 +110,7 @@ export function ProductAddEditFields({
                   id="costPrice"
                   label="Cost Price *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
             </Grid>

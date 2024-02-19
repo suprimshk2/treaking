@@ -212,16 +212,12 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
               <Grid item xs={4} mb={2}>
                 <FormTimePicker name="winnerDate" label="Start Time" />
               </Grid>
-              {/* <Grid item xs={3.5} mb={2}>
-                <FormTimePicker name="winnerEndTime" label="End Time" />
-              </Grid> */}
             </Grid>
             <Grid item mb={2}>
-              <FormInput
+              <TextEditor
                 name="prizeDescription"
-                id="prizeDescription"
+                height={100}
                 label="Winning Prize Description *"
-                multiline
               />
             </Grid>
             <Box paddingY={theme.spacing(3)}>
