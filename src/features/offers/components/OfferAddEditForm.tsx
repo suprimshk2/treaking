@@ -189,23 +189,11 @@ export function OfferAddEditForm() {
                   justifyContent="center"
                   sx={{
                     position: 'fixed',
-                    // top: 50,
+
                     right: 50,
-                    // // width: '70%', // You can adjust the width as needed
-                    // backgroundColor: '#ffffff', // Set the background color as needed
-                    // zIndex: 1, // Adjust the z-index if needed
-                    // boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
                   }}
                 >
-                  {/* <Box
-                    sx={{
-                      position: 'fixed',
-                      top: '14%',
-                      right: '10%',
-                    }}
-                  > */}
                   <MobileContentView />
-                  {/* </Box> */}
                 </Grid>
                 <Grid item xs={7}>
                   <Stack direction="row" justifyContent="space-between">

@@ -155,8 +155,6 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
 export const formatAddWinner = (
   data: IWinnerDefaultValue
 ): WinnerAddFormSchemaType => {
-  console.log('winneradd', data);
-
   return {
     ...data,
     winners: data?.winners?.map((item: IWinnerAdd) => {
@@ -165,14 +163,9 @@ export const formatAddWinner = (
   };
 };
 export const formatWinnerData = (data): IListResponse<IAdoptWinnerResponse> => {
-  console.log({ data });
-
   return {
     ...data[0],
     rows: data?.[0]?.rows?.map((winner) => {
-      console.log({ winner });
-      console.log('winner');
-
       return {
         ...winner,
         id: winner?.userId,
