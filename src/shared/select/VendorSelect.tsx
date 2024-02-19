@@ -21,7 +21,6 @@ export function FormVendorSelect({
   const filters = useBoundStore.use.roleTableFilters();
   const { data } = useVendorQuery(filters);
   const vendorList = data?.data?.rows ?? [];
-  console.log(data?.data?.rows, 'data?.data?.rows');
 
   const vendorId = watch('vendor')?.id || '';
 
@@ -47,8 +46,6 @@ export function FormVendorSelect({
             const vendor = vendorList?.find(
               (el) => el.vendorId === item.target.value
             );
-            console.log({ vendor });
-            console.log('vvv', vendor);
 
             setValue('vendor', {
               name: vendor?.businessName,
