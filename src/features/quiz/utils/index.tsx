@@ -16,7 +16,6 @@ import {
 import { AddQuizFormSchemaType, WinnerAddFormSchemaType } from '../schemas';
 import { quizConfig } from '../constant/config';
 import { QuizStatus } from '../enums';
-import { a1 } from 'vitest/dist/reporters-qc5Smpt5';
 
 const { QUIZ_TABLE_FILTER_MAP } = quizConfig;
 export const formatQuizStatus = (startDate: Date, endDate: Date) => {
