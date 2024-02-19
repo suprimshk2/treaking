@@ -248,46 +248,22 @@ export const useAddWinnerMutation = () => {
       if (!queryData) {
         return;
       }
-      queryData.pages.find((page) => {
-        const exist = page.rows.findIndex(
-          (item: IQuiz) => item.gameId === gameId
-        );
-        if (exist >= 0) {
-          page.rows[exist].winners = [
-            {
-              imageUrl:
-                'https://dev-makaii.s3.amazonaws.com/user-content/5d207e00-84c6-4d00-a2a5-713205affea0/1702029763870_avatar.jpg',
-              id: '5d207e00-84c6-4d00-a2a5-713205affea0',
-              email: 'ssss@gmail.com',
-              lastName: 'Mobile',
-              firstName: 'Dev s',
-              middleName: '',
-              mobileNumber: '+9779860484213',
-            },
-          ];
-          return exist;
-        }
-        return false;
-        // return {
-        //   ...page,
-        //   rows: page.rows.map((item: IQuiz) => {
-        //     if (item._id !== res.data._id) return item;
-        //     return res.data;
-        //   }),
-        // };
-      });
-      const newPagesArray = [...queryData.pages];
 
-      // // add the newly created user to the list
-      // // const newPagesArray = [
-      // //   [res.data, ...queryData.pages[0].rows],
-      // //   ...queryData.pages.slice(1),
-      // // ];
+      const newPages = queryData.pages.map((page) => {
+        const newRows = page.rows.map((row) => {
+          if (row.gameId === gameId) {
+            return { ...row, winners: res.data?.[0]?.rows };
+          }
+          return { ...row };
+        });
+
+        return { ...page, rows: newRows };
+      });
 
       queryClient.setQueryData<InfiniteData<IListResponse<IQuiz>>>(
         queryKey,
         (data) => ({
-          pages: newPagesArray,
+          pages: newPages,
           pageParams: data?.pageParams || [],
         })
       );

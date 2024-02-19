@@ -96,7 +96,11 @@ export function OfferAddEditForm() {
         title,
         shortDescription,
         description,
-        vendor: { name: vendor.businessName, id: vendor.vendorId },
+        vendor: {
+          name: vendor.businessName,
+          id: vendor.vendorId,
+          // accountManager: vendor?.accountOwner?.name,
+        },
         startDate: new Date(startDate),
         endDate: new Date(endDate),
         layoutType: template.layout.type ?? '',
@@ -181,22 +185,15 @@ export function OfferAddEditForm() {
                   display="flex"
                   item
                   xs={5}
-                  alignItems="center"
+                  alignItems="flex-start"
                   justifyContent="center"
-                  // sx={{
-                  //   height: 'calc(100vh - 188px)',
-                  //   overflow: 'auto',
-                  // }}
+                  sx={{
+                    position: 'fixed',
+
+                    right: 50,
+                  }}
                 >
-                  {/* <Box
-                    sx={{
-                      position: 'fixed',
-                      top: '14%',
-                      right: '10%',
-                    }}
-                  > */}
                   <MobileContentView />
-                  {/* </Box> */}
                 </Grid>
                 <Grid item xs={7}>
                   <Stack direction="row" justifyContent="space-between">

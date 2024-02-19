@@ -53,7 +53,10 @@ export const formatQuizList = (
               return {
                 ...winner,
                 fullName:
-                  formatFullName(winner?.firstName, winner?.lastName) || 'N/A',
+                  formatFullName(
+                    winner?.firstName || winner?.demographic?.firstName,
+                    winner?.lastName || winner?.demographic?.lastName
+                  ) || 'N/A',
               };
             }),
           };
@@ -160,14 +163,9 @@ export const formatAddWinner = (
   };
 };
 export const formatWinnerData = (data): IListResponse<IAdoptWinnerResponse> => {
-  console.log({ data });
-
   return {
     ...data[0],
     rows: data?.[0]?.rows?.map((winner) => {
-      console.log({ winner });
-      console.log('winner');
-
       return {
         ...winner,
         id: winner?.userId,

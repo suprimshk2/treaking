@@ -10,18 +10,35 @@ const productSchema = z.object({
   question: requiredStringSchema,
 });
 
-export const addProductFormSchema = z.object({
-  title: requiredStringSchema,
-  description: requiredStringSchema,
-  images: imageSchema,
-  point: requiredStringSchema,
-  price: requiredStringSchema,
-  quantityInStock: requiredStringSchema,
-  costPrice: requiredStringSchema,
-  retailPrice: requiredStringSchema,
-  vendor: vendorSchema,
-  discount: z.string().optional(),
-});
+export const addProductFormSchema = z
+  .object({
+    title: requiredStringSchema,
+    description: requiredStringSchema,
+    images: imageSchema,
+    point: requiredStringSchema,
+    price: requiredStringSchema,
+    quantityInStock: requiredStringSchema.min(0),
+    costPrice: requiredStringSchema,
+    retailPrice: requiredStringSchema,
+    vendor: vendorSchema,
+    discount: requiredStringSchema.min(0),
+  })
+  .superRefine(({ price, costPrice, discount }, refinementContext) => {
+    if (+price < +costPrice) {
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Selling price must be greater than cost price',
+        path: ['price'],
+      });
+    }
+    if (+discount > +costPrice) {
+      return refinementContext.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Discount price must be less than cost price',
+        path: ['discount'],
+      });
+    }
+  });
 
 export type AddProductFormSchemaType = z.infer<typeof addProductFormSchema>;
 export const productAdvancedFilterFormSchema = z.object({

@@ -181,7 +181,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
               </Stack>
               <Box paddingY={theme.spacing(3)} flex={1}>
                 <Typography mb={3} variant="h5">
-                  Product Image
+                  Product Image *
                 </Typography>
                 <FileDropzone
                   maxSize={config.MAX_FILE_SIZE}

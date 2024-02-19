@@ -51,8 +51,8 @@ export function FormVendorSelect({
               name: vendor?.businessName,
               id: vendor?.vendorId,
               logo_url: vendor?.logoUrl,
-              accountManager: vendor?.accountOwner?.name,
             });
+            setValue('accountManager', vendor?.accountOwner?.name);
             clearErrors('vendor');
           }}
         >

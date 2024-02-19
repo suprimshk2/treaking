@@ -40,7 +40,7 @@ const defaultValues: IAddQuizSchema = {
       startDate: new Date(),
       endDate: new Date(),
       options: [{ name: '', order: 0, id: '' }],
-      correctOptionNumber: 0,
+      correctOptionNumber: -1,
     },
   ],
 };
@@ -72,7 +72,7 @@ export function QuizAddEdit() {
   const quizDetailQuery = useQuizDetailQuery(editQuizId ?? '', {
     enabled: !!editQuizId,
   });
-  // Prepopulate the form in case of edit
+
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
