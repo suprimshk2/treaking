@@ -189,8 +189,9 @@ export function OfferAddEditForm() {
                   justifyContent="center"
                   sx={{
                     position: 'fixed',
-
-                    right: 50,
+                    top: 60,
+                    zIndex: 9999,
+                    right: 20,
                   }}
                 >
                   <MobileContentView />
