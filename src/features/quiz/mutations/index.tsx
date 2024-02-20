@@ -267,6 +267,7 @@ export const useAddWinnerMutation = () => {
           pageParams: data?.pageParams || [],
         })
       );
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 };

@@ -132,7 +132,7 @@ export function VendorAddEditFields() {
               <FormUserSelect
                 name="accountOwner"
                 id="accountOwner"
-                label="Account Owner*"
+                label="Account Manager*"
               />
             </Grid>
             <Grid container xs={6} mb={theme.spacing(3)}>
