@@ -120,6 +120,7 @@ export function VendorAddEditFields() {
                 id="description"
                 label="Description*"
                 multiline
+                rows={5}
               />
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>

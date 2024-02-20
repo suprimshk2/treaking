@@ -2,6 +2,8 @@ import {
   emailSchema,
   optionalImageSchema,
   optionalStringSchema,
+  phoneSchema,
+  phoneSchemaOptional,
   requiredStringSchema,
 } from 'shared/schemas';
 import { z } from 'zod';
@@ -13,8 +15,8 @@ const vendorSchema = z.object({
 export const addVendorFormSchema = z.object({
   images: optionalImageSchema,
   businessName: requiredStringSchema,
-  contactsOne: requiredStringSchema,
-  contactsTwo: requiredStringSchema,
+  contactsOne: phoneSchema,
+  contactsTwo: phoneSchemaOptional,
   email: emailSchema,
   accountOwner: requiredStringSchema,
   description: requiredStringSchema,
@@ -24,7 +26,7 @@ export const addVendorFormSchema = z.object({
   website: optionalStringSchema,
   address: optionalStringSchema,
   vendorEmail: emailSchema,
-  phone: requiredStringSchema,
+  phone: phoneSchema,
   fullName: requiredStringSchema,
 });
 

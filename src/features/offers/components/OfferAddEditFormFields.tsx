@@ -116,6 +116,7 @@ export function OfferAddEditFormFields({
             id="description"
             label="Offer Descriptions"
             multiline
+            rows={5}
           />
         </Grid>
       </Grid>

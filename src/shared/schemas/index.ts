@@ -90,6 +90,7 @@ export const priceSchema = z.array(
 export const vendorSchema = z.object({
   id: z.string(),
   name: z.string(),
+  logo_url: z.string().optional(),
 });
 
 export const pointSchema = z.array(
