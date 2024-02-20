@@ -99,6 +99,7 @@ export function OfferAddEditForm() {
         vendor: {
           name: vendor.businessName,
           id: vendor.vendorId,
+          logo_url: vendor?.logoUrl,
           // accountManager: vendor?.accountOwner?.name,
         },
         startDate: new Date(startDate),
@@ -188,9 +189,7 @@ export function OfferAddEditForm() {
                   alignItems="flex-start"
                   justifyContent="center"
                   sx={{
-                    position: 'fixed',
                     top: 60,
-                    zIndex: 9999,
                     right: 20,
                   }}
                 >

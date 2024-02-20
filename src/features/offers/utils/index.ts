@@ -34,8 +34,8 @@ export const getOfferStatus = ({
 export const formatAddEditOfferPayload = (data: OfferAddEditFormSchemaType) => {
   return {
     ...data,
-    startDate: formatDateTimeToSave(data.startDate),
-    endDate: formatDateTimeToSave(data.endDate),
-    availableUntil: formatDateTimeToSave(data.availableUntil),
+    startDate: new Date(data.startDate).toISOString(),
+    endDate: new Date(data.endDate).toISOString(),
+    availableUntil: new Date(data.availableUntil).toISOString(),
   };
 };
