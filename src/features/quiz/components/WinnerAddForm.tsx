@@ -40,6 +40,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
   setValue('applyToAllQuizInCampaign', checkBox);
   const handleRemoveWinner = (index) => {
     remove(index);
+    // code will be in use.
     // try {
     //   remove(index);
     // } catch (error) {
