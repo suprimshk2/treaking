@@ -12,13 +12,15 @@ import { useUserDetailQuery } from 'features/users/queries';
 import { LoadingIndicator } from 'shared/components/display/LoadingIndicator';
 import { UpdateProfileFields } from './UpdateProfileFields';
 import { ProfileSchemaType, profileSchema } from '../schemas';
+import { useNavigate } from 'react-router-dom';
+import uiRoute from 'shared/constants/uiRoute';
 
 const defaultValues: ProfileSchemaType = {
   firstName: '',
   middleName: '',
   lastName: '',
   email: '',
-  phone: '',
+  mobileNumber: '',
   dob: '',
   gender: null,
   role: '',
@@ -26,6 +28,7 @@ const defaultValues: ProfileSchemaType = {
 };
 
 function UserProfileForm() {
+  const navigate = useNavigate();
   const authData = useBoundStore.use.authData();
   const setAuthData = useBoundStore.use.setAuthData();
   const methods = useForm<ProfileSchemaType>({
@@ -43,14 +46,22 @@ function UserProfileForm() {
     if (userDetailQuery?.data) {
       const { demographic } = userDetailQuery.data;
       const { security } = userDetailQuery.data;
-      const { firstName, middleName, lastName, email, dob, gender, phone } =
-        demographic;
+      const {
+        firstName,
+        middleName,
+        lastName,
+        email,
+        dob,
+        gender,
+        mobileNumber,
+      } = demographic;
+
       setValue('firstName', firstName);
       setValue('middleName', middleName);
       setValue('lastName', lastName);
       setValue('dob', unformatDate(dob || ''));
       setValue('gender', gender);
-      setValue('phone', unformatPhone(phone || ''));
+      setValue('mobileNumber', unformatPhone(mobileNumber || ''));
       setValue('email', email);
       setValue('enableMFA', security?.enableMFA ?? false);
       setValue('role', userDetailQuery.data.association?.roles?.[0] ?? '');
@@ -80,6 +91,7 @@ function UserProfileForm() {
             middleName: response?.data.demographic?.middleName || '',
             email: response?.data.demographic.email,
           });
+          navigate(uiRoute.quiz);
         },
       }
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TableCell, TableRow, Tooltip, Typography } from '@mui/material';
+import { TableCell, TableRow, Tooltip, Typography, Box } from '@mui/material';
 
 import { formatDateToView } from 'shared/utils/date';
 import { config } from 'shared/constants/config';
@@ -14,6 +14,9 @@ import { IOffer } from '../interfaces';
 import { getOfferStatus } from '../utils';
 import { OfferStatus } from '../enums';
 import { useDeleteOfferMutation } from '../mutations';
+import { checkAuthForPermissions } from 'shared/utils/common';
+import { ResourceCode } from 'shared/enums';
+import { offerManagementPermissions } from 'features/settings/roles-and-permissions/enums';
 
 const { DATE_FORMAT } = config;
 
@@ -79,7 +82,16 @@ function OfferTableRow({ data, onEditClick }: IProps) {
         startDate: data.startDate,
       })
     ];
+  const isOfferDeleteEnabled = checkAuthForPermissions(
+    ResourceCode.OFFERS_MANAGEMENT,
+    offerManagementPermissions.DELETE
+  );
+  const isOfferEditEnabled = checkAuthForPermissions(
+    ResourceCode.OFFERS_MANAGEMENT,
+    offerManagementPermissions.UPDATE
+  );
 
+  const isEnable = isOfferEditEnabled || isOfferDeleteEnabled;
   return (
     <TableRow key={data.offerId}>
       <TableCell
@@ -119,32 +131,39 @@ function OfferTableRow({ data, onEditClick }: IProps) {
         <Chip label={status.label} color={status.color as ColorType} />
       </TableCell>
       <TableCell>
-        {/* {data.updated?.by && data.updated.by} */}
-        {/* {data.updated?.by && <br />} */}
         {data.updated?.date && (
-          <Typography variant="bodyTextMedium">
-            {formatDateToView(data.updated.date, {
-              inputDateFormat: DATE_FORMAT.ISO,
-              outputDateFormat: DATE_FORMAT.dateViewFormat,
-            })}
-          </Typography>
+          <Box display="flex" flexDirection="column">
+            <Typography variant="bodyTextMedium">
+              {data?.updated?.name}
+            </Typography>
+
+            <Typography variant="bodyTextMedium">
+              {formatDateToView(data?.updated?.date)}
+            </Typography>
+          </Box>
         )}
       </TableCell>
 
-      <TableCell align="right">
-        <EllipseMenu>
-          <EllipseMenuItem
-            text="Edit"
-            icon={BsPencilSquare}
-            onClick={() => onEditClick(data.offerId)}
-          />
-          <EllipseMenuItem
-            text="Delete"
-            icon={BsTrashFill}
-            onClick={onDeleteClick}
-          />
-        </EllipseMenu>
-      </TableCell>
+      {isEnable && (
+        <TableCell align="right">
+          <EllipseMenu>
+            {isOfferEditEnabled && (
+              <EllipseMenuItem
+                text="Edit"
+                icon={BsPencilSquare}
+                onClick={() => onEditClick(data.offerId)}
+              />
+            )}
+            {isOfferDeleteEnabled && (
+              <EllipseMenuItem
+                text="Delete"
+                icon={BsTrashFill}
+                onClick={onDeleteClick}
+              />
+            )}
+          </EllipseMenu>
+        </TableCell>
+      )}
     </TableRow>
   );
 }

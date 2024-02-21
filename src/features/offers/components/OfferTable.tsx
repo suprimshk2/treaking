@@ -34,8 +34,8 @@ const COLUMNS: readonly ITableColumn[] = [
   { id: 'description', label: 'Description', maxWidth: 300, minWidth: 300 },
   { id: 'status', label: 'Status' },
   {
-    id: 'lastUpdated ',
-    label: 'Last Updated',
+    id: 'updatedBy ',
+    label: 'Updated by',
     minWidth: 150,
     sortBy: OfferSortBy.DATE_ADDED,
   },

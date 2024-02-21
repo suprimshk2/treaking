@@ -4,9 +4,17 @@ import { IFormattedVendorFormSchema, IVendorTableFilter } from '../interfaces';
 import { vendorConfig } from '../constant/config';
 
 const { VENDOR_TABLE_FILTER_MAP } = vendorConfig;
+export const formatVendorDetail = (res) => {
+  return {
+    ...res?.data,
+    contactsOne: res?.data?.phone?.[0],
+    contactsTwo: res?.data?.phone?.[1] === null ? '' : res?.data?.phone?.[1],
+    images: res?.data?.logoUrl ? [{ url: res?.data?.logoUrl }] : null,
+  };
+};
 const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
   return {
-    logoUrl: data.logoUrl,
+    logoUrl: data?.images?.[0]?.url || '',
     businessName: data.businessName,
     contacts: [
       {
@@ -17,7 +25,7 @@ const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
       },
     ],
     website: '',
-    phone: [data.contactsOne, data.contactsTwo],
+    phone: [data.contactsOne || '', data?.contactsTwo || ''],
     email: data.email,
     accountOwner: {
       name: data.accountOwner,

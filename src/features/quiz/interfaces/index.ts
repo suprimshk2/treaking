@@ -1,34 +1,43 @@
 import { IFilter, SortOrderType } from 'shared/interfaces/misc';
 import { ICreatedAt } from 'features/product/interfaces';
 import { QuizSortBy } from '../enums';
+import { IDemographic } from 'features/users/interfaces';
 
 export interface IAddQuizSchema {
-  imageUrl: string;
+  logoUrl: IFileSchema[];
+  images: IFileSchema[];
+  prizeImage: IFileSchema[];
   titleOne: string;
   titleTwo: string;
   subTitle: string;
   description: string;
   termsAndConditions: string;
-  winnerDate: string;
-  winnerStartTime: string;
-  winnerEndTime: string;
-  prizeDescription: '';
-  campaign: string;
-
+  winnerDate: Date;
+  // winnerStartTime: string;
+  // winnerEndTime: string;
+  prizeDescription: string;
+  campaign: { id?: string; name?: string };
   quizzes: {
     question: string;
-    startDate: string;
-    endDate: string;
-    options: Option[];
+    startDate: Date;
+    endDate: Date;
+    options: IQuizOptions[];
+    correctOptionNumber: number;
   }[];
+}
+
+export interface IQuizOptions {
+  name: string;
+  order: number;
+  id?: string;
 }
 export interface IQuizTableFilter extends IFilter {
   titleOne?: string;
   titleTwo?: string;
-  body?: string;
+  description?: string;
 }
 export interface IQuizSort {
-  sortBy: QuizSortBy | null;
+  sortBy?: QuizSortBy | null;
   sortOrder: SortOrderType | null;
 }
 export interface IFileSchema {
@@ -41,22 +50,27 @@ export interface IFileSchema {
   error?: boolean;
   file_url?: string;
   isPublic?: boolean;
+  url?: string;
+  order?: number;
   isLoading?: boolean;
 }
 export interface IFormattedQuizFormSchema {
+  images?: IFileSchema[];
   title: string;
-  endDate: Date;
+  endDate: string;
   imageUrl: string;
   type: string;
-  startDate: Date;
+  startDate: string;
   prize: {
     title: string;
     description: string;
+    imageUrl: IFileSchema[];
   };
+  campaignId: string;
   description: string;
   termsAndConditions: string;
   status: string;
-  winnerAnnouncementDate: Date;
+  winnerAnnouncementDate: string;
   options: {
     name: string;
     order: number;
@@ -95,15 +109,21 @@ export interface IQuiz {
   options: Option[];
   correctOptionId: string;
   content: Content;
-  winner: Winner;
+  winners: Winner[];
   totalResponseCount: number;
   created: ICreatedAt;
   updated: ICreatedAt;
+  campaign: ICampaignResponse;
 }
-export interface IAdoptQuiz extends Omit<IQuiz, 'endDate' | 'startDate'> {
+export interface IAdoptQuiz
+  extends Omit<IQuiz, 'endDate' | 'startDate' | 'campaign'> {
   endDate: string;
   startDate: string;
   winnerFullName: string;
+  images: IFileSchema[];
+  prizeImage: IFileSchema[];
+  campaign: string;
+  campaignCode: string;
 }
 export interface Content {
   logoUrl: string;
@@ -112,7 +132,36 @@ export interface Content {
   description: string;
   upcomingTitle: string;
 }
+export interface IGameParticipants {
+  _id: string;
+  userId: string;
+  status: string;
+  updated: Updated;
+  created: Created;
+  imageUrl: string;
+  hasCompletedProfile: boolean;
+  demographic: IDemographic;
+}
 
+export interface Created {
+  date: Date;
+  name: string;
+}
+
+export interface Updated {
+  date: Date;
+  name: string;
+  id: string;
+}
+
+export interface ICampaignResponse {
+  _id: string;
+  name: string;
+  code: string;
+  updated: ICreatedAt;
+  created: ICreatedAt;
+  campaignId: string;
+}
 export interface Option {
   name: string;
   order: number;
@@ -122,11 +171,44 @@ export interface Option {
 export interface Prize {
   title?: string | undefined;
   description?: string;
+  imageUrl?: string;
 }
-
+export interface IWinnerAdd {
+  id: string;
+  name: string;
+  rank: number;
+  rankLabel: string;
+}
 export interface Winner {
+  imageUrl: string;
+  id: string;
   email: string;
   lastName: string;
   firstName: string;
   middleName: string;
+  fullName?: string;
+  mobileNumber: string;
+}
+export interface IWinnerDefaultValue {
+  applyToAllQuizInCampaign: boolean;
+  winners: IWinnerAdd[];
+}
+export interface IWinnerResponse {
+  _id: string;
+  userId: string;
+  status: string;
+  imageUrl: string;
+  rankLabel: string;
+  rank: number;
+  demographic: IDemographic;
+}
+export interface IAdoptWinnerResponse {
+  _id: string;
+  userId: string;
+  id: string;
+  status: string;
+  imageUrl: string;
+  rankLabel: string;
+  rank: number;
+  demographic: IDemographic;
 }

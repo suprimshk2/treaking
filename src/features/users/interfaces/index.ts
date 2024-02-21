@@ -15,8 +15,8 @@ export interface IDemographic {
   gender: string;
   dob: string;
   email: string;
-  phone: string;
-  address?: IAddress;
+  mobileNumber: string;
+  address?: string;
 }
 
 export interface IClient {
@@ -39,7 +39,12 @@ export interface IUser {
   created: ICreated;
   updated: IUpdated;
 }
-
+export interface IAdoptUser extends Omit<IUser, 'demographic'> {
+  demographic: IAdoptDemography;
+}
+export interface IAdoptDemography extends IDemographic {
+  fullName: string;
+}
 export interface IUserTableFilter extends IFilter {
   firstName?: string;
   lastName?: string;
@@ -84,7 +89,7 @@ export interface IEditUserSchema {
     email?: string;
     gender?: string | null;
     dob?: string;
-    phone?: string;
+    mobileNumber?: string;
   };
   association: IAssociation;
   security?: {
@@ -100,7 +105,7 @@ export interface IAddUserSchema {
     email?: string;
     gender?: string | null;
     dob?: string;
-    phone?: string;
+    mobileNumber?: string;
   };
 }
 

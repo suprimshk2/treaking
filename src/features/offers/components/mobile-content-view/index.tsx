@@ -7,7 +7,12 @@ import template3 from 'shared/assets/png/offer-template3.png';
 import template4 from 'shared/assets/png/offer-template4.png';
 import template5 from 'shared/assets/png/offer-template5.png';
 import { templateStyles } from 'features/offers/constants/template';
-import { OfferBodyType, OfferTemplateCode } from 'features/offers/enums';
+import {
+  OfferBodyType,
+  OfferContentLayoutType,
+  OfferTemplateCode,
+} from 'features/offers/enums';
+import { LAYOUT_TYPE } from 'shared/constants/layoutType';
 import { IOfferTemplate } from '../offer-templates/OfferFormAdTemplates';
 
 const templateImage = {
@@ -23,19 +28,22 @@ function MobileContentView() {
   const { watch } = useFormContext();
   const selectedTemplate: IOfferTemplate = watch('template');
   const title = watch('title');
-  const body = watch('body');
-  const bodyType = watch('bodyType');
+  const subTitle = watch('subTitle');
+  const layoutType: OfferContentLayoutType = watch('layoutType');
   const description = watch('shortDescription');
+  const vendor = watch('vendor');
 
-  const isFreeType = bodyType === OfferBodyType.FREE;
+  const isFreeType = layoutType === OfferContentLayoutType.DEFAULT;
 
   if (selectedTemplate) {
     const styles = templateStyles[selectedTemplate.code as OfferTemplateCode];
+    const fontFamily = styles?.headerFontFamily ?? '';
+
     return (
       <Box
         sx={{
-          height: 746,
-          width: 434,
+          height: '80vh',
+          width: 400,
           position: 'relative',
         }}
       >
@@ -56,7 +64,7 @@ function MobileContentView() {
         >
           <Box
             sx={{
-              fontFamily: styles.headerFontFamily,
+              fontFamily,
               display: 'flex',
               alignItems: 'center',
               flexDirection: 'column',
@@ -66,20 +74,20 @@ function MobileContentView() {
             <Box
               mt={16}
               mb={8}
-              height={68}
-              width={211}
+              height={100}
+              width={100}
               sx={{
-                objectFit: 'cover',
+                objectFit: 'contain',
               }}
               component="img"
-              src="https://s3-alpha-sig.figma.com/img/05f8/dbed/7de6c54a9ef956635f5a7d14161e110a?Expires=1706486400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ajmEVCyn-~FXO9iEL5netjWLA~0mHVBP5jnSlLcZ6JhdVvFyMEIkUoJtorbqV1xxAbmvD-LJc6ndZ1t1o6odzeOeLakpvBhxclsd1tkTVQpvLiUmSSNAREWknBC-R6yukYTYrGfi5EbXBkvfQ89Jb6SCSgUgnADjPmexv~4zQSFR~ukLB4vRrleztmZHMIxCqL~3GvrBRyQdy9p7DDzqSP-fmFbz68iUmSMOy1T2Qpp3BtX8pktdGyaqR8dCDb2j15ntGJHRxrLB3EnLCRaKDWttK50ZWB8zQv3mG~BMEYiBtGKT2a~5lCQ80Mh~95gVOVHpd-BcOOVCD1PJKVKDRw__"
+              src={vendor.logo_url}
             />
             <Box height={350} component="center">
               <Box minHeight="28%" maxHeight="38%">
                 <Typography
                   sx={{
-                    fontSize: styles.headerFontSize,
-                    fontFamily: styles.headerFontFamily,
+                    fontSize: '5vw',
+                    fontFamily,
                   }}
                 >
                   {title}
@@ -93,38 +101,41 @@ function MobileContentView() {
               >
                 <Typography
                   sx={{
-                    fontSize: styles.bodyFontSize,
-                    fontFamily: styles.headerFontFamily,
+                    fontSize: '5vw',
+                    fontFamily,
                   }}
                 >
-                  {isFreeType ? OfferBodyType.FREE : body}
+                  {isFreeType ? OfferBodyType.FREE : subTitle}
                 </Typography>
-                {bodyType !== OfferBodyType.FREE && (
+                {!isFreeType && (
                   <Stack spacing={-6} position="relative" top={-6}>
                     <Typography
                       sx={{
-                        fontSize: '108px',
+                        // fontSize: '108px',
+                        fontSize: '5vw',
                       }}
                     >
-                      {body && bodyType}
+                      {LAYOUT_TYPE[layoutType]}
                     </Typography>
                     <Box alignSelf="baseline">
                       <Typography
                         sx={{
-                          fontSize: '52px',
+                          fontSize: '5vw',
+
+                          // fontSize: '52px',
                         }}
                       >
-                        {body && 'OFF'}
+                        OFF
                       </Typography>
                     </Box>
                   </Stack>
                 )}
               </Stack>
             </Box>
-
             <Typography
               sx={{
-                fontSize: styles.footerFontSize,
+                // fontSize: styles.footerFontSize,
+                fontSize: '2vw',
                 fontFamily: styles.footerFontFamily,
                 color: styles.footerTextColor || 'inherit',
               }}

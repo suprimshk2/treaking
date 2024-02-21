@@ -1,10 +1,5 @@
-import {
-  InfiniteData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { enqueueSnackbar, useSnackbar } from 'notistack';
+import { InfiniteData, useMutation, useQuery } from '@tanstack/react-query';
+import { enqueueSnackbar } from 'notistack';
 import { formatSortParam } from 'shared/utils/misc';
 import { queryClient } from 'App';
 import { IError, IListResponse } from 'shared/interfaces/http';
@@ -12,12 +7,18 @@ import { useBoundStore } from 'shared/stores/useBoundStore';
 import { infiniteVendorKeys } from '../queries';
 import * as vendorAPI from '../api';
 import { IFormattedVendorFormSchema, IVendor } from '../interfaces';
+import { formatVendorDetail } from '../utils';
 
 export const useAddVendorMutation = () => {
   const filters = useBoundStore.getState().vendorTableFilters;
   const { sortBy, sortOrder } = useBoundStore.getState().vendorSort;
 
   return useMutation({
+    onError: (error: IError) => {
+      enqueueSnackbar(error.message, {
+        variant: 'error',
+      });
+    },
     mutationFn: ({ data }: { data: IFormattedVendorFormSchema }) =>
       vendorAPI.addVendor(data),
     onSuccess: (res) => {
@@ -27,10 +28,10 @@ export const useAddVendorMutation = () => {
 
       const queryKey = infiniteVendorKeys.list({
         ...filters,
-        ...formatSortParam({
-          sortBy,
-          sortOrder,
-        }),
+        // ...formatSortParam({
+        //   sortBy,
+        //   sortOrder,
+        // }),
       });
       const queryData: InfiniteData<IListResponse<any>> | undefined =
         queryClient.getQueryData(queryKey);
@@ -124,6 +125,7 @@ export const useVendorDetailQuery = (
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
+    select: formatVendorDetail,
     queryKey: infiniteVendorKeys.detail(id),
     queryFn: () => vendorAPI.getVendorById(id),
     enabled,
@@ -131,7 +133,7 @@ export const useVendorDetailQuery = (
 
   return {
     ...queryInfo,
-    data: queryInfo.data?.data,
+    data: queryInfo?.data,
   };
 };
 

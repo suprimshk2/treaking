@@ -1,5 +1,4 @@
 import { Box, Grid, useTheme } from '@mui/material';
-import React, { useState, useEffect } from 'react';
 import { FieldError, useFormContext } from 'react-hook-form';
 import FormInput from 'shared/components/form/FormInput';
 import { FormTimePicker } from 'shared/components/form/FormTimePicker';
@@ -11,43 +10,47 @@ import {
 } from 'shared/theme/components/Button';
 import { AddQuizFormSchemaType } from '../schemas';
 import QuizOptions from './QuizOptions';
-import { Option } from '../interfaces';
+import { QuizOptionSelect } from './OptionSelect';
 
 export function QuizMultiple({
+  index,
   fieldArrayIndex,
   fieldArrayName,
   onDelete,
-  isEditMode,
-  optionsData,
 }: {
+  index: number;
   fieldArrayIndex: number;
   fieldArrayName: string;
   onDelete: () => void;
-  isEditMode: boolean;
-  optionsData: Option[];
 }) {
   const theme = useTheme();
-  const [options, setOptions] = useState(['']);
-  useEffect(() => {
-    if (isEditMode) {
-      // `${fieldArrayName}.${fieldArrayIndex}.question`.
-      optionsData?.map((item: Option) => setOptions([item?.name]));
-    }
-  }, [isEditMode, optionsData]);
+
   const {
     formState: { errors },
   } = useFormContext<AddQuizFormSchemaType>();
+  const { setValue, watch } = useFormContext();
+
+  const quizzes = watch('quizzes');
+  const { options } = quizzes[index];
 
   const handleAddOption = () => {
-    setOptions([...options, '']);
+    const optionsList = quizzes[index].options;
+    const lastOption = [...optionsList].pop()?.order ?? 0;
+
+    quizzes[index].options = [
+      ...quizzes[index].options,
+      { name: '', order: lastOption + 1 },
+    ];
+    setValue('quizzes', quizzes);
   };
+
   return (
     <Box
       display="flex"
       flexDirection="column"
       justifyContent="center"
       alignContent="center"
-      maxWidth={518}
+      maxWidth={600}
       mx="auto"
       p={5}
       sx={{
@@ -96,16 +99,11 @@ export function QuizMultiple({
         />
       </Grid>
       <Grid item xs={6} mb={2}>
-        <div>
-          <QuizOptions
-            fieldArrayIndex={fieldArrayIndex}
-            fieldArrayName={fieldArrayName}
-            options={options}
-          />
+        <Box>
+          <QuizOptions index={index} />
           <Button
             size={ButtonSize.SMALL}
             onClick={handleAddOption}
-            fullWidth
             variant={ButtonVariant.OUTLINED}
             sx={{
               marginTop: 2,
@@ -116,13 +114,22 @@ export function QuizMultiple({
               color: theme.palette.gray.dark,
               height: 40,
               borderRadius: 1,
+              width: '92%',
             }}
           >
             Add Option
           </Button>
-        </div>
+        </Box>
       </Grid>
-
+      <Grid item xs={6} mb={2}>
+        <QuizOptionSelect
+          name={`quizzes[${index}].correctOptionNumber`}
+          id="correctOptionNumber"
+          label="Correct Option"
+          clearable
+          optionList={options}
+        />
+      </Grid>
       <Box
         display="flex"
         flexDirection="row"

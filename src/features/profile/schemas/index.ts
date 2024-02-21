@@ -30,7 +30,7 @@ export const profileSchema = z.object({
   middleName: nullableStringSchema,
   lastName: requiredStringSchema,
   email: emailSchema,
-  phone: nullableStringSchema,
+  mobileNumber: nullableStringSchema,
   gender: nullableStringSchema,
   dob: nullableStringSchema,
   role: requiredStringSchema,

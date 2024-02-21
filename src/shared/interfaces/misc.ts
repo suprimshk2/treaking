@@ -8,6 +8,11 @@ export interface IFilter {
   page?: number;
 }
 
+export interface ILookupFilter {
+  key: string;
+  value: string;
+}
+
 export interface IAddress {
   addressLine1: string;
   addressLine2: string;
@@ -59,3 +64,9 @@ export type ColorType =
   | 'info'
   | 'success'
   | 'warning';
+
+export interface IVendorSchema {
+  id?: string;
+  name?: string;
+  logo_url?: string;
+}

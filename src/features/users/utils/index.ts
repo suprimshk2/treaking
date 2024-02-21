@@ -4,7 +4,9 @@ import { mapKeys } from 'shared/utils/misc';
 import { ProfileSchemaType } from 'features/profile/schemas';
 import {
   IAddUserSchema,
+  IAdoptUser,
   IEditUserSchema,
+  IUser,
   IUserTableFilter,
 } from '../interfaces';
 import { UserAddEditFormSchemaType } from '../schemas';
@@ -35,7 +37,7 @@ export const formatUserEditPayload = (
       email: data.email,
       gender: data.gender,
       dob: data.dob ? formatDateToSave(data.dob) : undefined,
-      phone: data.phone || '',
+      mobileNumber: data.mobileNumber || '',
     },
     association: {
       roles: [`${data.role}`],
@@ -51,7 +53,14 @@ export const formatUserAddPayload = (
 ): IAddUserSchema => {
   return formatUserEditPayload(data);
 };
-
+export const formatUserResponse = (data): IAdoptUser => {
+  return {
+    ...data,
+    // demographic:{
+    //   ..
+    // }
+  };
+};
 export const formatUserFilterParams = (filters: IUserTableFilter) => {
   const params = pickBy(filters, (value: string | number) => value !== '');
   if (isEmpty(params)) {

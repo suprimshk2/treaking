@@ -9,7 +9,7 @@ export const createQuizSlice: StateCreator<IQuizSlice> = (set) => ({
       quizTableFilters: { ...state.quizTableFilters, ...newFilters },
     })),
   quizSort: {
-    sortBy: null,
+    // sortBy: null,
     sortOrder: null,
   },
   changeQuizSortByAndOrder: (newOrder) =>

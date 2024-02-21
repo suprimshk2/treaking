@@ -2,7 +2,7 @@ import { Box, Grid, Stack, useTheme } from '@mui/material';
 import FormInput from 'shared/components/form/FormInput';
 
 import TextEditor from 'shared/components/text-editor';
-import { FormVendorSelect } from './VendorSelect';
+import { FormVendorSelect } from '../../../shared/select/VendorSelect';
 import useResetProductField from '../hooks/useResetProductField';
 import { useProductDetailQuery } from '../queries';
 
@@ -44,7 +44,7 @@ export function ProductAddEditFields({
               <FormVendorSelect
                 name="vendor"
                 id="vendor"
-                label="Vendor"
+                label="Vendor *"
                 clearable
               />
             </Grid>
@@ -52,23 +52,25 @@ export function ProductAddEditFields({
               <FormInput name="title" id="title" label="Product Title" />
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
-              <TextEditor name="description" />
+              <TextEditor name="description" label="Description *" />
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
               <Grid item xs={6}>
                 <FormInput
                   name="quantityInStock"
                   id="quantity"
-                  label="Quantity"
+                  label="Quantity *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
               <Grid item xs={6}>
                 <FormInput
                   name="point"
                   id="point"
-                  label="Product Points"
+                  label="Product Points *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
             </Grid>
@@ -77,8 +79,9 @@ export function ProductAddEditFields({
                 <FormInput
                   name="price"
                   id="price"
-                  label="Selling Price"
+                  label="Selling Price *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -87,6 +90,7 @@ export function ProductAddEditFields({
                   id="discountPrice"
                   label="Discounted Price"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
             </Grid>
@@ -95,12 +99,19 @@ export function ProductAddEditFields({
                 <FormInput
                   name="retailPrice"
                   id="retailPrice"
-                  label="Retail Price"
+                  label="Retail Price *"
                   type="number"
+                  inputProps={{ min: 1 }}
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormInput name="costPrice" id="costPrice" label="Cost Price" />
+                <FormInput
+                  name="costPrice"
+                  id="costPrice"
+                  label="Cost Price *"
+                  type="number"
+                  inputProps={{ min: 1 }}
+                />
               </Grid>
             </Grid>
           </Box>

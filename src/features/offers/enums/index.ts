@@ -10,6 +10,10 @@ export enum OfferTemplateCode {
   LIGHT = 'OCB_LIGHT',
 }
 
+export enum OfferType {
+  ADVERTISEMENT = 'ADVERTISEMENT',
+}
+
 export enum OfferBodyType {
   PERCENTAGE = '%',
   RUPEES = 'RS',
@@ -20,4 +24,12 @@ export enum OfferStatus {
   ACTIVE = 'Active',
   EXPIRED = 'Expired',
   UPCOMING = 'Upcoming',
+}
+
+export enum OfferContentLayoutType {
+  DEFAULT = 'DEFAULT',
+  PERCENT_OFF = 'PERCENT_OFF',
+  AMOUNT_OFF = 'AMOUNT_OFF',
+  FIXED_AMOUNT = 'FIXED_AMOUNT',
+  FREE = 'FREE',
 }

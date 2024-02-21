@@ -6,6 +6,6 @@ export const PRODUCT_COLUMNS: readonly ITableColumn[] = [
   { id: 'point', label: 'Points' },
   { id: 'price', label: 'Price' },
   { id: 'status', label: 'Status' },
-  { id: 'createdby', label: 'Created by' },
+  { id: 'updatedBy', label: 'Updated by' },
   { id: 'menu', label: '' },
 ];

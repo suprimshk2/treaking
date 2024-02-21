@@ -44,10 +44,15 @@ function RolesAndPermissionTableRow({ data, onEditClick }: IProps) {
     ResourceCode.ROLES_PERMISSION_MANAGEMENT
   );
 
+  // const isRolesManageEnabled = checkAuthForPermissions(
+  //   ModuleCodes.SETTING,
+  //   RolesMangementPermissions.MANAGE_PERMISSION,
+  //   ResourceCode.ROLES_PERMISSION_MANAGEMENT
+  // );
+
   const isRolesManageEnabled = checkAuthForPermissions(
-    ModuleCodes.SETTING,
-    RolesMangementPermissions.MANAGE_PERMISSION,
-    ResourceCode.ROLES_PERMISSION_MANAGEMENT
+    ResourceCode.ROLES_PERMISSION_MANAGEMENT,
+    RolesMangementPermissions.MANAGE_PERMISSION
   );
 
   const isEllipsisEnabled = isRolesUpdateEnabled || isRolesDeleteEnabled;
@@ -95,7 +100,7 @@ function RolesAndPermissionTableRow({ data, onEditClick }: IProps) {
           disabled={!isRolesManageEnabled}
           onClick={() =>
             navigate(
-              `${uiRoute.settings.rolePermissionManagement.manageRolesAndPermissions}?roleId=${data._id}&role=${data.code}`
+              `${uiRoute.rolePermissionManagement.manageRolesAndPermissions}?roleId=${data._id}&role=${data.code}`
             )
           }
         >
@@ -103,10 +108,10 @@ function RolesAndPermissionTableRow({ data, onEditClick }: IProps) {
         </Button>
       </TableCell>
       <TableCell>
-        {data.updated?.by || data.created?.by || ''}
-        {(data.updated?.by || data.created?.by) && <br />}
-        {data.created?.at
-          ? formatDateToView(data.updated?.at || data.created?.at, {
+        {data.updated?.name || data.created?.name || ''}
+        {(data.updated?.name || data.created?.name) && <br />}
+        {data.created?.date
+          ? formatDateToView(data.updated?.date || data.created?.date, {
               inputDateFormat: DATE_FORMAT.ISO,
               outputDateFormat: DATE_FORMAT.dateViewFormat,
             })

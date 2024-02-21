@@ -1,17 +1,16 @@
-import {
-  InfiniteData,
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from '@tanstack/react-query';
-import { enqueueSnackbar, useSnackbar } from 'notistack';
+import { InfiniteData, useMutation, useQuery } from '@tanstack/react-query';
+
 import { formatSortParam } from 'shared/utils/misc';
 import { queryClient } from 'App';
 import { IError, IListResponse } from 'shared/interfaces/http';
 import { useBoundStore } from 'shared/stores/useBoundStore';
-import { infiniteQuizKeys } from '../queries';
+import { enqueueSnackbar } from 'notistack';
+import { infiniteQuizKeys, infiniteWinnerKeys } from '../queries';
 import * as quizAPI from '../api';
+import { formatQuizDetail, formatWinnerData } from '../utils';
+
 import { IAddQuizSchema, IFormattedQuizFormSchema, IQuiz } from '../interfaces';
+import { WinnerAddFormSchemaType } from '../schemas';
 
 export const useAddQuizMutation = () => {
   const filters = useBoundStore.getState().quizTableFilters;
@@ -21,8 +20,6 @@ export const useAddQuizMutation = () => {
     mutationFn: ({ data }: { data: IFormattedQuizFormSchema }) =>
       quizAPI.addQuiz(data),
     onSuccess: (res) => {
-      console.log(res, 'logg ress');
-
       enqueueSnackbar(res.message || 'Quiz added successfully', {
         variant: 'success',
       });
@@ -34,6 +31,7 @@ export const useAddQuizMutation = () => {
           sortOrder,
         }),
       });
+
       const queryData: InfiniteData<IListResponse<IAddQuizSchema>> | undefined =
         queryClient.getQueryData(queryKey);
 
@@ -60,11 +58,16 @@ export const useAddQuizMutation = () => {
       // Update the total users in the store
       // setTotalUsers(totalUsers + 1);
     },
+    onError: (error: IError) => {
+      enqueueSnackbar(error.message, {
+        variant: 'error',
+      });
+    },
   });
 };
 export const useEditQuizMutation = () => {
   const { sortBy, sortOrder } = useBoundStore.getState().quizSort;
-  const filters = useBoundStore.getState().offerTableFilters;
+  const filters = useBoundStore.getState().quizTableFilters;
 
   return useMutation({
     mutationFn: ({
@@ -182,6 +185,7 @@ export const useQuizDetailQuery = (
   { enabled }: { enabled: boolean }
 ) => {
   const queryInfo = useQuery({
+    select: formatQuizDetail,
     queryKey: infiniteQuizKeys.detail(id),
     queryFn: () => quizAPI.getQuizById(id),
     enabled,
@@ -189,6 +193,81 @@ export const useQuizDetailQuery = (
 
   return {
     ...queryInfo,
-    data: queryInfo.data?.data,
+    data: queryInfo?.data,
   };
+};
+export const useWinnerDetailQuery = (
+  id: string,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    select: formatWinnerData,
+    queryKey: infiniteWinnerKeys.detail(id),
+    queryFn: () => quizAPI.getQuizWinnerById(id),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo?.data?.rows,
+  };
+};
+export const useAddWinnerMutation = () => {
+  const { sortBy, sortOrder } = useBoundStore.getState().quizSort;
+  const filters = useBoundStore.getState().quizTableFilters;
+
+  let gameId;
+
+  return useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: WinnerAddFormSchemaType;
+    }) => {
+      gameId = id;
+      return quizAPI.addWinnerQuiz(id, data);
+    },
+    onSuccess: (res) => {
+      enqueueSnackbar(res.message || 'winner added successfully', {
+        variant: 'success',
+      });
+
+      const queryKey = infiniteQuizKeys.list({
+        ...filters,
+        // ...formatSortParam({
+        //   sortBy,
+        //   sortOrder,
+        // }),
+      });
+
+      const queryData: InfiniteData<IListResponse<IQuiz>> | undefined =
+        queryClient.getQueryData(queryKey);
+
+      if (!queryData) {
+        return;
+      }
+
+      const newPages = queryData.pages.map((page) => {
+        const newRows = page.rows.map((row) => {
+          if (row.gameId === gameId) {
+            return { ...row, winners: res.data?.[0]?.rows };
+          }
+          return { ...row };
+        });
+
+        return { ...page, rows: newRows };
+      });
+
+      queryClient.setQueryData<InfiniteData<IListResponse<IQuiz>>>(
+        queryKey,
+        (data) => ({
+          pages: newPages,
+          pageParams: data?.pageParams || [],
+        })
+      );
+      queryClient.invalidateQueries({ queryKey });
+    },
+  });
 };

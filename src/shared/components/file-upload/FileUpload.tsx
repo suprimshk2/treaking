@@ -33,11 +33,13 @@ const FileDropzone = forwardRef(
       isFileSizeExceeds,
       onChange,
       maxSize,
+      isMultiImage,
     }: {
       name?: string;
       isFileSizeExceeds?: boolean;
       onChange: (e: IFilePayload[]) => void;
       maxSize?: number;
+      isMultiImage?: boolean;
     },
     ref
   ) => {
@@ -50,6 +52,7 @@ const FileDropzone = forwardRef(
     const images = getValues(name);
 
     const hasError = errors[name];
+
     const fileId = useId();
 
     const [selectedFiles, setSelectedFiles] = useState<IFilePayload[]>([]);
@@ -61,11 +64,17 @@ const FileDropzone = forwardRef(
         const mapIdToImage = images.map((item: IFilePayload, index: number) => {
           return { ...item, fileId: `${fileId}-${index}`, isSuccess: true };
         });
+
         setSelectedFiles(mapIdToImage);
       }
     }, [fileId, images, setValue]);
 
     const { getRootProps, getInputProps } = useDropzone({
+      accept: {
+        'image/png': ['.png'],
+        'image/svg': ['.svg'],
+        'image/jpg': ['.jpg', '.jpeg'],
+      },
       onDrop: async (droppedFiles: File[]) => {
         clearErrors(name);
         const newFiles: IFilePayload[] = [];
@@ -89,7 +98,7 @@ const FileDropzone = forwardRef(
     const handleFileDelete = (id: string) => {
       const files = selectedFiles.filter((item) => item.fileId !== id);
       setSelectedFiles(files);
-      setValue('images', files);
+      setValue(name, files);
     };
 
     const files = selectedFiles.map((file: IFilePayload) => (
@@ -131,33 +140,62 @@ const FileDropzone = forwardRef(
           {...getRootProps({ className: 'fileDrop' })}
           color={hasError && theme.palette.error.main}
         >
-          <input {...getInputProps()} />
+          <input {...getInputProps()} multiple={false} />
 
-          <Stack
-            gap={2}
-            alignItems="center"
-            width="100%"
-            height={85}
-            border={2}
-            borderRadius={2}
-            borderColor="gray.light"
-            textAlign="center"
-            display="flex"
-            justifyContent="center"
-            flexDirection="row"
-            mb="10"
-            px={5}
-            sx={{ borderStyle: 'dashed' }}
-          >
-            <BsUpload size={theme.spacing(5)} />
+          {selectedFiles?.length < 1 && !isMultiImage && (
+            <Stack
+              gap={2}
+              alignItems="center"
+              width="100%"
+              height={85}
+              border={2}
+              borderRadius={2}
+              borderColor="gray.light"
+              textAlign="center"
+              display="flex"
+              justifyContent="center"
+              flexDirection="row"
+              mb="10"
+              px={5}
+              sx={{ borderStyle: 'dashed' }}
+            >
+              <BsUpload size={theme.spacing(5)} />
 
-            {!isSmallerThanMd && (
-              <Typography variant="bodyTextMedium">
-                Drag and drop files here or click to browse
-              </Typography>
-            )}
-            {isSmallerThanMd && <Typography>Click to browse</Typography>}
-          </Stack>
+              {!isSmallerThanMd && (
+                <Typography variant="bodyTextMedium">
+                  Drag and drop files here or click to browse
+                </Typography>
+              )}
+              {isSmallerThanMd && <Typography>Click to browse</Typography>}
+            </Stack>
+          )}
+          {isMultiImage && (
+            <Stack
+              gap={2}
+              alignItems="center"
+              width="100%"
+              height={85}
+              border={2}
+              borderRadius={2}
+              borderColor="gray.light"
+              textAlign="center"
+              display="flex"
+              justifyContent="center"
+              flexDirection="row"
+              mb="10"
+              px={5}
+              sx={{ borderStyle: 'dashed' }}
+            >
+              <BsUpload size={theme.spacing(5)} />
+
+              {!isSmallerThanMd && (
+                <Typography variant="bodyTextMedium">
+                  Drag and drop files here or click to browse
+                </Typography>
+              )}
+              {isSmallerThanMd && <Typography>Click to browse</Typography>}
+            </Stack>
+          )}
         </Box>
 
         <Box
@@ -170,16 +208,30 @@ const FileDropzone = forwardRef(
           <Typography gutterBottom={false} variant="caption">
             {/* * Please upload .pdf, .jpg,. jpeg, .doc, .docx, .txt only */}
           </Typography>
-          <Typography
-            gutterBottom={false}
-            sx={{
-              color: isFileSizeExceeds ? theme.palette.error.main : 'inherit',
-            }}
-            variant="caption"
-          >
-            Max size {maxSize && Math.floor(maxSize / (1000 * 1000))} MB
-            {isFileSizeExceeds ? ' *' : ''}
-          </Typography>
+          {selectedFiles?.length < 1 && !isMultiImage && (
+            <Typography
+              gutterBottom={false}
+              sx={{
+                color: isFileSizeExceeds ? theme.palette.error.main : 'inherit',
+              }}
+              variant="caption"
+            >
+              Max size {maxSize && Math.floor(maxSize / (1000 * 1000))} MB
+              {isFileSizeExceeds ? ' *' : ''}
+            </Typography>
+          )}
+          {isMultiImage && (
+            <Typography
+              gutterBottom={false}
+              sx={{
+                color: isFileSizeExceeds ? theme.palette.error.main : 'inherit',
+              }}
+              variant="caption"
+            >
+              Max size {maxSize && Math.floor(maxSize / (1000 * 1000))} MB
+              {isFileSizeExceeds ? ' *' : ''}
+            </Typography>
+          )}
         </Box>
         <Box component="ul" sx={{ listStyle: 'none', marginTop: 2 }}>
           {files}
@@ -193,6 +245,7 @@ FileDropzone.defaultProps = {
   isFileSizeExceeds: false,
   maxSize: undefined,
   name: 'images',
+  isMultiImage: true,
 };
 
 export default FileDropzone;

@@ -49,7 +49,7 @@ function DropZoneFileList({
           <LoadingIndicator containerHeight="1" size="1rem" />
         ) : (
           <Box display="flex" justifyContent="center" flexDirection="row">
-            <Tooltip placement="bottom" title="Edit Filename">
+            <Tooltip placement="bottom" title="">
               <IconButton>
                 {isSuccess ? (
                   <BsCheckCircle size="15" color={theme.palette.success.main} />

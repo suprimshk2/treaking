@@ -1,4 +1,5 @@
-import { IFilter, SortOrderType } from 'shared/interfaces/misc';
+import { IFilter, IVendorSchema, SortOrderType } from 'shared/interfaces/misc';
+import { IVendor } from 'features/offers/interfaces';
 import { ProductSortBy } from '../enums';
 
 export interface IProductTableRow {
@@ -25,10 +26,10 @@ export interface IAdaptedProductTableRow {
   point: string;
   price: string;
   status: string;
-  createdBy: string;
+  updatedBy: string;
   isInStock: boolean;
   quantityInStock: number;
-  createdAt: string;
+  updatedAt: string;
   image_url: string;
   productId: string;
 }
@@ -36,7 +37,7 @@ export interface IAdaptedProductTableRow {
 export interface IProductSchema {
   title: string;
   description: string;
-  vendor: IVendor;
+  vendor: IVendorSchema;
   images: IFileSchema[];
   point: string;
   price: string;
@@ -67,11 +68,6 @@ export interface IPrice {
   effStartDate?: string;
   effEndDate?: string;
   discountedValue?: number;
-}
-
-export interface IVendor {
-  id?: string;
-  name?: string;
 }
 
 export interface Ated {
@@ -159,10 +155,9 @@ export interface IDiscount {
 }
 
 export interface IProductSlice {
-  vendorTableFilters: any;
-  vendorSort: any;
-  productSort: IProductSort;
   productTableFilters: IProductTableFilter;
+  productSort: IProductSort;
+
   // totalProduct: number;
   changeProductSortByAndOrder: (newOrder: Partial<IProductSort>) => void;
   setProductTableFilters: (newFilters: Partial<IProductTableFilter>) => void;

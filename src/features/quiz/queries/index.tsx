@@ -1,6 +1,5 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { IListResponse, IResponse } from 'shared/interfaces/http';
-import { IAdoptQuiz, IQuizTableFilter } from '../interfaces';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { IQuizTableFilter } from '../interfaces';
 import * as quizAPI from '../api';
 import { formatQuizList } from '../utils';
 
@@ -14,18 +13,48 @@ export const infiniteQuizKeys = {
   autocomplete: (filters: IQuizTableFilter) =>
     [...infiniteQuizKeys.lists(), 'autocomplete', { filters }] as const,
 };
+export const infiniteCampaignKeys = {
+  all: ['infinite-campaign'] as const,
+  lists: () => [...infiniteCampaignKeys.all, 'list'] as const,
+  list: (filters: IQuizTableFilter) =>
+    [...infiniteCampaignKeys.lists(), { filters }] as const,
+  details: () => [...infiniteCampaignKeys.all, 'detail'] as const,
+  detail: (id: number | string) =>
+    [...infiniteCampaignKeys.details(), id] as const,
+  autocomplete: (filters: IQuizTableFilter) =>
+    [...infiniteCampaignKeys.lists(), 'autocomplete', { filters }] as const,
+};
+export const infiniteParticipantsKeys = {
+  all: ['infinite-Participants'] as const,
+  lists: () => [...infiniteParticipantsKeys.all, 'list'] as const,
+  list: (filters: IQuizTableFilter) =>
+    [...infiniteParticipantsKeys.lists(), { filters }] as const,
+  details: () => [...infiniteParticipantsKeys.all, 'detail'] as const,
+  detail: (id: number | string) =>
+    [...infiniteParticipantsKeys.details(), id] as const,
+  autocomplete: (filters: IQuizTableFilter) =>
+    [...infiniteParticipantsKeys.lists(), 'autocomplete', { filters }] as const,
+};
+export const infiniteWinnerKeys = {
+  all: ['infinite-Winner'] as const,
+  lists: () => [...infiniteWinnerKeys.all, 'list'] as const,
+  list: (filters: IQuizTableFilter) =>
+    [...infiniteWinnerKeys.lists(), { filters }] as const,
+  details: () => [...infiniteWinnerKeys.all, 'detail'] as const,
+  detail: (id: number | string) =>
+    [...infiniteWinnerKeys.details(), id] as const,
+  autocomplete: (filters: IQuizTableFilter) =>
+    [...infiniteWinnerKeys.lists(), 'autocomplete', { filters }] as const,
+};
 export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
-  // const { totalUsers } = useBoundStore.getState();
-  // const totalPages = Math.ceil(totalUsers / filters.limit);
-
   return useInfiniteQuery({
     select: formatQuizList,
     queryKey: infiniteQuizKeys.list(filters),
     initialPageParam: 1,
 
-    queryFn: ({ pageParam = 1 }) =>
+    queryFn: ({ pageParam = 1 }: { pageParam: number | any }) =>
       quizAPI.getInfiniteQuiz({ ...filters, page: pageParam }),
-    getNextPageParam: (lastPage, allPages) => {
+    getNextPageParam: (lastPage) => {
       if (lastPage?.total === 0) return undefined;
       const nextPage =
         lastPage?.metaInfo?.currentPage === lastPage?.metaInfo?.totalPage
@@ -49,4 +78,35 @@ export const useInfiniteQuizQuery = (filters: IQuizTableFilter) => {
     // cacheTime: 0,
     gcTime: 0,
   });
+};
+export const useCampaignQuery = (
+  filters: IQuizTableFilter,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteCampaignKeys.autocomplete(filters),
+    queryFn: () => quizAPI.getAllCampaign(filters),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo?.data?.rows,
+  };
+};
+export const useGameParticipantsQuery = (
+  gameId: string,
+  filters: IQuizTableFilter,
+  { enabled }: { enabled: boolean }
+) => {
+  const queryInfo = useQuery({
+    queryKey: infiniteParticipantsKeys.autocomplete(filters),
+    queryFn: () => quizAPI.getParticipants(gameId, filters),
+    enabled,
+  });
+
+  return {
+    ...queryInfo,
+    data: queryInfo?.data?.rows,
+  };
 };

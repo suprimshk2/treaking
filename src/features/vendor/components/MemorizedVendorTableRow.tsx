@@ -6,9 +6,12 @@ import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { useConfirmationModal } from 'shared/stores/ConfirmationModal';
 import { formatDateToView } from 'shared/utils/date';
-import { UserStatus } from 'shared/enums';
+import { ResourceCode, UserStatus } from 'shared/enums';
 import { useDeleteVendorMutation } from '../mutations';
 import { IVendor } from '../interfaces';
+import { vendorManagementPermissions } from 'features/settings/roles-and-permissions/enums';
+import { checkAuthForPermissions } from 'shared/utils/common';
+import { formatPhone } from 'shared/utils/misc';
 
 interface IProps {
   data: IVendor;
@@ -18,7 +21,15 @@ interface IProps {
 function VendorTableRow({ data, onEditClick }: IProps) {
   const userConfirmationModal = useConfirmationModal();
   const deleteUserMutation = useDeleteVendorMutation();
+  const isVendorUpdateEnabled = checkAuthForPermissions(
+    ResourceCode.VENDORS_MANAGEMENT,
+    vendorManagementPermissions.UPDATE
+  );
 
+  const isVendorDeleteEnabled = checkAuthForPermissions(
+    ResourceCode.VENDORS_MANAGEMENT,
+    vendorManagementPermissions.DELETE
+  );
   const onDeleteClick = async () => {
     const result = await userConfirmationModal?.openConfirmationModal({
       title: 'Delete User',
@@ -63,7 +74,7 @@ function VendorTableRow({ data, onEditClick }: IProps) {
   //   const currentRole = roleStyles[role as keyof typeof roleStyles];
   //   const currentStatus =
   //     userStatusStyles[status as keyof typeof userStatusStyles];
-
+  const isEnable = isVendorDeleteEnabled || isVendorUpdateEnabled;
   return (
     <TableRow key={data._id}>
       <TableCell
@@ -88,7 +99,11 @@ function VendorTableRow({ data, onEditClick }: IProps) {
           maxWidth: 200,
         }}
       >
-        <Typography variant="bodyTextMedium">{data?.businessName}</Typography>
+        {data?.contacts?.map((item, index) => (
+          <Typography key={index} variant="bodyTextMedium">
+            {formatPhone(item.phone)}
+          </Typography>
+        ))}
       </TableCell>
       <TableCell>
         <Typography variant="bodyTextMedium">{data?.email}</Typography>
@@ -101,15 +116,7 @@ function VendorTableRow({ data, onEditClick }: IProps) {
           </Typography>
         </Box>
       </TableCell>
-      <TableCell>
-        {/* {!!currentStatus && (
-          <Chip
-            label={currentStatus.label}
-            color={currentStatus.color as ColorType}
-            size="small"
-          />
-        )} */}
-      </TableCell>
+
       <TableCell>
         <Box display="flex" flexDirection="column">
           <Typography variant="bodyTextMedium">
@@ -121,21 +128,27 @@ function VendorTableRow({ data, onEditClick }: IProps) {
           </Typography>
         </Box>
       </TableCell>
-      <TableCell align="right">
-        <EllipseMenu>
-          <EllipseMenuItem
-            text="Edit"
-            icon={BsPencilSquare}
-            onClick={() => onEditClick(data?._id)}
-          />
+      {isEnable && (
+        <TableCell align="right">
+          <EllipseMenu>
+            {isVendorUpdateEnabled && (
+              <EllipseMenuItem
+                text="Edit"
+                icon={BsPencilSquare}
+                onClick={() => onEditClick(data?._id)}
+              />
+            )}
 
-          <EllipseMenuItem
-            text="Delete"
-            icon={BsTrashFill}
-            onClick={onDeleteClick}
-          />
-        </EllipseMenu>
-      </TableCell>
+            {isVendorDeleteEnabled && (
+              <EllipseMenuItem
+                text="Delete"
+                icon={BsTrashFill}
+                onClick={onDeleteClick}
+              />
+            )}
+          </EllipseMenu>
+        </TableCell>
+      )}
     </TableRow>
   );
 }

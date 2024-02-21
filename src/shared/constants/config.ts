@@ -1,5 +1,5 @@
 import apiRoute from 'features/auth/constants/apiRoute';
-import { Gender, Role } from 'shared/enums';
+import { Gender, GenderValue, Role } from 'shared/enums';
 
 export const config = {
   /**
@@ -34,9 +34,9 @@ export const config = {
   ],
 
   GENDER_OPTIONS: [
-    { id: 1, text: Gender.MALE, value: Gender.MALE },
-    { id: 2, text: Gender.FEMALE, value: Gender.FEMALE },
-    { id: 3, text: Gender.OTHER, value: Gender.OTHER },
+    { id: 1, text: Gender.MALE, value: GenderValue.MALE },
+    { id: 2, text: Gender.FEMALE, value: GenderValue.FEMALE },
+    { id: 3, text: Gender.OTHER, value: GenderValue.OTHER },
   ],
   ROLE_OPTIONS: [
     { id: 1, text: Role.ADMIN_TEXT, value: Role.ADMIN },
@@ -45,7 +45,7 @@ export const config = {
 
   INPUT_MASKING: {
     date: '##/##/####',
-    phone: '(###) ### ####',
+    phone: '+977 ##########',
     zip: '####',
   },
 

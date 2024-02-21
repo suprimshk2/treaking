@@ -17,7 +17,7 @@ export const userAddEditFormSchema = z.object({
   email: emailSchema,
   gender: nullableStringSchema,
   dob: nullableStringSchema,
-  phone: nullableStringSchema,
+  mobileNumber: nullableStringSchema,
   role: nullableStringSchema,
 });
 // TODO: Gonna be used in the future removed required validations for gender,dob and phone
@@ -40,7 +40,7 @@ export const userAdvancedFilterFormSchema = z.object({
   firstName: optionalStringSchema,
   lastName: optionalStringSchema,
   email: emailSchemaOptional,
-  phone: phoneSchemaOptional,
+  mobileNumber: phoneSchemaOptional,
 });
 
 export type UserAdvancedFilterFormSchemaType = z.infer<

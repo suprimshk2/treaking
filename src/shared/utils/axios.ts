@@ -111,11 +111,9 @@ export class CustomAxios {
     params,
     callback,
     headers,
-    file,
   }: IBaseRequest) => {
     const requestConfig = {
       method,
-      file,
       url,
       data,
       params,

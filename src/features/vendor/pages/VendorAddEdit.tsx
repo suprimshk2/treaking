@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Box, useTheme } from '@mui/material';
 import {
   Button,
   ButtonSize,
+  ButtonType,
   ButtonVariant,
 } from 'shared/theme/components/Button';
-import { Dialog, DialogSize } from 'shared/theme/components/dialog/Dialog';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+} from 'shared/theme/components/dialog';
 import { DialogLoader } from 'shared/components/display/DialogLoader';
-import uiRoute from 'shared/constants/uiRoute';
+
 import {
   useAddVendorMutation,
   useEditVendorMutation,
@@ -17,16 +22,16 @@ import {
 } from '../mutations';
 import { VendorAddEditFields } from '../components/VendorAddEditFields';
 import { formatVendorAddPayload } from '../utils';
-import { IFileSchema } from '../interfaces';
-import { AddVendorFormSchemaType } from '../schemas';
+import { AddVendorFormSchemaType, addVendorFormSchema } from '../schemas';
+import { DialogSize } from 'shared/theme/components/dialog/Dialog';
 
 interface IProps {
   editVendorId: string; // id of user which is to be edited
   onClose: VoidFunction;
 }
 
-const defaultValues: any = {
-  logoUrl: '',
+const defaultValues = {
+  images: [],
   businessName: '',
   contactsOne: '',
   contactsTwo: '',
@@ -45,15 +50,10 @@ const defaultValues: any = {
 
 export function VendorAddEdit({ editVendorId, onClose }: IProps) {
   const theme = useTheme();
-
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const [selectedFiles, setSelectedFiles] = useState<IFileSchema[]>([]);
-
   const addVendorMutation = useAddVendorMutation();
   const editVendorMutation = useEditVendorMutation();
   const methods = useForm({
-    // resolver: zodResolver(addVendorFormSchema),
+    resolver: zodResolver(addVendorFormSchema),
     defaultValues,
   });
   const {
@@ -71,10 +71,10 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
       const vendorData = vendorDetailQuery.data;
 
       reset({
-        logoUrl: vendorData?.logoUrl || '',
+        ...vendorData,
         businessName: vendorData?.businessName || '',
-        contactsOne: vendorData.phone?.[0] || '',
-        contactsTwo: vendorData.phone?.[1] || '',
+        contactsOne: vendorData.phone?.[0] || vendorData?.contactsOne,
+        contactsTwo: vendorData.phone?.[1] || vendorData?.contactsTwo,
         email: vendorData?.email || '',
         accountOwner: vendorData?.accountOwner?.name || '',
         description: vendorData?.description || '',
@@ -94,7 +94,7 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
     onClose();
   };
   const handleVendorEdit = (data: AddVendorFormSchemaType) => {
-    const payload = formatVendorAddPayload(data);
+    const payload: any = formatVendorAddPayload(data);
 
     editVendorMutation.mutate(
       { id: editVendorId, data: payload },
@@ -120,11 +120,10 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
   const isEditMode = !!editVendorId;
 
   const onSubmit = (data) => {
-    const payload = { ...data, logoUrl: selectedFiles[0]?.base64 ?? '' };
     if (isEditMode) {
       handleVendorEdit(data);
     } else {
-      handleVendorAdd(payload);
+      handleVendorAdd(data);
     }
   };
   const TEXT = {
@@ -150,38 +149,29 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
       ) : (
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Box
-              display="flex"
-              alignContent="center"
-              flexDirection="column"
-              justifyContent="center"
-              sx={{
-                backgroundColor: theme.palette.gray.lighter,
-                paddingBottom: theme.spacing(10),
-              }}
-            >
-              <VendorAddEditFields setSelectedFiles={setSelectedFiles} />
+            <DialogContent sx={{ backgroundColor: theme.palette.common.white }}>
               <Box
-                maxWidth={518}
                 display="flex"
-                mx="auto"
-                flexDirection="row"
-                justifyContent="space-between"
                 alignContent="center"
-                sx={childrenContainerStyle}
+                flexDirection="column"
+                justifyContent="center"
+                sx={{
+                  backgroundColor: theme.palette.common.white,
+                  paddingBottom: theme.spacing(10),
+                }}
               >
-                <Button
-                  onClick={() => onClose()}
-                  size={ButtonSize.MEDIUM}
-                  variant={ButtonVariant.OUTLINED}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" size={ButtonSize.MEDIUM}>
-                  Save
-                </Button>
+                <VendorAddEditFields />
               </Box>
-            </Box>
+            </DialogContent>
+            <DialogFooter
+              primaryButtonText={TEXT.footerActionButtonText}
+              primaryButtonType="submit"
+              secondaryButtonText="Cancel"
+              isSubmitting={
+                editVendorMutation.isPending || addVendorMutation.isPending
+              }
+              onSecondaryButtonClick={onCloseModal}
+            />
           </form>
         </FormProvider>
       )}

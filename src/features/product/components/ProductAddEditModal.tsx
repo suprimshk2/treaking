@@ -67,6 +67,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
       try {
         const data = await uploadImageMutation.mutateAsync(payload);
         const images = getValues('images');
+
         setValue('images', [...images, { url: data?.data?.url ?? '' }]);
 
         ref.current?.setFileState(item.fileId, data?.data?.url, false, true);
@@ -180,7 +181,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
               </Stack>
               <Box paddingY={theme.spacing(3)} flex={1}>
                 <Typography mb={3} variant="h5">
-                  Product Image
+                  Product Image *
                 </Typography>
                 <FileDropzone
                   maxSize={config.MAX_FILE_SIZE}

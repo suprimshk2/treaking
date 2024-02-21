@@ -96,6 +96,20 @@ export const addUser = async (
 
   return response?.data;
 };
+export const addRole = async (data, id): Promise<IResponse<IUser>> => {
+  const { response, error } = await baseRequest({
+    method: 'PUT',
+    url: apiRoute.addRole.replace(':id', id),
+    data,
+  });
+
+  if (error) {
+    console.log(error, 'role err');
+    return Promise.reject(error);
+  }
+
+  return response?.data;
+};
 
 export const editUser = async (
   id: string,

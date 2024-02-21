@@ -2,9 +2,11 @@ import { MenuItem } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { ISelectProps } from 'shared/theme/components/Select';
 import { useBoundStore } from 'shared/stores/useBoundStore';
-import { useVendorQuery } from 'features/vendor/queries';
+import { useUserQuery } from 'features/users/queries';
+import { IUser } from 'features/users/interfaces';
+import { concatString } from 'shared/utils/common';
 
-export function FormVendorSelect({
+export function FormUserSelect({
   name,
   placeholder,
   clearable,
@@ -12,17 +14,17 @@ export function FormVendorSelect({
 }: Omit<ISelectProps, 'children'>) {
   const {
     control,
-    watch,
     setValue,
     clearErrors,
+    watch,
     formState: { errors },
   } = useFormContext();
+  const filters = useBoundStore.use.vendorTableFilters();
+  const { data } = useUserQuery(filters, {
+    enabled: true,
+  });
 
-  const filters = useBoundStore.use.roleTableFilters();
-  const { data } = useVendorQuery(filters);
-  const vendorList = data?.data?.rows ?? [];
-
-  const vendorId = watch('vendor')?.id || '';
+  const userId = watch(name) || '';
 
   const handleClear = () => {
     setValue(name, '');
@@ -36,27 +38,25 @@ export function FormVendorSelect({
         <Select
           {...field}
           {...others}
-          value={vendorId}
-          placeholder={placeholder || 'Select Vendor'}
+          value={userId}
+          placeholder={placeholder || 'Select user'}
           color={errors[name] ? 'error' : undefined}
           hint={(errors[name]?.message as string) ?? ''}
           clearable={clearable}
           handleClear={handleClear}
-          onChange={(item) => {
-            const vendor = vendorList?.find(
-              (el) => el.vendorId === item.target.value
-            );
-
-            setValue('vendor', {
-              name: vendor?.businessName,
-              id: vendor?.vendorId,
-            });
-            clearErrors('vendor');
-          }}
         >
-          {vendorList?.map?.((vendor) => (
-            <MenuItem value={vendor.vendorId} key={vendor._id}>
-              {vendor.businessName}
+          {data?.map?.((user: IUser) => (
+            <MenuItem
+              value={concatString(
+                user?.demographic?.firstName ?? '',
+                user?.demographic?.lastName ?? ''
+              )}
+              key={user?.demographic?.mobileNumber}
+            >
+              {concatString(
+                user?.demographic?.firstName ?? '',
+                user?.demographic?.lastName ?? ''
+              )}
             </MenuItem>
           ))}
         </Select>

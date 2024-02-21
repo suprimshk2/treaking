@@ -31,7 +31,7 @@ function UserList() {
   }, [resetUserTableFilters]);
 
   return (
-    <Box px={theme.spacing(40)}>
+    <Box px={theme.spacing(3)}>
       <UserTableBanner onAddClick={() => onOpen()} />
       <UserTable onEditClick={onEditClick} />
       {isOpen && (

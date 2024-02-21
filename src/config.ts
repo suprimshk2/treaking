@@ -29,7 +29,7 @@ const mode: IMode = {
     socketBaseURL: 'https://dev.api.therapy.noveltytechnology.com',
   },
   QA: {
-    baseURL: 'https://qa.api.therapy.noveltytechnology.com/api',
+    baseURL: 'https://qa.api.meromakaii.com/api',
     appBaseURL: 'https://qa.therapy.noveltytechnology.com',
     socketBaseURL: 'https://qa.api.therapy.noveltytechnology.com',
   },

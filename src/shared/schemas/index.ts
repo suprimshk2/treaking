@@ -18,6 +18,7 @@ export function asOptionalField<T extends z.ZodTypeAny>(schema: T) {
   return schema.optional().or(emptyStringToUndefined);
 }
 
+export const optionalCheckboxSchema = z.boolean().optional();
 export const requiredStringSchema = z
   .string()
   .trim()
@@ -89,6 +90,7 @@ export const priceSchema = z.array(
 export const vendorSchema = z.object({
   id: z.string(),
   name: z.string(),
+  logo_url: z.string().optional(),
 });
 
 export const pointSchema = z.array(
@@ -100,3 +102,11 @@ export const pointSchema = z.array(
 );
 
 export const imageSchema = z.array(z.object({ url: z.string() })).nonempty();
+export const optionalImageSchema = z
+  .array(z.object({ url: z.string() }))
+  .optional()
+  .nullable();
+export const requiredObjectSchema = z.object({
+  id: requiredStringSchema,
+  name: requiredStringSchema,
+});

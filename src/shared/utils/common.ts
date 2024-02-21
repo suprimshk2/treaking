@@ -464,9 +464,16 @@ export const managePermissionPayload = (
 
   return resources;
 };
-export const formatFullName = (firstName: string, lastName: string) => {
+export const formatFullName = (
+  firstName: string,
+  lastName: string,
+  middleName?: string
+) => {
   if (firstName) {
     return `${firstName} ${lastName || ''}`;
+  }
+  if (middleName) {
+    return `${firstName} ${middleName || ''} ${lastName || ''}`;
   }
   return 'N/A';
 };
@@ -476,7 +483,6 @@ export const checkAuthForPermissions = (
   resourceCode?: string
 ) => {
   const authModules = useBoundStore.use.authModule();
-
   if (resourceCode) {
     const checkAuthPermission = authModules?.modules
       ?.find((module: any) => module.code === moduleCode)
@@ -552,9 +558,12 @@ export const convertNumberToString = (
 ): string => {
   if (Number.isInteger(value) && !Number.isNaN(value)) {
     if (divide) {
-      return String(value / 100);
+      return String((value || 0) / 100);
     }
     return String(value);
   }
   return '';
+};
+export const concatString = (title: string, subTitle: string) => {
+  return title.concat(' ' + subTitle ?? '');
 };

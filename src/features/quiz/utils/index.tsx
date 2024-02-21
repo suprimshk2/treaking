@@ -1,18 +1,22 @@
 import { isEmpty, pickBy } from 'shared/utils/lodash';
 import { mapKeys } from 'shared/utils/misc';
 import { IListResponse } from 'shared/interfaces/http';
-import { formatFullName } from 'shared/utils/common';
-import { formatDateTimeToView } from 'shared/utils/date';
+import { concatString, formatFullName } from 'shared/utils/common';
+import { formatDateTimeToView, formatDateToView } from 'shared/utils/date';
 import { InfiniteData } from '@tanstack/react-query';
 import {
   IAdoptQuiz,
+  IAdoptWinnerResponse,
   IFormattedQuizFormSchema,
   IQuiz,
   IQuizTableFilter,
+  IWinnerAdd,
+  IWinnerDefaultValue,
 } from '../interfaces';
-import { AddQuizFormSchemaType } from '../schemas';
+import { AddQuizFormSchemaType, WinnerAddFormSchemaType } from '../schemas';
 import { quizConfig } from '../constant/config';
 import { QuizStatus } from '../enums';
+import { a1 } from 'vitest/dist/reporters-qc5Smpt5';
 
 const { QUIZ_TABLE_FILTER_MAP } = quizConfig;
 export const formatQuizStatus = (startDate: Date, endDate: Date) => {
@@ -29,20 +33,35 @@ export const formatQuizStatus = (startDate: Date, endDate: Date) => {
 
 export const formatQuizList = (
   res: InfiniteData<IListResponse<IQuiz>>
-): InfiniteData<IListResponse<IAdoptQuiz>> => {
+): InfiniteData<IListResponse<IAdoptQuiz>> | any => {
   return {
     ...res,
-    pages: res.pages.map((group) => {
+    pages: res?.pages?.map((group) => {
       return {
         rows: group.rows.map((item: IQuiz) => {
           return {
             ...item,
+            title: concatString(item?.content.title, item?.content.subTitle),
+            campaign: item?.campaign?.name || 'N/A',
+            campaignCode: item?.campaign?.code || 'N/A',
             status: formatQuizStatus(item?.startDate, item?.endDate),
             startDate: formatDateTimeToView(item?.startDate?.toString()),
             endDate: formatDateTimeToView(item?.endDate?.toString()),
-            winnerFullName:
-              formatFullName(item?.winner?.firstName, item?.winner?.lastName) ||
-              'N/A',
+            updated: {
+              name: item?.updated?.name,
+              date: formatDateToView(item?.updated?.date),
+            },
+            // TODO:specify interface
+            winners: item?.winners?.map((winner: any) => {
+              return {
+                ...winner,
+                fullName:
+                  formatFullName(
+                    winner?.firstName || winner?.demographic?.firstName,
+                    winner?.lastName || winner?.demographic?.lastName
+                  ) || 'N/A',
+              };
+            }),
           };
         }),
       };
@@ -50,66 +69,113 @@ export const formatQuizList = (
   };
 };
 
+export const formatQuizDetail = (res) => {
+  const options = res?.data?.options;
+  const correctOptionId = res?.data?.correctOptionId;
+
+  const correctOptionIndex = res?.data?.options.indexOf(
+    options.find((item) => item?.id === correctOptionId)
+  );
+
+  return {
+    ...res.data,
+    images: res?.data?.content?.logoUrl
+      ? [{ url: res?.data?.content?.logoUrl }]
+      : null,
+    prizeImage: res?.data?.prize?.imageUrl
+      ? [{ url: res?.data?.prize?.imageUrl }]
+      : null,
+    correctOptionNumber: correctOptionIndex,
+    campaign: {
+      ...res?.data?.campaign,
+      id: res?.data?.campaign?.campaignId,
+    },
+  };
+};
+
 export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
   return data?.quizzes?.map((item) => ({
     title: data.subTitle,
-    endDate: new Date(item.startDate),
-
+    endDate: new Date(item.endDate).toISOString(),
     imageUrl: '',
     type: 'QUIZ',
-    startDate: new Date(item.startDate),
-
+    startDate: new Date(item.startDate).toISOString(),
     prize: {
-      title: '',
+      title: data?.prizeDescription,
       description: data?.prizeDescription,
+      imageUrl: data?.prizeImage?.[0]?.url || '',
     },
-    description: item.question,
-    termsAndConditions: '',
+    campaign: {
+      id: data?.campaign?.id,
+      name: data?.campaign?.name,
+    },
+    campaignId: data?.campaign ?? '',
+    description: item?.question,
+    termsAndConditions: data?.termsAndConditions,
     status: 'ACTIVE',
-    winnerAnnouncementDate: new Date(data.winnerDate),
-    options: item?.options.map((option, index) => ({
-      name: option,
-      order: index + 1,
-    })),
+    winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
+    options: item?.options,
     content: {
-      logoUrl: data?.logoUrl[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
       upcomingTitle: '',
     },
-    correctOptionNumber: 1,
+    correctOptionNumber: item?.correctOptionNumber,
   }));
 };
 
 export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
   return {
-    title: data.subTitle,
-    endDate: new Date(data?.quizzes?.[0]?.endDate),
+    title: data?.subTitle,
+    endDate: new Date(data?.quizzes?.[0]?.endDate).toISOString(),
     imageUrl: '',
     type: 'QUIZ',
-    startDate: new Date(data?.quizzes?.[0]?.startDate),
+    startDate: new Date(data?.quizzes?.[0]?.startDate).toISOString(),
+    campaignId: data?.campaign ?? '',
 
     prize: {
-      title: '',
+      title: data?.prizeDescription,
       description: data?.prizeDescription,
+      imageUrl: data?.prizeImage?.[0]?.url || '',
     },
     description: data?.quizzes?.[0]?.question,
-    termsAndConditions: '',
+    termsAndConditions: data?.termsAndConditions,
     status: 'ACTIVE',
-    winnerAnnouncementDate: new Date(data?.winnerDate),
-    options: data?.quizzes?.[0]?.options?.map((option, index) => ({
-      name: option,
-      order: index + 1,
-    })),
+    winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
+    options: data?.quizzes?.[0]?.options,
     content: {
-      logoUrl: data?.logoUrl[0]?.url,
+      logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
       description: data?.description,
       upcomingTitle: '',
     },
-    correctOptionNumber: 1,
+    correctOptionNumber: data?.quizzes?.[0]?.correctOptionNumber,
+  };
+};
+export const formatAddWinner = (
+  data: IWinnerDefaultValue
+): WinnerAddFormSchemaType => {
+  return {
+    ...data,
+    winners: data?.winners?.map((item: IWinnerAdd) => {
+      return { ...item, rank: +item.rank, name: item?.name ?? '' };
+    }),
+  };
+};
+export const formatWinnerData = (data): IListResponse<IAdoptWinnerResponse> => {
+  return {
+    ...data[0],
+    rows: data?.[0]?.rows
+      ?.map((winner) => {
+        return {
+          ...winner,
+          id: winner?.userId,
+        };
+      })
+      .sort((a, b) => a.rank - b.rank),
   };
 };
 
@@ -118,11 +184,13 @@ export const formatQuizAddPayload = (
 ): IFormattedQuizFormSchema => {
   return formatQuizAddPayloadData(data);
 };
+
 export const formatQuizEditPayload = (
   data: AddQuizFormSchemaType
 ): IFormattedQuizFormSchema => {
   return formatQuizEditPayloadData(data);
 };
+
 export const formatQuizFilterParams = (filters: IQuizTableFilter) => {
   const params = pickBy(filters, (value: string | number) => value !== '');
   if (isEmpty(params)) {

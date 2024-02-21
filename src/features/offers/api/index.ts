@@ -100,7 +100,7 @@ export const editOffer = async (
   data: IEditOfferSchema
 ): Promise<IResponse<IOffer>> => {
   const { response, error } = await baseRequest({
-    method: 'PUT',
+    method: 'PATCH',
     url: apiRoute.edit.replace(':id', id),
     data,
   });

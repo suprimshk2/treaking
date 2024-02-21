@@ -31,7 +31,7 @@ const defaultValues: UserAddEditFormSchemaType = {
   email: '',
   gender: null,
   dob: '',
-  phone: '',
+  mobileNumber: '',
   role: '',
 };
 
@@ -59,7 +59,7 @@ export function UserAddEditModal({ editUserId, onClose }: IProps) {
         email: demographic.email || '',
         gender: demographic.gender || null,
         dob: unformatDate(demographic.dob),
-        phone: unformatPhone(demographic.phone),
+        mobileNumber: unformatPhone(demographic.mobileNumber),
         role: userDetailQuery?.data?.association?.roles?.[0] || '',
       });
     }

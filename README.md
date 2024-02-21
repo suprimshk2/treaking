@@ -1,12 +1,12 @@
-# Holista Therapy UI with React
+# Makaii  Admin Portal UI with React
 
-A UI application for the Holista Therapy project, bootstrapped with [Vite](https://vitejs.dev/) following React TS template. 
+A UI application for the Makaii project, bootstrapped with [Vite](https://vitejs.dev/) following React TS template. 
 
 
 ## Prerequisites
 
-- Node.js v18.15.0 or higher
-- npm v9.5.0 or higher
+- Node.js v20.11.0 
+- npm v10.2.5 
 - ESLint and Prettier extensions in your code editor of choice
 
 

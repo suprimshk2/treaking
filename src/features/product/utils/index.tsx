@@ -1,9 +1,5 @@
 import { IListResponse, IResponse } from 'shared/interfaces/http';
-import {
-  convertNumberToString,
-  convertStringToNumber,
-  formatCurrency,
-} from 'shared/utils/common';
+import { convertStringToNumber, formatCurrency } from 'shared/utils/common';
 import { formatDateToView } from 'shared/utils/date';
 import {
   IAdaptedProductTableRow,
@@ -22,8 +18,8 @@ export const adaptProduct = (
     point: item.point.originalValue?.toLocaleString() || 'N/A',
     price: formatCurrency(item.price?.originalValue ?? 0) || 'N/A',
     status: item.quantityInStock === 0 ? 'Out of stock' : 'Available',
-    createdBy: item?.created?.name,
-    createdAt: formatDateToView(item.created.date),
+    updatedBy: item?.updated?.name,
+    updatedAt: formatDateToView(item.updated.date),
     isInStock: item.quantityInStock > 0,
     quantityInStock: item.quantityInStock,
     image_url: item.images?.[0]?.url ?? '',
@@ -32,13 +28,15 @@ export const adaptProduct = (
 };
 
 export const adaptProductList = (
-  res: IResponse<IListResponse<IProductTableRow>>
+  res: IResponse<IListResponse<IProductTableRow>> | any
 ): IResponse<IListResponse<IAdaptedProductTableRow>> => {
+  const allRows = res?.pages?.map((item) => item.data.rows).flat();
+
   return {
     ...res,
     data: {
       ...res.data,
-      rows: res.data.rows.map((item: IProductTableRow) => adaptProduct(item)),
+      rows: allRows.map((item: IProductTableRow) => adaptProduct(item)),
     },
   };
 };
@@ -51,7 +49,7 @@ const calculatePercentageDifference = (sPrice: number, dPrice: number) => {
 export const formatProductAddPayload = (
   data: IProductSchema
 ): IAdaptedproductSchema => {
-  const payload = {
+  const payload: any = {
     ...data,
     point: [
       {

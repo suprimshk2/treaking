@@ -216,7 +216,7 @@ function UserTableRow({ data, onEditClick }: IProps) {
             {
               id: 2,
               icon: BsPhone,
-              text: formatPhone(data.demographic.phone),
+              text: formatPhone(data.demographic.mobileNumber),
             },
           ]}
         />

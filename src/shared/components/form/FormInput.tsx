@@ -47,6 +47,7 @@ function FormInput({
       render={({ field }) => (
         <Input
           {...field}
+          // value={value}
           id={id}
           label={label}
           placeholder={placeholder}
