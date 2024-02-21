@@ -1,4 +1,4 @@
-import { MenuItem, Typography } from '@mui/material';
+import { MenuItem, Typography, Box, useTheme } from '@mui/material';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select from 'shared/theme/components/Select';
 import { useBoundStore } from 'shared/stores/useBoundStore';
@@ -19,9 +19,8 @@ export function FormGameParticipantsSelect({
     watch,
     formState: { errors },
   } = useFormContext();
-
+  const theme = useTheme();
   const participant = watch(participantsId) || '';
-  console.log(participant, 'pp');
 
   const filters = useBoundStore.use.quizTableFilters();
   const { data } = useGameParticipantsQuery(gameId, filters, {
@@ -69,7 +68,25 @@ export function FormGameParticipantsSelect({
           )}
           {data?.map?.((participants) => (
             <MenuItem value={participants?.userId} key={participants?.userId}>
-              {participants?.demographic?.firstName}
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Typography variant="bodyTextSmallMd">
+                  {formatFullName(
+                    participants?.demographic?.firstName,
+                    participants?.demographic?.lastName
+                  )}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ color: theme.palette.gray.main }}
+                >
+                  {participants?.demographic?.mobileNumber}
+                </Typography>
+              </Box>
             </MenuItem>
           ))}
         </Select>

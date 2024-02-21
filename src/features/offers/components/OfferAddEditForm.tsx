@@ -1,5 +1,12 @@
 import { FormProvider, useForm } from 'react-hook-form';
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import Alert from 'shared/theme/components/Alert';
 import { IError } from 'shared/interfaces/http';
 import { useEffect } from 'react';
@@ -50,6 +57,7 @@ const defaultValues: IOfferForm = {
 export function OfferAddEditForm() {
   const addOfferMutation = useAddOfferMutation();
   const editOfferMutation = useEditOfferMutation();
+  const matches = useMediaQuery('(min-width:1296px)');
 
   const methods = useForm<OfferAddEditFormSchemaType>({
     resolver: zodResolver(offerAddEditFormSchema),
@@ -177,6 +185,7 @@ export function OfferAddEditForm() {
                 </Box>
               )}
               <Grid container rowSpacing={4} columnSpacing={8}>
+                {/* {`(min-width:600px) matches: ${matches}`} */}
                 <Grid item xs={7}>
                   <Box component={Paper} p={4}>
                     <OfferAddEditFormFields isEditMode={isEditMode} />
@@ -190,7 +199,8 @@ export function OfferAddEditForm() {
                   justifyContent="center"
                   sx={{
                     top: 60,
-                    right: 20,
+                    right: 10,
+                    position: 'fixed',
                   }}
                 >
                   <MobileContentView />

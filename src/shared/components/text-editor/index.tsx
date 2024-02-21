@@ -86,9 +86,7 @@ function TextEditor({
 
   const onChange = (data: any) => {
     setText(data);
-    const compilerData = compiler(data);
-    const htmlString = ReactDOMServer.renderToStaticMarkup(compilerData);
-    setValue(name, htmlString || '');
+    setValue(name, data || '');
     clearErrors(name);
   };
 
