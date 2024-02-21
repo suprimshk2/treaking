@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Stack,
-  Toolbar,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material';
+import { AppBar, Box, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import layoutConstants from 'shared/constants/layout';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import Logo from 'shared/components/display/Logo';
@@ -15,7 +8,6 @@ import HeaderMenuList from 'shared/components/header/HeaderMenuList';
 import { NavLink } from 'react-router-dom';
 import uiRoute from 'shared/constants/uiRoute';
 import { AccountPopover } from './AccountPopover';
-import { SettingsMenu } from './SettingsMenu';
 
 const { HEADER_HEIGHT, HEADER_LOGO_HEIGHT } = layoutConstants;
 
@@ -80,16 +72,13 @@ function Header() {
             <HeaderMenuList />
           </Box>
 
-          {/* <Stack direction="row" spacing={4} alignItems="center">
-            {/* <SettingsMenu /> */}
-            <AccountPopover
-              avatarStyle={avatarStyles}
-              username={`${authData?.firstName || ''} ${
-                authData?.lastName ?? ''
-              }`}
-              className={isMobileView ? 'size-small' : 'size-medium'}
-            />
-          </Stack> */}
+          <AccountPopover
+            avatarStyle={avatarStyles}
+            username={`${authData?.firstName || ''} ${
+              authData?.lastName ?? ''
+            }`}
+            className={isMobileView ? 'size-small' : 'size-medium'}
+          />
         </Box>
       </Toolbar>
     </Box>
