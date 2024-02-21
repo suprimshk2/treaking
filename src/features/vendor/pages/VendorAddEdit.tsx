@@ -97,7 +97,6 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
   };
   const handleVendorEdit = (data: AddVendorFormSchemaType) => {
     const payload: any = formatVendorAddPayload(data);
-    console.log({ payload });
 
     editVendorMutation.mutate(
       { id: editVendorId, data: payload },
@@ -123,8 +122,6 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
   const isEditMode = !!editVendorId;
 
   const onSubmit = (data) => {
-    console.log({ data });
-
     if (isEditMode) {
       handleVendorEdit(data);
     } else {
