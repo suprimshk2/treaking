@@ -45,7 +45,7 @@ const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
       { url: data.youtube, provider: 'YOUTUBE' },
     ],
     description: data.description,
-    // enrolledDate: new Date(data.enrolledDate).toISOString(),
+    enrolledDate: new Date(data.enrolledDate).toISOString(),
   };
 };
 export const formatVendorAddPayload = (data): IFormattedVendorFormSchema => {
