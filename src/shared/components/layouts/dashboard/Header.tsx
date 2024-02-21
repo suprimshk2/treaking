@@ -72,8 +72,6 @@ function Header() {
             <HeaderMenuList />
           </Box>
 
-          {/* <Stack direction="row" spacing={4} alignItems="center">
-            {/* <SettingsMenu /> */}
           <AccountPopover
             avatarStyle={avatarStyles}
             username={`${authData?.firstName || ''} ${

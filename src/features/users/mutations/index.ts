@@ -28,7 +28,7 @@ export const useAddUserMutation = () => {
   const { totalUsers, setTotalUsers } = useBoundStore.getState();
   let roles = {};
   return useMutation({
-    mutationFn: ({ data }: { data: IEditUserSchema }) => {
+    mutationFn: ({ data }: { data: any }) => {
       roles = data?.association;
 
       return userAPI.addUser(data);
