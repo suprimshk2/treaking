@@ -1,5 +1,6 @@
 const apiRoute = {
   add: '/users',
+  addRole: '/users/:id/assign-roles',
   delete: '/users/:id',
   edit: '/users/:id',
   getAll: '/users',

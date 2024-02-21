@@ -136,7 +136,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     campaignId: data?.campaign ?? '',
 
     prize: {
-      title: '',
+      title: data?.prizeDescription,
       description: data?.prizeDescription,
       imageUrl: data?.prizeImage?.[0]?.url || '',
     },
@@ -168,12 +168,14 @@ export const formatAddWinner = (
 export const formatWinnerData = (data): IListResponse<IAdoptWinnerResponse> => {
   return {
     ...data[0],
-    rows: data?.[0]?.rows?.map((winner) => {
-      return {
-        ...winner,
-        id: winner?.userId,
-      };
-    }),
+    rows: data?.[0]?.rows
+      ?.map((winner) => {
+        return {
+          ...winner,
+          id: winner?.userId,
+        };
+      })
+      .sort((a, b) => a.rank - b.rank),
   };
 };
 

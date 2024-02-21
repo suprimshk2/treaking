@@ -26,10 +26,16 @@ export const useAddUserMutation = () => {
   const filters = useBoundStore.getState().userTableFilters;
   const { sortBy, sortOrder } = useBoundStore.getState().userSort;
   const { totalUsers, setTotalUsers } = useBoundStore.getState();
-
+  let roles = {};
   return useMutation({
-    mutationFn: ({ data }: { data: IAddUserSchema }) => userAPI.addUser(data),
-    onSuccess: (res) => {
+    mutationFn: ({ data }: { data: IEditUserSchema }) => {
+      roles = data?.association;
+
+      return userAPI.addUser(data);
+    },
+    onSuccess: async (res) => {
+      await userAPI.addRole(roles, res?.data?._id);
+
       enqueueSnackbar(res.message || 'User added successfully', {
         variant: 'success',
       });
@@ -63,6 +69,7 @@ export const useAddUserMutation = () => {
           pageParams: data?.pageParams || [],
         })
       );
+      queryClient.invalidateQueries({ queryKey });
 
       // Update the total users in the store
       setTotalUsers(totalUsers + 1);

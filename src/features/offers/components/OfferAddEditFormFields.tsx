@@ -8,6 +8,7 @@ import { LookUpCode } from 'shared/enums';
 import { OfferFormAdTemplates } from './offer-templates/OfferFormAdTemplates';
 import { OfferTypeFormSelect } from './OfferTypeFormSelect';
 import { useFormContext } from 'react-hook-form';
+import { OfferContentLayoutType } from '../enums';
 import { useEffect } from 'react';
 
 export function OfferAddEditFormFields({
@@ -15,9 +16,14 @@ export function OfferAddEditFormFields({
 }: {
   isEditMode?: boolean;
 }) {
-  const { watch } = useFormContext();
-  const accountManagers = watch('vendor');
+  const { watch, setValue } = useFormContext();
+  const layoutType = watch('layoutType');
 
+  useEffect(() => {
+    if (layoutType === OfferContentLayoutType.DEFAULT) {
+      setValue('subTitle', OfferContentLayoutType.FREE);
+    }
+  }, [layoutType]);
   return (
     <Box>
       <Grid container spacing={4} mb={4}>
@@ -80,7 +86,7 @@ export function OfferAddEditFormFields({
               max: 999,
               min: 1,
             }}
-            // disabled={bodyType === OfferBodyType.FREE}
+            disabled={layoutType === OfferContentLayoutType.DEFAULT}
           />
         </Grid>
       </Grid>

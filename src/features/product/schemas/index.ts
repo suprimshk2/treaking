@@ -31,10 +31,10 @@ export const addProductFormSchema = z
         path: ['price'],
       });
     }
-    if (+discount > +costPrice) {
+    if (+discount > +price) {
       return refinementContext.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Discount price must be less than cost price',
+        message: 'Discount price must be less than selling price',
         path: ['discount'],
       });
     }

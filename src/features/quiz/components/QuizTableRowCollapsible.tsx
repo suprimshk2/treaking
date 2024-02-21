@@ -58,7 +58,7 @@ export function QuizTableRowCollapsible({ open, data }: IProps): JSX.Element {
                     <Box
                       component="ol"
                       start={1}
-                      sx={{ listStyleType: 'decimal' }}
+                      sx={{ listStyleType: 'decimal', paddingLeft: 3 }}
                     >
                       {data?.options?.map((option: Option, index) => (
                         <Box component="li" key={option.id}>

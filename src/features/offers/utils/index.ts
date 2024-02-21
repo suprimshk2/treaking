@@ -1,8 +1,14 @@
 import { isPast, isFuture } from 'date-fns';
 import { formatDateTimeToSave } from 'shared/utils/date';
 import { offerTemplates } from '../components/offer-templates/OfferFormAdTemplates';
-import { OfferStatus, OfferTemplateCode } from '../enums';
+import {
+  OfferContentLayoutType,
+  OfferStatus,
+  OfferTemplateCode,
+} from '../enums';
 import { OfferAddEditFormSchemaType } from '../schemas';
+import ReactDOMServer from 'react-dom/server';
+import { compiler } from 'markdown-to-jsx';
 
 export const getSelectedOfferTemplateFromCode = (
   templateCode: OfferTemplateCode
@@ -37,5 +43,15 @@ export const formatAddEditOfferPayload = (data: OfferAddEditFormSchemaType) => {
     startDate: new Date(data.startDate).toISOString(),
     endDate: new Date(data.endDate).toISOString(),
     availableUntil: new Date(data.availableUntil).toISOString(),
+    termsAndConditions: ReactDOMServer.renderToStaticMarkup(
+      compiler(data?.termsAndConditions)
+    ),
+    usageInstructions: ReactDOMServer.renderToStaticMarkup(
+      compiler(data?.usageInstructions)
+    ),
+    subTitle:
+      data?.layoutType !== OfferContentLayoutType.DEFAULT
+        ? data?.subTitle
+        : OfferContentLayoutType?.FREE,
   };
 };

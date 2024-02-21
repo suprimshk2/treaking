@@ -30,6 +30,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
     control,
     name: 'winners',
   });
+
   const onAddWinner = () => {
     append([{ id: '', rank: fields.length + 1, rankLabel: '', name: '' }]);
   };
@@ -37,7 +38,27 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
     setCheckBox((prev) => !prev);
   };
   setValue('applyToAllQuizInCampaign', checkBox);
-
+  const handleRemoveWinner = (index) => {
+    remove(index);
+    // try {
+    //   remove(index);
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // const test = fields.findIndex((_, fieldIndex) => index === fieldIndex);
+    // fields.splice(test, 1);
+    // console.log(fields);
+    // // fields.forEach((_, i) => {
+    // //   setValue(`winners.${i}.rank`, `${i + 1}`);
+    // // });
+    // // debugger;
+    // for (let i = index + 1; i <= fields.length; i++) {
+    //   // debugger;
+    //   console.log(i, 'i');
+    //   console.log(`winners.${i}.rank`, '`winners.${i}.rank`');
+    //   setValue(`winners.${i}.rank`, `${i - 1}`);
+    // }
+  };
   return (
     <>
       {fields.map((item, index) => {
@@ -60,7 +81,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
                 label="Position"
               />
             </Grid>
-            <Grid item xs={index === 0 ? 6 : 5}>
+            <Grid item xs={fields.length > 1 ? 5 : 6}>
               <FormGameParticipantsSelect
                 gameId={gameId}
                 name={`winners.${index}.name`}
@@ -71,7 +92,7 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
               />
             </Grid>
 
-            {index === 0 ? null : (
+            {fields.length > 1 && (
               <Grid
                 item
                 xs={1}
@@ -79,7 +100,10 @@ export function WinnerAddEditForm({ isEditMode, gameId }: IProps) {
                 alignSelf="flex-end"
                 justifyContent="flex-end"
               >
-                <IconButton size="medium" onClick={() => remove(index)}>
+                <IconButton
+                  size="medium"
+                  onClick={() => handleRemoveWinner(index)}
+                >
                   <BsX />
                 </IconButton>
               </Grid>
