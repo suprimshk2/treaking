@@ -1,5 +1,9 @@
 import { IListResponse, IResponse } from 'shared/interfaces/http';
-import { convertStringToNumber, formatCurrency } from 'shared/utils/common';
+import {
+  convertStringToNumber,
+  formatCurrency,
+  textEditorHandler,
+} from 'shared/utils/common';
 import { formatDateToView } from 'shared/utils/date';
 import {
   IAdaptedProductTableRow,
@@ -61,6 +65,7 @@ export const formatProductAddPayload = (
         value: convertStringToNumber(data.price) * 100,
       },
     ],
+    description: textEditorHandler(data?.description),
     quantityInStock: convertStringToNumber(data?.quantityInStock || ''),
     costPrice: convertStringToNumber(data?.costPrice || '') * 100,
     retailPrice: convertStringToNumber(data?.retailPrice || '') * 100,

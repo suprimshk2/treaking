@@ -52,6 +52,7 @@ export const config = {
   DATE_FORMAT: {
     dateViewFormat: 'MM/dd/yyyy',
     dateTimeViewFormat: 'Pp',
+    dateTimeTableViewFormat: 'MM/dd/yyyy hh:mm aa',
     dateInputFormat: 'MMddyyyy',
     dateSaveFormat: 'yyyy-MM-dd',
     ISO: 'ISO',

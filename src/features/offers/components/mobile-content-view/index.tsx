@@ -86,7 +86,8 @@ function MobileContentView() {
               <Box minHeight="28%" maxHeight="38%">
                 <Typography
                   sx={{
-                    fontSize: '5vw',
+                    fontSize: styles.headerFontSize,
+                    // fontSize: '5vw',
                     fontFamily,
                   }}
                 >
@@ -101,7 +102,8 @@ function MobileContentView() {
               >
                 <Typography
                   sx={{
-                    fontSize: '5vw',
+                    fontSize: styles.bodyFontSize,
+                    // fontSize: '5vw',
                     fontFamily,
                   }}
                 >
@@ -111,8 +113,8 @@ function MobileContentView() {
                   <Stack spacing={-6} position="relative" top={-6}>
                     <Typography
                       sx={{
-                        // fontSize: '108px',
-                        fontSize: '5vw',
+                        fontSize: '108px',
+                        // fontSize: '5vw',
                       }}
                     >
                       {LAYOUT_TYPE[layoutType]}
@@ -120,9 +122,8 @@ function MobileContentView() {
                     <Box alignSelf="baseline">
                       <Typography
                         sx={{
-                          fontSize: '5vw',
-
-                          // fontSize: '52px',
+                          // fontSize: '5vw',
+                          fontSize: '52px',
                         }}
                       >
                         OFF
@@ -134,8 +135,8 @@ function MobileContentView() {
             </Box>
             <Typography
               sx={{
-                // fontSize: styles.footerFontSize,
-                fontSize: '2vw',
+                fontSize: styles.footerFontSize,
+                // fontSize: '2vw',
                 fontFamily: styles.footerFontFamily,
                 color: styles.footerTextColor || 'inherit',
               }}

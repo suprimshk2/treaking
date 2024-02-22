@@ -32,6 +32,7 @@ export interface IFormattedVendorFormSchema {
   address: string;
   socialMedias: SocialMedia[];
   description: string;
+  enrolledDate: string;
 }
 
 export interface AccountOwner {

@@ -1,5 +1,6 @@
 import {
   emailSchema,
+  optionalDateSchema,
   optionalImageSchema,
   optionalStringSchema,
   phoneSchema,
@@ -28,6 +29,7 @@ export const addVendorFormSchema = z.object({
   vendorEmail: emailSchema,
   phone: phoneSchema,
   fullName: requiredStringSchema,
+  enrolledDate: optionalDateSchema,
 });
 
 export type AddVendorFormSchemaType = z.infer<typeof addVendorFormSchema>;

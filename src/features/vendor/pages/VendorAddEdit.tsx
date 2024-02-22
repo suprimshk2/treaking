@@ -46,6 +46,7 @@ const defaultValues = {
   vendorEmail: '',
   phone: '',
   fullName: '',
+  enrolledDate: new Date(),
 };
 
 export function VendorAddEdit({ editVendorId, onClose }: IProps) {
@@ -86,6 +87,7 @@ export function VendorAddEdit({ editVendorId, onClose }: IProps) {
         vendorEmail: vendorData.contacts?.[0]?.email,
         phone: vendorData.contacts?.[0]?.phone,
         fullName: vendorData.contacts?.[0]?.firstName,
+        enrolledDate: new Date(vendorData?.enrolledDate) || '',
       });
     }
   }, [vendorDetailQuery?.data, reset]);

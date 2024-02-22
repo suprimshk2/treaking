@@ -12,6 +12,7 @@ import { useUploadImageMutation } from 'shared/mutation';
 import { useRef } from 'react';
 import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
 import { FormUserSelect } from 'shared/components/form/FormUserSelect';
+import { FormDatePicker } from 'shared/components/form/FormDatePicker';
 
 export function VendorAddEditFields() {
   const ref = useRef<IFileRef>(null);
@@ -21,7 +22,7 @@ export function VendorAddEditFields() {
   const childrenContainerStyle = {
     width: '100%',
     backgroundColor: theme.palette.common.white,
-    p: 4,
+    px: 4,
     borderRadius: 1,
     height: '100%',
   };
@@ -51,7 +52,7 @@ export function VendorAddEditFields() {
     <Box width="100%" height="100%">
       <Box sx={childrenContainerStyle}>
         <Stack
-          p={4}
+          px={4}
           spacing={4}
           maxWidth={600}
           mx="auto"
@@ -123,18 +124,23 @@ export function VendorAddEditFields() {
                 rows={5}
               />
             </Grid>
-            <Grid item xs={6} mb={theme.spacing(3)}>
-              {/* <FormInput
+            <Grid container spacing={4} mb={theme.spacing(3)}>
+              <Grid item xs={6} mb={theme.spacing(3)}>
+                {/* <FormInput
                 name="accountOwner"
                 id="accountOwner"
                 label="Account Owner*"
               /> */}
 
-              <FormUserSelect
-                name="accountOwner"
-                id="accountOwner"
-                label="Account Manager*"
-              />
+                <FormUserSelect
+                  name="accountOwner"
+                  id="accountOwner"
+                  label="Account Manager*"
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <FormDatePicker name={'enrolledDate'} label="Enrolled Date" />
+              </Grid>
             </Grid>
             <Grid container xs={6} mb={theme.spacing(3)}>
               <Typography variant="bodyTextMedium">Contact Person</Typography>

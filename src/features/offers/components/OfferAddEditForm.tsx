@@ -185,7 +185,6 @@ export function OfferAddEditForm() {
                 </Box>
               )}
               <Grid container rowSpacing={4} columnSpacing={8}>
-                {/* {`(min-width:600px) matches: ${matches}`} */}
                 <Grid item xs={7}>
                   <Box component={Paper} p={4}>
                     <OfferAddEditFormFields isEditMode={isEditMode} />
@@ -200,7 +199,7 @@ export function OfferAddEditForm() {
                   sx={{
                     top: 60,
                     right: 10,
-                    position: 'fixed',
+                    // position: 'fixed',
                   }}
                 >
                   <MobileContentView />
