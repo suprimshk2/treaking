@@ -42,7 +42,7 @@ function MobileContentView() {
     return (
       <Box
         sx={{
-          height: '80vh',
+          height: 746,
           width: 400,
           position: 'relative',
         }}
