@@ -28,8 +28,8 @@ export const useAddUserMutation = () => {
   const { totalUsers, setTotalUsers } = useBoundStore.getState();
   let roles = {};
   return useMutation({
-    mutationFn: ({ data }: { data: any }) => {
-      roles = data?.association;
+    mutationFn: async ({ data }: { data: any }) => {
+      roles = await data?.association;
 
       return userAPI.addUser(data);
     },

@@ -2,6 +2,7 @@ import { isEmpty, pickBy } from 'shared/utils/lodash';
 import { mapKeys } from 'shared/utils/misc';
 import { IFormattedVendorFormSchema, IVendorTableFilter } from '../interfaces';
 import { vendorConfig } from '../constant/config';
+import { textEditorHandler } from 'shared/utils/common';
 
 const { VENDOR_TABLE_FILTER_MAP } = vendorConfig;
 export const formatVendorDetail = (res) => {
@@ -44,7 +45,7 @@ const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
       { url: data.website, provider: 'WEBSITE' },
       { url: data.youtube, provider: 'YOUTUBE' },
     ],
-    description: data.description,
+    description: textEditorHandler(data?.description),
     enrolledDate: new Date(data.enrolledDate).toISOString(),
   };
 };

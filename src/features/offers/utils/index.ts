@@ -1,6 +1,7 @@
 import { isPast, isFuture } from 'date-fns';
 import { offerTemplates } from '../components/offer-templates/OfferFormAdTemplates';
 import {
+  OfferBodyType,
   OfferContentLayoutType,
   OfferStatus,
   OfferTemplateCode,
@@ -34,7 +35,18 @@ export const getOfferStatus = ({
   }
   return OfferStatus.ACTIVE;
 };
-
+const formatOfferTemplate = (offerType: string, title: string) => {
+  switch (offerType) {
+    case OfferContentLayoutType.DEFAULT:
+      return title + OfferBodyType.FREE;
+    case OfferContentLayoutType.AMOUNT_OFF:
+      return title + ' ' + OfferBodyType.RUPEES + ' ' + 'OFF';
+    case OfferContentLayoutType.PERCENT_OFF:
+      return title + ' ' + OfferBodyType.PERCENTAGE + ' ' + 'OFF';
+    default:
+      return '';
+  }
+};
 export const formatAddEditOfferPayload = (data: OfferAddEditFormSchemaType) => {
   return {
     ...data,
@@ -47,5 +59,6 @@ export const formatAddEditOfferPayload = (data: OfferAddEditFormSchemaType) => {
       data?.layoutType !== OfferContentLayoutType.DEFAULT
         ? data?.subTitle
         : OfferContentLayoutType?.FREE,
+    name: formatOfferTemplate(data?.layoutType, data?.subTitle),
   };
 };
