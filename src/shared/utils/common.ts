@@ -10,6 +10,8 @@ import {
   IPermission,
   IResource,
 } from 'features/settings/roles-and-permissions/interfaces';
+import { compiler } from 'markdown-to-jsx';
+import ReactDOMServer from 'react-dom/server';
 import { HEADER_TITLE, TITLE_TYPE } from 'shared/constants/dashboardTitle';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 
@@ -567,3 +569,5 @@ export const convertNumberToString = (
 export const concatString = (title: string, subTitle: string) => {
   return title.concat(' ' + subTitle ?? '');
 };
+export const textEditorHandler = (data: string) =>
+  ReactDOMServer.renderToStaticMarkup(compiler(data));
