@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, Stack, Typography, useTheme } from '@mui/material';
 import {
@@ -21,6 +21,7 @@ import { ProductAddEditFields } from './ProductAddEditFields';
 import { formatProductAddPayload } from '../utils';
 import { ICloudFile, IFilePayload, IProductSchema } from '../interfaces';
 import { addProductFormSchema } from '../schemas';
+import Checkbox from 'shared/theme/components/Checkbox';
 
 const defaultValues: IProductSchema = {
   title: '',
@@ -34,6 +35,7 @@ const defaultValues: IProductSchema = {
   costPrice: '',
   retailPrice: '',
   discount: '',
+  isAuthentic: false,
 };
 
 interface IProps {
@@ -44,7 +46,7 @@ interface IProps {
 export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   const ref = useRef<IFileRef>(null);
   const theme = useTheme();
-
+  const [checkBox, setCheckBox] = useState(false);
   const isEditMode = !!editProductId;
   const methods = useForm({
     resolver: zodResolver(addProductFormSchema),
@@ -56,6 +58,12 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   const editProductMutation = useEditProductMutation();
 
   const { handleSubmit, reset, setValue, getValues } = methods;
+  const onChange = () => {
+    setCheckBox((prev) => !prev);
+  };
+  useEffect(() => {
+    setValue('isAuthentic', checkBox);
+  }, [checkBox]);
 
   const onFileChange = (files: IFilePayload[]) => {
     files.forEach(async (item) => {
@@ -188,6 +196,13 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
                   onChange={onFileChange}
                   ref={ref}
                 />
+                <Box alignItems="flex-end" mt={4}>
+                  <Checkbox
+                    checked={checkBox}
+                    onChange={onChange}
+                    label="This product is authentic"
+                  />
+                </Box>
               </Box>
             </Stack>
           </Box>

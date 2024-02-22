@@ -46,6 +46,7 @@ export interface IProductSchema {
   costPrice: string;
   retailPrice: string;
   discount: string;
+  isAuthentic: boolean;
 }
 
 export interface IAdaptedproductSchema {
