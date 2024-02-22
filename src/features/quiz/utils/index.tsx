@@ -1,7 +1,11 @@
 import { isEmpty, pickBy } from 'shared/utils/lodash';
 import { mapKeys } from 'shared/utils/misc';
 import { IListResponse } from 'shared/interfaces/http';
-import { concatString, formatFullName } from 'shared/utils/common';
+import {
+  concatString,
+  formatFullName,
+  textEditorHandler,
+} from 'shared/utils/common';
 import { formatDateTimeToView, formatDateToView } from 'shared/utils/date';
 import { InfiniteData } from '@tanstack/react-query';
 import {
@@ -16,9 +20,6 @@ import {
 import { AddQuizFormSchemaType, WinnerAddFormSchemaType } from '../schemas';
 import { quizConfig } from '../constant/config';
 import { QuizStatus } from '../enums';
-import { a1 } from 'vitest/dist/reporters-qc5Smpt5';
-import ReactDOMServer from 'react-dom/server';
-import { compiler } from 'markdown-to-jsx';
 
 const { QUIZ_TABLE_FILTER_MAP } = quizConfig;
 export const formatQuizStatus = (startDate: Date, endDate: Date) => {
@@ -103,12 +104,8 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     type: 'QUIZ',
     startDate: new Date(item.startDate).toISOString(),
     prize: {
-      title: ReactDOMServer.renderToStaticMarkup(
-        compiler(data?.prizeDescription)
-      ),
-      description: ReactDOMServer.renderToStaticMarkup(
-        compiler(data?.prizeDescription)
-      ),
+      title: textEditorHandler(data?.prizeDescription),
+      description: textEditorHandler(data?.prizeDescription),
       imageUrl: data?.prizeImage?.[0]?.url || '',
     },
     campaign: {
@@ -117,9 +114,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     },
     campaignId: data?.campaign ?? '',
     description: item?.question,
-    termsAndConditions: ReactDOMServer.renderToStaticMarkup(
-      compiler(data?.termsAndConditions)
-    ),
+    termsAndConditions: textEditorHandler(data?.termsAndConditions),
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
     options: item?.options,
@@ -127,9 +122,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
       logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
-      description: ReactDOMServer.renderToStaticMarkup(
-        compiler(data?.description)
-      ),
+      description: textEditorHandler(data?.description),
       upcomingTitle: '',
     },
     correctOptionNumber: item?.correctOptionNumber,
