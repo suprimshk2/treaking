@@ -199,7 +199,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
         </TableCell>
         <TableCell>
           <Typography>{data?.campaignCode}</Typography>
-          <Typography>{data?.campaign}</Typography>
+          <Typography variant="bodyTextSmallMd">{data?.campaign}</Typography>
         </TableCell>
 
         <TableCell>
@@ -257,7 +257,7 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
                 {data?.updated?.name}
               </Typography>
 
-              <Typography variant="bodyTextMedium">
+              <Typography variant="bodyTextSmallMd">
                 {data?.updated?.date}
               </Typography>
             </Box>
