@@ -13,6 +13,7 @@ import { useRef } from 'react';
 import { FormMaskedPhoneInput } from 'shared/components/form/FormMaskedPhoneInput';
 import { FormUserSelect } from 'shared/components/form/FormUserSelect';
 import { FormDatePicker } from 'shared/components/form/FormDatePicker';
+import TextEditor from 'shared/components/text-editor';
 
 export function VendorAddEditFields() {
   const ref = useRef<IFileRef>(null);
@@ -116,12 +117,10 @@ export function VendorAddEditFields() {
               </Grid>
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
-              <FormInput
+              <TextEditor
                 name="description"
-                id="description"
-                label="Description*"
-                multiline
-                rows={5}
+                label="Description *"
+                height={200}
               />
             </Grid>
             <Grid container spacing={4} mb={theme.spacing(3)}>
