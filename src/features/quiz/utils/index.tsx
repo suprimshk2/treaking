@@ -17,6 +17,8 @@ import { AddQuizFormSchemaType, WinnerAddFormSchemaType } from '../schemas';
 import { quizConfig } from '../constant/config';
 import { QuizStatus } from '../enums';
 import { a1 } from 'vitest/dist/reporters-qc5Smpt5';
+import ReactDOMServer from 'react-dom/server';
+import { compiler } from 'markdown-to-jsx';
 
 const { QUIZ_TABLE_FILTER_MAP } = quizConfig;
 export const formatQuizStatus = (startDate: Date, endDate: Date) => {
@@ -101,8 +103,12 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     type: 'QUIZ',
     startDate: new Date(item.startDate).toISOString(),
     prize: {
-      title: data?.prizeDescription,
-      description: data?.prizeDescription,
+      title: ReactDOMServer.renderToStaticMarkup(
+        compiler(data?.prizeDescription)
+      ),
+      description: ReactDOMServer.renderToStaticMarkup(
+        compiler(data?.prizeDescription)
+      ),
       imageUrl: data?.prizeImage?.[0]?.url || '',
     },
     campaign: {
@@ -111,7 +117,9 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     },
     campaignId: data?.campaign ?? '',
     description: item?.question,
-    termsAndConditions: data?.termsAndConditions,
+    termsAndConditions: ReactDOMServer.renderToStaticMarkup(
+      compiler(data?.termsAndConditions)
+    ),
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
     options: item?.options,
@@ -119,7 +127,9 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
       logoUrl: data?.images?.[0]?.url || '',
       title: data?.titleOne,
       subTitle: data?.titleTwo,
-      description: data?.description,
+      description: ReactDOMServer.renderToStaticMarkup(
+        compiler(data?.description)
+      ),
       upcomingTitle: '',
     },
     correctOptionNumber: item?.correctOptionNumber,

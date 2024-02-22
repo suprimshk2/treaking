@@ -90,6 +90,8 @@ export function QuizMultiple({
       </Grid>
       <Grid item xs={6} mb={2}>
         <FormInput
+          multiline
+          rows={2}
           name={`${fieldArrayName}.${fieldArrayIndex}.question` as const}
           fieldError={
             errors?.quizzes?.[fieldArrayIndex]?.question as FieldError
