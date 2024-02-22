@@ -1,5 +1,6 @@
 import {
   imageSchema,
+  optionalCheckboxSchema,
   optionalStringSchema,
   requiredStringSchema,
   vendorSchema,
@@ -22,6 +23,7 @@ export const addProductFormSchema = z
     retailPrice: requiredStringSchema,
     vendor: vendorSchema,
     discount: requiredStringSchema.min(0),
+    isAuthentic: optionalCheckboxSchema,
   })
   .superRefine(({ price, costPrice, discount }, refinementContext) => {
     if (+price < +costPrice) {

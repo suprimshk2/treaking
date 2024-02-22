@@ -108,7 +108,7 @@ export const formatDateTimeToView = (
     outputDateFormat: string;
   } = {
     inputDateFormat: DATE_FORMAT.ISO,
-    outputDateFormat: DATE_FORMAT.dateTimeViewFormat,
+    outputDateFormat: DATE_FORMAT.dateTimeTableViewFormat,
   }
 ) => {
   return formatDate(date, dateFormat);
