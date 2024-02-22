@@ -74,18 +74,18 @@ export function FormGameParticipantsSelect({
                   flexDirection: 'column',
                 }}
               >
-                <Typography variant="bodyTextSmallMd">
+                <Typography>
                   {formatFullName(
                     participants?.demographic?.firstName,
                     participants?.demographic?.lastName
                   )}
                 </Typography>
-                <Typography
+                {/* <Typography
                   variant="subtitle1"
                   sx={{ color: theme.palette.gray.main }}
                 >
                   {participants?.demographic?.mobileNumber}
-                </Typography>
+                </Typography> */}
               </Box>
             </MenuItem>
           ))}
