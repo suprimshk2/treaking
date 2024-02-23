@@ -46,7 +46,7 @@ export const adaptProductList = (
 };
 
 const calculatePercentageDifference = (sPrice: number, dPrice: number) => {
-  const price = dPrice / sPrice;
+  const price = (sPrice - dPrice) / sPrice;
   return price * 100;
 };
 
