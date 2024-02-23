@@ -33,7 +33,7 @@ const defaultValues: IAddQuizSchema = {
   prizeImage: [],
   winnerDate: new Date(),
   // winnerStartTime: '',
-  // winnerEndTime: '',
+  winnerEndDate: new Date(),
   quizzes: [
     {
       question: '',
@@ -76,6 +76,10 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
+      console.log(
+        quizData?.announcement?.endDate,
+        'quizData?.announcement?.endDate'
+      );
 
       reset({
         ...quizData,
@@ -86,6 +90,9 @@ export function QuizAddEdit() {
         winnerDate: isDuplicateMode
           ? new Date()
           : new Date(quizData?.winnerAnnouncementDate) || '',
+        winnerEndDate: isDuplicateMode
+          ? new Date()
+          : new Date(quizData?.announcement?.endDate) || '',
         prizeDescription: quizData?.prize?.description || '',
         quizzes: [
           {

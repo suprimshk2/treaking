@@ -117,6 +117,10 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     termsAndConditions: textEditorHandler(data?.termsAndConditions),
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
+    announcement: {
+      startDate: new Date(data?.winnerDate).toISOString(),
+      endDate: new Date(data?.winnerEndDate).toISOString(),
+    },
     options: item?.options,
     content: {
       logoUrl: data?.images?.[0]?.url || '',
@@ -130,6 +134,8 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
 };
 
 export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
+  console.log(data?.winnerEndDate, 'data?.winnerEndDate');
+
   return {
     title: data?.subTitle,
     endDate: new Date(data?.quizzes?.[0]?.endDate).toISOString(),
@@ -147,6 +153,10 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     termsAndConditions: textEditorHandler(data?.termsAndConditions),
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
+    announcement: {
+      startDate: new Date(data?.winnerDate).toISOString(),
+      endDate: new Date(data?.winnerEndDate).toISOString(),
+    },
     options: data?.quizzes?.[0]?.options,
     content: {
       logoUrl: data?.images?.[0]?.url || '',

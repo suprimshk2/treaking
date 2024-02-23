@@ -14,7 +14,7 @@ export interface IAddQuizSchema {
   termsAndConditions: string;
   winnerDate: Date;
   // winnerStartTime: string;
-  // winnerEndTime: string;
+  winnerEndDate: Date;
   prizeDescription: string;
   campaign: { id?: string; name?: string };
   quizzes: {
@@ -71,6 +71,10 @@ export interface IFormattedQuizFormSchema {
   termsAndConditions: string;
   status: string;
   winnerAnnouncementDate: string;
+  announcement: {
+    startDate: string;
+    endDate: string;
+  };
   options: {
     name: string;
     order: number;

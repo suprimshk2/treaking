@@ -21,9 +21,10 @@ export function ProductAddEditFields({
 
   const childrenContainerStyle = {
     width: '100%',
-    backgroundColor: theme.palette.gray.lighter,
+    backgroundColor: theme.palette.common.white,
     p: 4,
     borderRadius: 1,
+    boxShadow: '0px 0px 3px 0px gray', // Define the box shadow
     height: '100%',
   };
 

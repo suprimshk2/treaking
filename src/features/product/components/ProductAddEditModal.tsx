@@ -155,12 +155,12 @@ export function ProductAddEditModal() {
           flexDirection="column"
           justifyContent="center"
           sx={{
-            backgroundColor: theme.palette.gray.lighter,
+            backgroundColor: theme.palette.common.white,
             paddingBottom: theme.spacing(10),
             px: 10,
           }}
         >
-          <Stack direction="row">
+          <Stack direction="row" gap={5}>
             <Stack flex={1}>
               <ProductAddEditFields editProductId={editProductId} />
               <Box

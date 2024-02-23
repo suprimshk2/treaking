@@ -24,9 +24,7 @@ import { RolesMangementPermissions } from 'features/settings/roles-and-permissio
 import Chip from 'shared/theme/components/Chip';
 import { IUser } from '../interfaces';
 import { useDeleteUserMutation, useSendInviteMutation } from '../mutations';
-import { formatPhone } from '../utils';
 import { UserMangementPermissions } from '../enums';
-import parsePhoneNumberFromString from 'libphonenumber-js';
 
 const { DATE_FORMAT } = config;
 
@@ -40,10 +38,6 @@ function UserTableRow({ data, onEditClick }: IProps) {
   const deleteUserMutation = useDeleteUserMutation();
   const sendInviteMutation = useSendInviteMutation();
   const navigate = useNavigate();
-  const phoneNumber = parsePhoneNumberFromString(
-    data?.demographic?.mobileNumber
-  );
-
   const isUserUpdateEnabled = checkAuthForPermissions(
     ModuleCodes.SETTING,
     UserMangementPermissions.UPDATE,
@@ -220,7 +214,7 @@ function UserTableRow({ data, onEditClick }: IProps) {
             {
               id: 2,
               icon: BsPhone,
-              text: phoneNumber?.number,
+              text: data?.demographic?.mobileNumber,
             },
           ]}
         />
