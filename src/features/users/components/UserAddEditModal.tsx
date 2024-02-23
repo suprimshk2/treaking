@@ -100,6 +100,8 @@ export function UserAddEditModal({ editUserId, onClose }: IProps) {
   };
 
   const onSubmit = (data: UserAddEditFormSchemaType) => {
+    console.log({ data });
+
     if (isEditMode) {
       handleUserEdit(data);
     } else {

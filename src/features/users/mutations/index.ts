@@ -26,15 +26,13 @@ export const useAddUserMutation = () => {
   const filters = useBoundStore.getState().userTableFilters;
   const { sortBy, sortOrder } = useBoundStore.getState().userSort;
   const { totalUsers, setTotalUsers } = useBoundStore.getState();
-  let roles = {};
+
   return useMutation({
     mutationFn: async ({ data }: { data: any }) => {
-      roles = await data?.association;
-
       return userAPI.addUser(data);
     },
-    onSuccess: async (res) => {
-      await userAPI.addRole(roles, res?.data?._id);
+    onSuccess: async (res, context) => {
+      await userAPI.addRole(context.data?.association, res?.data?._id);
 
       enqueueSnackbar(res.message || 'User added successfully', {
         variant: 'success',

@@ -17,6 +17,9 @@ const emptyStringToUndefined = z.literal('').transform(() => undefined);
 export function asOptionalField<T extends z.ZodTypeAny>(schema: T) {
   return schema.optional().or(emptyStringToUndefined);
 }
+export function asOptionalNumberField<T extends z.ZodTypeAny>(schema: T) {
+  return schema.optional().or(emptyStringToUndefined);
+}
 
 export const optionalCheckboxSchema = z.boolean().optional();
 export const requiredStringSchema = z

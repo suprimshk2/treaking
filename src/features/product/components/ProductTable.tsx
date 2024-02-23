@@ -21,8 +21,10 @@ import { useProductsQuery } from '../queries';
 import ProductTableRow from './ProductTableRow';
 import { IAdaptedProductTableRow } from '../interfaces';
 import { PRODUCT_COLUMNS } from '../constant/ProducTableHeader';
-
-function ProductTable() {
+interface IProps {
+  onEditClick: (id: string) => void;
+}
+function ProductTable({ onEditClick }: IProps) {
   const filters = useBoundStore.use.productTableFilters();
   const {
     data,
@@ -59,7 +61,11 @@ function ProductTable() {
           <TableBody>
             {/* {isInitialLoading && <TableLoader cols={VENDOR_COLUMNS.length} />} */}
             {data?.rows?.map((item: IAdaptedProductTableRow) => (
-              <ProductTableRow item={item} key={item.id} />
+              <ProductTableRow
+                item={item}
+                key={item.id}
+                onEditClick={onEditClick}
+              />
             ))}
             {isEmptyResult && (
               <TableEmptyResult cols={PRODUCT_COLUMNS.length} />

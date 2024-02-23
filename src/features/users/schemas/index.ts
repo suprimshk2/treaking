@@ -40,7 +40,7 @@ export const userAdvancedFilterFormSchema = z.object({
   firstName: optionalStringSchema,
   lastName: optionalStringSchema,
   email: emailSchemaOptional,
-  mobileNumber: phoneSchemaOptional,
+  mobileNumber: z.string().min(10).optional(),
 });
 
 export type UserAdvancedFilterFormSchemaType = z.infer<

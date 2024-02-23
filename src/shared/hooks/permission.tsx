@@ -15,6 +15,7 @@ const WHITE_LIST_ROUTES = [
   uiRoute.auth.logout,
   uiRoute.auth.resetPassword,
   uiRoute.addQuiz,
+  uiRoute.addProduct,
   uiRoute.vendors.add,
   uiRoute.offers.index,
   uiRoute.offers.offerForm,

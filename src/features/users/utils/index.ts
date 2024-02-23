@@ -11,6 +11,7 @@ import {
 } from '../interfaces';
 import { UserAddEditFormSchemaType } from '../schemas';
 import { userConfig } from '../constants/config';
+import { parsePhoneNumber, AsYouType } from 'libphonenumber-js';
 
 const { USER_TABLE_FILTER_MAP } = userConfig;
 
@@ -29,6 +30,12 @@ export const formatPhone = (unformattedPhone: string) => {
 export const formatUserEditPayload = (
   data: UserAddEditFormSchemaType | ProfileSchemaType
 ): IEditUserSchema => {
+  const parsedPhone = data.mobileNumber
+    ? parsePhoneNumber(data.mobileNumber, 'NP')
+        .formatInternational()
+        .replace(/\s/g, '')
+    : undefined;
+
   return {
     demographic: {
       firstName: data.firstName,
@@ -37,7 +44,7 @@ export const formatUserEditPayload = (
       email: data.email,
       gender: data.gender,
       dob: data.dob ? formatDateToSave(data.dob) : undefined,
-      mobileNumber: data.mobileNumber || '',
+      mobileNumber: parsedPhone,
     },
     association: {
       roles: [`${data.role}`],

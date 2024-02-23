@@ -38,6 +38,7 @@
     "dompurify": "^3.0.8",
     "framer-motion": "^10.17.9",
     "jwt-decode": "^4.0.0",
+    "libphonenumber-js": "^1.10.56",
     "lodash": "^4.17.21",
     "markdown-to-jsx": "^7.4.1",
     "notistack": "^3.0.1",
