@@ -35,15 +35,15 @@ const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
     address: data.address,
     socialMedias: [
       {
-        url: data.facebook,
+        url: data.facebook || undefined,
         provider: 'FACEBOOK',
       },
       {
-        url: data.instagram,
+        url: data.instagram || undefined,
         provider: 'INSTAGRAM',
       },
-      { url: data.website, provider: 'WEBSITE' },
-      { url: data.youtube, provider: 'YOUTUBE' },
+      { url: data.website || undefined, provider: 'WEBSITE' },
+      { url: data.youtube || undefined, provider: 'YOUTUBE' },
     ],
     description: textEditorHandler(data?.description),
     enrolledDate: new Date(data.enrolledDate).toISOString(),

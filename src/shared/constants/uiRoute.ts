@@ -28,6 +28,7 @@ const uiRoute = {
     profileSecurity: '/profile/security',
   },
   products: '/products',
+  addProduct: '/product-form',
   quiz: '/quiz',
   vendor: '/vendors',
 

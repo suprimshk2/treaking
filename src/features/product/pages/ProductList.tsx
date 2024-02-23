@@ -1,32 +1,26 @@
 import { Box, useTheme } from '@mui/material';
-
-import { useState } from 'react';
-
-import useDisclosure from 'shared/hooks/useDisclosure';
 import ProductTable from '../components/ProductTable';
 import { ProductTableBanner } from '../components/ProductTableBanner';
-import { ProductAddEditModal } from '../components/ProductAddEditModal';
+
+import { useNavigate } from 'react-router-dom';
+import uiRoute from 'shared/constants/uiRoute';
 
 export function ProductList() {
   const theme = useTheme();
-  const [productId, setProductId] = useState('');
-  const { onOpen, isOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
-  const onCloseClick = () => {
-    setProductId('');
-    onClose();
+  const onEditClick = (id: string) => {
+    navigate(`${uiRoute.addProduct}?type=update-product&id=${id}`);
   };
   return (
     <Box pb={2}>
       <Box sx={{ paddingX: theme.spacing(4) }}>
-        <ProductTableBanner onAddClick={() => onOpen()} />
-        <ProductTable />
-        {isOpen && (
-          <ProductAddEditModal
-            editProductId={productId}
-            onClose={onCloseClick}
-          />
-        )}
+        <ProductTableBanner
+          onAddClick={() =>
+            navigate(`${uiRoute.addProduct}?type=create-product`)
+          }
+        />
+        <ProductTable onEditClick={onEditClick} />
       </Box>
     </Box>
   );

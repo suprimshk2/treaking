@@ -13,6 +13,7 @@ import { ProductList } from 'features/product/pages/ProductList';
 import { QuizAddEdit } from 'features/quiz/pages/QuizAddEdit';
 import { VendorList } from 'features/vendor/pages/VendorList';
 import { QuizList } from 'features/quiz/pages/Quiz';
+import { ProductAddEditModal } from 'features/product/components/ProductAddEditModal';
 
 // Lazy load route level components (for bundle splitting)
 // Maintain alphabetical order
@@ -143,6 +144,10 @@ function Router() {
             <Route element={<VendorList />} path={uiRoute.vendor} />
             <Route element={<QuizList />} path={uiRoute.quiz} />
             <Route element={<QuizAddEdit />} path={uiRoute.addQuiz} />
+            <Route
+              element={<ProductAddEditModal />}
+              path={uiRoute.addProduct}
+            />
             <Route element={<ProductList />} path={uiRoute.dashboard} />
             {/* <Route element={<VendorList />} path={uiRoute.dashboard} /> */}
             {/* <Route element={<QuizAddEdit />} path={uiRoute.dashboard} /> */}

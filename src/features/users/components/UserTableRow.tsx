@@ -26,6 +26,7 @@ import { IUser } from '../interfaces';
 import { useDeleteUserMutation, useSendInviteMutation } from '../mutations';
 import { formatPhone } from '../utils';
 import { UserMangementPermissions } from '../enums';
+import parsePhoneNumberFromString from 'libphonenumber-js';
 
 const { DATE_FORMAT } = config;
 
@@ -39,6 +40,9 @@ function UserTableRow({ data, onEditClick }: IProps) {
   const deleteUserMutation = useDeleteUserMutation();
   const sendInviteMutation = useSendInviteMutation();
   const navigate = useNavigate();
+  const phoneNumber = parsePhoneNumberFromString(
+    data?.demographic?.mobileNumber
+  );
 
   const isUserUpdateEnabled = checkAuthForPermissions(
     ModuleCodes.SETTING,
@@ -216,7 +220,7 @@ function UserTableRow({ data, onEditClick }: IProps) {
             {
               id: 2,
               icon: BsPhone,
-              text: formatPhone(data.demographic.mobileNumber),
+              text: phoneNumber?.number,
             },
           ]}
         />

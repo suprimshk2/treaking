@@ -22,6 +22,8 @@ import { formatProductAddPayload } from '../utils';
 import { ICloudFile, IFilePayload, IProductSchema } from '../interfaces';
 import { addProductFormSchema } from '../schemas';
 import Checkbox from 'shared/theme/components/Checkbox';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { PRODUCT_FORM_TYPE } from '../enums';
 
 const defaultValues: IProductSchema = {
   title: '',
@@ -43,11 +45,15 @@ interface IProps {
   onClose: VoidFunction;
 }
 
-export function ProductAddEditModal({ editProductId, onClose }: IProps) {
+export function ProductAddEditModal() {
   const ref = useRef<IFileRef>(null);
+  const navigate = useNavigate();
   const theme = useTheme();
+  const [searchParams] = useSearchParams();
   const [checkBox, setCheckBox] = useState(false);
-  const isEditMode = !!editProductId;
+  const editProductId = searchParams.get('id');
+  const type = searchParams.get('type');
+  const isEditMode = !!editProductId && type === PRODUCT_FORM_TYPE.EDIT;
   const methods = useForm({
     resolver: zodResolver(addProductFormSchema),
     defaultValues,
@@ -91,7 +97,10 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
       { data: payload },
       {
         onSuccess: () => {
-          onClose();
+          navigate(-1);
+        },
+        onError: (error) => {
+          navigate(-1);
         },
       }
     );
@@ -103,7 +112,10 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
       { productId: editProductId, data: payload },
       {
         onSuccess: () => {
-          onClose();
+          navigate(-1);
+        },
+        onError: (error) => {
+          navigate(-1);
         },
       }
     );
@@ -111,7 +123,7 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
 
   const onCloseModal = () => {
     reset(defaultValues);
-    onClose();
+    navigate(-1);
   };
 
   const onSubmit = (data: IProductSchema) => {
@@ -135,79 +147,71 @@ export function ProductAddEditModal({ editProductId, onClose }: IProps) {
   };
 
   return (
-    <Dialog
-      title={TEXT.title}
-      handleClose={onCloseModal}
-      open
-      size={DialogSize.XL}
-    >
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box
-            display="flex"
-            alignContent="center"
-            flexDirection="column"
-            justifyContent="center"
-            sx={{
-              backgroundColor: theme.palette.gray.lighter,
-              paddingBottom: theme.spacing(10),
-              px: 10,
-            }}
-          >
-            <Stack direction="row">
-              <Stack flex={1}>
-                <ProductAddEditFields editProductId={editProductId} />
-                <Box
-                  display="flex"
-                  mx="auto"
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  alignContent="center"
-                  sx={childrenContainerStyle}
-                  px={10}
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box
+          display="flex"
+          alignContent="center"
+          flexDirection="column"
+          justifyContent="center"
+          sx={{
+            backgroundColor: theme.palette.gray.lighter,
+            paddingBottom: theme.spacing(10),
+            px: 10,
+          }}
+        >
+          <Stack direction="row">
+            <Stack flex={1}>
+              <ProductAddEditFields editProductId={editProductId} />
+              <Box
+                display="flex"
+                mx="auto"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignContent="center"
+                sx={childrenContainerStyle}
+                px={10}
+              >
+                <Button
+                  type="button"
+                  size={ButtonSize.MEDIUM}
+                  variant={ButtonVariant.OUTLINED}
                 >
-                  <Button
-                    type="button"
-                    size={ButtonSize.MEDIUM}
-                    variant={ButtonVariant.OUTLINED}
-                    onClick={onClose}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    type="submit"
-                    buttonType={ButtonType.LOADING}
-                    size={ButtonSize.MEDIUM}
-                    loading={
-                      addProductMutation.isPending ||
-                      editProductMutation.isPending
-                    }
-                  >
-                    Save
-                  </Button>
-                </Box>
-              </Stack>
-              <Box paddingY={theme.spacing(3)} flex={1}>
-                <Typography mb={3} variant="h5">
-                  Product Image *
-                </Typography>
-                <FileDropzone
-                  maxSize={config.MAX_FILE_SIZE}
-                  onChange={onFileChange}
-                  ref={ref}
-                />
-                <Box alignItems="flex-end" mt={4}>
-                  <Checkbox
-                    checked={checkBox}
-                    onChange={onChange}
-                    label="This product is authentic"
-                  />
-                </Box>
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  buttonType={ButtonType.LOADING}
+                  size={ButtonSize.MEDIUM}
+                  loading={
+                    addProductMutation.isPending ||
+                    editProductMutation.isPending
+                  }
+                >
+                  Save
+                </Button>
               </Box>
             </Stack>
-          </Box>
-        </form>
-      </FormProvider>
-    </Dialog>
+            <Box paddingY={theme.spacing(3)} flex={1}>
+              <Typography mb={3} variant="h5">
+                Product Image *
+              </Typography>
+              <FileDropzone
+                maxSize={config.MAX_FILE_SIZE}
+                onChange={onFileChange}
+                ref={ref}
+              />
+              <Box alignItems="flex-end" mt={4}>
+                <Checkbox
+                  checked={checkBox}
+                  onChange={onChange}
+                  label="This product is authentic"
+                />
+              </Box>
+            </Box>
+          </Stack>
+        </Box>
+      </form>
+    </FormProvider>
   );
 }

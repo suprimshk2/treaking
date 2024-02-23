@@ -12,11 +12,7 @@ import { IError } from 'shared/interfaces/http';
 import { useEffect } from 'react';
 import { DialogLoader } from 'shared/components/display/DialogLoader';
 import { WinnerAddFormSchemaType, addWinnerFormSchema } from '../schemas';
-import {
-  useAddWinnerMutation,
-  useQuizDetailQuery,
-  useWinnerDetailQuery,
-} from '../mutations';
+import { useAddWinnerMutation, useWinnerDetailQuery } from '../mutations';
 import { WinnerAddEditForm } from './WinnerAddForm';
 
 import { formatAddWinner } from '../utils';
@@ -68,7 +64,6 @@ export function WinnerAddModal({ quizId, isEditMode, onClose }: IProps) {
 
   const handleWinner = (data: typeof defaultValues) => {
     const payload: WinnerAddFormSchemaType = formatAddWinner(data);
-    console.log({ payload });
 
     addWinnerMutation.mutate(
       { id: quizId, data: payload },
@@ -100,13 +95,13 @@ export function WinnerAddModal({ quizId, isEditMode, onClose }: IProps) {
       open
       size={DialogSize.MEDIUM}
     >
-      {/* {winnerDetailQuery.isInitialLoading ? (
+      {quizDetailQuery?.isLoading ? (
         <DialogLoader />
-      ) : ( */}
-      <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <DialogContent>
-            {/* {mutation.isError && (
+      ) : (
+        <FormProvider {...methods}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <DialogContent>
+              {/* {mutation.isError && (
               <Box mb={8}>
                 <Alert
                   type="error"
@@ -115,18 +110,18 @@ export function WinnerAddModal({ quizId, isEditMode, onClose }: IProps) {
                 />
               </Box>
             )} */}
-            <WinnerAddEditForm isEditMode={isEditMode} gameId={quizId} />
-          </DialogContent>
-          <DialogFooter
-            primaryButtonText={TEXT.footerActionButtonText}
-            primaryButtonType="submit"
-            secondaryButtonText="Cancel"
-            isSubmitting={addWinnerMutation.isPending}
-            onSecondaryButtonClick={onCloseModal}
-          />
-        </form>
-      </FormProvider>
-      {/* )} */}
+              <WinnerAddEditForm isEditMode={isEditMode} gameId={quizId} />
+            </DialogContent>
+            <DialogFooter
+              primaryButtonText={TEXT.footerActionButtonText}
+              primaryButtonType="submit"
+              secondaryButtonText="Cancel"
+              isSubmitting={addWinnerMutation.isPending}
+              onSecondaryButtonClick={onCloseModal}
+            />
+          </form>
+        </FormProvider>
+      )}
     </Dialog>
   );
 }

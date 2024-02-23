@@ -20,7 +20,13 @@ import { checkAuthForPermissions } from 'shared/utils/common';
 import { ResourceCode } from 'shared/enums';
 import { productManagementPermissions } from 'features/settings/roles-and-permissions/enums';
 
-function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
+function ProductTableRow({
+  item,
+  onEditClick,
+}: {
+  item: IAdaptedProductTableRow;
+  onEditClick: (id: string) => void;
+}) {
   const theme = useTheme();
   const deleteMutation = useDeleteProductMutation();
   const [deleteItem, setDeleteItem] = useState<string | null>(null);
@@ -45,14 +51,6 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
   const isEnable = isProductDeleteEnabled || isProductEditEnabled;
   return (
     <>
-      {productId && (
-        <ProductAddEditModal
-          editProductId={productId}
-          onClose={() => {
-            setProductId(null);
-          }}
-        />
-      )}
       <TableRow>
         <TableCell>
           <Stack direction="row" alignItems="center" gap={3}>
@@ -89,9 +87,7 @@ function ProductTableRow({ item }: { item: IAdaptedProductTableRow }) {
                 <EllipseMenuItem
                   text="Edit"
                   icon={FaPenAlt}
-                  onClick={() => {
-                    setProductId(item.productId);
-                  }}
+                  onClick={() => onEditClick(item.productId)}
                 />
               )}
               {deleteItem === item.productId ? (
