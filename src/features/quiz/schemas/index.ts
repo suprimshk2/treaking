@@ -43,6 +43,7 @@ export const addQuizFormSchema = z.object({
   description: requiredStringSchema,
   termsAndConditions: optionalStringSchema,
   winnerDate: requiredDateSchema,
+  winnerEndDate: requiredDateSchema,
   prizeDescription: requiredStringSchema,
   prizeImage: optionalImageSchema,
   // startDate: dobSchema,

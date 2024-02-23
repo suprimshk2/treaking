@@ -26,7 +26,12 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
   const uploadImageMutation = useUploadImageMutation();
   const ref = useRef<IFileRef>(null);
   const prizeRef = useRef<IFileRef>(null);
-  const { getValues, setValue } = useFormContext();
+  const {
+    getValues,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+  console.log({ errors });
 
   const childrenContainerStyle = {
     width: '100%',
@@ -202,15 +207,18 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
         >
           <Box>
             <Grid container spacing={4} mb={2}>
-              <Grid item xs={8}>
+              <Grid item xs={6}>
                 <FormDatePicker
                   minDate={new Date()}
                   name="winnerDate"
                   label="Winner Announcement Date"
                 />
               </Grid>
-              <Grid item xs={4} mb={2}>
+              <Grid item xs={3} mb={2}>
                 <FormTimePicker name="winnerDate" label="Start Time" />
+              </Grid>
+              <Grid item xs={3} mb={2}>
+                <FormTimePicker name="winnerEndDate" label="End Time" />
               </Grid>
             </Grid>
             <Grid item mb={2}>
