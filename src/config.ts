@@ -39,7 +39,7 @@ const mode: IMode = {
     socketBaseURL: 'https://uat.api.therapy.noveltytechnology.com',
   },
   PROD: {
-    baseURL: 'https://dev.api.therapy.noveltytechnology.com/api',
+    baseURL: 'https://api.meromakaii.com/api',
     appBaseURL: 'https://dev.therapy.noveltytechnology.com',
     socketBaseURL: 'https://dev.api.therapy.noveltytechnology.com',
   },

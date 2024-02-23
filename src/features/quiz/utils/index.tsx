@@ -144,7 +144,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
       imageUrl: data?.prizeImage?.[0]?.url || '',
     },
     description: data?.quizzes?.[0]?.question,
-    termsAndConditions: textEditorHandler(data?.description),
+    termsAndConditions: textEditorHandler(data?.termsAndConditions),
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
     options: data?.quizzes?.[0]?.options,
