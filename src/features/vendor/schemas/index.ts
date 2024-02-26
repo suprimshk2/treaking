@@ -17,7 +17,7 @@ const vendorSchema = z.object({
 export const addVendorFormSchema = z.object({
   images: optionalImageSchema,
   businessName: requiredStringSchema,
-  contactsOne: phoneSchema,
+  contactsOne: phoneSchemaOptional,
   contactsTwo: phoneSchemaOptional,
   email: emailSchemaOptional,
   accountOwner: requiredStringSchema,

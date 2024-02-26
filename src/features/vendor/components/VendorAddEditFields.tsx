@@ -82,7 +82,7 @@ export function VendorAddEditFields() {
                 <FormMaskedPhoneInput
                   name="contactsOne"
                   id="contactsOne"
-                  label="Primary Number* "
+                  label="Primary Number "
                 />
               </Grid>
               <Grid item xs={6}>
