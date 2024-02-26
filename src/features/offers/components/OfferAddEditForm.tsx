@@ -6,6 +6,7 @@ import {
   Stack,
   Typography,
   useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import Alert from 'shared/theme/components/Alert';
 import { IError } from 'shared/interfaces/http';
@@ -166,7 +167,7 @@ export function OfferAddEditForm() {
   };
 
   const mutation = isEditMode ? editOfferMutation : addOfferMutation;
-
+  const theme = useTheme();
   return (
     <Stack gap={4} pb={3}>
       <Box>
@@ -219,11 +220,17 @@ export function OfferAddEditForm() {
                       variant={ButtonVariant.OUTLINED}
                       type="button"
                       onClick={onClose}
+                      sx={{
+                        backgroundColor: theme.palette.gray.light,
+                        color: theme.palette.gray.darker,
+                        borderColor: theme.palette.gray.light,
+                      }}
                       // disabled={isSubmitting}
                     >
                       Cancel
                     </Button>
                     <Button
+                      sx={{ color: theme.palette.gray.darker }}
                       size={ButtonSize.MEDIUM}
                       buttonType={ButtonType.LOADING}
                       type="submit"

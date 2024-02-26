@@ -176,10 +176,16 @@ export function QuizAddEdit() {
                 type="submit"
                 variant={ButtonVariant.OUTLINED}
                 size={ButtonSize.MEDIUM}
+                sx={{
+                  backgroundColor: theme.palette.gray.light,
+                  color: theme.palette.gray.darker,
+                  borderColor: theme.palette.gray.light,
+                }}
               >
                 Cancel
               </Button>
               <Button
+                sx={{ color: theme.palette.gray.darker }}
                 loading={
                   editQuizMutation.isPending || addQuizMutation.isPending
                 }

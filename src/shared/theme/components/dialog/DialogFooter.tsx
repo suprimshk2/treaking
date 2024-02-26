@@ -1,4 +1,4 @@
-import { DialogActions } from '@mui/material';
+import { DialogActions, useTheme } from '@mui/material';
 import { Button, ButtonSize, ButtonType, ButtonVariant } from '../Button';
 
 interface IProps {
@@ -20,6 +20,7 @@ export function DialogFooter({
   onSecondaryButtonClick,
   isSubmitting,
 }: IProps) {
+  const theme = useTheme();
   return (
     <DialogActions>
       <Button
@@ -28,6 +29,7 @@ export function DialogFooter({
         type={secondaryButtonType}
         onClick={onSecondaryButtonClick}
         disabled={isSubmitting}
+        sx={{ color: theme.palette.gray.dark }}
       >
         {secondaryButtonText}
       </Button>
@@ -38,6 +40,7 @@ export function DialogFooter({
         type={primaryButtonType}
         onClick={onPrimaryButtonClick}
         loading={isSubmitting}
+        sx={{ color: theme.palette.common.black }}
       >
         {primaryButtonText}
       </Button>

@@ -56,7 +56,7 @@ function VendorTable({ onEditClick }: IProps) {
   return (
     <>
       <TableContainer>
-        <Table size="small" className="with-border">
+        <Table size="small" className="with-border" stickyHeader>
           <TableHead className="filled sizeMedium">
             <TableRow>
               {VENDOR_COLUMNS.map((column) => (

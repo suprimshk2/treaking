@@ -19,6 +19,7 @@ import { ProductAddEditModal } from './ProductAddEditModal';
 import { checkAuthForPermissions } from 'shared/utils/common';
 import { ResourceCode } from 'shared/enums';
 import { productManagementPermissions } from 'features/settings/roles-and-permissions/enums';
+import { BsPencilSquare } from 'react-icons/bs';
 
 function ProductTableRow({
   item,
@@ -86,7 +87,7 @@ function ProductTableRow({
               {isProductEditEnabled && (
                 <EllipseMenuItem
                   text="Edit"
-                  icon={FaPenAlt}
+                  icon={BsPencilSquare}
                   onClick={() => onEditClick(item.productId)}
                 />
               )}
