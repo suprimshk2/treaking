@@ -24,6 +24,7 @@ import { addProductFormSchema } from '../schemas';
 import Checkbox from 'shared/theme/components/Checkbox';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PRODUCT_FORM_TYPE } from '../enums';
+import { GoBackButton } from 'shared/components/button/GoBackButton';
 
 const defaultValues: IProductSchema = {
   title: '',
@@ -137,7 +138,7 @@ export function ProductAddEditModal() {
 
   const childrenContainerStyle = {
     width: '100%',
-    backgroundColor: theme.palette.gray.lighter,
+    paddingTop: theme.spacing(5),
   };
 
   const TEXT = {
@@ -149,67 +150,75 @@ export function ProductAddEditModal() {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          display="flex"
-          alignContent="center"
-          flexDirection="column"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.common.white,
-            paddingBottom: theme.spacing(10),
-            px: 10,
-          }}
-        >
-          <Stack direction="row" gap={5}>
-            <Stack flex={1}>
-              <ProductAddEditFields editProductId={editProductId} />
-              <Box
-                display="flex"
-                mx="auto"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignContent="center"
-                sx={childrenContainerStyle}
-                px={10}
-              >
-                <Button
-                  type="button"
-                  size={ButtonSize.MEDIUM}
-                  variant={ButtonVariant.OUTLINED}
+        <Box>
+          <Box
+            display="flex"
+            alignContent="center"
+            flexDirection="column"
+            justifyContent="center"
+            sx={{
+              backgroundColor: theme.palette.common.white,
+              paddingBottom: theme.spacing(10),
+              px: 10,
+            }}
+          >
+            <Box sx={{ paddingBottom: theme.spacing(2) }}>
+              <GoBackButton
+                onBackClick={() => {
+                  navigate(-1);
+                }}
+              />
+            </Box>
+            <Stack direction="row" gap={5}>
+              <Stack flex={1}>
+                <ProductAddEditFields editProductId={editProductId} />
+                <Box
+                  display="flex"
+                  mx="auto"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  alignContent="center"
+                  sx={childrenContainerStyle}
                 >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  buttonType={ButtonType.LOADING}
-                  size={ButtonSize.MEDIUM}
-                  loading={
-                    addProductMutation.isPending ||
-                    editProductMutation.isPending
-                  }
-                >
-                  Save
-                </Button>
+                  <Button
+                    type="button"
+                    size={ButtonSize.MEDIUM}
+                    variant={ButtonVariant.OUTLINED}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    buttonType={ButtonType.LOADING}
+                    size={ButtonSize.MEDIUM}
+                    loading={
+                      addProductMutation.isPending ||
+                      editProductMutation.isPending
+                    }
+                  >
+                    Save
+                  </Button>
+                </Box>
+              </Stack>
+              <Box paddingY={theme.spacing(3)} flex={1}>
+                <Typography mb={3} variant="h5">
+                  Product Image *
+                </Typography>
+                <FileDropzone
+                  maxSize={config.MAX_FILE_SIZE}
+                  onChange={onFileChange}
+                  ref={ref}
+                />
+                <Box alignItems="flex-end" mt={4}>
+                  <Checkbox
+                    checked={checkBox}
+                    onChange={onChange}
+                    label="This product is authentic"
+                  />
+                </Box>
               </Box>
             </Stack>
-            <Box paddingY={theme.spacing(3)} flex={1}>
-              <Typography mb={3} variant="h5">
-                Product Image *
-              </Typography>
-              <FileDropzone
-                maxSize={config.MAX_FILE_SIZE}
-                onChange={onFileChange}
-                ref={ref}
-              />
-              <Box alignItems="flex-end" mt={4}>
-                <Checkbox
-                  checked={checkBox}
-                  onChange={onChange}
-                  label="This product is authentic"
-                />
-              </Box>
-            </Box>
-          </Stack>
+          </Box>
         </Box>
       </form>
     </FormProvider>

@@ -89,13 +89,13 @@ export function VendorAddEditFields() {
                 <FormMaskedPhoneInput
                   name="contactsTwo"
                   id="contactsTwo"
-                  label="Secondary Number* "
+                  label="Secondary Number "
                 />
               </Grid>
             </Grid>
 
             <Grid item spacing={4} mb={theme.spacing(3)}>
-              <FormInput name="email" id="email" label="Email*" />
+              <FormInput name="email" id="email" label="Email" />
             </Grid>
             <Grid item spacing={4} mb={theme.spacing(3)}>
               <FormInput name="address" id="address" label="Address" />
@@ -149,11 +149,11 @@ export function VendorAddEditFields() {
                 <FormInput name="fullName" id="fullName" label="Full Name*" />
               </Grid>
               <Grid item xs={6}>
-                <FormMaskedPhoneInput name="phone" id="phone" label="Phone*" />
+                <FormMaskedPhoneInput name="phone" id="phone" label="Phone" />
               </Grid>
             </Grid>
             <Grid item xs={6} mb={theme.spacing(3)}>
-              <FormInput name="vendorEmail" id="vendorEmail" label="Email*" />
+              <FormInput name="vendorEmail" id="vendorEmail" label="Email" />
             </Grid>
           </Box>
         </Stack>

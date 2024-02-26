@@ -31,7 +31,7 @@ export function FormCampaignSelect({
     enabled: true,
   });
   const campaignId = watch(name)?.id || '';
-  console.log(errors[name], 'errors[name]');
+
   const [changeValue, setValueChanged] = useState(false);
 
   const handleClear = () => {
@@ -47,11 +47,9 @@ export function FormCampaignSelect({
         option.code?.toLowerCase().includes(keyword) ||
         option.name?.toLowerCase().includes(keyword)
     );
-    console.log({ optionList });
 
     return optionList;
   };
-  console.log(data, 'data');
 
   // return (
   //   <Autocomplete

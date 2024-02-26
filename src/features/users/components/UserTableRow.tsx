@@ -214,7 +214,7 @@ function UserTableRow({ data, onEditClick }: IProps) {
             {
               id: 2,
               icon: BsPhone,
-              text: data?.demographic?.mobileNumber,
+              text: data?.demographic?.mobileNumber || 'N/A',
             },
           ]}
         />

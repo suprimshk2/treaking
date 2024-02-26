@@ -98,27 +98,28 @@ export interface IQuizSlice {
   resetQuizTableFilters: VoidFunction;
   // setTotalQuiz: (total: number) => void;
 }
-export interface IQuiz {
-  _id: string;
-  title: string;
-  endDate: Date;
-  imageUrl: string;
-  type: string;
-  startDate: Date;
-  prize: Prize;
-  description: string;
-  status: string;
-  winnerAnnouncementDate: Date;
-  gameId: string;
-  options: Option[];
-  correctOptionId: string;
-  content: Content;
-  winners: Winner[];
-  totalResponseCount: number;
-  created: ICreatedAt;
-  updated: ICreatedAt;
-  campaign: ICampaignResponse;
-}
+//code will be used for reference purpose
+// export interface IQuiz {
+//   _id: string;
+//   title: string;
+//   endDate: Date;
+//   imageUrl: string;
+//   type: string;
+//   startDate: Date;
+//   prize: Prize;
+//   description: string;
+//   status: string;
+//   winnerAnnouncementDate: Date;
+//   gameId: string;
+//   options: Option[];
+//   correctOptionId: string;
+//   content: Content;
+//   winners: Winner[];
+//   totalResponseCount: number;
+//   created: ICreatedAt;
+//   updated: ICreatedAt;
+//   campaign: ICampaignResponse;
+// }
 export interface IAdoptQuiz
   extends Omit<IQuiz, 'endDate' | 'startDate' | 'campaign'> {
   endDate: string;
@@ -215,4 +216,63 @@ export interface IAdoptWinnerResponse {
   rankLabel: string;
   rank: number;
   demographic: IDemographic;
+}
+export interface IQuiz {
+  _id: string;
+  winners: any[];
+  campaign: Campaign;
+  type: string;
+  title: string;
+  prize: Prize;
+  status: string;
+  gameId: string;
+  endDate: Date;
+  options: Option[];
+  content: IQuizListResponseContent;
+  created: ICreatedAt;
+  updated: ICreatedAt;
+  imageUrl: string;
+  startDate: Date;
+  announcement: Announcement | null;
+  description: string;
+  correctOptionId: null | string;
+  termsAndConditions: string;
+  winnerAnnouncementDate: Date;
+  totalResponseCount: number;
+}
+
+export interface Announcement {
+  endDate?: Date;
+  startDate?: Date;
+  content?: AnnouncementContent;
+  title?: string;
+}
+
+export interface AnnouncementContent {
+  title?: string;
+  subTitle?: string;
+  upcomingTitle?: string;
+}
+
+export interface Campaign {
+  _id: string;
+  name: string;
+  code: string;
+  updated: ICreatedAt;
+  created: ICreatedAt;
+  campaignId: string;
+}
+
+export interface IQuizListResponseContent {
+  title?: string;
+  subTitle?: string;
+  description?: string;
+  logoUrl?: string;
+  upcomingTitle?: string;
+}
+
+export interface Option {
+  name: string;
+  order: number;
+  id: string;
 }

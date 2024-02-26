@@ -32,6 +32,7 @@ import {
   formatAddEditOfferPayload,
   getSelectedOfferTemplateFromCode,
 } from '../utils';
+import { GoBackButton } from 'shared/components/button/GoBackButton';
 
 const defaultValues: IOfferForm = {
   name: '',
@@ -168,6 +169,13 @@ export function OfferAddEditForm() {
 
   return (
     <Stack gap={4} pb={3}>
+      <Box>
+        <GoBackButton
+          onBackClick={() => {
+            navigate(-1);
+          }}
+        />
+      </Box>
       <Typography variant="bodyTextLarge">Offer Details</Typography>
       {offerDetailQuery.isLoading ? (
         <LoadingIndicator containerHeight="30vh" />

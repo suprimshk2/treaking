@@ -159,13 +159,35 @@ const FileDropzone = forwardRef(
               px={5}
               sx={{ borderStyle: 'dashed' }}
             >
-              <BsUpload size={theme.spacing(5)} />
-
               {!isSmallerThanMd && (
-                <Typography variant="bodyTextMedium">
-                  Drag and drop files here or click to browse
-                </Typography>
+                <Box display="flex" flexDirection="column">
+                  <Stack display="flex" flexDirection="row">
+                    <BsUpload size={theme.spacing(5)} />
+                    <Typography
+                      variant="bodyTextMedium"
+                      sx={{ paddingLeft: 2 }}
+                    >
+                      Drag and drop files here or click to browse
+                    </Typography>
+                  </Stack>
+                  {selectedFiles?.length < 1 && !isMultiImage && (
+                    <Typography
+                      gutterBottom={false}
+                      sx={{
+                        color: isFileSizeExceeds
+                          ? theme.palette.error.main
+                          : theme.palette.gray.main,
+                      }}
+                      variant="bodyTextSmall"
+                    >
+                      Max size {maxSize && Math.floor(maxSize / (1000 * 1000))}{' '}
+                      MB
+                      {isFileSizeExceeds ? ' *' : ''}
+                    </Typography>
+                  )}
+                </Box>
               )}
+
               {isSmallerThanMd && <Typography>Click to browse</Typography>}
             </Stack>
           )}
@@ -186,14 +208,28 @@ const FileDropzone = forwardRef(
               px={5}
               sx={{ borderStyle: 'dashed' }}
             >
-              <BsUpload size={theme.spacing(5)} />
-
-              {!isSmallerThanMd && (
-                <Typography variant="bodyTextMedium">
-                  Drag and drop files here or click to browse
-                </Typography>
-              )}
-              {isSmallerThanMd && <Typography>Click to browse</Typography>}
+              <Box display="flex" flexDirection="column">
+                <Stack display="flex" flexDirection="row">
+                  <BsUpload size={theme.spacing(5)} />
+                  <Typography variant="bodyTextMedium" sx={{ paddingLeft: 2 }}>
+                    Drag and drop files here or click to browse
+                  </Typography>
+                </Stack>
+                {selectedFiles?.length < 1 && !isMultiImage && (
+                  <Typography
+                    gutterBottom={false}
+                    sx={{
+                      color: isFileSizeExceeds
+                        ? theme.palette.error.main
+                        : theme.palette.gray.main,
+                    }}
+                    variant="bodyTextSmall"
+                  >
+                    Max size {maxSize && Math.floor(maxSize / (1000 * 1000))} MB
+                    {isFileSizeExceeds ? ' *' : ''}
+                  </Typography>
+                )}
+              </Box>
             </Stack>
           )}
         </Box>
@@ -208,30 +244,20 @@ const FileDropzone = forwardRef(
           <Typography gutterBottom={false} variant="caption">
             {/* * Please upload .pdf, .jpg,. jpeg, .doc, .docx, .txt only */}
           </Typography>
-          {selectedFiles?.length < 1 && !isMultiImage && (
+          {/* {isMultiImage && (
             <Typography
               gutterBottom={false}
               sx={{
-                color: isFileSizeExceeds ? theme.palette.error.main : 'inherit',
+                color: isFileSizeExceeds
+                  ? theme.palette.error.main
+                  : theme.palette.gray.main,
               }}
-              variant="caption"
+              variant="bodyTextSmall"
             >
               Max size {maxSize && Math.floor(maxSize / (1000 * 1000))} MB
               {isFileSizeExceeds ? ' *' : ''}
             </Typography>
-          )}
-          {isMultiImage && (
-            <Typography
-              gutterBottom={false}
-              sx={{
-                color: isFileSizeExceeds ? theme.palette.error.main : 'inherit',
-              }}
-              variant="caption"
-            >
-              Max size {maxSize && Math.floor(maxSize / (1000 * 1000))} MB
-              {isFileSizeExceeds ? ' *' : ''}
-            </Typography>
-          )}
+          )} */}
         </Box>
         <Box component="ul" sx={{ listStyle: 'none', marginTop: 2 }}>
           {files}

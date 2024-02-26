@@ -36,7 +36,9 @@ function HeaderMenu({ menu }: IProps) {
   // const ActiveIconComponent =
   //   BsIcons[menu.activeIcon as BsIconName] || BsIcons.BsFileExcel;
 
-  const isActive = location.pathname === menu.routePath;
+  const isActive =
+    location.pathname === menu.routePath ||
+    location.pathname.includes(menu.routePath);
 
   const wrapperStyles = {
     textDecoration: 'none',
