@@ -64,6 +64,12 @@ export function VendorAddEditFields() {
         >
           <Box>
             <Box paddingY={theme.spacing(3)}>
+              <Typography
+                variant="bodyTextMediumMd"
+                color={theme.palette.gray.dark}
+              >
+                Add Logo
+              </Typography>
               <FileDropzone
                 maxSize={config.MAX_FILE_SIZE}
                 onChange={onFileChange}

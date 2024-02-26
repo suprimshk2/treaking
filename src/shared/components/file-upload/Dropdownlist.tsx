@@ -1,5 +1,10 @@
 import { Box, IconButton, Skeleton, Tooltip, useTheme } from '@mui/material';
-import { BsCheckCircle, BsTrash, BsXCircle } from 'react-icons/bs';
+import {
+  BsCheckCircle,
+  BsPencilSquare,
+  BsTrash,
+  BsXCircle,
+} from 'react-icons/bs';
 import { IFilePayload } from 'features/product/interfaces';
 import { LoadingIndicator } from '../display/LoadingIndicator';
 
@@ -50,7 +55,13 @@ function DropZoneFileList({
         ) : (
           <Box display="flex" justifyContent="center" flexDirection="row">
             <Tooltip placement="bottom" title="">
-              <IconButton>
+              <IconButton
+              // onClick={() => {
+              //   console.log('edit');
+              // }}
+              >
+                {/* <BsPencilSquare size="15" color={theme.palette.success.main} /> */}
+
                 {isSuccess ? (
                   <BsCheckCircle size="15" color={theme.palette.success.main} />
                 ) : (

@@ -147,7 +147,9 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
             whiteSpace: 'break-spaces',
           }}
         >
-          <Typography variant="bodyTextMedium">{data?.title}</Typography>
+          <Typography variant="bodyTextMedium">
+            {data?.title || 'N/A'}
+          </Typography>
         </TableCell>
         <TableCell
           sx={{
@@ -198,20 +200,35 @@ function QuizTableRow({ data, onEditClick, onDuplicate }: IProps) {
           </Box>
         </TableCell>
         <TableCell>
-          <Typography>{data?.campaignCode}</Typography>
-          <Typography variant="bodyTextSmallMd">{data?.campaign}</Typography>
+          {data?.campaign ? (
+            <>
+              <Typography>{data?.campaignCode}</Typography>
+              <Typography variant="bodyTextSmallMd">
+                {data?.campaign}
+              </Typography>
+            </>
+          ) : (
+            <Typography
+              justifyContent="flex-start"
+              display="flex"
+              alignItems="center"
+              width="100%"
+            >
+              N/A
+            </Typography>
+          )}
         </TableCell>
 
         <TableCell>
           <Box display="flex" flexDirection="row">
             {data?.winners?.length <= 0 && (
               <Typography
-                justifyContent="center"
+                justifyContent="flex-start"
                 display="flex"
                 alignItems="center"
                 width="100%"
               >
-                -
+                N/A
               </Typography>
             )}
             {data?.winners?.length > 1 ? (

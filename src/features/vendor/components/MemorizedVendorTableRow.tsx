@@ -99,20 +99,24 @@ function VendorTableRow({ data, onEditClick }: IProps) {
           maxWidth: 200,
         }}
       >
-        {data?.contacts?.map((item, index) => (
-          <Typography key={index} variant="bodyTextMedium">
-            {formatPhone(item.phone)}
-          </Typography>
-        ))}
+        {data?.contacts.length > 0 ? (
+          data?.contacts?.map((item, index) => (
+            <Typography key={index} variant="bodyTextMedium">
+              {formatPhone(item.phone)}
+            </Typography>
+          ))
+        ) : (
+          <Typography variant="bodyTextMedium">N/A</Typography>
+        )}
       </TableCell>
       <TableCell>
-        <Typography variant="bodyTextMedium">{data?.email}</Typography>
+        <Typography variant="bodyTextMedium">{data?.email || 'N/A'}</Typography>
       </TableCell>
 
       <TableCell>
         <Box display="flex" flexDirection="row">
           <Typography variant="bodyTextMedium">
-            {data?.accountOwner?.name}
+            {data?.accountOwner?.name || 'N/A'}
           </Typography>
         </Box>
       </TableCell>

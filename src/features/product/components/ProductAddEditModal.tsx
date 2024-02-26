@@ -184,6 +184,11 @@ export function ProductAddEditModal() {
                     type="button"
                     size={ButtonSize.MEDIUM}
                     variant={ButtonVariant.OUTLINED}
+                    sx={{
+                      backgroundColor: theme.palette.gray.light,
+                      color: theme.palette.gray.darker,
+                      borderColor: theme.palette.gray.light,
+                    }}
                   >
                     Cancel
                   </Button>
@@ -195,6 +200,7 @@ export function ProductAddEditModal() {
                       addProductMutation.isPending ||
                       editProductMutation.isPending
                     }
+                    sx={{ color: theme.palette.gray.darker }}
                   >
                     Save
                   </Button>
