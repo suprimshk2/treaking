@@ -28,7 +28,7 @@ export const addVendorFormSchema = z.object({
   website: optionalStringSchema,
   address: optionalStringSchema,
   vendorEmail: emailSchemaOptional,
-  phone: phoneSchema,
+  phone: phoneSchemaOptional,
   fullName: requiredStringSchema,
   enrolledDate: optionalDateSchema,
 });

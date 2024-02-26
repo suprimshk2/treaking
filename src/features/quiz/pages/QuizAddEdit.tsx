@@ -19,6 +19,7 @@ import {
   ButtonType,
   ButtonVariant,
 } from 'shared/theme/components/Button';
+import { GoBackButton } from 'shared/components/button/GoBackButton';
 
 const defaultValues: IAddQuizSchema = {
   logoUrl: [],
@@ -76,10 +77,6 @@ export function QuizAddEdit() {
   useEffect(() => {
     if (quizDetailQuery?.data) {
       const quizData = quizDetailQuery?.data;
-      console.log(
-        quizData?.announcement?.endDate,
-        'quizData?.announcement?.endDate'
-      );
 
       reset({
         ...quizData,
@@ -148,40 +145,50 @@ export function QuizAddEdit() {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box
-          display="flex"
-          alignContent="center"
-          flexDirection="column"
-          justifyContent="center"
-          sx={{
-            backgroundColor: theme.palette.gray.lighter,
-            paddingBottom: theme.spacing(10),
-          }}
-        >
-          <QuizAddFields control={control} isEditMode={isEditMode} />
+        <Box padding="0" margin="0">
+          <GoBackButton
+            onBackClick={() => {
+              navigate(-1);
+            }}
+          />
+
           <Box
-            maxWidth={600}
             display="flex"
-            mx="auto"
-            flexDirection="row"
-            justifyContent="space-between"
             alignContent="center"
-            sx={childrenContainerStyle}
+            flexDirection="column"
+            justifyContent="center"
+            sx={{
+              backgroundColor: theme.palette.gray.lighter,
+              paddingBottom: theme.spacing(10),
+            }}
           >
-            <Button
-              type="submit"
-              variant={ButtonVariant.OUTLINED}
-              size={ButtonSize.MEDIUM}
+            <QuizAddFields control={control} isEditMode={isEditMode} />
+            <Box
+              maxWidth={600}
+              display="flex"
+              mx="auto"
+              flexDirection="row"
+              justifyContent="space-between"
+              alignContent="center"
+              sx={childrenContainerStyle}
             >
-              Cancel
-            </Button>
-            <Button
-              loading={editQuizMutation.isPending || addQuizMutation.isPending}
-              type="submit"
-              buttonType={ButtonType.LOADING}
-              children="Save"
-              size={ButtonSize.MEDIUM}
-            />
+              <Button
+                type="submit"
+                variant={ButtonVariant.OUTLINED}
+                size={ButtonSize.MEDIUM}
+              >
+                Cancel
+              </Button>
+              <Button
+                loading={
+                  editQuizMutation.isPending || addQuizMutation.isPending
+                }
+                type="submit"
+                buttonType={ButtonType.LOADING}
+                children="Save"
+                size={ButtonSize.MEDIUM}
+              />
+            </Box>
           </Box>
         </Box>
       </form>

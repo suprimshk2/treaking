@@ -44,7 +44,7 @@ export const formatQuizList = (
         rows: group.rows.map((item: IQuiz) => {
           return {
             ...item,
-            title: concatString(item?.content.title, item?.content.subTitle),
+            title: concatString(item?.content?.title, item?.content?.subTitle),
             campaign: item?.campaign?.name || 'N/A',
             campaignCode: item?.campaign?.code || 'N/A',
             status: formatQuizStatus(item?.startDate, item?.endDate),

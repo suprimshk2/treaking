@@ -6,6 +6,7 @@ import {
   ICampaignResponse,
   IFormattedQuizFormSchema,
   IGameParticipants,
+  IQuiz,
   IQuizTableFilter,
   IWinnerResponse,
 } from '../interfaces';
@@ -15,7 +16,7 @@ import { WinnerAddFormSchemaType } from '../schemas';
 
 export const getInfiniteQuiz = async (
   filters: IQuizTableFilter
-): Promise<IListResponse<any>> => {
+): Promise<IListResponse<IQuiz>> => {
   const params = formatQuizFilterParams(filters);
 
   const { response, error } = await baseRequest({

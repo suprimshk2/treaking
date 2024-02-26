@@ -567,7 +567,10 @@ export const convertNumberToString = (
   return '';
 };
 export const concatString = (title: string, subTitle: string) => {
-  return title.concat(' ' + subTitle ?? '');
+  if (title !== null && subTitle !== null) {
+    return title?.concat(' ' + subTitle ?? '');
+  }
+  return '';
 };
 export const textEditorHandler = (data: string) =>
   ReactDOMServer.renderToStaticMarkup(compiler(data));

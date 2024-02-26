@@ -104,7 +104,6 @@ export const addRole = async (data, id): Promise<IResponse<IUser>> => {
   });
 
   if (error) {
-    console.log(error, 'role err');
     return Promise.reject(error);
   }
 
