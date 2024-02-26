@@ -14,7 +14,7 @@ export const offerAddEditFormSchema = z.object({
   endDate: requiredDateSchema,
   imageUrl: optionalStringSchema,
   vendor: vendorSchema,
-  accountManager: requiredStringSchema,
+  accountManager: optionalStringSchema,
   startDate: requiredDateSchema,
   description: requiredStringSchema,
   subTitle: requiredStringSchema,
