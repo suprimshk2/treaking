@@ -24,7 +24,7 @@ export function ProductAddEditFields({
     backgroundColor: theme.palette.common.white,
     p: 4,
     borderRadius: 1,
-    boxShadow: theme.customShadows.dropShadow1, // Define the box shadow
+    boxShadow: theme.customShadows.dropShadow1,
     height: '100%',
   };
 
