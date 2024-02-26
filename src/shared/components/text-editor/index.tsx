@@ -112,6 +112,7 @@ function TextEditor({
           <FormControlLabel
             control={
               <Checkbox
+                style={{ color: theme.palette.secondary.dark }}
                 value={checkBox}
                 checked={checkBox}
                 onChange={(e: any) => {

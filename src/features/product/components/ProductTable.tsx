@@ -44,14 +44,18 @@ function ProductTable({ onEditClick }: IProps) {
   return (
     <>
       <TableContainer>
-        <Table size="small" className="with-border">
+        <Table size="small" stickyHeader>
           <TableHead className="filled sizeMedium">
             <TableRow>
               {PRODUCT_COLUMNS.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  sx={{ minWidth: column.minWidth, width: column.width }}
+                  sx={{
+                    minWidth: column.minWidth,
+                    width: column.width,
+                    cursor: column.sortBy ? 'pointer' : 'inherit',
+                  }}
                 >
                   {column.label}
                 </TableCell>

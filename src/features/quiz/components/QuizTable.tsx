@@ -71,7 +71,7 @@ function QuizTable({ onEditClick, onDuplicate }: IProps) {
           maxHeight: tableMaxHeight,
         }}
       >
-        <Table size="small" className="with-border">
+        <Table size="small" className="with-border" stickyHeader>
           <TableHead className="filled sizeMedium">
             <TableRow>
               {QUIZ_COLUMNS.map((column) => (
