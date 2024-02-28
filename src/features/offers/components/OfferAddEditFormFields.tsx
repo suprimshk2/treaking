@@ -21,7 +21,7 @@ export function OfferAddEditFormFields({
 
   useEffect(() => {
     if (layoutType === OfferContentLayoutType.DEFAULT) {
-      setValue('subTitle', OfferContentLayoutType.FREE);
+      setValue('subTitle', '');
     }
   }, [layoutType]);
   return (
@@ -156,7 +156,7 @@ export function OfferAddEditFormFields({
             name="usageInstructions"
             label="How to use offer"
             checkBoxEnabled
-            param={LookUpCode.QUIZ_TERMS}
+            param={LookUpCode.OFFER_USAGE_INSTRUCTION}
           />
         </Grid>
       </Grid>
@@ -165,8 +165,8 @@ export function OfferAddEditFormFields({
           <TextEditor
             name="termsAndConditions"
             label="Terms & Condition"
-            checkBoxEnabled
-            param={LookUpCode.OFFER_USAGE_INSTRUCTION}
+            // checkBoxEnabled
+            // param={LookUpCode.OFFER_USAGE_INSTRUCTION}
           />
         </Grid>
       </Grid>

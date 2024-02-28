@@ -26,7 +26,9 @@ const formatVendorAddEditPayload = (data: any): IFormattedVendorFormSchema => {
       },
     ],
     website: '',
-    phone: [data.contactsOne || '', data?.contactsTwo || ''],
+    phone: [data.contactsOne || '', data?.contactsTwo || undefined].filter(
+      (phone: string) => phone !== undefined
+    ),
     email: data.email,
     accountOwner: {
       name: data.accountOwner,

@@ -1,6 +1,7 @@
 import {
   emailSchema,
   emailSchemaOptional,
+  landLineSchemaOptional,
   optionalDateSchema,
   optionalImageSchema,
   optionalStringSchema,
@@ -17,8 +18,8 @@ const vendorSchema = z.object({
 export const addVendorFormSchema = z.object({
   images: optionalImageSchema,
   businessName: requiredStringSchema,
-  contactsOne: phoneSchemaOptional,
-  contactsTwo: phoneSchemaOptional,
+  contactsOne: phoneSchema,
+  contactsTwo: landLineSchemaOptional,
   email: emailSchemaOptional,
   accountOwner: requiredStringSchema,
   description: requiredStringSchema,
@@ -29,7 +30,7 @@ export const addVendorFormSchema = z.object({
   address: optionalStringSchema,
   vendorEmail: emailSchemaOptional,
   phone: phoneSchemaOptional,
-  fullName: requiredStringSchema,
+  fullName: optionalStringSchema.nullish(),
   enrolledDate: optionalDateSchema,
 });
 
