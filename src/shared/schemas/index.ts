@@ -51,7 +51,8 @@ export const landlineSchema = z
   .string()
   .trim()
   .min(1, { message: REQUIRED_FIELD })
-  .max(10)
+
+  .refine((val) => regex.NUMBER.test(val), INVALID_PHONE)
   .nullable();
 
 export const phoneSchemaOptional = asOptionalField(phoneSchema);

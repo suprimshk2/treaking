@@ -173,7 +173,7 @@ export function QuizAddEdit() {
               sx={childrenContainerStyle}
             >
               <Button
-                type="submit"
+                onClick={() => navigate(-1)}
                 variant={ButtonVariant.OUTLINED}
                 size={ButtonSize.MEDIUM}
                 sx={{

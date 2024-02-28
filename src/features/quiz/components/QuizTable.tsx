@@ -66,10 +66,10 @@ function QuizTable({ onEditClick, onDuplicate }: IProps) {
   return (
     <>
       <TableContainer
-        sx={{
-          minHeight: tableMaxHeight,
-          maxHeight: tableMaxHeight,
-        }}
+      // sx={{
+      //   minHeight: tableMaxHeight,
+      //   maxHeight: tableMaxHeight,
+      // }}
       >
         <Table size="small" className="with-border" stickyHeader>
           <TableHead className="filled sizeMedium">
@@ -91,21 +91,21 @@ function QuizTable({ onEditClick, onDuplicate }: IProps) {
             {isEmptyResult && <TableEmptyResult cols={QUIZ_COLUMNS.length} />}
           </TableBody>
         </Table>
+        {hasNextPage && (
+          <Box mt={2} display="flex" justifyContent="center">
+            <Button
+              buttonType={ButtonType.LOADING}
+              suffix={<BsChevronRight />}
+              size={ButtonSize.MEDIUM}
+              loading={isFetchingNextPage}
+              variant={ButtonVariant.TEXT}
+              onClick={() => fetchNextPage()}
+            >
+              Load More
+            </Button>
+          </Box>
+        )}
       </TableContainer>
-      {hasNextPage && (
-        <Box mt={2} display="flex" justifyContent="center">
-          <Button
-            buttonType={ButtonType.LOADING}
-            suffix={<BsChevronRight />}
-            size={ButtonSize.MEDIUM}
-            loading={isFetchingNextPage}
-            variant={ButtonVariant.TEXT}
-            onClick={() => fetchNextPage()}
-          >
-            Load More
-          </Button>
-        </Box>
-      )}
     </>
   );
 }

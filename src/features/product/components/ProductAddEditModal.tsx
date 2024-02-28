@@ -25,6 +25,7 @@ import Checkbox from 'shared/theme/components/Checkbox';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { PRODUCT_FORM_TYPE } from '../enums';
 import { GoBackButton } from 'shared/components/button/GoBackButton';
+import { FormCheckbox } from 'shared/components/form/FormCheckbox';
 
 const defaultValues: IProductSchema = {
   title: '',
@@ -68,9 +69,9 @@ export function ProductAddEditModal() {
   const onChange = () => {
     setCheckBox((prev) => !prev);
   };
-  useEffect(() => {
-    setValue('isAuthentic', checkBox);
-  }, [checkBox]);
+  // useEffect(() => {
+  //   setValue('isAuthentic', checkBox);
+  // }, [checkBox]);
 
   const onFileChange = (files: IFilePayload[]) => {
     files.forEach(async (item) => {
@@ -181,6 +182,7 @@ export function ProductAddEditModal() {
                   sx={childrenContainerStyle}
                 >
                   <Button
+                    onClick={() => navigate(-1)}
                     type="button"
                     size={ButtonSize.MEDIUM}
                     variant={ButtonVariant.OUTLINED}
@@ -206,7 +208,18 @@ export function ProductAddEditModal() {
                   </Button>
                 </Box>
               </Stack>
-              <Box paddingY={theme.spacing(3)} flex={1}>
+              <Box
+                paddingY={theme.spacing(3)}
+                flex={1}
+                sx={{
+                  width: '100%',
+                  backgroundColor: theme.palette.common.white,
+                  p: 4,
+                  borderRadius: 1,
+                  boxShadow: theme.customShadows.dropShadow1,
+                  height: '100%',
+                }}
+              >
                 <Typography mb={3} variant="h5">
                   Product Image *
                 </Typography>
@@ -216,10 +229,9 @@ export function ProductAddEditModal() {
                   ref={ref}
                 />
                 <Box alignItems="flex-end" mt={4}>
-                  <Checkbox
-                    checked={checkBox}
-                    onChange={onChange}
+                  <FormCheckbox
                     label="This product is authentic"
+                    name="isAuthentic"
                   />
                 </Box>
               </Box>
