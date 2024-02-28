@@ -9,17 +9,30 @@ import HeaderMenu from './HeaderMenu';
 // This will be removed later when menus are driven by db
 
 function HeaderMenuList() {
-  const authModules = useBoundStore.use.authModule();
+  const authModules = [
+    {
+      name: 'About Us',
+      code: 'ABOUT_US',
+    },
+    {
+      name: 'Tesmonials',
+      code: 'TESMONIALS',
+    },
+    {
+      name: 'footer',
+      code: 'FOOTER',
+    },
+    {
+      name: 'About Us',
+      code: 'ABOUT_US',
+    },
+  ];
 
   return (
     <Stack spacing={1}>
-      {authModules?.modules
-        ?.filter(
-          (item: any) =>
-            item.code !== ModuleCodes.SETTING &&
-            item.code !== ModuleCodes.NOTIFICATION
-        )
-        .map((item: any) => <HeaderMenu key={item.name} menu={item} />)}
+      {authModules.map((item: any) => (
+        <HeaderMenu key={item.name} menu={item} />
+      ))}
     </Stack>
   );
 }

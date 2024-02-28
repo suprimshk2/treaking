@@ -16,8 +16,7 @@ const uiRoute = {
     // },
   },
   offers: {
-    index: '/offers',
-    offerForm: '/offers-form',
+    index: '/',
   },
   home: '/home',
   users: '/users',

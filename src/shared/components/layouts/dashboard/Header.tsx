@@ -2,7 +2,7 @@ import { AppBar, Box, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import layoutConstants from 'shared/constants/layout';
 import { useBoundStore } from 'shared/stores/useBoundStore';
 import Logo from 'shared/components/display/Logo';
-import LogoImg from 'shared/assets/png/holista-logo-white.png';
+import LogoImg from 'shared/assets/png/LogoSecondary.png';
 import HeaderMenuList from 'shared/components/header/HeaderMenuList';
 
 import { NavLink } from 'react-router-dom';
@@ -71,14 +71,6 @@ function Header() {
             </Box>
             <HeaderMenuList />
           </Box>
-
-          <AccountPopover
-            avatarStyle={avatarStyles}
-            username={`${authData?.firstName || ''} ${
-              authData?.lastName ?? ''
-            }`}
-            className={isMobileView ? 'size-small' : 'size-medium'}
-          />
         </Box>
       </Toolbar>
     </Box>

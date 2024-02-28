@@ -10,6 +10,7 @@ import { useGetRole } from 'shared/utils/store';
 import useIsSidebarOpenForLargerScreen from 'shared/hooks/useIsSidebarOpenForLargerScreen';
 import Sidebar from './Sidebar';
 import DashboardHeader from './DashboardHeader';
+import Header from './Header';
 
 const { HEADER_HEIGHT, SIDEBAR_WIDTH_EXPANDED } = layoutConstants;
 
@@ -19,10 +20,7 @@ const NO_PADDING_ROUTES: string[] = [
   uiRoute.dashboard,
 ];
 
-const ONLY_PADDING_X_ROUTES: string[] = [
-  uiRoute.offers.index,
-  uiRoute.offers.offerForm,
-];
+const ONLY_PADDING_X_ROUTES: string[] = [uiRoute.offers.index];
 
 const ONLY_PADDING_Y_ROUTES: string[] = [];
 
@@ -55,8 +53,8 @@ function DashboardLayout() {
 
   return (
     <Box>
-      <DashboardHeader />
-      <Sidebar />
+      <Header />
+
       <Box sx={contentWrapperStyles}>
         <Box sx={{ padding: layoutPadding }}>
           <Outlet />

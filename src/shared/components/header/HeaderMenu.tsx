@@ -41,6 +41,7 @@ function HeaderMenu({ menu }: IProps) {
     location.pathname.includes(menu.routePath);
 
   const wrapperStyles = {
+    flexDirection: 'row',
     textDecoration: 'none',
     color: isActive ? theme.palette.common.white : theme.palette.common.black,
     display: 'flex',
