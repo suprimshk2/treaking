@@ -1,11 +1,11 @@
 import React from 'react';
 import { TableCell, TableRow, Tooltip, Typography, Box } from '@mui/material';
 
-import { formatDateToView } from 'shared/utils/date';
+import { formatDateTimeToView, formatDateToView } from 'shared/utils/date';
 import { config } from 'shared/constants/config';
 import Chip from 'shared/theme/components/Chip';
 import { checkAndReplaceEmptyValue, truncateText } from 'shared/utils/misc';
-import { BsPencilSquare, BsTrashFill } from 'react-icons/bs';
+import { BsClock, BsPencilSquare, BsTrashFill } from 'react-icons/bs';
 import EllipseMenu from 'shared/components/menu/EllipseMenu';
 import EllipseMenuItem from 'shared/components/menu/EllipseMenuItem';
 import { ColorType } from 'shared/interfaces/misc';
@@ -17,6 +17,7 @@ import { useDeleteOfferMutation } from '../mutations';
 import { checkAuthForPermissions } from 'shared/utils/common';
 import { ResourceCode } from 'shared/enums';
 import { offerManagementPermissions } from 'features/settings/roles-and-permissions/enums';
+import { ListWithIcon } from 'shared/components/display/list-with-icon/ListWithIcon';
 
 const { DATE_FORMAT } = config;
 
@@ -111,7 +112,36 @@ function OfferTableRow({ data, onEditClick }: IProps) {
       >
         {checkAndReplaceEmptyValue(data?.title)}
       </TableCell>
-
+      <TableCell
+        sx={{
+          maxWidth: 200,
+        }}
+      >
+        <Box display="flex" flexDirection="column">
+          <ListWithIcon
+            list={[
+              {
+                id: 1,
+                icon: BsClock,
+                text: formatDateTimeToView(data?.startDate?.toString()),
+                tooltip: true,
+                truncateLength: 50,
+              },
+            ]}
+          />
+          <ListWithIcon
+            list={[
+              {
+                id: 1,
+                icon: BsClock,
+                text: formatDateTimeToView(data?.endDate?.toString()),
+                tooltip: true,
+                truncateLength: 50,
+              },
+            ]}
+          />
+        </Box>
+      </TableCell>
       <TableCell
         sx={{
           maxWidth: 300,
