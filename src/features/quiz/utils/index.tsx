@@ -97,6 +97,24 @@ export const formatQuizDetail = (res) => {
 };
 
 export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
+  const formattedWinnerEndDate = new Date(
+    data?.winnerDate.getFullYear(),
+    data?.winnerDate.getMonth(),
+    data?.winnerDate.getDate(),
+    data?.winnerEndDate.getHours(),
+    data?.winnerEndDate.getMinutes(),
+    0,
+    0
+  );
+  const formattedWinnerStartDate = new Date(
+    data?.winnerDate.getFullYear(),
+    data?.winnerDate.getMonth(),
+    data?.winnerDate.getDate(),
+    data?.winnerDate.getHours(),
+    data?.winnerDate.getMinutes(),
+    0,
+    0
+  );
   return data?.quizzes?.map((item) => ({
     title: data.subTitle,
     endDate: new Date(item.endDate).toISOString(),
@@ -118,8 +136,8 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
     announcement: {
-      startDate: new Date(data?.winnerDate).toISOString(),
-      endDate: new Date(data?.winnerEndDate).toISOString(),
+      startDate: formattedWinnerStartDate.toISOString(),
+      endDate: formattedWinnerEndDate.toISOString(),
     },
     options: item?.options,
     content: {
@@ -134,8 +152,24 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
 };
 
 export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
-  console.log(data?.winnerEndDate, 'data?.winnerEndDate');
-
+  const formattedWinnerEndDate = new Date(
+    data?.winnerDate.getFullYear(),
+    data?.winnerDate.getMonth(),
+    data?.winnerDate.getDate(),
+    data?.winnerEndDate.getHours(),
+    data?.winnerEndDate.getMinutes(),
+    0,
+    0
+  );
+  const formattedWinnerStartDate = new Date(
+    data?.winnerDate.getFullYear(),
+    data?.winnerDate.getMonth(),
+    data?.winnerDate.getDate(),
+    data?.winnerDate.getHours(),
+    data?.winnerDate.getMinutes(),
+    0,
+    0
+  );
   return {
     title: data?.subTitle,
     endDate: new Date(data?.quizzes?.[0]?.endDate).toISOString(),
@@ -154,8 +188,8 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     status: 'ACTIVE',
     winnerAnnouncementDate: new Date(data?.winnerDate).toISOString(),
     announcement: {
-      startDate: new Date(data?.winnerDate).toISOString(),
-      endDate: new Date(data?.winnerEndDate).toISOString(),
+      startDate: formattedWinnerStartDate.toISOString(),
+      endDate: formattedWinnerEndDate.toISOString(),
     },
     options: data?.quizzes?.[0]?.options,
     content: {

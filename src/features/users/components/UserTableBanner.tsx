@@ -58,10 +58,10 @@ export function UserTableBanner({ onAddClick, children }: IProps) {
             <Button
               size={ButtonSize.MEDIUM}
               variant={ButtonVariant.CONTAINED}
-              prefix={<BsPlusLg />}
+              suffix={<BsPlusLg />}
               buttonType={ButtonType.NORMAL}
               onClick={onAddClick}
-              sx={{ flexShrink: 0 }}
+              sx={{ flexShrink: 0, color: 'black' }}
             >
               Add User
             </Button>
