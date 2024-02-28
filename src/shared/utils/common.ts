@@ -512,6 +512,14 @@ export const checkHeader = (pathname: string) => {
       return HEADER_TITLE[TITLE_TYPE.USER_MANAGEMENT];
     case TITLE_TYPE.DASHBOARD:
       return HEADER_TITLE[TITLE_TYPE.DASHBOARD];
+    case TITLE_TYPE.QUIZ:
+      return HEADER_TITLE[TITLE_TYPE.QUIZ];
+    case TITLE_TYPE.VENDOR:
+      return HEADER_TITLE[TITLE_TYPE.VENDOR];
+    case TITLE_TYPE.PRODUCT:
+      return HEADER_TITLE[TITLE_TYPE.PRODUCT];
+    case TITLE_TYPE.OFFER:
+      return HEADER_TITLE[TITLE_TYPE.OFFER];
 
     default:
       return HEADER_TITLE[TITLE_TYPE.EMPTY];

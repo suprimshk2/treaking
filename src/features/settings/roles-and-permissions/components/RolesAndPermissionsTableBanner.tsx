@@ -46,7 +46,7 @@ export function RolesAndPermissionsTableBanner({ onAddClick }: IProps) {
               suffix={<BsPlusLg />}
               buttonType={ButtonType.NORMAL}
               onClick={onAddClick}
-              sx={{ flexShrink: 0 }}
+              sx={{ flexShrink: 0, color: 'black' }}
             >
               Add
             </Button>
