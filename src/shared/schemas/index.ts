@@ -47,8 +47,15 @@ export const phoneSchema = z
   .trim()
   .min(1, { message: REQUIRED_FIELD })
   .refine((val) => regex.PHONE.test(val), INVALID_PHONE);
+export const landlineSchema = z
+  .string()
+  .trim()
+  .min(1, { message: REQUIRED_FIELD })
+  .max(10)
+  .nullable();
 
 export const phoneSchemaOptional = asOptionalField(phoneSchema);
+export const landLineSchemaOptional = asOptionalField(landlineSchema);
 
 export const dobSchema = z
   .string()

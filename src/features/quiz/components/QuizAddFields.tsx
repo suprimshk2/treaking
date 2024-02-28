@@ -10,7 +10,7 @@ import { config } from 'shared/constants/config';
 import { FormDatePicker } from 'shared/components/form/FormDatePicker';
 import { FormTimePicker } from 'shared/components/form/FormTimePicker';
 import { ICloudFile, IFilePayload } from 'features/product/interfaces';
-import { CloudFileCategory } from 'shared/enums';
+import { CloudFileCategory, LookUpCode } from 'shared/enums';
 import { useUploadImageMutation } from 'shared/mutation';
 import { FormCampaignSelect } from 'shared/components/form/FormCampaignSelect';
 import TextEditor from 'shared/components/text-editor';
@@ -190,6 +190,8 @@ export function QuizAddFields({ control, isEditMode }: IProps) {
                 name="termsAndConditions"
                 height={200}
                 label="Terms & Condition"
+                checkBoxEnabled
+                param={LookUpCode.QUIZ_TERMS}
               />
             </Grid>
           </Box>

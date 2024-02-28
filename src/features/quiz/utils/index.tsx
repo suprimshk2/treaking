@@ -122,7 +122,7 @@ export const formatQuizAddPayloadData = (data): IFormattedQuizFormSchema => {
     type: 'QUIZ',
     startDate: new Date(item.startDate).toISOString(),
     prize: {
-      title: textEditorHandler(data?.prizeDescription),
+      title: undefined,
       description: textEditorHandler(data?.prizeDescription),
       imageUrl: data?.prizeImage?.[0]?.url || '',
     },
@@ -179,7 +179,7 @@ export const formatQuizEditPayloadData = (data): IFormattedQuizFormSchema => {
     campaignId: data?.campaign ?? '',
 
     prize: {
-      title: textEditorHandler(data?.prizeDescription),
+      title: undefined,
       description: textEditorHandler(data?.prizeDescription),
       imageUrl: data?.prizeImage?.[0]?.url || '',
     },

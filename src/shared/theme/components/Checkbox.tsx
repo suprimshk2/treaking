@@ -1,5 +1,9 @@
 import React from 'react';
-import { Checkbox as MuiCheckbox, FormControlLabel } from '@mui/material';
+import {
+  Checkbox as MuiCheckbox,
+  FormControlLabel,
+  useTheme,
+} from '@mui/material';
 import { BsCheckSquareFill, BsSquare } from 'react-icons/bs';
 import typography from '../typography';
 
@@ -16,13 +20,16 @@ interface IProps {
 }
 
 const Checkbox = React.forwardRef((props: IProps, ref) => {
+  const theme = useTheme();
   const { label, disabled, checked, onChange, sizeSmall, value } = props;
   return (
     <FormControlLabel
       inputRef={ref}
       control={
         <MuiCheckbox
-          checkedIcon={<BsCheckSquareFill />}
+          checkedIcon={
+            <BsCheckSquareFill color={theme.palette.secondary.main} />
+          }
           icon={<BsSquare />}
           checked={checked ?? value}
           value={value}
