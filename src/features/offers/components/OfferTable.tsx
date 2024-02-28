@@ -31,6 +31,7 @@ import { OfferSortBy } from '../enums';
 const COLUMNS: readonly ITableColumn[] = [
   { id: 'vendor', label: 'Vendor', maxWidth: 100, minWidth: 100 },
   { id: 'title', label: 'Title', maxWidth: 100, minWidth: 100 },
+  { id: 'dateTime', label: 'Date & Time', maxWidth: 100, minWidth: 100 },
   { id: 'description', label: 'Description', maxWidth: 300, minWidth: 300 },
   { id: 'status', label: 'Status' },
   {
