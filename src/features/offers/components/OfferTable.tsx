@@ -120,50 +120,48 @@ export function OfferTable({ onEditClick }: IProps) {
     : 'calc(100vh - 165px)';
 
   return (
-    <>
-      <TableContainer
-        sx={{
-          minHeight: tableMaxHeight,
-          maxHeight: tableMaxHeight,
-        }}
-      >
-        <Table size="small" stickyHeader>
-          <TableHead className="filled sizeMedium">
-            <TableRow>
-              {COLUMNS.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  sx={{
-                    minWidth: column.minWidth,
-                    maxWidth: column.maxWidth,
-                    cursor: column.sortBy ? 'pointer' : 'inherit',
-                  }}
-                  onClick={() => {
-                    if (column.sortBy)
-                      handleChangeSortOrder(column.sortBy as OfferSortBy);
-                  }}
-                >
-                  <Stack direction="row" alignItems="center">
-                    {column.label}
-                    {!!column.sortBy && (
-                      <SortIcon
-                        data-cy="offer-sort-name"
-                        type={getColumnSortType(column.sortBy as OfferSortBy)}
-                      />
-                    )}
-                  </Stack>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {isLoading && <TableLoader cols={COLUMNS.length} />}
-            {renderedTableRows}
-            {isEmptyResult && <TableEmptyResult cols={COLUMNS.length} />}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <TableContainer
+    // sx={{
+    //   minHeight: tableMaxHeight,
+    //   maxHeight: tableMaxHeight,
+    // }}
+    >
+      <Table size="small" stickyHeader>
+        <TableHead className="filled sizeMedium">
+          <TableRow>
+            {COLUMNS.map((column) => (
+              <TableCell
+                key={column.id}
+                align={column.align}
+                sx={{
+                  minWidth: column.minWidth,
+                  maxWidth: column.maxWidth,
+                  cursor: column.sortBy ? 'pointer' : 'inherit',
+                }}
+                onClick={() => {
+                  if (column.sortBy)
+                    handleChangeSortOrder(column.sortBy as OfferSortBy);
+                }}
+              >
+                <Stack direction="row" alignItems="center">
+                  {column.label}
+                  {!!column.sortBy && (
+                    <SortIcon
+                      data-cy="offer-sort-name"
+                      type={getColumnSortType(column.sortBy as OfferSortBy)}
+                    />
+                  )}
+                </Stack>
+              </TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {isLoading && <TableLoader cols={COLUMNS.length} />}
+          {renderedTableRows}
+          {isEmptyResult && <TableEmptyResult cols={COLUMNS.length} />}
+        </TableBody>
+      </Table>
       {hasNextPage && (
         <Box mt={2} display="flex" justifyContent="center">
           <Button
@@ -178,6 +176,6 @@ export function OfferTable({ onEditClick }: IProps) {
           </Button>
         </Box>
       )}
-    </>
+    </TableContainer>
   );
 }
